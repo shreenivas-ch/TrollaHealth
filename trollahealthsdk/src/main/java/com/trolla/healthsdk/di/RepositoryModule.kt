@@ -9,6 +9,4 @@ val repositoryModule = module {
     single { RetrofitFactory.makeRetrofitService() }
     single { provideAuthRepository(get()) }
     single { LoginUseCase(get()) }
-    single { DashboardViewModel(get()) }
-    single { }
 }
