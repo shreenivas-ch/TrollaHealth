@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import com.trolla.healthsdk.data.models.UserAddress
 import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
+import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
 
 class TrollaHealthManager private constructor(
     val context: Context?,
@@ -45,6 +46,6 @@ class TrollaHealthManager private constructor(
     }
 
     fun launch() {
-        context?.startActivity(Intent(context, AuthenticationActivity::class.java))
+        context?.startActivity(Intent(context, OnboardingActivity::class.java))
     }
 }
