@@ -13,15 +13,22 @@ import com.trolla.healthsdk.utils.LogUtil
 
 class OnboardingActivity : AppCompatActivity() {
 
+    var slidesTitlesArray = arrayListOf(
+        R.string.onboarding_slide1_title,
+        R.string.onboarding_slide2_title,
+        R.string.onboarding_slide3_title
+    )
+    var slidesSubTitlesArray = arrayListOf(
+        R.string.onboarding_slide1_subtitle,
+        R.string.onboarding_slide2_subtitle,
+        R.string.onboarding_slide3_subtitle
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
 
         val sliderAdapter = OnBoardingSlidesAdapter(
-            this
-        )
-
-        val sliderTextsAdapter = OnBoardingTextsAdapter(
             this
         )
 
@@ -31,17 +38,33 @@ class OnboardingActivity : AppCompatActivity() {
             interval = 3000
             isCycle = true
             clipToPadding = false
-        }
+            addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
 
-        findViewById<AutoScrollViewPager>(R.id.viewPagerTexts)?.apply {
-            adapter = sliderTextsAdapter
-            startAutoScroll()
-            interval = 3000
-            isCycle = true
-            clipToPadding = false
+                }
+
+                override fun onPageSelected(position: Int) {
+                    LogUtil.printObject(position)
+                    changeSlidesText(position)
+                }
+
+                override fun onPageScrollStateChanged(state: Int) {
+
+                }
+
+            })
         }
 
         findViewById<WormDotsIndicator>(R.id.dots_indicator)?.setViewPager(pager as ViewPager)
 
+    }
+
+    private fun changeSlidesText(position: Int) {
+        findViewById<TextView>(R.id.txtTitle).text = getString(slidesTitlesArray[position])
+        findViewById<TextView>(R.id.txtSubtitle).text = getString(slidesSubTitlesArray[position])
     }
 }
