@@ -3,5 +3,7 @@
     <dimen name="textBigSize">30sp</dimen>
     <dimen name="textMediumSize">20sp</dimen>
     <dimen name="padding15dp">15dp</dimen>
-    <dimen name="margin7dp">7dp</dimen>
+    <dimen name="margin7dp">@dimen/_7sdp</dimen>
+    <dimen name="margin8dp">8dp</dimen>
+    <dimen name="margin16dp">16dp</dimen>
 </resources>

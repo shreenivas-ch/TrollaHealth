@@ -6,4 +6,6 @@
     <string name="welcome">Welcome</string>
     <string name="enter_email">Enter Email</string>
     <string name="skip">Skip</string>
+    <string name="medicines_at_your_doorstep">Medicines at Your Doorstep</string>
+    <string name="log_in">Log In</string>
 </resources>

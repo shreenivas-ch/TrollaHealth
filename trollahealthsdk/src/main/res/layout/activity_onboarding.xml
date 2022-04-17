@@ -6,25 +6,125 @@
     android:layout_height="match_parent"
     tools:context=".feature_onboarding.presentation.OnboardingActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="24dp"
-        android:padding="4dp"
-        android:layout_height="24dp"
-        android:tint="@color/primary_color"
-        android:layout_marginStart="@dimen/margin7dp"
-        android:layout_marginTop="@dimen/margin7dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back" />
-
-    <TextView
-        style="@style/trolla_fontMedium"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin7dp"
-        android:layout_marginEnd="@dimen/margin7dp"
-        android:text="@string/skip"
+        android:layout_margin="@dimen/margin16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_centerVertical="true"
+            android:paddingTop="@dimen/_7sdp"
+            android:paddingEnd="@dimen/_7sdp"
+            android:paddingBottom="@dimen/_7sdp"
+            android:tint="@color/primary_color"
+            app:srcCompat="@drawable/ic_back" />
+
+        <TextView
+            style="@style/trolla_fontMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/skip" />
+
+    </RelativeLayout>
+
+    <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin8dp"
+        app:layout_constraintBottom_toTopOf="@+id/constraint1"
+        app:layout_constraintTop_toBottomOf="@+id/rlHeader" />
+
+    <LinearLayout
+        android:id="@+id/constraint1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/llBottom">
+
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_9sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:dotsColor="@color/primary_color"
+            app:dotsCornerRadius="5dp"
+            app:dotsSize="8dp"
+            app:dotsSpacing="4dp"
+            app:dotsStrokeColor="@color/purple1"
+            app:dotsStrokeWidth="5dp"
+            app:dotsWidthFactor="4.5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:progressMode="true"
+            app:selectedDotColor="@color/primary_color" />
+
+        <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+            android:id="@+id/viewPagerTexts"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin7dp"
+            android:layout_marginBottom="@dimen/margin8dp"
+            app:layout_constraintTop_toBottomOf="@+id/dots_indicator" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/margin16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/log_in" />
+
+            <TextView
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin8dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="Sign Up"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
