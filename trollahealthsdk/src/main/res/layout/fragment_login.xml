@@ -12,49 +12,86 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:padding="@dimen/margin24dp">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/welcome"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textBigSize" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login to your account"
-                android:textColor="@color/black"
-                android:textSize="@dimen/textMediumSize"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.textfield.TextInputEditText
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/bg_rounded_corners_grey"
-                android:hint="@string/enter_email"
-                android:padding="15dp">
+                android:layout_marginTop="80dp"
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <TextView
+                    style="@style/trolla_fontH1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/welcome"
+                    android:textSize="@dimen/textBigSize" />
+
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login to your account"
+                    android:textColor="#4D4D4D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:hint="@string/enter_email"
+                    app:hintTextColor="@color/textHintColor"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp">
 
-            </com.google.android.material.textfield.TextInputEditText>
+                    <com.google.android.material.textfield.TextInputEditText
+                        style="@style/trolla_fontMedium"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textColor1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null" />
 
-        </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    style="@style/trolla_fontSemibold"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:gravity="center"
+                    android:textColor="@color/inactiveTextColor"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:text="@string/proceed"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin48dp"/>
+
+                <TextView
+                    android:textColor="#B9B9B9"
+                    style="@style/trolla_fontMedium"
+                    android:layout_marginTop="@dimen/margin48dp"
+                    android:gravity="center"
+                    android:text="@string/don_t_have_an_account_sign_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+            </LinearLayout>
+
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

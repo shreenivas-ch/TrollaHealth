@@ -8,8 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentLoginBinding
+import org.koin.java.KoinJavaComponent.inject
 
 class LoginFragment : Fragment() {
+
+    val loginViewModel: LoginViewModel by inject(LoginViewModel::class.java)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -22,6 +26,8 @@ class LoginFragment : Fragment() {
             container,
             false
         )
+
+        binding.loginViewModel = loginViewModel
 
         return binding.root
     }

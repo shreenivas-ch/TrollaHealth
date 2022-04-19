@@ -16,4 +16,6 @@
     <string name="onboarding_slide1_subtitle">Order quality medicines or products online and get them safely delivered to you</string>
     <string name="onboarding_slide2_subtitle">Get offers, coupons, deals and points the more you shop.</string>
     <string name="onboarding_slide3_subtitle">Our stores are open 24x7 &amp; are at your service at all times</string>
+    <string name="proceed">Proceed</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up</string>
 </resources>

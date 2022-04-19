@@ -6,4 +6,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="colorGrey">#E0E0E0</color>
     <color name="purple1">#C5BCFF</color>
+    <color name="borderColor">#E0E0E0</color>
+    <color name="inactiveTextColor">#B9B9B9</color>
+    <color name="textHintColor">#5B5B5B</color>
+    <color name="textColor1">#1A1A1A</color>
 </resources>

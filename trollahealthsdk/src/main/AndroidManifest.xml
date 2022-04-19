@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EcommerceAggregatorHealthCare">
         <activity
+            android:name=".feature_dashboard.presentation.DashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".feature_onboarding.presentation.OnboardingActivity"
             android:exported="false" />
         <activity

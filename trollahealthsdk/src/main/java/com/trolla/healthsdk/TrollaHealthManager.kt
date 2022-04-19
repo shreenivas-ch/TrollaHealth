@@ -5,8 +5,11 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import com.trolla.healthsdk.data.models.UserAddress
+import com.trolla.healthsdk.di.repositoryModule
 import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class TrollaHealthManager private constructor(
     val context: Context?,
@@ -46,6 +49,10 @@ class TrollaHealthManager private constructor(
     }
 
     fun launch() {
+        startKoin {
+            context?.let { androidContext(context) }
+            modules(listOf(repositoryModule))
+        }
         context?.startActivity(Intent(context, OnboardingActivity::class.java))
     }
 }

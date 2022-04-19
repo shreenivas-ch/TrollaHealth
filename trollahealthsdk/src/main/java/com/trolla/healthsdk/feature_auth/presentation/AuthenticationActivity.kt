@@ -20,7 +20,6 @@ class AuthenticationActivity : AppCompatActivity() {
         } else {
             transaction.replace(R.id.contentContainer, fragment)
         }
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 }
