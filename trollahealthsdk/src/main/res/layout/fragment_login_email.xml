@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="loginViewModel"
-            type="com.trolla.healthsdk.feature_auth.presentation.LoginViewModel" />
+            name="loginEmailViewModel"
+            type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,6 +61,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         style="@style/trolla_fontMedium"
+                        android:id="@+id/edtEmail"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/textColor1"
                         android:layout_width="match_parent"

@@ -6,7 +6,7 @@ import com.trolla.healthsdk.feature_auth.data.AuthRepository
 import com.trolla.healthsdk.feature_auth.data.models.LoginResponse
 
 class LoginUseCase(private val authRepository: AuthRepository) {
-    suspend operator fun invoke(): Resource<BasicApiResponse<LoginResponse>> {
+    suspend operator fun invoke(email: androidx.lifecycle.MutableLiveData<kotlin.String>): Resource<BasicApiResponse<LoginResponse>> {
         return authRepository.login()
     }
 }

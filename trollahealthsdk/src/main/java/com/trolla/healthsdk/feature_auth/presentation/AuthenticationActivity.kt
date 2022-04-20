@@ -10,7 +10,7 @@ class AuthenticationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_authentication)
 
-        addOrReplaceFragment(LoginFragment())
+        addOrReplaceFragment(LoginEmailFragment())
     }
 
     fun addOrReplaceFragment(fragment: Fragment, isAdd: Boolean = false) {
