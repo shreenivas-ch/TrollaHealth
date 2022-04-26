@@ -6,7 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
+import com.trolla.healthsdk.databinding.PaymentGatewayIntegrationFragmentBinding
+import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
+import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class PaymentGatewayIntegrationFragment : Fragment() {
 
@@ -14,19 +20,25 @@ class PaymentGatewayIntegrationFragment : Fragment() {
         fun newInstance() = PaymentGatewayIntegrationFragment()
     }
 
-    private lateinit var viewModel: PaymentGatewayIntegrationViewModel
+    val paymentGatewayIntegrationViewModel: PaymentGatewayIntegrationViewModel by inject(
+        PaymentGatewayIntegrationViewModel::class.java
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.payment_gateway_integration_fragment, container, false)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PaymentGatewayIntegrationViewModel::class.java)
-        // TODO: Use the ViewModel
+        var binding = DataBindingUtil.inflate<PaymentGatewayIntegrationFragmentBinding>(
+            inflater,
+            R.layout.payment_gateway_integration_fragment,
+            container,
+            false
+        )
+
+        binding.viewModel = paymentGatewayIntegrationViewModel
+
+        return binding.root
     }
 
 }

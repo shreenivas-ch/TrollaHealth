@@ -6,7 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.databinding.FragmentLoginEmailBinding
+import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
+import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
+import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment : Fragment() {
 
@@ -14,19 +21,24 @@ class ProductsListFragment : Fragment() {
         fun newInstance() = ProductsListFragment()
     }
 
-    private lateinit var viewModel: ProductsListViewModel
+    val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.products_list_fragment, container, false)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProductsListViewModel::class.java)
-        // TODO: Use the ViewModel
+        var binding = DataBindingUtil.inflate<ProductsListFragmentBinding>(
+            inflater,
+            R.layout.products_list_fragment,
+            container,
+            false
+        )
+
+        binding.viewModel = productsListViewModel
+
+        return binding.root
+
     }
 
 }
