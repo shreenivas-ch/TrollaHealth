@@ -5,5 +5,5 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BasicApiResponse
 
 interface AuthRepository {
-    suspend fun login(): Resource<BasicApiResponse<LoginResponse>>
+    suspend fun login(email: String, mobile: String): Resource<BasicApiResponse<LoginResponse>>
 }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
 
-    const val BASE_URL: String = "https://jsonplaceholder.typicode.com/"
+    const val BASE_URL: String = "http://43.204.113.59/api/"
 
     fun makeRetrofitService(): ApiService {
         return Retrofit.Builder()

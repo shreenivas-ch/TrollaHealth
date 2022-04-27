@@ -6,10 +6,6 @@ import retrofit2.http.GET
 
 interface ApiService {
 
-    @GET("/auth/login")
-    suspend fun authLogin(): BasicApiResponse<LoginResponse>
-
-    companion object {
-        const val BASE_URL = "https://jsonplaceholder.typicode.com/"
-    }
+    @GET("/get-otp")
+    suspend fun authGetOTP(email: String, mobile: String): BasicApiResponse<LoginResponse>
 }

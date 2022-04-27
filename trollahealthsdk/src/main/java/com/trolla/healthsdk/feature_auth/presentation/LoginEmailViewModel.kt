@@ -16,7 +16,9 @@ class LoginEmailViewModel(private val loginUseCase: LoginUseCase) : ViewModel() 
     fun login() {
         viewModelScope.launch {
 
-            when (val result = loginUseCase.invoke(email)) {
+            var email = ""
+            var password = ""
+            when (val result = loginUseCase(email, password)) {
                 is Resource.Success -> {
                     Log.e("EV----->", "Success")
                 }

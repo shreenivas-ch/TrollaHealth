@@ -11,9 +11,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {
-    override suspend fun login(): Resource<BasicApiResponse<LoginResponse>> {
+    override suspend fun login(email:String, mobile:String): Resource<BasicApiResponse<LoginResponse>> {
         return try {
-            val response = apiService.authLogin()
+            val response = apiService.authGetOTP(email,mobile)
             if (response.successful) {
                 Resource.Success(response)
             } else {
