@@ -11,11 +11,14 @@
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_rounded_primarybutton.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/font/customfonts.xml" value="0.23148148148148148" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/activity_authentication.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/activity_dashboard.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/activity_onboarding.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/fragment_login_email.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/item_product.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/layout_onboarding_slide.xml" value="0.18906394810009267" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/layout_onboarding_texts.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/login_o_t_p_verification_fragment.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/products_list_fragment.xml" value="0.25" />
       </map>
     </option>

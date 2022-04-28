@@ -45,7 +45,7 @@
     </style>
 
     <style name="trolla_fontMedium">
-        <item name="android:fontFamily">@font/font_semibold</item>
+        <item name="android:fontFamily">@font/font_medium</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/primary_color</item>
     </style>
