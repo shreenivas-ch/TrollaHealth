@@ -71,14 +71,17 @@ class OnboardingActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.imgSkip)?.setOnClickListener {
             startActivity(Intent(this, DashboardActivity::class.java))
+            finish()
         }
 
         findViewById<TextView>(R.id.txtLogin)?.setOnClickListener {
             startActivity(Intent(this, AuthenticationActivity::class.java))
+            finish()
         }
 
         findViewById<TextView>(R.id.txtSignup)?.setOnClickListener {
             startActivity(Intent(this, AuthenticationActivity::class.java))
+            finish()
         }
     }
 

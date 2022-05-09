@@ -36,7 +36,7 @@ class LoginOTPVerificationFragment : Fragment() {
             false
         )
 
-        binding.viewModel = loginOTPVerificationViewModel
+        binding.loginEmailViewModel = loginOTPVerificationViewModel
 
         return binding.root
     }

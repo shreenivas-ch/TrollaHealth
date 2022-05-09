@@ -71,6 +71,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
+                    android:id="@+id/txtLogin"
                     style="@style/trolla_fontSemibold"
                     android:layout_marginTop="@dimen/margin32dp"
                     android:gravity="center"

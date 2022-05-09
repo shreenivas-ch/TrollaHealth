@@ -35,6 +35,10 @@ class LoginEmailFragment : Fragment() {
             loginEmailViewModel.email.value = it.toString()
         }
 
+        binding.txtLogin.setOnClickListener {
+            loginEmailViewModel.login()
+        }
+
         return binding.root
     }
 }
