@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="loginEmailViewModel"
             type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
+    
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,44 +53,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin32dp"
                     android:hint="@string/enter_email"
-                    app:hintTextColor="@color/textHintColor"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
                     app:boxCornerRadiusTopEnd="8dp"
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxStrokeColor="@color/borderColor"
-                    app:boxStrokeWidth="1dp">
+                    app:boxStrokeWidth="1dp"
+                    app:errorEnabled="true"
+                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:hintTextColor="@color/textHintColor">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        style="@style/trolla_fontMedium"
                         android:id="@+id/edtEmail"
-                        android:inputType="textEmailAddress"
-                        android:textColor="@color/textColor1"
+                        style="@style/trolla_fontMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@null" />
+                        android:background="@null"
+                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textColor1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
+                    android:enabled="@{loginEmailViewModel.isLoginFormValidMediator}"
                     android:id="@+id/txtLogin"
                     style="@style/trolla_fontSemibold"
-                    android:layout_marginTop="@dimen/margin32dp"
-                    android:gravity="center"
-                    android:textColor="@color/inactiveTextColor"
-                    android:background="@drawable/bg_inactivebutton"
-                    android:text="@string/proceed"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin48dp"/>
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:gravity="center"
+                    android:text="@string/proceed"
+                    android:textColor="@color/inactiveTextColor" />
 
                 <TextView
-                    android:textColor="#4D4D4D"
                     style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin48dp"
                     android:gravity="center"
                     android:text="@string/don_t_have_an_account_sign_up"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:textColor="#4D4D4D" />
 
 
             </LinearLayout>
