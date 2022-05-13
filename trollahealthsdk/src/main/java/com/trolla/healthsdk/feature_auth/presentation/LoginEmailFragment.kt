@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentLoginEmailBinding
+import com.trolla.healthsdk.utils.LogUtil
 import org.koin.java.KoinJavaComponent.inject
 
 class LoginEmailFragment : Fragment() {
@@ -36,6 +37,12 @@ class LoginEmailFragment : Fragment() {
 
         binding.txtLogin.setOnClickListener {
             loginEmailViewModel.login()
+        }
+
+        loginEmailViewModel.isLoginFormValidMediator.observe(viewLifecycleOwner) {
+
+            LogUtil.printObject("mediator called")
+
         }
 
         return binding.root

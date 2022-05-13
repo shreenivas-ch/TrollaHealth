@@ -10,6 +10,7 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.utils.LiveDataValidator
 import com.trolla.healthsdk.utils.LiveDataValidatorResolver
+import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
 class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : ViewModel() {
@@ -27,16 +28,22 @@ class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : View
 
     init {
         isLoginFormValidMediator.value = true
-        isLoginFormValidMediator.addSource(emailLiveData) { validateForm() }
+        isLoginFormValidMediator.addSource(emailLiveData) {
+            LogUtil.printObject("validate fields")
+            validateForm()
+        }
     }
 
     fun validateForm() {
+
         val validators = listOf(emailValidator)
         val validatorResolver = LiveDataValidatorResolver(validators)
         isLoginFormValidMediator.value = validatorResolver.isValid()
     }
 
     fun login() {
+
+        emailValidator.error.value = "Enter email"
         viewModelScope.launch {
 
             when (val result = loginUseCase(emailLiveData.value.toString(), "")) {
