@@ -47,6 +47,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/txtOTPSentTo"
                     style="@style/trolla_fontP1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,6 +71,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt1"
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"
@@ -94,6 +96,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt2"
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"
@@ -118,6 +121,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt3"
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"
@@ -141,6 +145,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt4"
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"

@@ -52,7 +52,10 @@ class LoginEmailFragment : Fragment() {
                 is Resource.Success -> {
                     Log.e("EV----->", "Success")
                     (activity as AuthenticationActivity).addOrReplaceFragment(
-                        LoginOTPVerificationFragment()
+                        LoginOTPVerificationFragment.getInstance(
+                            loginEmailViewModel.emailLiveData.value.toString(),
+                            ""
+                        )
                     )
                 }
                 is Resource.Error -> {

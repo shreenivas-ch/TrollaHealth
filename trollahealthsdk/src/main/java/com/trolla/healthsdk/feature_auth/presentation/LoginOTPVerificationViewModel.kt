@@ -15,23 +15,23 @@ class LoginOTPVerificationViewModel : ViewModel() {
     val otpLiveData4 = MutableLiveData<String>()
 
     val otpValidator = LiveDataValidator(otpLiveData).apply {
-        addRule("Length should be 4 digits") { it!!.length < 4 }
+        addRule("Length should be 4 digits") { it.toString().length < 4 }
     }
 
     val otpValidator1 = LiveDataValidator(otpLiveData1).apply {
-        addRule("Length should be 1 digit") { it!!.isEmpty() }
+        addRule("Length should be 1 digit") { it.isNullOrBlank() }
     }
 
     val otpValidator2 = LiveDataValidator(otpLiveData2).apply {
-        addRule("Length should be 1 digit") { it!!.isEmpty() }
+        addRule("Length should be 1 digit") { it.isNullOrBlank() }
     }
 
     val otpValidator3 = LiveDataValidator(otpLiveData3).apply {
-        addRule("Length should be 1 digit") { it!!.isEmpty() }
+        addRule("Length should be 1 digit") { it.isNullOrBlank() }
     }
 
     val otpValidator4 = LiveDataValidator(otpLiveData4).apply {
-        addRule("Length should be 1 digit") { it!!.isEmpty() }
+        addRule("Length should be 1 digit") { it.isNullOrBlank() }
     }
 
     val formValidMediator = MediatorLiveData<Boolean>()
