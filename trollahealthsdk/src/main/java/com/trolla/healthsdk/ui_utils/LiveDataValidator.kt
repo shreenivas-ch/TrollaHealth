@@ -1,4 +1,4 @@
-package com.trolla.healthsdk.utils
+package com.trolla.healthsdk.ui_utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,8 +9,11 @@ class LiveDataValidator(private val liveData: LiveData<String>) {
     private val validationRules = mutableListOf<Predicate>()
     private val errorMessages = mutableListOf<String>()
 
+
     var error = MutableLiveData<String?>()
 
+    //For checking if the liveData value matches the error condition set in the validation rule predicate
+    //The livedata value is said to be valid when its value doesn't match an error condition set in the predicate
     fun isValid(): Boolean {
         for (i in 0 until validationRules.size) {
             if (validationRules[i](liveData.value)) {
@@ -23,10 +26,12 @@ class LiveDataValidator(private val liveData: LiveData<String>) {
         return true
     }
 
+    //For emitting error messages
     private fun emitErrorMessage(messageRes: String?) {
         error.value = messageRes
     }
 
+    //For adding validation rules
     fun addRule(errorMsg: String, predicate: Predicate) {
         validationRules.add(predicate)
         errorMessages.add(errorMsg)

@@ -8,7 +8,7 @@
         <variable
             name="loginEmailViewModel"
             type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
-    
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,8 +59,8 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxStrokeColor="@color/borderColor"
                     app:boxStrokeWidth="1dp"
-                    app:errorEnabled="true"
                     app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:errorEnabled="true"
                     app:hintTextColor="@color/textHintColor">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -69,23 +69,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:text="@={loginEmailViewModel.emailLiveData}"
                         android:inputType="textEmailAddress"
+                        android:text="@={loginEmailViewModel.emailLiveData}"
                         android:textColor="@color/textColor1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
-                    android:enabled="@{loginEmailViewModel.isLoginFormValidMediator}"
                     android:id="@+id/txtLogin"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin48dp"
                     android:layout_marginTop="@dimen/margin32dp"
                     android:background="@drawable/bg_inactivebutton"
+                    android:enabled="@{loginEmailViewModel.isLoginFormValidMediator}"
                     android:gravity="center"
                     android:text="@string/proceed"
-                    android:textColor="@color/inactiveTextColor" />
+                    android:textColor="@{loginEmailViewModel.isLoginFormValidMediator() ? @color/white : @color/inactiveTextColor}" />
 
                 <TextView
                     style="@style/trolla_fontMedium"

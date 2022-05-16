@@ -33,16 +33,15 @@ class LoginEmailFragment : Fragment() {
             false
         )
 
+        binding.lifecycleOwner = this
         binding.loginEmailViewModel = loginEmailViewModel
 
         binding.txtLogin.setOnClickListener {
             loginEmailViewModel.login()
         }
 
-        loginEmailViewModel.isLoginFormValidMediator.observe(viewLifecycleOwner) {
-
-            LogUtil.printObject("mediator called")
-
+        binding.edtEmail.addTextChangedListener {
+            loginEmailViewModel.validateForm()
         }
 
         return binding.root

@@ -1,4 +1,4 @@
-package com.trolla.healthsdk.utils
+package com.trolla.healthsdk.ui_utils
 
 class LiveDataValidatorResolver(private val validators: List<LiveDataValidator>) {
     fun isValid(): Boolean {
