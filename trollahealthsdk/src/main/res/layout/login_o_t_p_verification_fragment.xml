@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="loginEmailViewModel"
+            name="loginOTPVerificationViewModel"
             type="com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel" />
     </data>
 
@@ -64,122 +64,135 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_marginEnd="20dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
                         android:orientation="vertical">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"
                             android:background="@android:color/transparent"
                             android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={loginOTPVerificationViewModel.otpLiveData1}"
                             tools:text="0" />
 
                         <View
-                            android:background="#6957D7"
                             android:layout_width="@dimen/width40dp"
-                            android:layout_height="4dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginEnd="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <EditText
-                            style="@style/trolla_fontBold"
-                            android:layout_width="@dimen/width40dp"
-                            android:layout_height="@dimen/margin48dp"
-                            android:background="@android:color/transparent"
-                            android:gravity="center"
-                            tools:text="0" />
-
-                        <View
-                            android:background="#6957D7"
-                            android:layout_width="@dimen/width40dp"
-                            android:layout_height="4dp"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_marginEnd="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <EditText
-                            style="@style/trolla_fontBold"
-                            android:layout_width="@dimen/width40dp"
-                            android:layout_height="@dimen/margin48dp"
-                            android:background="@android:color/transparent"
-                            android:gravity="center"
-                            tools:text="0" />
-
-                        <View
-                            android:background="#6957D7"
-                            android:layout_width="@dimen/width40dp"
-                            android:layout_height="4dp"/>
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
                         android:orientation="vertical">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             style="@style/trolla_fontBold"
                             android:layout_width="@dimen/width40dp"
                             android:layout_height="@dimen/margin48dp"
                             android:background="@android:color/transparent"
                             android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={loginOTPVerificationViewModel.otpLiveData2}"
                             tools:text="0" />
 
                         <View
-                            android:background="#6957D7"
                             android:layout_width="@dimen/width40dp"
-                            android:layout_height="4dp"/>
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={loginOTPVerificationViewModel.otpLiveData3}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={loginOTPVerificationViewModel.otpLiveData4}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <TextView
-                    tools:visibility="visible"
-                    android:layout_marginTop="@dimen/margin24dp"
-                    android:layout_gravity="center_horizontal"
                     style="@style/trolla_fontMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="@string/wrong_otp_entered"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin24dp"
                     android:textColor="#D75783"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/wrong_otp_entered"
+                    tools:visibility="visible" />
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                     style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin48dp"
                     android:layout_marginTop="@dimen/margin32dp"
                     android:background="@drawable/bg_inactivebutton"
+                    android:enabled="@{loginOTPVerificationViewModel.formValidMediator}"
                     android:gravity="center"
                     android:text="@string/proceed"
-                    android:textColor="@color/inactiveTextColor" />
+                    android:textColor="@{loginOTPVerificationViewModel.formValidMediator ? @color/white : @color/inactiveTextColor}" />
 
                 <TextView
-                    android:layout_marginTop="@dimen/margin24dp"
-                    android:layout_gravity="center_horizontal"
                     style="@style/trolla_fontMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="0:59 left"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin24dp"
                     android:textColor="#4D4D4D"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0:59 left" />
 
                 <TextView
                     style="@style/trolla_fontMedium"

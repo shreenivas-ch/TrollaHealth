@@ -17,7 +17,7 @@ class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {
     override suspend fun login(email:String, mobile:String): Resource<BasicApiResponse<LoginResponse>> {
         return try {
             val response = apiService.authGetOTP(GetOTPRequest(email))
-            if (response.successful) {
+            if (response.successful!!) {
                 Resource.Success(response)
             } else {
                 if (response.message != null) {

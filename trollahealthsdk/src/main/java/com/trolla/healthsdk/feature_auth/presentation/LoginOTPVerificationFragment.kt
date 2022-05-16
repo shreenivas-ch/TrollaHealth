@@ -16,10 +16,6 @@ import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = LoginOTPVerificationFragment()
-    }
-
     val loginOTPVerificationViewModel: LoginOTPVerificationViewModel by inject(
         LoginOTPVerificationViewModel::class.java
     )
@@ -36,7 +32,8 @@ class LoginOTPVerificationFragment : Fragment() {
             false
         )
 
-        binding.loginEmailViewModel = loginOTPVerificationViewModel
+        binding.lifecycleOwner = this
+        binding.loginOTPVerificationViewModel = loginOTPVerificationViewModel
 
         return binding.root
     }

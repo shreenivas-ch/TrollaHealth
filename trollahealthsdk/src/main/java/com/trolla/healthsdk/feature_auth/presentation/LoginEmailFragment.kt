@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.feature_auth.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentLoginEmailBinding
 import com.trolla.healthsdk.utils.LogUtil
 import org.koin.java.KoinJavaComponent.inject
@@ -40,8 +42,23 @@ class LoginEmailFragment : Fragment() {
             loginEmailViewModel.login()
         }
 
-        binding.edtEmail.addTextChangedListener {
-            loginEmailViewModel.validateForm()
+        loginEmailViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as AuthenticationActivity).showHideProgressBar(it)
+        }
+
+        loginEmailViewModel.getOTPResponse.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    Log.e("EV----->", "Success")
+                    (activity as AuthenticationActivity).addOrReplaceFragment(
+                        LoginOTPVerificationFragment()
+                    )
+                }
+                is Resource.Error -> {
+
+                }
+            }
         }
 
         return binding.root

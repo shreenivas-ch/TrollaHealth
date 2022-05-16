@@ -7,16 +7,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.data.models.BasicApiResponse
+import com.trolla.healthsdk.feature_auth.data.models.LoginResponse
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
+import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
 class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : ViewModel() {
 
+    val getOTPResponse = MutableLiveData<Resource<BasicApiResponse<LoginResponse>>>()
+    val progressStatus = MutableLiveData<Boolean>()
     val emailLiveData = MutableLiveData<String>()
     val emailValidator = LiveDataValidator(emailLiveData).apply {
-        //Whenever the condition of the predicate is true, the error message should be emitted
         addRule("Email is required") { it.isNullOrBlank() }
         addRule("Email is not valid") {
             !Patterns.EMAIL_ADDRESS.matcher(emailLiveData.value).matches()
@@ -30,38 +34,18 @@ class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : View
         isLoginFormValidMediator.addSource(emailLiveData) { validateForm() }
     }
 
-    //This is called whenever the usernameLiveData and passwordLiveData changes
     fun validateForm() {
         val validators = listOf(emailValidator)
         val validatorResolver = LiveDataValidatorResolver(validators)
         isLoginFormValidMediator.value = validatorResolver.isValid()
     }
 
-    /*val emailErrorLiveData = MutableLiveData<String>()
-    val isLoginFormValidLiveData = MutableLiveData<Boolean>()*/
-
-    /*fun validateForm() {
-        isLoginFormValidLiveData.value = false
-        if (emailLiveData.value.isNullOrEmpty()) {
-            emailErrorLiveData.value = "Email ID is required"
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailLiveData.value).matches()) {
-            emailErrorLiveData.value = "Email ID is Not Valid"
-        } else {
-            emailErrorLiveData.value = ""
-            isLoginFormValidLiveData.value = true
-        }
-    }*/
-
     fun login() {
+        progressStatus.value = true
         viewModelScope.launch {
-            when (val result = loginUseCase(emailLiveData.value.toString(), "")) {
-                is Resource.Success -> {
-                    Log.e("EV----->", "Success")
-                }
-                is Resource.Error -> {
-
-                }
-            }
+            getOTPResponse.value = loginUseCase(emailLiveData.value.toString(), "")!!
+            progressStatus.value = false
+            LogUtil.printObject(getOTPResponse.value.toString())
         }
     }
 }
