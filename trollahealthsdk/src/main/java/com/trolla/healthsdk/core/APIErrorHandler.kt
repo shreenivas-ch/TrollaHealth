@@ -14,10 +14,16 @@ class APIErrorHandler<T> {
             if (response.code() in 200..299) {
                 Resource.Success(response.body())
             } else {
-                if (response.body()?.message != null) {
-                    Resource.Error(uiText = UiText.DynamicString(response.body()?.message ?: ""))
-                } else {
-                    Resource.Error(uiText = UiText.unknownerror())
+                when {
+                    response.body()?.message != null -> {
+                        Resource.Error(uiText = UiText.DynamicString(response.body()?.message ?: ""))
+                    }
+                    response.message() != null -> {
+                        Resource.Error(uiText = UiText.DynamicString(response.message()))
+                    }
+                    else -> {
+                        Resource.Error(uiText = UiText.unknownerror())
+                    }
                 }
             }
         } catch (e: IOException) {

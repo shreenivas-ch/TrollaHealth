@@ -1,6 +1,8 @@
 package com.trolla.healthsdk.utils
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -9,6 +11,19 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 object TrollaHealthUtility {
+
+    fun showAlertDialogue(
+        context: Context,
+        message: String?,
+        dialogInterface: DialogInterface.OnClickListener? = null
+    ) {
+        var alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setMessage(message ?: "Message")
+        alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.setPositiveButton(android.R.string.ok, dialogInterface)
+        var alert = alertDialogBuilder.create()
+        alert.show()
+    }
 
     fun getCertificateHash(context: Context): String? {
         var hashKey = ""

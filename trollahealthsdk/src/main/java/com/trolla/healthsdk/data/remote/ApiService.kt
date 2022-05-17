@@ -17,7 +17,7 @@ interface ApiService {
         @Body request: GetOTPRequest
     ): Response<BaseApiResponse<CommonAPIResponse>>
 
-    @POST("/auth/get-otp")
+    @POST("/auth/verify-otp")
     suspend fun authVerifyOTP(
         @Body request: VerifyOTPRequest
     ): Response<BaseApiResponse<VerifyOTPResponse>>

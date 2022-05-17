@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_auth.presentation
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +10,13 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.LoginOTPVerificationFragmentBinding
 import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -54,10 +59,12 @@ class LoginOTPVerificationFragment : Fragment() {
 
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email
+                loginOTPVerificationViewModel.email.value = email
             }
 
             if (!mobile.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = mobile
+                loginOTPVerificationViewModel.mobile.value = mobile
             }
 
         }
@@ -92,8 +99,28 @@ class LoginOTPVerificationFragment : Fragment() {
             }
         }
 
+        binding.btnVerifyOTP.setOnClickListener {
+            loginOTPVerificationViewModel.verifyOTP()
+        }
+
         loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
             (activity as AuthenticationActivity).showHideProgressBar(it)
+        }
+
+        loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    if (it.data?.data?.is_profile_complete!!) {
+                        startActivity(Intent(activity, DashboardActivity::class.java))
+                    } else {
+
+                    }
+
+                }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(requireContext(),it.uiText?.asString(requireContext()))
+                }
+            }
         }
 
 
