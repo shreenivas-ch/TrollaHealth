@@ -1,12 +1,12 @@
 package com.trolla.healthsdk.feature_auth.domain
 
-import com.bumptech.glide.util.Util
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_auth.data.AuthRepository
-import com.trolla.healthsdk.feature_auth.data.models.LoginResponse
+import com.trolla.healthsdk.feature_auth.data.models.GetOTPResponse
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.UiText
-import com.trolla.healthsdk.data.models.BasicApiResponse
+import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.data.remote.ApiService
 import com.trolla.healthsdk.feature_auth.data.models.GetOTPRequest
 import com.trolla.healthsdk.utils.LogUtil
@@ -14,13 +14,16 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {
-    override suspend fun login(email:String, mobile:String): Resource<BasicApiResponse<LoginResponse>> {
+    override suspend fun getOTP(
+        email: String,
+        mobile: String
+    ): Resource<BaseApiResponse<CommonAPIResponse>> {
         return try {
             val response = apiService.authGetOTP(GetOTPRequest(email))
-            if (response.successful!!) {
-                Resource.Success(response)
+            if (response.code() == 200) {
+                Resource.Success(response.body())
             } else {
-                if (response.message != null) {
+                if (response.body()?.message != null) {
                     Resource.Error(uiText = UiText.DynamicString(response.message))
                 } else {
                     Resource.Error(uiText = UiText.unknownerror())
@@ -36,6 +39,14 @@ class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {
                 uiText = UiText.StringResource(R.string.oops_something_went_wrong)
             )
         }
+    }
+
+    override suspend fun verifyOTP(
+        email: String,
+        mobile: String,
+        otp: String
+    ): Unit {
+
     }
 }
 

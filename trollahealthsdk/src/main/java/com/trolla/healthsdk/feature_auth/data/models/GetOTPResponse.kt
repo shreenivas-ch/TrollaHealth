@@ -1,5 +1,5 @@
 package com.trolla.healthsdk.feature_auth.data.models
 
-class LoginResponse(
+class GetOTPResponse(
     var userid: String
 )
