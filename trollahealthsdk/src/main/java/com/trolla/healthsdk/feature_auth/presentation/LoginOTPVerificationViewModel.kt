@@ -3,16 +3,30 @@ package com.trolla.healthsdk.feature_auth.presentation
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
+import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
+import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyGetOTPOnMobileUsecase
+import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
+import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
+import com.trolla.healthsdk.utils.LogUtil
+import kotlinx.coroutines.launch
 
-class LoginOTPVerificationViewModel : ViewModel() {
+class LoginOTPVerificationViewModel : BaseViewModel() {
 
     val otpLiveData = MutableLiveData<String>()
     val otpLiveData1 = MutableLiveData<String>()
     val otpLiveData2 = MutableLiveData<String>()
     val otpLiveData3 = MutableLiveData<String>()
     val otpLiveData4 = MutableLiveData<String>()
+
+    var email = MutableLiveData<String>()
+
+    val verifyOTPResponse = MutableLiveData<Resource<BaseApiResponse<VerifyOTPResponse>>>()
 
     val otpValidator = LiveDataValidator(otpLiveData).apply {
         addRule("Length should be 4 digits") { it.toString().length < 4 }
@@ -53,6 +67,15 @@ class LoginOTPVerificationViewModel : ViewModel() {
             listOf(otpValidator, otpValidator1, otpValidator2, otpValidator3, otpValidator4)
         val validatorResolver = LiveDataValidatorResolver(validators)
         formValidMediator.value = validatorResolver.isValid()
+    }
+
+    fun verifyOTP() {
+        progressStatus.value = true
+        viewModelScope.launch {
+            verifyOTPResponse.value = VerifyOTPOnEmailUsecase(email.value.toString(), "",otpLiveData.value)!!
+            progressStatus.value = false
+            LogUtil.printObject(getOTPResponse.value.toString())
+        }
     }
 
 }

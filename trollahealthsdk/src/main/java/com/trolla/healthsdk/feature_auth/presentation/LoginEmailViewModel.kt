@@ -7,17 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
-import com.trolla.healthsdk.feature_auth.data.models.GetOTPResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
+import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
-class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : ViewModel() {
+class LoginEmailViewModel(private val loginUseCase: GetOTPOnEmailUsecase) : BaseViewModel() {
 
-    val getOTPResponse = MutableLiveData<Resource<BaseApiResponse<GetOTPResponse>>>()
-    val progressStatus = MutableLiveData<Boolean>()
+    val getOTPResponse = MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
     val emailLiveData = MutableLiveData<String>()
     val emailValidator = LiveDataValidator(emailLiveData).apply {
         addRule("Email is required") { it.isNullOrBlank() }

@@ -3,13 +3,14 @@ package com.trolla.healthsdk.feature_auth.domain.usecases
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.feature_auth.data.AuthRepository
-import com.trolla.healthsdk.feature_auth.data.models.GetOTPResponse
+import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
 
 class VerifyGetOTPOnMobileUsecase(private val authRepository: AuthRepository) {
     suspend operator fun invoke(
         email: String,
-        mobile: String
-    ): Resource<BaseApiResponse<GetOTPResponse>> {
-        return authRepository.login(email, mobile)
+        mobile: String,
+        otp: String
+    ): Resource<BaseApiResponse<VerifyOTPResponse>> {
+        return authRepository.verifyOTP(email, mobile, otp)
     }
 }

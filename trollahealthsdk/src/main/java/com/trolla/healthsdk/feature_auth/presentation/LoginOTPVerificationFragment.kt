@@ -92,6 +92,11 @@ class LoginOTPVerificationFragment : Fragment() {
             }
         }
 
+        loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as AuthenticationActivity).showHideProgressBar(it)
+        }
+
+
         return binding.root
     }
 
