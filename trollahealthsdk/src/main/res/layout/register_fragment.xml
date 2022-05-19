@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel" />
@@ -11,6 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include layout="@layout/layout_common_header" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
