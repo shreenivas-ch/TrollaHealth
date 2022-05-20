@@ -23,4 +23,7 @@
     <string name="enter_otp_sent_to">Enter otp sent to</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="wrong_otp_entered">Wrong OTP Entered</string>
+    <string name="enter_firstname">Enter Firstname</string>
+    <string name="enter_lastname">Enter Lastname</string>
+    <string name="gender">Gender</string>
 </resources>

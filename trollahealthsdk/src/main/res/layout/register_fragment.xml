@@ -15,6 +15,181 @@
 
         <include layout="@layout/layout_common_header" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:orientation="vertical">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:hint="@string/enter_firstname"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtFirstname"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_lastname"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtLastname"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter Mobile Number"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtMobileNumber"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/gender"
+                    android:textColor="@color/textColor1" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioMale"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="Male"
+                        android:textColor="@color/textColor1" />
+
+                    <RadioButton
+                        android:id="@+id/radioFemale"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="Female"
+                        android:textColor="@color/textColor1" />
+
+                </RadioGroup>
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:text="Date of Birth"
+                    android:textColor="@color/textColor1" />
+
+                <DatePicker
+                    android:id="@+id/datePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:background="@drawable/bg_rounded_corners_grey"
+                    android:calendarViewShown="false"
+                    android:datePickerMode="spinner" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            app:cardUseCompatPadding="true"
+            app:contentPadding="@dimen/margin16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/txtLogin"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin48dp"
+                android:background="@drawable/bg_inactivebutton"
+                android:enabled="@{loginEmailViewModel.isLoginFormValidMediator}"
+                android:gravity="center"
+                android:text="@string/proceed"
+                android:textColor="@{loginEmailViewModel.isLoginFormValidMediator() ? @color/white : @color/inactiveTextColor}" />
+
+
+        </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
