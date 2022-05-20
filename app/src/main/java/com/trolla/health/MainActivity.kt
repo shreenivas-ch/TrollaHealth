@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        TrollaHealthManager.Builder().appid("adfad").context(this).build().launch()
+        TrollaHealthManager.Builder().appid("adfad").context(this).application(application).build()
+            .launch()
     }
 }

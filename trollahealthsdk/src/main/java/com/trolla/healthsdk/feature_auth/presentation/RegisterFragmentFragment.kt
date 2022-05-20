@@ -14,7 +14,9 @@ import org.koin.java.KoinJavaComponent.inject
 class RegisterFragmentFragment : Fragment() {
 
     companion object {
-        fun newInstance() = RegisterFragmentFragment()
+        fun getInstance(email:String):RegisterFragmentFragment {
+            return RegisterFragmentFragment()
+        }
     }
 
     val registerViewModel: RegisterViewModel by inject(

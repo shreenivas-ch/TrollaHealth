@@ -16,17 +16,23 @@ import com.trolla.healthsdk.databinding.LoginOTPVerificationFragmentBinding
 import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
 
+    var type = ""
+    var email: String? = ""
+    var mobile: String? = ""
+
     companion object {
-        fun getInstance(email: String, mobile: String): LoginOTPVerificationFragment {
+        fun getInstance(email: String, mobile: String, type: String): LoginOTPVerificationFragment {
             val bundle = Bundle()
             bundle.putString("email", email)
             bundle.putString("mobile", mobile)
+            bundle.putString("type", type)
             val fragment = LoginOTPVerificationFragment()
             fragment.arguments = bundle
             return fragment
@@ -54,8 +60,8 @@ class LoginOTPVerificationFragment : Fragment() {
 
         var bundle = arguments
         bundle?.let {
-            var email = bundle.getString("email")
-            var mobile = bundle.getString("mobile")
+            email = bundle.getString("email")
+            mobile = bundle.getString("mobile")
 
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email
@@ -110,15 +116,33 @@ class LoginOTPVerificationFragment : Fragment() {
         loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    if (it.data?.data?.is_profile_complete!!) {
-                        startActivity(Intent(activity, DashboardActivity::class.java))
+                    if (!it.data?.data?.is_profile_complete!!) {
+
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.access_token,
+                            "access_token"
+                        )
+
+                        if (type == "email") {
+
+                            (activity as AuthenticationActivity).addOrReplaceFragment(
+                                RegisterFragmentFragment.getInstance(email!!),
+                                true
+                            )
+
+                        } else {
+                            startActivity(Intent(activity, DashboardActivity::class.java))
+                        }
                     } else {
 
                     }
 
                 }
                 is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(requireContext(),it.uiText?.asString(requireContext()))
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
                 }
             }
         }

@@ -8,11 +8,13 @@ import com.trolla.healthsdk.data.models.UserAddress
 import com.trolla.healthsdk.di.repositoryModule
 import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class TrollaHealthManager private constructor(
     val context: Context?,
+    val application: Application?,
     val secretkey: String?,
     val appid: String?,
     val userMobile: String?,
@@ -22,6 +24,7 @@ class TrollaHealthManager private constructor(
 ) {
     data class Builder(
         var context: Context? = null,
+        var application: Application? = null,
         var secretkey: String? = null,
         var appid: String? = null,
         var userMobile: String? = null,
@@ -30,6 +33,7 @@ class TrollaHealthManager private constructor(
         var userAddress: UserAddress? = null
     ) {
         fun context(context: Context) = apply { this.context = context }
+        fun application(application: Application) = apply { this.application = application }
         fun secretKey(secretkey: String) = apply { this.secretkey = secretkey }
         fun appid(appid: String) = apply { this.appid = appid }
         fun userMobile(userMobile: String) = apply { this.userMobile = userMobile }
@@ -39,6 +43,7 @@ class TrollaHealthManager private constructor(
         fun build() =
             TrollaHealthManager(
                 context,
+                application,
                 secretkey,
                 appid,
                 userMobile,
@@ -52,6 +57,9 @@ class TrollaHealthManager private constructor(
         startKoin {
             context?.let { androidContext(context) }
             modules(listOf(repositoryModule))
+        }
+        application?.let {
+            TrollaPreferencesManager.with(application)
         }
         context?.startActivity(Intent(context, OnboardingActivity::class.java))
     }

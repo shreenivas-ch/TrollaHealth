@@ -53,7 +53,8 @@ class LoginEmailFragment : Fragment() {
                     (activity as AuthenticationActivity).addOrReplaceFragment(
                         LoginOTPVerificationFragment.getInstance(
                             loginEmailViewModel.emailLiveData.value.toString(),
-                            ""
+                            "",
+                            "email"
                         ), true
                     )
                 }
