@@ -11,26 +11,30 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <include layout="@layout/layout_common_header" />
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header" />
 
         <ScrollView
+            app:layout_constraintBottom_toTopOf="@+id/card"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/margin16dp">
+            android:layout_height="0dp"
+            android:padding="@dimen/margin16dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/margin16dp"
                 android:orientation="vertical">
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin32dp"
                     android:hint="@string/enter_firstname"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -130,7 +134,7 @@
                         style="@style/trolla_fontMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{registerViewModel.genderLiveData == 'm'}"
+                        android:checked="@{registerViewModel.genderLiveData.equalsIgnoreCase(registerViewModel.genderMaleConstant)}"
                         android:padding="10dp"
                         android:text="Male"
                         android:textColor="@color/textColor1" />
@@ -140,7 +144,7 @@
                         style="@style/trolla_fontMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@{registerViewModel.genderLiveData == 'f'}"
+                        android:checked="@{registerViewModel.genderLiveData.equalsIgnoreCase(registerViewModel.genderFemaleConstant)}"
                         android:padding="10dp"
                         android:text="Female"
                         android:textColor="@color/textColor1" />
@@ -169,6 +173,7 @@
         </ScrollView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="10dp"

@@ -23,7 +23,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
 
-    var type = ""
+    var type:String? = ""
     var email: String? = ""
     var mobile: String? = ""
 
@@ -62,6 +62,7 @@ class LoginOTPVerificationFragment : Fragment() {
         bundle?.let {
             email = bundle.getString("email")
             mobile = bundle.getString("mobile")
+            type = bundle.getString("type")
 
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email

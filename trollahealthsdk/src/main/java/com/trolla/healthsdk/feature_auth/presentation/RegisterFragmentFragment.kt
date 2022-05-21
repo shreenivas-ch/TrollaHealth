@@ -48,13 +48,13 @@ class RegisterFragmentFragment : Fragment() {
 
         binding.radioMale.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                registerViewModel.genderLiveData.value = "m"
+                registerViewModel.genderLiveData.value = registerViewModel.genderMaleConstant
             }
         }
 
         binding.radioFemale.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                registerViewModel.genderLiveData.value = "f"
+                registerViewModel.genderLiveData.value = registerViewModel.genderFemaleConstant
             }
         }
 

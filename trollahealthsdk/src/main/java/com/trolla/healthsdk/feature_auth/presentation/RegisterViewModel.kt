@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterViewModel : ViewModel() {
+
+    var genderMaleConstant = "m"
+    var genderFemaleConstant = "f"
     val firstNameLiveData = MutableLiveData<String>()
     val firstnameValidator = LiveDataValidator(firstNameLiveData).apply {
         addRule("First name is required") { it.isNullOrBlank() }
@@ -71,6 +74,7 @@ class RegisterViewModel : ViewModel() {
         registerFormValidMediator.addSource(dobDateLiveData) { validateForm() }
         registerFormValidMediator.addSource(dobMonthLiveData) { validateForm() }
         registerFormValidMediator.addSource(dobYearLiveData) { validateForm() }
+        registerFormValidMediator.addSource(dobLiveData) { validateForm() }
     }
 
     private fun validateForm() {
@@ -82,7 +86,7 @@ class RegisterViewModel : ViewModel() {
                 lastnameValidator,
                 mobileNumberValidator,
                 genderValidator,
-                dobValidator
+                dobValidator,
             )
         val validatorResolver = LiveDataValidatorResolver(validators)
         registerFormValidMediator.value = validatorResolver.isValid()
