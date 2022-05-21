@@ -106,7 +106,11 @@ class LoginOTPVerificationFragment : Fragment() {
         }
 
         binding.btnVerifyOTP.setOnClickListener {
-            loginOTPVerificationViewModel.verifyOTP()
+            if (type == "email") {
+                loginOTPVerificationViewModel.verifyEmailOTP()
+            } else {
+                loginOTPVerificationViewModel.verifyMobileOTP()
+            }
         }
 
         loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {

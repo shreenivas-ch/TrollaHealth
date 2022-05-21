@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="registerViewModel"
             type="com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel" />
     </data>
 
@@ -38,7 +38,7 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxStrokeColor="@color/borderColor"
                     app:boxStrokeWidth="1dp"
-                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:error="@{registerViewModel.firstnameValidator.error}"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/textHintColor"
                     app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
@@ -50,7 +50,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:inputType="text"
-                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:text="@={registerViewModel.firstNameLiveData}"
                         android:textColor="@color/textColor1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +66,7 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxStrokeColor="@color/borderColor"
                     app:boxStrokeWidth="1dp"
-                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:error="@{registerViewModel.lastnameValidator.error}"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/textHintColor"
                     app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:inputType="text"
-                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:text="@={registerViewModel.lastnameLiveData}"
                         android:textColor="@color/textColor1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -94,7 +94,7 @@
                     app:boxCornerRadiusTopStart="8dp"
                     app:boxStrokeColor="@color/borderColor"
                     app:boxStrokeWidth="1dp"
-                    app:error="@{loginEmailViewModel.emailValidator.error}"
+                    app:error="@{registerViewModel.mobileNumberValidator.error}"
                     app:errorEnabled="true"
                     app:hintTextColor="@color/textHintColor"
                     app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
@@ -106,7 +106,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:inputType="number"
-                        android:text="@={loginEmailViewModel.emailLiveData}"
+                        android:text="@={registerViewModel.mobileNumberLiveData}"
                         android:textColor="@color/textColor1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -130,6 +130,7 @@
                         style="@style/trolla_fontMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="@{registerViewModel.genderLiveData == 'm'}"
                         android:padding="10dp"
                         android:text="Male"
                         android:textColor="@color/textColor1" />
@@ -139,6 +140,7 @@
                         style="@style/trolla_fontMedium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="@{registerViewModel.genderLiveData == 'f'}"
                         android:padding="10dp"
                         android:text="Female"
                         android:textColor="@color/textColor1" />
@@ -182,10 +184,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin48dp"
                 android:background="@drawable/bg_inactivebutton"
-                android:enabled="@{loginEmailViewModel.isLoginFormValidMediator}"
+                android:enabled="@{registerViewModel.registerFormValidMediator}"
                 android:gravity="center"
                 android:text="@string/proceed"
-                android:textColor="@{loginEmailViewModel.isLoginFormValidMediator() ? @color/white : @color/inactiveTextColor}" />
+                android:textColor="@{registerViewModel.registerFormValidMediator ? @color/white : @color/inactiveTextColor}" />
 
 
         </androidx.cardview.widget.CardView>

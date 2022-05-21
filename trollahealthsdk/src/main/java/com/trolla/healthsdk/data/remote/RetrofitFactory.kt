@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.data.remote
 
 import com.google.gson.Gson
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -33,6 +34,13 @@ object RetrofitFactory {
                     requestBuilder.url(decodeUrl)
                     requestBuilder.header("Content-Type", "application/json; charset=utf-8")
                     requestBuilder.header("Accept", "application/json")
+                    requestBuilder.header(
+                        "Authorization",
+                        "Bearer " + TrollaPreferencesManager.preferences.getString(
+                            "access_token",
+                            ""
+                        )
+                    )
                     chain.proceed(requestBuilder.build())
                 }
                 .connectTimeout(120, TimeUnit.SECONDS)

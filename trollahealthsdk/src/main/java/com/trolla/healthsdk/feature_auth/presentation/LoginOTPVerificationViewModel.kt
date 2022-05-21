@@ -16,7 +16,10 @@ import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
-class LoginOTPVerificationViewModel(private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase) :
+class LoginOTPVerificationViewModel(
+    private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase,
+    private val verifyGetOTPOnMobileUsecase: VerifyGetOTPOnMobileUsecase
+) :
     BaseViewModel() {
 
     val otpLiveData = MutableLiveData<String>()
@@ -71,10 +74,23 @@ class LoginOTPVerificationViewModel(private val otpVerifyOTPOnEmailUsecase: Veri
         formValidMediator.value = validatorResolver.isValid()
     }
 
-    fun verifyOTP() {
+    fun verifyEmailOTP() {
         progressStatus.value = true
         viewModelScope.launch {
             verifyOTPResponse.value = otpVerifyOTPOnEmailUsecase(
+                email.value.toString(),
+                mobile.value.toString(),
+                otpLiveData.value.toString()
+            )!!
+            progressStatus.value = false
+            LogUtil.printObject(verifyOTPResponse.value.toString())
+        }
+    }
+
+    fun verifyMobileOTP() {
+        progressStatus.value = true
+        viewModelScope.launch {
+            verifyOTPResponse.value = verifyGetOTPOnMobileUsecase(
                 email.value.toString(),
                 mobile.value.toString(),
                 otpLiveData.value.toString()

@@ -14,7 +14,7 @@ import org.koin.java.KoinJavaComponent.inject
 class RegisterFragmentFragment : Fragment() {
 
     companion object {
-        fun getInstance(email:String):RegisterFragmentFragment {
+        fun getInstance(email: String): RegisterFragmentFragment {
             return RegisterFragmentFragment()
         }
     }
@@ -36,11 +36,25 @@ class RegisterFragmentFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-        binding.viewModel = registerViewModel
+        binding.registerViewModel = registerViewModel
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
+                registerViewModel.dobDateLiveData.value = dayOfMonth.toString()
+                registerViewModel.dobMonthLiveData.value = monthOfYear.toString()
+                registerViewModel.dobYearLiveData.value = year.toString()
+            }
+        }
 
+        binding.radioMale.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                registerViewModel.genderLiveData.value = "m"
+            }
+        }
+
+        binding.radioFemale.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                registerViewModel.genderLiveData.value = "f"
             }
         }
 
