@@ -127,7 +127,11 @@ class RegisterFragmentFragment : Fragment() {
                         TrollaPreferencesManager.USER_DATA
                     )
 
+                    call otp verification screen
+
+
                     startActivity(Intent(activity, DashboardActivity::class.java))
+                    activity?.finish()
                 }
                 is Resource.Error -> {
                     TrollaHealthUtility.showAlertDialogue(

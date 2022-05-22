@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.Intent
 import com.trolla.healthsdk.data.models.UserAddress
 import com.trolla.healthsdk.di.repositoryModule
+import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import org.koin.android.ext.koin.androidContext
@@ -61,6 +63,12 @@ class TrollaHealthManager private constructor(
         application?.let {
             TrollaPreferencesManager.with(application)
         }
-        context?.startActivity(Intent(context, OnboardingActivity::class.java))
+        if (TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA) != null)
+        {
+            context?.startActivity(Intent(context, DashboardActivity::class.java))
+        }
+        else {
+            context?.startActivity(Intent(context, OnboardingActivity::class.java))
+        }
     }
 }
