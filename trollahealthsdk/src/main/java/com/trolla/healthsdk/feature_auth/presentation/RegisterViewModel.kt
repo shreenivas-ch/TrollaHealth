@@ -50,17 +50,17 @@ class RegisterViewModel : ViewModel() {
             cal2.timeInMillis = startdate
 
             if (startdate > endDate) {
-                false
+                true
             } else {
                 var age = DateCalculator.calculateAge(cal1, cal2)
-                age.year < 18
+                age.year > 18
             }
         }
     }
 
-    val genderLiveData = MutableLiveData<String>()
+    val genderLiveData = MutableLiveData<String>("")
     val genderValidator = LiveDataValidator(genderLiveData).apply {
-        addRule("Please select your gender") { it != "" }
+        addRule("Please select your gender") { it == "" }
     }
 
     val registerFormValidMediator = MediatorLiveData<Boolean>()
@@ -74,7 +74,7 @@ class RegisterViewModel : ViewModel() {
         registerFormValidMediator.addSource(dobDateLiveData) { validateForm() }
         registerFormValidMediator.addSource(dobMonthLiveData) { validateForm() }
         registerFormValidMediator.addSource(dobYearLiveData) { validateForm() }
-        registerFormValidMediator.addSource(dobLiveData) { validateForm() }
+        //registerFormValidMediator.addSource(dobLiveData) { validateForm() }
     }
 
     private fun validateForm() {
@@ -86,7 +86,7 @@ class RegisterViewModel : ViewModel() {
                 lastnameValidator,
                 mobileNumberValidator,
                 genderValidator,
-                dobValidator,
+                dobValidator
             )
         val validatorResolver = LiveDataValidatorResolver(validators)
         registerFormValidMediator.value = validatorResolver.isValid()

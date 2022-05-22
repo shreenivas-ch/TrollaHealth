@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.RegisterFragmentBinding
 import org.koin.java.KoinJavaComponent.inject
+import java.util.*
 
 class RegisterFragmentFragment : Fragment() {
 
@@ -38,10 +39,33 @@ class RegisterFragmentFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.registerViewModel = registerViewModel
 
+        var cal = Calendar.getInstance()
+        binding.datePicker.maxDate = cal.timeInMillis
+        cal.add(Calendar.YEAR, -18)
+        binding.datePicker.updateDate(
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH) - 1,
+            cal.get(Calendar.DATE)
+        )
+        registerViewModel.dobDateLiveData.value = cal.get(Calendar.DATE).toString()
+        registerViewModel.dobMonthLiveData.value = cal.get(Calendar.MONTH).toString()
+        registerViewModel.dobYearLiveData.value = cal.get(Calendar.YEAR).toString()
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             binding.datePicker.setOnDateChangedListener { view, year, monthOfYear, dayOfMonth ->
-                registerViewModel.dobDateLiveData.value = dayOfMonth.toString()
-                registerViewModel.dobMonthLiveData.value = monthOfYear.toString()
+                var d = dayOfMonth.toString()
+                if (d.length == 1) {
+                    d = "0$d"
+                }
+
+                var m = monthOfYear.toString()
+                if (m.length == 1) {
+                    m = "0$m"
+                }
+
+                registerViewModel.dobDateLiveData.value = d
+                registerViewModel.dobMonthLiveData.value = m
+
                 registerViewModel.dobYearLiveData.value = year.toString()
             }
         }
