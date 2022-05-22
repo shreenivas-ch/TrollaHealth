@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_auth.presentation
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.RegisterFragmentBinding
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
@@ -47,8 +53,18 @@ class RegisterFragmentFragment : Fragment() {
             cal.get(Calendar.MONTH) - 1,
             cal.get(Calendar.DATE)
         )
-        registerViewModel.dobDateLiveData.value = cal.get(Calendar.DATE).toString()
-        registerViewModel.dobMonthLiveData.value = cal.get(Calendar.MONTH).toString()
+        var d = cal.get(Calendar.DATE).toString()
+        if (d.length == 1) {
+            d = "0$d"
+        }
+        registerViewModel.dobDateLiveData.value = d
+
+        var m = cal.get(Calendar.MONTH).toString()
+        if (m.length == 1) {
+            m = "0$m"
+        }
+        registerViewModel.dobMonthLiveData.value = m
+
         registerViewModel.dobYearLiveData.value = cal.get(Calendar.YEAR).toString()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -63,10 +79,19 @@ class RegisterFragmentFragment : Fragment() {
                     m = "0$m"
                 }
 
-                registerViewModel.dobDateLiveData.value = d
-                registerViewModel.dobMonthLiveData.value = m
+                if (d != registerViewModel.dobDateLiveData.value) {
+                    registerViewModel.dobDateLiveData.value = d
+                }
 
-                registerViewModel.dobYearLiveData.value = year.toString()
+                if (m != registerViewModel.dobMonthLiveData.value) {
+                    registerViewModel.dobMonthLiveData.value = m
+                }
+
+                if (year.toString() != registerViewModel.dobYearLiveData.value) {
+                    registerViewModel.dobYearLiveData.value = year.toString()
+                }
+
+                LogUtil.printObject("----->2: $d-$m-$year")
             }
         }
 
@@ -79,6 +104,30 @@ class RegisterFragmentFragment : Fragment() {
         binding.radioFemale.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 registerViewModel.genderLiveData.value = registerViewModel.genderFemaleConstant
+            }
+        }
+
+        registerViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as AuthenticationActivity).showHideProgressBar(it)
+        }
+
+
+        binding.btnUpdateProfile.setOnClickListener {
+            registerViewModel.updateProfile()
+        }
+
+        registerViewModel.updateProfileResponse.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    startActivity(Intent(activity, DashboardActivity::class.java))
+                }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
             }
         }
 

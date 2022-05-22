@@ -9,8 +9,8 @@ class VerifyOTPOnMobileUsecase(private val authRepository: AuthRepository) {
     suspend operator fun invoke(
         email: String,
         mobile: String,
-        otp:String
+        otp: String
     ): Resource<BaseApiResponse<VerifyOTPResponse>> {
-        return authRepository.verifyOTP(email, mobile,otp)
+        return authRepository.verifyOTP(email, mobile, otp)
     }
 }

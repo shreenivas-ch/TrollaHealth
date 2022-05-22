@@ -2,13 +2,11 @@ package com.trolla.healthsdk.feature_auth.presentation
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
-import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
-import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyGetOTPOnMobileUsecase
+import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
@@ -18,7 +16,7 @@ import kotlinx.coroutines.launch
 
 class LoginOTPVerificationViewModel(
     private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase,
-    private val verifyGetOTPOnMobileUsecase: VerifyGetOTPOnMobileUsecase
+    private val verifyOTPOnMobileUsecase: VerifyOTPOnMobileUsecase
 ) :
     BaseViewModel() {
 
@@ -90,7 +88,7 @@ class LoginOTPVerificationViewModel(
     fun verifyMobileOTP() {
         progressStatus.value = true
         viewModelScope.launch {
-            verifyOTPResponse.value = verifyGetOTPOnMobileUsecase(
+            verifyOTPResponse.value = verifyOTPOnMobileUsecase(
                 email.value.toString(),
                 mobile.value.toString(),
                 otpLiveData.value.toString()

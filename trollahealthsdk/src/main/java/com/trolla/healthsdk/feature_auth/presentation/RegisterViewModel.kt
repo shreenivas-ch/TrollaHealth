@@ -3,13 +3,25 @@ package com.trolla.healthsdk.feature_auth.presentation
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
+import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
+import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
+import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.DateCalculator
+import com.trolla.healthsdk.utils.LogUtil
+import kotlinx.coroutines.launch
+import org.koin.core.component.getScopeId
 import java.text.SimpleDateFormat
 import java.util.*
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) : BaseViewModel() {
+
+    val updateProfileResponse = MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
 
     var genderMaleConstant = "m"
     var genderFemaleConstant = "f"
@@ -47,14 +59,14 @@ class RegisterViewModel : ViewModel() {
             cal1.timeInMillis = startdate
 
             var cal2 = Calendar.getInstance()
-            cal2.timeInMillis = startdate
+            cal2.timeInMillis = endDate
 
-            if (startdate > endDate) {
-                true
-            } else {
-                var age = DateCalculator.calculateAge(cal1, cal2)
-                age.year > 18
-            }
+            var age = DateCalculator.calculateAge(cal1, cal2)
+
+            LogUtil.printObject("----->" + age.year)
+
+            age.year < 18 || startdate > endDate
+
         }
     }
 
@@ -80,6 +92,9 @@ class RegisterViewModel : ViewModel() {
     private fun validateForm() {
         dobLiveData.value =
             dobDateLiveData.value.toString() + "-" + dobMonthLiveData.value.toString() + "-" + dobYearLiveData.value.toString()
+
+        LogUtil.printObject("----->1: " + dobLiveData.value.toString())
+
         val validators =
             listOf(
                 firstnameValidator,
@@ -90,5 +105,20 @@ class RegisterViewModel : ViewModel() {
             )
         val validatorResolver = LiveDataValidatorResolver(validators)
         registerFormValidMediator.value = validatorResolver.isValid()
+    }
+
+    fun updateProfile() {
+        progressStatus.value = true
+        viewModelScope.launch {
+            updateProfileResponse.value = updateProfileUsecase(
+                firstNameLiveData.value + " " + lastnameLiveData.value,
+                mobileNumberLiveData.value.toString(), genderLiveData.value.toString(),
+                dobDateLiveData.value.toString(),
+                dobMonthLiveData.value.toString(),
+                dobYearLiveData.value.toString()
+            )!!
+            progressStatus.value = false
+            LogUtil.printObject(updateProfileResponse.value.toString())
+        }
     }
 }
