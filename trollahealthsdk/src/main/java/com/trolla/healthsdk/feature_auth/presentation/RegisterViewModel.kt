@@ -23,8 +23,8 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
 
     val updateProfileResponse = MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
 
-    var genderMaleConstant = "m"
-    var genderFemaleConstant = "f"
+    var genderMaleConstant = "male"
+    var genderFemaleConstant = "female"
     val firstNameLiveData = MutableLiveData<String>()
     val firstnameValidator = LiveDataValidator(firstNameLiveData).apply {
         addRule("First name is required") { it.isNullOrBlank() }
