@@ -14,6 +14,7 @@ import com.trolla.healthsdk.databinding.RegisterFragmentBinding
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
@@ -120,6 +121,12 @@ class RegisterFragmentFragment : Fragment() {
         {
             when (it) {
                 is Resource.Success -> {
+
+                    TrollaPreferencesManager.put(
+                        it?.data?.data,
+                        TrollaPreferencesManager.USER_DATA
+                    )
+
                     startActivity(Intent(activity, DashboardActivity::class.java))
                 }
                 is Resource.Error -> {

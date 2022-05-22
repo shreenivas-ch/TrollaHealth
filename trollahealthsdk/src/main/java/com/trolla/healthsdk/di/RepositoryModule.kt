@@ -3,6 +3,7 @@ package com.trolla.healthsdk.di
 import com.trolla.healthsdk.feature_auth.domain.provideAuthRepository
 import com.trolla.healthsdk.data.remote.RetrofitFactory
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
+import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
@@ -22,7 +23,8 @@ val repositoryModule = module {
     single { VerifyOTPOnMobileUsecase(get()) }
     single { LoginOTPVerificationViewModel(get(), get()) }
 
-    single { RegisterViewModel() }
+    single { UpdateProfileUsecase(get()) }
+    single { RegisterViewModel(get()) }
 
     single { ProductsListViewModel() }
 }

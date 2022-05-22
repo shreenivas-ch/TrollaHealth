@@ -23,7 +23,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
 
-    var type:String? = ""
+    var type: String? = ""
     var email: String? = ""
     var mobile: String? = ""
 
@@ -125,7 +125,7 @@ class LoginOTPVerificationFragment : Fragment() {
 
                         TrollaPreferencesManager.put(
                             it?.data?.data?.access_token,
-                            "access_token"
+                            TrollaPreferencesManager.ACCESS_TOKEN
                         )
 
                         if (type == "email") {

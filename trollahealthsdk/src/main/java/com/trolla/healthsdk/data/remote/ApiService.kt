@@ -22,5 +22,5 @@ interface ApiService {
     ): Response<BaseApiResponse<VerifyOTPResponse>>
 
     @PUT("/users/profile")
-    suspend fun updateProfile(updateProfileRequest: UpdateProfileRequest): Response<BaseApiResponse<UpdateProfileResponse>>
+    suspend fun updateProfile(@Body updateProfileRequest: UpdateProfileRequest): Response<BaseApiResponse<UpdateProfileResponse>>
 }

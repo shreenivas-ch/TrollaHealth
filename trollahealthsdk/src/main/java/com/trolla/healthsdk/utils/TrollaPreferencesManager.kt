@@ -6,6 +6,10 @@ import android.content.SharedPreferences
 import com.google.gson.GsonBuilder
 
 object TrollaPreferencesManager {
+
+    const val ACCESS_TOKEN = "access_token"
+    const val USER_DATA = "userdata"
+
     //Shared Preference field used to save and retrieve JSON string
     lateinit var preferences: SharedPreferences
 
@@ -19,7 +23,8 @@ object TrollaPreferencesManager {
      */
     fun with(application: Application) {
         preferences = application.getSharedPreferences(
-            PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
+            PREFERENCES_FILE_NAME, Context.MODE_PRIVATE
+        )
     }
 
     /**
