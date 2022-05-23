@@ -8,6 +8,7 @@ import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecas
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel
+import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import org.koin.dsl.module
@@ -22,6 +23,7 @@ val repositoryModule = module {
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
     single { LoginOTPVerificationViewModel(get(), get()) }
+    single { MobileOTPVerificationViewModel(get(), get()) }
 
     single { UpdateProfileUsecase(get()) }
     single { RegisterViewModel(get()) }

@@ -14,7 +14,7 @@ import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
-class LoginOTPVerificationViewModel(
+class MobileOTPVerificationViewModel(
     private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase,
     private val verifyOTPOnMobileUsecase: VerifyOTPOnMobileUsecase
 ) :

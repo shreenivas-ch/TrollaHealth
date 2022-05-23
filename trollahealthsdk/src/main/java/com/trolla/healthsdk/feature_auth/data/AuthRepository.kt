@@ -10,8 +10,7 @@ interface AuthRepository {
     suspend fun getOTP(email: String, mobile: String): Resource<BaseApiResponse<CommonAPIResponse>>
 
     suspend fun verifyOTP(
-        email: String,
-        mobile: String,
+        identifier: String,
         otp: String
     ): Resource<BaseApiResponse<VerifyOTPResponse>>
 

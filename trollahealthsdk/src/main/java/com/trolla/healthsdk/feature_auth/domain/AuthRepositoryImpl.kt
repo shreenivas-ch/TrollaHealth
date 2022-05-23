@@ -19,11 +19,10 @@ class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {
     }
 
     override suspend fun verifyOTP(
-        email: String,
-        mobile: String,
+        identifier: String,
         otp: String
     ): Resource<BaseApiResponse<VerifyOTPResponse>> {
-        var response = apiService.authVerifyOTP(VerifyOTPRequest(email,mobile,otp))
+        var response = apiService.authVerifyOTP(VerifyOTPRequest(identifier,otp))
         var resource = APIErrorHandler<VerifyOTPResponse>().process(response)
         return resource
     }

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="mobileOTPVerificationViewModel"
+            type="com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="@dimen/margin24dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/trolla_fontH1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/otp_verification"
+                    android:textSize="@dimen/textBigSize" />
+
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter_otp_sent_to"
+                    android:textColor="#4D4D4D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtOTPSentTo"
+                    style="@style/trolla_fontP1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login to your account"
+                    android:textColor="#6957D7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="somememail@gmail.com" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt1"
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={mobileOTPVerificationViewModel.otpLiveData1}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt2"
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={mobileOTPVerificationViewModel.otpLiveData2}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt3"
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={mobileOTPVerificationViewModel.otpLiveData3}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edt4"
+                            style="@style/trolla_fontBold"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/margin48dp"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:text="@={mobileOTPVerificationViewModel.otpLiveData4}"
+                            tools:text="0" />
+
+                        <View
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="2dp"
+                            android:background="#6957D7" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:textColor="#D75783"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/wrong_otp_entered"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVerifyOTP"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:enabled="@{mobileOTPVerificationViewModel.formValidMediator}"
+                    android:gravity="center"
+                    android:text="@string/proceed"
+                    android:textColor="@{mobileOTPVerificationViewModel.formValidMediator ? @color/white : @color/inactiveTextColor}" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:textColor="#4D4D4D"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="0:59 left" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin48dp"
+                    android:gravity="center"
+                    android:text="@string/din_t_receive_otp_resend_otp"
+                    android:textColor="#4D4D4D" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

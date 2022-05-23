@@ -13,6 +13,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.LoginOTPVerificationFragmentBinding
+import com.trolla.healthsdk.databinding.MobileOTPVerificationFragmentBinding
 import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.TrollaHealthUtility
@@ -21,26 +22,26 @@ import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
-class LoginOTPVerificationFragment : Fragment() {
+class MobileOTPVerificationFragment : Fragment() {
 
     var type: String? = ""
     var email: String? = ""
     var mobile: String? = ""
 
     companion object {
-        fun getInstance(email: String, mobile: String, type: String): LoginOTPVerificationFragment {
+        fun getInstance(email: String, mobile: String, type: String): MobileOTPVerificationFragment {
             val bundle = Bundle()
             bundle.putString("email", email)
             bundle.putString("mobile", mobile)
             bundle.putString("type", type)
-            val fragment = LoginOTPVerificationFragment()
+            val fragment = MobileOTPVerificationFragment()
             fragment.arguments = bundle
             return fragment
         }
     }
 
-    val loginOTPVerificationViewModel: LoginOTPVerificationViewModel by inject(
-        LoginOTPVerificationViewModel::class.java
+    val mobileOTPVerificationViewModel: MobileOTPVerificationViewModel by inject(
+        MobileOTPVerificationViewModel::class.java
     )
 
     override fun onCreateView(
@@ -48,15 +49,15 @@ class LoginOTPVerificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<LoginOTPVerificationFragmentBinding>(
+        var binding = DataBindingUtil.inflate<MobileOTPVerificationFragmentBinding>(
             inflater,
-            R.layout.login_o_t_p_verification_fragment,
+            R.layout.mobile_o_t_p_verification_fragment,
             container,
             false
         )
 
         binding.lifecycleOwner = this
-        binding.loginOTPVerificationViewModel = loginOTPVerificationViewModel
+        binding.mobileOTPVerificationViewModel = mobileOTPVerificationViewModel
 
         var bundle = arguments
         bundle?.let {
@@ -66,12 +67,12 @@ class LoginOTPVerificationFragment : Fragment() {
 
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email
-                loginOTPVerificationViewModel.email.value = email
+                mobileOTPVerificationViewModel.email.value = email
             }
 
             if (!mobile.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = mobile
-                loginOTPVerificationViewModel.mobile.value = mobile
+                mobileOTPVerificationViewModel.mobile.value = mobile
             }
 
         }
@@ -108,17 +109,17 @@ class LoginOTPVerificationFragment : Fragment() {
 
         binding.btnVerifyOTP.setOnClickListener {
             if (type == "email") {
-                loginOTPVerificationViewModel.verifyEmailOTP()
+                mobileOTPVerificationViewModel.verifyEmailOTP()
             } else {
-                loginOTPVerificationViewModel.verifyMobileOTP()
+                mobileOTPVerificationViewModel.verifyMobileOTP()
             }
         }
 
-        loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
+        mobileOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
             (activity as AuthenticationActivity).showHideProgressBar(it)
         }
 
-        loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
+        mobileOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     if (!it.data?.data?.is_profile_complete!!) {

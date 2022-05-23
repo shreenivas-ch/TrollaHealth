@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.RegisterFragmentBinding
-import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
@@ -122,16 +121,19 @@ class RegisterFragmentFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                    TrollaPreferencesManager.put(
+                   /* TrollaPreferencesManager.put(
                         it?.data?.data,
                         TrollaPreferencesManager.USER_DATA
+                    )*/
+
+                    (activity as AuthenticationActivity).addOrReplaceFragment(
+                        MobileOTPVerificationFragment.getInstance(
+                            "",
+                            registerViewModel.mobileNumberLiveData.value.toString(),
+                            "mobile"
+                        ), true
                     )
 
-                    call otp verification screen
-
-
-                    startActivity(Intent(activity, DashboardActivity::class.java))
-                    activity?.finish()
                 }
                 is Resource.Error -> {
                     TrollaHealthUtility.showAlertDialogue(

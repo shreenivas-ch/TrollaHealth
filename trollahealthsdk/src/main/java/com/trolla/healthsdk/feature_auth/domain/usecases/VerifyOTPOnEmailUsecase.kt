@@ -7,10 +7,9 @@ import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
 
 class VerifyOTPOnEmailUsecase(private val authRepository: AuthRepository) {
     suspend operator fun invoke(
-        email: String,
-        mobile: String,
+        identifier: String,
         otp: String
     ): Resource<BaseApiResponse<VerifyOTPResponse>> {
-        return authRepository.verifyOTP(email, mobile, otp)
+        return authRepository.verifyOTP(identifier, otp)
     }
 }
