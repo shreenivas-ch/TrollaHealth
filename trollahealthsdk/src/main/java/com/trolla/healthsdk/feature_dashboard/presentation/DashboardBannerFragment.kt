@@ -37,8 +37,6 @@ class DashboardBannerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //showBanner()
-
         val sliderAdapter = BannersAdapter(
             requireActivity()
         )
@@ -53,38 +51,6 @@ class DashboardBannerFragment : Fragment() {
 
         binding.bannerDotsIndicator?.setViewPager(pager as ViewPager)
 
-    }
-
-    private fun showBanner() {
-
-        val adapter = MyViewPagerAdapter(childFragmentManager)
-
-            for (i in 1..5) {
-                var bannerLayoutFragment=DashboardBannerLayoutFragment()
-                bannerLayoutFragment.setData("https://img.freepik.com/free-vector/offer-deals-banner-red-background_1017-27332.jpg?w=2000")
-                adapter.addFragment(bannerLayoutFragment)
-            }
-           // binding.viewPagerBanner.adapter = adapter
-
-    }
-
-    class MyViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(
-        fragmentManager
-    ) {
-
-        private val fragmentList: MutableList<Fragment> = ArrayList()
-
-        override fun getItem(position: Int): Fragment {
-            return fragmentList[position]
-        }
-
-        override fun getCount(): Int {
-            return fragmentList.size
-        }
-
-        fun addFragment(fragment: Fragment) {
-            fragmentList.add(fragment)
-        }
     }
 
 }
