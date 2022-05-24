@@ -45,6 +45,8 @@ class HomeFragment : Fragment() {
             true
         }
 
+        setCurrentFragment(DashboardFragment())
+
         return binding.root
     }
 
