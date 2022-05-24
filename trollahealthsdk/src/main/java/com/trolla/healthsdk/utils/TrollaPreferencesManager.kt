@@ -9,6 +9,7 @@ object TrollaPreferencesManager {
 
     const val ACCESS_TOKEN = "access_token"
     const val USER_DATA = "userdata"
+    const val IS_PROFILE_COMPLETE = "is_profile_complete"
 
     //Shared Preference field used to save and retrieve JSON string
     lateinit var preferences: SharedPreferences

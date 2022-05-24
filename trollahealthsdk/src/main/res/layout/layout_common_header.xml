@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingTop="@dimen/_10sdp"
+    android:paddingTop="@dimen/_12sdp"
     android:paddingBottom="@dimen/_10sdp"
     android:paddingLeft="@dimen/_8sdp"
     android:paddingRight="@dimen/_8sdp"

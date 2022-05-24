@@ -52,9 +52,7 @@ class LoginEmailFragment : Fragment() {
                 is Resource.Success -> {
                     (activity as AuthenticationActivity).addOrReplaceFragment(
                         LoginOTPVerificationFragment.getInstance(
-                            loginEmailViewModel.emailLiveData.value.toString(),
-                            "",
-                            "email"
+                            loginEmailViewModel.emailLiveData.value.toString()
                         ), true
                     )
                 }

@@ -121,16 +121,14 @@ class RegisterFragmentFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                   /* TrollaPreferencesManager.put(
-                        it?.data?.data,
-                        TrollaPreferencesManager.USER_DATA
-                    )*/
+                    /* TrollaPreferencesManager.put(
+                         it?.data?.data,
+                         TrollaPreferencesManager.USER_DATA
+                     )*/
 
                     (activity as AuthenticationActivity).addOrReplaceFragment(
                         MobileOTPVerificationFragment.getInstance(
-                            "",
-                            registerViewModel.mobileNumberLiveData.value.toString(),
-                            "mobile"
+                            registerViewModel.mobileNumberLiveData.value.toString()
                         ), true
                     )
 

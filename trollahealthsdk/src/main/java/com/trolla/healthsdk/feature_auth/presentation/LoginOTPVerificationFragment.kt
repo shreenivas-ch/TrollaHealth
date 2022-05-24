@@ -23,16 +23,12 @@ import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
 
-    var type: String? = ""
     var email: String? = ""
-    var mobile: String? = ""
 
     companion object {
-        fun getInstance(email: String, mobile: String, type: String): LoginOTPVerificationFragment {
+        fun getInstance(email: String): LoginOTPVerificationFragment {
             val bundle = Bundle()
             bundle.putString("email", email)
-            bundle.putString("mobile", mobile)
-            bundle.putString("type", type)
             val fragment = LoginOTPVerificationFragment()
             fragment.arguments = bundle
             return fragment
@@ -61,19 +57,11 @@ class LoginOTPVerificationFragment : Fragment() {
         var bundle = arguments
         bundle?.let {
             email = bundle.getString("email")
-            mobile = bundle.getString("mobile")
-            type = bundle.getString("type")
 
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email
                 loginOTPVerificationViewModel.email.value = email
             }
-
-            if (!mobile.isNullOrEmpty()) {
-                binding.txtOTPSentTo.text = mobile
-                loginOTPVerificationViewModel.mobile.value = mobile
-            }
-
         }
 
         binding.edt1.requestFocus()
@@ -107,11 +95,7 @@ class LoginOTPVerificationFragment : Fragment() {
         }
 
         binding.btnVerifyOTP.setOnClickListener {
-            if (type == "email") {
-                loginOTPVerificationViewModel.verifyEmailOTP()
-            } else {
-                loginOTPVerificationViewModel.verifyMobileOTP()
-            }
+            loginOTPVerificationViewModel.verifyEmailOTP()
         }
 
         loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
@@ -121,26 +105,28 @@ class LoginOTPVerificationFragment : Fragment() {
         loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    if (!it.data?.data?.is_profile_complete!!) {
 
-                        TrollaPreferencesManager.put(
-                            it?.data?.data?.access_token,
-                            TrollaPreferencesManager.ACCESS_TOKEN
-                        )
+                    var accessToken = it?.data?.data?.access_token
+                    var isProfileComplete = it?.data?.data?.is_profile_complete ?: false
 
-                        if (type == "email") {
+                    TrollaPreferencesManager.put(
+                        accessToken,
+                        TrollaPreferencesManager.ACCESS_TOKEN
+                    )
 
-                            (activity as AuthenticationActivity).addOrReplaceFragment(
-                                RegisterFragmentFragment.getInstance(email!!),
-                                true
-                            )
+                    TrollaPreferencesManager.put(
+                        isProfileComplete,
+                        TrollaPreferencesManager.IS_PROFILE_COMPLETE
+                    )
 
-                        } else {
-
-                            startActivity(Intent(activity, DashboardActivity::class.java))
-                        }
+                    if (isProfileComplete) {
+                        startActivity(Intent(activity, DashboardActivity::class.java))
+                        (activity as AuthenticationActivity).finish()
                     } else {
-
+                        (activity as AuthenticationActivity).addOrReplaceFragment(
+                            RegisterFragmentFragment.getInstance(email!!),
+                            true
+                        )
                     }
 
                 }
@@ -154,9 +140,5 @@ class LoginOTPVerificationFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onStop() {
-        super.onStop()
     }
 }

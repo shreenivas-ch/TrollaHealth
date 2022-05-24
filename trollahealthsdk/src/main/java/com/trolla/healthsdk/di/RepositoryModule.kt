@@ -22,8 +22,8 @@ val repositoryModule = module {
 
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
-    single { LoginOTPVerificationViewModel(get(), get()) }
-    single { MobileOTPVerificationViewModel(get(), get()) }
+    single { LoginOTPVerificationViewModel(get()) }
+    single { MobileOTPVerificationViewModel(get()) }
 
     single { UpdateProfileUsecase(get()) }
     single { RegisterViewModel(get()) }
