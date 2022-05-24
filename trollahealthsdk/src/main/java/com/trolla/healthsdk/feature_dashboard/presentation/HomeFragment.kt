@@ -36,7 +36,7 @@ class HomeFragment : Fragment() {
             false
         )
 
-        binding.viewModel = homeViewModel
+        //binding.viewModel = homeViewModel
 
         return binding.root
     }

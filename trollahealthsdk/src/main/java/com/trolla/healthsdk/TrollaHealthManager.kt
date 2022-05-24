@@ -63,12 +63,15 @@ class TrollaHealthManager private constructor(
         application?.let {
             TrollaPreferencesManager.with(application)
         }
-        if (TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA) != null)
-        {
-            context?.startActivity(Intent(context, DashboardActivity::class.java))
-        }
-        else {
+
+        var accessToken = TrollaPreferencesManager.get(TrollaPreferencesManager.ACCESS_TOKEN) ?: ""
+        var isProfileComplete =
+            TrollaPreferencesManager.get(TrollaPreferencesManager.IS_PROFILE_COMPLETE) ?: false
+
+        if (accessToken == "" || !isProfileComplete) {
             context?.startActivity(Intent(context, OnboardingActivity::class.java))
+        } else {
+            context?.startActivity(Intent(context, DashboardActivity::class.java))
         }
     }
 }
