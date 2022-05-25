@@ -10,6 +10,9 @@ import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
+import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
+import com.trolla.healthsdk.feature_dashboard.domain.usecases.provideDashboardRepository
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import org.koin.dsl.module
 
@@ -27,6 +30,10 @@ val repositoryModule = module {
 
     single { UpdateProfileUsecase(get()) }
     single { RegisterViewModel(get()) }
+
+    single { provideDashboardRepository(get()) }
+    single { GetDashboardUsecase(get()) }
+    single { DashboardViewModel(get()) }
 
     single { ProductsListViewModel() }
 }

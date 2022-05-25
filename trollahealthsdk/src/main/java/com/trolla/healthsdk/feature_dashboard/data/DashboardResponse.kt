@@ -4,9 +4,9 @@ import java.lang.ref.SoftReference
 
 data class DashboardResponse(
     val homePagePositionsList: List<HomePagePositionsListItem>,
-    val popularProdList: Boolean,
-    val recommendedProdList: Boolean,
-    val newArrivalProdList: Boolean
+    val popularProdList: PopularProductsListItem,
+    val recommendedProdList: PopularProductsListItem,
+    val newArrivalProdList: PopularProductsListItem
 )
 {
     data class HomePagePositionsListItem(
@@ -26,13 +26,13 @@ data class DashboardResponse(
             val placeholder_url:String,
 
             val tag_id:Int,
-            val tag_value:Int,
-            val concern_url:Int,
+            val tag_value:String,
+            val concern_url:String,
 
             val category_id:Int,
-            val category_name:Int,
-            val image_url:Int,
-            val category_url:Int,
+            val category_name:String,
+            val image_url:String,
+            val category_url:String,
 
         )
     }
@@ -113,13 +113,12 @@ data class DashboardResponse(
     val eta:String,
     val stock_status:String,
     val is_set:String,
-    val set_items:String,
     val prescription_class:String,
     val discount_class:String,
     val optional_class:String,
     val is_perishable:String,
     val only_at_store:String,
-    val product_img:List<>,
-    val product_video:String,
+    val product_img:List<String>,
+    val product_video:List<String>,
     )
 }

@@ -3,9 +3,11 @@ package com.trolla.healthsdk.data.remote
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.*
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -23,4 +25,9 @@ interface ApiService {
 
     @PUT("/users/profile")
     suspend fun updateProfile(@Body updateProfileRequest: UpdateProfileRequest): Response<BaseApiResponse<UpdateProfileResponse>>
+
+    @GET("/")
+    suspend fun getDashboard(
+    ): Response<BaseApiResponse<DashboardResponse>>
+
 }
