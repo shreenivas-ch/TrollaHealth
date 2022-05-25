@@ -5,11 +5,13 @@
       <map>
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_inactivebutton.xml" value="0.125" />
+        <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_offer_yellow.xml" value="0.1095" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_primarybutton.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_rounded_corners_grey.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_rounded_inactivebutton.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_rounded_primarybutton.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_search.xml" value="0.1095" />
+        <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/bg_white.xml" value="0.1095" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/ic_back.xml" value="0.125" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/ic_cart_active.xml" value="0.1095" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/drawable/ic_home_active.xml" value="0.1095" />

@@ -34,6 +34,11 @@ data class DashboardResponse(
             val image_url:String,
             val category_url:String,
 
+            val brand_id:Int,
+            val name:String,
+            val img_url:String,
+            val brand_url:String,
+
         )
     }
 
@@ -120,5 +125,6 @@ data class DashboardResponse(
     val only_at_store:String,
     val product_img:ArrayList<String>,
     val product_video:ArrayList<String>,
+    val offer_name:String,
     )
 }

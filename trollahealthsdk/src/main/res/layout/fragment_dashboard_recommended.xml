@@ -12,31 +12,31 @@
     </data>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/margin16dp"
-        android:layout_marginEnd="@dimen/margin16dp"
-        android:layout_marginStart="@dimen/margin16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin16dp"
         android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_marginBottom="@dimen/margin16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin16dp">
 
             <TextView
                 style="@style/trolla_fontMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
                 android:text="@string/recommended"
                 android:textColor="@color/textColor1" />
 
             <TextView
-                android:layout_alignParentRight="true"
                 style="@style/trolla_fontMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/margin16dp"
                 android:text="@string/show_all"
                 android:textColor="@color/textColor3" />
 
@@ -44,7 +44,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin8dp"
+            android:layout_marginEnd="@dimen/margin8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_dashboard_recommended_product" />
 
 
     </LinearLayout>

@@ -12,6 +12,8 @@
     <color name="textColor1">#1A1A1A</color>
     <color name="textColor2">#4D4D4D</color>
     <color name="textColor3">#6957D7</color>
+    <color name="textColor4">#AAAAAA</color>
     <color name="bgColor">#AAAAAA</color>
     <color name="bgColor2">#D0E4EB</color>
+    <color name="bgColor3">#FEDF59</color>
 </resources>

@@ -30,6 +30,10 @@
             android:text="@string/categories" />
 
         <androidx.recyclerview.widget.RecyclerView
+            tools:itemCount="10"
+            app:spanCount="4"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:listitem="@layout/item_dashboard_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

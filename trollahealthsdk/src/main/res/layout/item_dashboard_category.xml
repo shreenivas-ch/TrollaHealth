@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +12,7 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="@dimen/_70sdp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin8dp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -21,13 +23,18 @@
             app:loadImage="@{item.image_url}" />
 
         <TextView
+            style="@style/trolla_fontMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_7sdp"
             android:gravity="center"
             android:maxLines="2"
             android:minLines="2"
-            android:text="@{item.category_name}" />
+            android:paddingStart="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_2sdp"
+            android:text="@{item.category_name}"
+            android:textColor="@color/textColor2"
+            tools:text="Mother Care" />
 
     </LinearLayout>
 </layout>
