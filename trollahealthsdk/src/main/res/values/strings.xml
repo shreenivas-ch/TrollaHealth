@@ -30,4 +30,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_not_updated">Something wen\'t wrong. Profile not updated</string>
     <string name="search_for_products">Search for Products</string>
+    <string name="categories">Categories</string>
+    <string name="featured_brands">Featured Brands</string>
+    <string name="new_arrivals">New Arrivals</string>
+    <string name="recommended">Recommended</string>
+    <string name="trending_products">Trending Products</string>
+    <string name="show_all">Show All</string>
 </resources>

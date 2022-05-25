@@ -9,9 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.ComponentGenerator
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardBinding
+import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
+import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationFragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -37,21 +44,37 @@ class DashboardFragment : Fragment() {
 
         dashboardViewModel.getDashboard()
 
-        attachFragmentsToView()
+        dashboardViewModel.dashboardResponseLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
 
-        return binding.root
-    }
+                    var response = dashboardViewModel.dashboardResponseLiveData.value
+                    response?.data?.data?.homePagePositionsList?.forEach { homepageitem ->
+                        if (homepageitem.name == "Placeholder 2") {
+                            var dashboardComponentModel =
+                                DashboardComponentModel("dashboardBanner", homepageitem.banner_data)
+                            var fragment =
+                                ComponentGenerator.getComponentObject(dashboardComponentModel)
 
-    fun attachFragmentsToView() {
+                            if (fragment != null) {
+                                childFragmentManager?.beginTransaction()
+                                    .add(binding.llViewContainer?.id!!, fragment)
+                                    .commit()
+                            }
+                        }
+                    }
 
-        var dashboardComponentModel = DashboardComponentModel<String>("dashboardBanner", "dummy")
-        var fragment = ComponentGenerator.getComponentObject(dashboardComponentModel)
-
-        if (fragment != null) {
-            childFragmentManager?.beginTransaction()
-                .add(binding.llViewContainer?.id!!, fragment)
-                .commit()
+                }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
         }
 
+        return binding.root
     }
 }

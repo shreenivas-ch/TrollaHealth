@@ -16,6 +16,8 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentLoginEmailBinding
 import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent.inject
 
 class LoginEmailFragment : Fragment() {
@@ -57,7 +59,10 @@ class LoginEmailFragment : Fragment() {
                     )
                 }
                 is Resource.Error -> {
-
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
                 }
             }
         }

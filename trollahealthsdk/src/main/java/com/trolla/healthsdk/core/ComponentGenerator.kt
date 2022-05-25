@@ -2,7 +2,8 @@ package com.trolla.healthsdk.core
 
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
-import com.trolla.healthsdk.feature_dashboard.presentation.DashboardBannerFragment
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.*
+import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.DashboardBannerFragment
 
 object ComponentGenerator {
 
@@ -15,16 +16,17 @@ object ComponentGenerator {
 
     fun <T> getComponentObject(dashboardComponentModel: DashboardComponentModel<T>): Fragment? {
         if (dashboardComponentModel.template == TYPE_DASHBOARD_BANNER) {
-            return createBannerFragment()
+            return createBannerFragment(dashboardComponentModel.data as ArrayList<BannerData>)
         } else if (dashboardComponentModel.template == TYPE_DASHBOARD_CATEGORIES) {
-            return createBannerFragment()
+            return null
         }
 
         return null
     }
 
-    fun createBannerFragment(): Fragment {
+    fun createBannerFragment(banners: ArrayList<BannerData>): Fragment {
         var bannerFragment = DashboardBannerFragment()
+        bannerFragment.bannersList = banners
         return bannerFragment
     }
 

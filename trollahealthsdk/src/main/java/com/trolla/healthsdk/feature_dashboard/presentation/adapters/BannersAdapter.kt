@@ -9,16 +9,12 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 class BannersAdapter(
-    val mContext: Context
+    val mContext: Context,
+    val bannerArray: ArrayList<DashboardResponse.HomePagePositionsListItem.BannerData>
 ) : PagerAdapter() {
-
-    var drawableArray = arrayListOf<String>(
-        "https://d1j4fphs4leb29.cloudfront.net/placeholder_banner/placeholderMobileBanner_1653390946_491.jpg",
-        "https://d1j4fphs4leb29.cloudfront.net/placeholder_banner/placeholderMobileBanner_1653390975_492.jpg",
-        "https://d1j4fphs4leb29.cloudfront.net/placeholder_banner/placeholderMobileBanner_1653391007_510.jpg"
-    )
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
         return view === `object`
@@ -31,7 +27,7 @@ class BannersAdapter(
         val imageBanner = layout.findViewById(R.id.imvBanner) as RoundedImageView
 
         mContext.let {
-            Glide.with(it).load(drawableArray?.get(position)).into(imageBanner)
+            Glide.with(it).load(bannerArray?.get(position).banner_url).into(imageBanner)
         }
 
         collection.addView(layout)
@@ -42,5 +38,5 @@ class BannersAdapter(
         container.removeView(`object` as View?)
     }
 
-    override fun getCount(): Int = drawableArray?.size
+    override fun getCount(): Int = bannerArray?.size
 }

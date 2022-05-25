@@ -1,4 +1,4 @@
-package com.trolla.healthsdk.feature_dashboard.presentation
+package com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentDashboardBannerBinding
-import com.trolla.healthsdk.databinding.ItemBannerBinding
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
-class DashboardBannerLayoutFragment:Fragment() {
-
-    lateinit var binding: ItemBannerBinding
-    private var url: String?= null
+class DashboardCategoriesFragment: Fragment() {
+    lateinit var binding: FragmentDashboardBannerBinding
+    var bannersList = ArrayList<DashboardResponse.HomePagePositionsListItem.BannerData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,23 +22,11 @@ class DashboardBannerLayoutFragment:Fragment() {
 
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.item_banner,
+            R.layout.fragment_dashboard_banner,
             container,
             false
         )
 
         return binding.root
-    }
-
-    fun setData(url: String) {
-        this.url = url
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if(url != null){
-            binding?.imageUrl = url
-        }
-
     }
 }

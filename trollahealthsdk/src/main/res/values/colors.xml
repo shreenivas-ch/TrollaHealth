@@ -11,5 +11,7 @@
     <color name="textHintColor">#5B5B5B</color>
     <color name="textColor1">#1A1A1A</color>
     <color name="textColor2">#4D4D4D</color>
+    <color name="textColor3">#6957D7</color>
     <color name="bgColor">#AAAAAA</color>
+    <color name="bgColor2">#D0E4EB</color>
 </resources>

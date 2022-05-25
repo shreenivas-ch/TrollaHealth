@@ -3,7 +3,7 @@ package com.trolla.healthsdk.feature_dashboard.data
 import java.lang.ref.SoftReference
 
 data class DashboardResponse(
-    val homePagePositionsList: List<HomePagePositionsListItem>,
+    val homePagePositionsList: ArrayList<HomePagePositionsListItem>,
     val popularProdList: PopularProductsListItem,
     val recommendedProdList: PopularProductsListItem,
     val newArrivalProdList: PopularProductsListItem
@@ -14,7 +14,7 @@ data class DashboardResponse(
         val id:Int,
         val name:String,
         val img_url:String,
-        val banner_data:List<BannerData>
+        val banner_data:ArrayList<BannerData>
     )
     {
         data class BannerData(
@@ -39,7 +39,7 @@ data class DashboardResponse(
 
     data class PopularProductsListItem(
         val total_records:Int,
-        val product_list:List<DashboardProduct>
+        val product_list:ArrayList<DashboardProduct>
     )
 
     data class DashboardProduct(
@@ -118,7 +118,7 @@ data class DashboardResponse(
     val optional_class:String,
     val is_perishable:String,
     val only_at_store:String,
-    val product_img:List<String>,
-    val product_video:List<String>,
+    val product_img:ArrayList<String>,
+    val product_video:ArrayList<String>,
     )
 }
