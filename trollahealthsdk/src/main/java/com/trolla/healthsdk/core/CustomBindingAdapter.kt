@@ -9,6 +9,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.utils.LogUtil
 
 class CustomBindingAdapter {
 
@@ -64,6 +65,9 @@ class CustomBindingAdapter {
                                 ""
                             }
                         }
+
+
+                    LogUtil.printObject("----->" + discountString)
 
                     if (discountString != "") {
                         view.visibility = View.VISIBLE

@@ -8,12 +8,14 @@
             type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin16dp">
+        app:cardUseCompatPadding="true"
+        android:layout_marginStart="@dimen/margin8dp"
+        app:cardCornerRadius="@dimen/margin8dp">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imvBanner"
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
@@ -22,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:loadImage="@{item.img_url}"
-            app:riv_corner_radius="@dimen/_8sdp" />
+            app:riv_corner_radius="@dimen/margin8dp" />
 
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

@@ -19,6 +19,8 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.hide
+import com.trolla.healthsdk.utils.show
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -42,12 +44,18 @@ class DashboardFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
+        binding.rlProgressBar.show()
         dashboardViewModel.getDashboard()
 
         dashboardViewModel.dashboardResponseLiveData.observe(viewLifecycleOwner)
         {
             when (it) {
                 is Resource.Success -> {
+
+                    binding.llViewContainer?.removeAllViews()
+                    binding.llViewContainer?.invalidate()
+
+                    binding.rlProgressBar.hide()
 
                     var response = dashboardViewModel.dashboardResponseLiveData.value
                     response?.data?.data?.homePagePositionsList?.forEach { homepageitem ->
@@ -149,6 +157,7 @@ class DashboardFragment : Fragment() {
 
                 }
                 is Resource.Error -> {
+                    binding.rlProgressBar.hide()
                     TrollaHealthUtility.showAlertDialogue(
                         requireContext(),
                         it.uiText?.asString(requireContext())

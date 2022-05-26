@@ -11,9 +11,10 @@
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_marginEnd="@dimen/margin8dp"
-        android:layout_marginStart="@dimen/margin8dp"
-        android:layout_marginBottom="@dimen/margin24dp"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="true"
+        android:layout_marginBottom="@dimen/margin16dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/margin8dp">
 
@@ -71,7 +72,7 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{item.mrp}"
+                    android:text="@{String.format(@string/amount_string, item.mrp)}"
                     android:textColor="@color/secondary_color"
                     tools:text="₹325.00" />
 
@@ -83,7 +84,7 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{item.sale_price}"
+                    android:text="@{String.format(@string/amount_string, item.sale_price)}"
                     android:textColor="@color/textColor1"
                     android:textSize="20sp"
                     tools:text="₹292.00" />
@@ -100,26 +101,26 @@
                     android:paddingTop="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_7sdp"
-                    android:text="ADD TO CART"
+                    android:text="Add To Cart"
                     android:textColor="@color/white" />
 
             </LinearLayout>
 
             <TextView
                 style="@style/trolla_fontBold"
-                android:layout_width="wrap_content"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin8dp"
-                android:background="@drawable/bg_offer_yellow"
+                android:background="@drawable/ic_offer_tag"
                 android:gravity="center"
-                android:paddingStart="@dimen/_10sdp"
                 android:paddingTop="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_10sdp"
-                android:paddingBottom="@dimen/_5sdp"
-                android:text="@{item.offer_name}"
+                android:paddingBottom="@dimen/_15sdp"
+                app:setOfferText="@{item}"
                 android:textColor="@color/textColor1"
                 android:textSize="10sp"
-                tools:text="20%\nOFF\nOFF\nOFF" />
+                tools:text="20% OFF" />
 
         </RelativeLayout>
 

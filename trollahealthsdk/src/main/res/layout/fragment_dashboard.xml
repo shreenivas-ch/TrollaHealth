@@ -14,9 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="#FDFCFE">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,7 +33,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_height="@dimen/_100sdp" />
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:background="#FDFCFE"
+            android:id="@+id/rlProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,6 +12,7 @@ import com.trolla.healthsdk.databinding.FragmentDashboardBannerBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
 import com.trolla.healthsdk.feature_dashboard.presentation.adapters.BannersAdapter
+import com.trolla.healthsdk.utils.TrollaHealthUtility
 
 class DashboardBannerFragment : Fragment() {
 
@@ -45,10 +46,17 @@ class DashboardBannerFragment : Fragment() {
         var pager = binding.bannerViewPager?.apply {
             adapter = sliderAdapter
             startAutoScroll()
-            interval = 5000
+            interval = 10000
             isCycle = true
             clipToPadding = false
         }
+
+        pager.setPaddingRelative(
+            TrollaHealthUtility.getMarginInDp(25f, requireActivity()),
+            0,
+            TrollaHealthUtility.getMarginInDp(25f, requireActivity()),
+            0
+        )
 
         binding.bannerDotsIndicator?.setViewPager(pager as ViewPager)
 

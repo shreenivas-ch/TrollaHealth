@@ -14,24 +14,31 @@ object ComponentGenerator {
     const val TYPE_DASHBOARD_FEATURED_BRANDS = "dashboardFeaturedBrands"
     const val TYPE_DASHBOARD_TRENDING_PRODUCTS = "dashboardTrendingProducts"
     const val TYPE_DASHBOARD_RECOMMENDED_PRODUCTS = "dashboardRecommendedProducts"
-    const val TYPE_DASHBOARD_NEW_ARRIVALS = "dashboardRecommendedProducts"
+    const val TYPE_DASHBOARD_NEW_ARRIVALS = "dashboardNewArrivalProducts"
 
     fun <T> getComponentObject(dashboardComponentModel: DashboardComponentModel<T>): Fragment? {
-        if (dashboardComponentModel.template == TYPE_DASHBOARD_BANNER) {
-            return createBannerFragment(dashboardComponentModel.data as ArrayList<BannerData>)
-        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_CATEGORIES) {
-            return createCategoriesFragment(dashboardComponentModel.data as ArrayList<BannerData>)
-        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_FEATURED_BRANDS) {
-            return createFeaturedBrandsFragment(dashboardComponentModel.data as ArrayList<BannerData>)
-        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_RECOMMENDED_PRODUCTS) {
-            return createRecommendedProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
-        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_TRENDING_PRODUCTS) {
-            return createTrendingProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
-        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_NEW_ARRIVALS) {
-            return createNewArrivalsProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+        when (dashboardComponentModel.template) {
+            TYPE_DASHBOARD_BANNER -> {
+                return createBannerFragment(dashboardComponentModel.data as ArrayList<BannerData>)
+            }
+            TYPE_DASHBOARD_CATEGORIES -> {
+                return createCategoriesFragment(dashboardComponentModel.data as ArrayList<BannerData>)
+            }
+            TYPE_DASHBOARD_FEATURED_BRANDS -> {
+                return createFeaturedBrandsFragment(dashboardComponentModel.data as ArrayList<BannerData>)
+            }
+            TYPE_DASHBOARD_RECOMMENDED_PRODUCTS -> {
+                return createRecommendedProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+            }
+            TYPE_DASHBOARD_TRENDING_PRODUCTS -> {
+                return createTrendingProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+            }
+            TYPE_DASHBOARD_NEW_ARRIVALS -> {
+                return createNewArrivalsProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+            }
+            else -> return null
         }
 
-        return null
     }
 
     fun createBannerFragment(banners: ArrayList<BannerData>): Fragment {

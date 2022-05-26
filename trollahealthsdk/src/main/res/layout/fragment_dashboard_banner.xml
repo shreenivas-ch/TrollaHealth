@@ -15,8 +15,7 @@
         android:layout_marginBottom="@dimen/margin16dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
             android:id="@+id/bannerViewPager"
@@ -30,6 +29,7 @@
         <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
             android:id="@+id/bannerDotsIndicator"
             android:layout_gravity="center_horizontal"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:dotsColor="@color/primary_color"

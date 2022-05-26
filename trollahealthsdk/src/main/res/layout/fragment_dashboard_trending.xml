@@ -18,11 +18,12 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:layout_marginTop="@dimen/margin16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                style="@style/trolla_fontMedium"
+                style="@style/trolla_fontSemibold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin16dp"
@@ -34,7 +35,7 @@
 
             <TextView
                 android:layout_alignParentRight="true"
-                style="@style/trolla_fontMedium"
+                style="@style/trolla_fontSemibold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin16dp"
@@ -49,7 +50,7 @@
         <androidx.recyclerview.widget.RecyclerView
             tools:itemCount="10"
             android:id="@+id/rvTrendingProducts"
-            android:layout_marginBottom="@dimen/margin16dp"
+            android:layout_marginBottom="@dimen/margin32dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_dashboard_trending_product"

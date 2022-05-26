@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Base64
+import android.util.TypedValue
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -49,5 +50,12 @@ object TrollaHealthUtility {
             LogUtil.printObject(e)
         }
         return hashKey.trim { it <= ' ' }
+    }
+
+    fun getMarginInDp(sizeInDp: Float, context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, sizeInDp, context.resources
+                .displayMetrics
+        ).toInt()
     }
 }

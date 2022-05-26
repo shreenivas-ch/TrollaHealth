@@ -12,19 +12,19 @@
     </data>
 
     <LinearLayout
+        android:layout_marginBottom="@dimen/margin16dp"
         android:layout_marginTop="@dimen/margin16dp"
         android:layout_marginEnd="@dimen/margin16dp"
         android:layout_marginStart="@dimen/margin16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
             android:layout_marginTop="@dimen/_7sdp"
             android:layout_marginBottom="@dimen/margin24dp"
             android:textColor="@color/textColor1"
-            style="@style/trolla_fontMedium"
+            style="@style/trolla_fontSemibold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/categories" />
