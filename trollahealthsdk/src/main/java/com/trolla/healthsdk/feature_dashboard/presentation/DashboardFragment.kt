@@ -99,6 +99,54 @@ class DashboardFragment : Fragment() {
                         }
                     }
 
+                    response?.data?.data?.popularProdList?.let { trendingProducts ->
+                        var dashboardComponentModel =
+                            DashboardComponentModel(
+                                ComponentGenerator.TYPE_DASHBOARD_TRENDING_PRODUCTS,
+                                trendingProducts.product_list
+                            )
+                        var fragment =
+                            ComponentGenerator.getComponentObject(dashboardComponentModel)
+
+                        if (fragment != null) {
+                            childFragmentManager?.beginTransaction()
+                                .add(binding.llViewContainer?.id!!, fragment)
+                                .commit()
+                        }
+                    }
+
+                    response?.data?.data?.recommendedProdList?.let { recommendedProducts ->
+                        var dashboardComponentModel =
+                            DashboardComponentModel(
+                                ComponentGenerator.TYPE_DASHBOARD_RECOMMENDED_PRODUCTS,
+                                recommendedProducts.product_list
+                            )
+                        var fragment =
+                            ComponentGenerator.getComponentObject(dashboardComponentModel)
+
+                        if (fragment != null) {
+                            childFragmentManager?.beginTransaction()
+                                .add(binding.llViewContainer?.id!!, fragment)
+                                .commit()
+                        }
+                    }
+
+                    response?.data?.data?.newArrivalProdList?.let { newArrivalsProducts ->
+                        var dashboardComponentModel =
+                            DashboardComponentModel(
+                                ComponentGenerator.TYPE_DASHBOARD_NEW_ARRIVALS,
+                                newArrivalsProducts.product_list
+                            )
+                        var fragment =
+                            ComponentGenerator.getComponentObject(dashboardComponentModel)
+
+                        if (fragment != null) {
+                            childFragmentManager?.beginTransaction()
+                                .add(binding.llViewContainer?.id!!, fragment)
+                                .commit()
+                        }
+                    }
+
                 }
                 is Resource.Error -> {
                     TrollaHealthUtility.showAlertDialogue(

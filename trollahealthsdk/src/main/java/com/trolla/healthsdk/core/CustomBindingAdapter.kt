@@ -1,10 +1,14 @@
 package com.trolla.healthsdk.core
 
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 
 class CustomBindingAdapter {
 
@@ -38,6 +42,34 @@ class CustomBindingAdapter {
                         Glide.with(view.context)
                             .load(url)
                             .into(view)
+                    }
+                }
+            }
+        }
+
+        @BindingAdapter("setOfferText")
+        @JvmStatic
+        fun loadImage(view: TextView, dashboardProduct: DashboardProduct?) {
+            if (dashboardProduct != null) {
+                if (dashboardProduct.discount != "0" || dashboardProduct.discount != "") {
+                    var discountString =
+                        when (dashboardProduct.discount_type) {
+                            "1" -> {
+                                "Rs. " + dashboardProduct.discount + " OFF"
+                            }
+                            "2" -> {
+                                dashboardProduct.discount + "% OFF"
+                            }
+                            else -> {
+                                ""
+                            }
+                        }
+
+                    if (discountString != "") {
+                        view.visibility = View.VISIBLE
+                        view.text = discountString
+                    } else {
+                        view.visibility = View.GONE
                     }
                 }
             }

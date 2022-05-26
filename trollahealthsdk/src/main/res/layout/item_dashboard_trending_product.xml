@@ -40,7 +40,7 @@
                 android:minLines="2"
                 android:paddingStart="@dimen/_2sdp"
                 android:paddingEnd="@dimen/_2sdp"
-                android:text="@{item.product_name}"
+                app:setOfferText="@{item}"
                 android:textColor="@color/textColor1"
                 tools:text="BEARDO BEARD HR/OIL GROWTH 50ML" />
 

@@ -2,10 +2,10 @@ package com.trolla.healthsdk.core
 
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.*
-import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.DashboardBannerFragment
-import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.DashboardCategoriesFragment
-import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.DashboardFeaturedBrandsFragment
+import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.*
 
 object ComponentGenerator {
 
@@ -23,6 +23,12 @@ object ComponentGenerator {
             return createCategoriesFragment(dashboardComponentModel.data as ArrayList<BannerData>)
         } else if (dashboardComponentModel.template == TYPE_DASHBOARD_FEATURED_BRANDS) {
             return createFeaturedBrandsFragment(dashboardComponentModel.data as ArrayList<BannerData>)
+        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_RECOMMENDED_PRODUCTS) {
+            return createRecommendedProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_TRENDING_PRODUCTS) {
+            return createTrendingProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
+        } else if (dashboardComponentModel.template == TYPE_DASHBOARD_NEW_ARRIVALS) {
+            return createNewArrivalsProductsFragment(dashboardComponentModel.data as ArrayList<DashboardProduct>)
         }
 
         return null
@@ -44,6 +50,24 @@ object ComponentGenerator {
         var dashboardFeaturedBrandsFragment = DashboardFeaturedBrandsFragment()
         dashboardFeaturedBrandsFragment.bannersList = banners
         return dashboardFeaturedBrandsFragment
+    }
+
+    fun createTrendingProductsFragment(banners: ArrayList<DashboardProduct>): Fragment {
+        var trendingProductsFragment = DashboardTrendingProductsFragment()
+        trendingProductsFragment.bannersList = banners
+        return trendingProductsFragment
+    }
+
+    fun createRecommendedProductsFragment(banners: ArrayList<DashboardProduct>): Fragment {
+        var dashboardRecommendedFragment = DashboardRecommendedFragment()
+        dashboardRecommendedFragment.bannersList = banners
+        return dashboardRecommendedFragment
+    }
+
+    fun createNewArrivalsProductsFragment(banners: ArrayList<DashboardProduct>): Fragment {
+        var dashboardNewArrivalsFragment = DashboardNewArrivalsFragment()
+        dashboardNewArrivalsFragment.bannersList = banners
+        return dashboardNewArrivalsFragment
     }
 
 }

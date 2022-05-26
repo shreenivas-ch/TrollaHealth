@@ -48,6 +48,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             tools:itemCount="10"
+            android:id="@+id/rvTrendingProducts"
             android:layout_marginBottom="@dimen/margin16dp"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

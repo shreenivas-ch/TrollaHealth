@@ -44,6 +44,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             tools:itemCount="10"
+            android:nestedScrollingEnabled="false"
+            android:id="@+id/rvNewArrivals"
             android:layout_marginEnd="@dimen/margin8dp"
             android:layout_marginStart="@dimen/margin8dp"
             app:spanCount="2"
