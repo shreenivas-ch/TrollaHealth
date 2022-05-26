@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="loginEmailViewModel"
-            type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
+            name="item"
+            type="String" />
 
     </data>
 
@@ -22,7 +22,7 @@
 
         <TextView
             android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/margin16dp"
+            android:layout_marginBottom="@dimen/margin24dp"
             android:textColor="@color/textColor1"
             style="@style/trolla_fontMedium"
             android:layout_width="match_parent"
@@ -30,13 +30,14 @@
             android:text="@string/categories" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rlDashboardCategories"
             tools:itemCount="10"
             app:spanCount="4"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             tools:listitem="@layout/item_dashboard_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
 
     </LinearLayout>
 </layout>

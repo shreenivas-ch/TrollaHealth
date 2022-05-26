@@ -53,7 +53,41 @@ class DashboardFragment : Fragment() {
                     response?.data?.data?.homePagePositionsList?.forEach { homepageitem ->
                         if (homepageitem.name == "Placeholder 2") {
                             var dashboardComponentModel =
-                                DashboardComponentModel("dashboardBanner", homepageitem.banner_data)
+                                DashboardComponentModel(
+                                    ComponentGenerator.TYPE_DASHBOARD_BANNER,
+                                    homepageitem.banner_data
+                                )
+                            var fragment =
+                                ComponentGenerator.getComponentObject(dashboardComponentModel)
+
+                            if (fragment != null) {
+                                childFragmentManager?.beginTransaction()
+                                    .add(binding.llViewContainer?.id!!, fragment)
+                                    .commit()
+                            }
+                        }
+                        if (homepageitem.name == "Browse by Category") {
+                            var dashboardComponentModel =
+                                DashboardComponentModel(
+                                    ComponentGenerator.TYPE_DASHBOARD_CATEGORIES,
+                                    homepageitem.banner_data
+                                )
+                            var fragment =
+                                ComponentGenerator.getComponentObject(dashboardComponentModel)
+
+                            if (fragment != null) {
+                                childFragmentManager?.beginTransaction()
+                                    .add(binding.llViewContainer?.id!!, fragment)
+                                    .commit()
+                            }
+                        }
+
+                        if (homepageitem.name == "Featured Brands") {
+                            var dashboardComponentModel =
+                                DashboardComponentModel(
+                                    ComponentGenerator.TYPE_DASHBOARD_FEATURED_BRANDS,
+                                    homepageitem.banner_data
+                                )
                             var fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
 

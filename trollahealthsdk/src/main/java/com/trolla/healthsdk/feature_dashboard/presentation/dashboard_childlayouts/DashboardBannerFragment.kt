@@ -10,12 +10,13 @@ import androidx.viewpager.widget.ViewPager
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentDashboardBannerBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
 import com.trolla.healthsdk.feature_dashboard.presentation.adapters.BannersAdapter
 
 class DashboardBannerFragment : Fragment() {
 
     lateinit var binding: FragmentDashboardBannerBinding
-    var bannersList = ArrayList<DashboardResponse.HomePagePositionsListItem.BannerData>()
+    var bannersList = ArrayList<BannerData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_dashboard.data
 
+import com.trolla.healthsdk.core.ListItemViewModel
 import java.lang.ref.SoftReference
 
 data class DashboardResponse(
@@ -39,7 +40,7 @@ data class DashboardResponse(
             val img_url:String,
             val brand_url:String,
 
-        )
+        ):ListItemViewModel()
     }
 
     data class PopularProductsListItem(

@@ -22,7 +22,7 @@
             android:layout_marginEnd="@dimen/margin16dp"
             android:layout_marginStart="@dimen/margin16dp"
             android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/margin16dp"
+            android:layout_marginBottom="@dimen/margin24dp"
             android:textColor="@color/textColor1"
             style="@style/trolla_fontMedium"
             android:layout_width="match_parent"
@@ -30,7 +30,9 @@
             android:text="@string/featured_brands" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFeaturedBrands"
             tools:itemCount="10"
+            android:nestedScrollingEnabled="false"
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_dashboard_featured_brand"
