@@ -1,8 +1,8 @@
 package com.trolla.healthsdk.feature_dashboard.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.utils.setVisibilityOnBoolean
@@ -15,7 +15,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     fun addOrReplaceFragment(fragment: Fragment, isAdd: Boolean = false) {
-        var transaction = supportFragmentManager.beginTransaction()
+        val transaction = supportFragmentManager.beginTransaction()
         if (isAdd) {
             transaction.add(R.id.contentContainer, fragment)
         } else {

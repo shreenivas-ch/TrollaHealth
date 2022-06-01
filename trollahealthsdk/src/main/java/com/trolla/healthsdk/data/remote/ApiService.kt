@@ -4,6 +4,7 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.*
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
@@ -29,5 +30,10 @@ interface ApiService {
     @GET("/")
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
+
+    @GET("/products/list")
+    suspend fun getProductsList(
+    ): Response<BaseApiResponse<ProductsListResponse>>
+
 
 }

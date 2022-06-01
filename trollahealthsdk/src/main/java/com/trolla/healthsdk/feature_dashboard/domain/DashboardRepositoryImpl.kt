@@ -1,4 +1,4 @@
-package com.trolla.healthsdk.feature_dashboard.domain.usecases
+package com.trolla.healthsdk.feature_dashboard.domain
 
 import com.trolla.healthsdk.core.APIErrorHandler
 import com.trolla.healthsdk.data.Resource
@@ -11,8 +11,8 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 class DashboardRepositoryImpl(private val apiService: ApiService) : DashboardRepository {
     override suspend fun getDashboard(): Resource<BaseApiResponse<DashboardResponse>> {
-        var response = apiService.getDashboard()
-        var resource = APIErrorHandler<DashboardResponse>().process(response)
+        val response = apiService.getDashboard()
+        val resource = APIErrorHandler<DashboardResponse>().process(response)
         return resource
     }
 }

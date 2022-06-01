@@ -10,8 +10,8 @@ import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
+import com.trolla.healthsdk.feature_dashboard.domain.provideDashboardRepository
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
-import com.trolla.healthsdk.feature_dashboard.domain.usecases.provideDashboardRepository
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import org.koin.dsl.module

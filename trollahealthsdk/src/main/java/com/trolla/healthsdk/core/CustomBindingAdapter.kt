@@ -50,10 +50,10 @@ class CustomBindingAdapter {
 
         @BindingAdapter("setOfferText")
         @JvmStatic
-        fun loadImage(view: TextView, dashboardProduct: DashboardProduct?) {
+        fun setOfferText(view: TextView, dashboardProduct: DashboardProduct?) {
             if (dashboardProduct != null) {
                 if (dashboardProduct.discount != "0" || dashboardProduct.discount != "") {
-                    var discountString =
+                    val discountString =
                         when (dashboardProduct.discount_type) {
                             "1" -> {
                                 "Rs. " + dashboardProduct.discount + " OFF"
@@ -67,7 +67,7 @@ class CustomBindingAdapter {
                         }
 
 
-                    LogUtil.printObject("----->" + discountString)
+                    LogUtil.printObject("----->$discountString")
 
                     if (discountString != "") {
                         view.visibility = View.VISIBLE

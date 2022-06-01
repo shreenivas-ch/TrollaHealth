@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.ui_utils
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 

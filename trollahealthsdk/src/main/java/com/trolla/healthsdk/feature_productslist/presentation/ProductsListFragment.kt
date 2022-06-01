@@ -26,15 +26,16 @@ class ProductsListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        var binding = DataBindingUtil.inflate<ProductsListFragmentBinding>(
+        val binding = DataBindingUtil.inflate<ProductsListFragmentBinding>(
             inflater,
             R.layout.products_list_fragment,
             container,
             false
         )
 
+        binding.lifecycleOwner = this
         binding.viewModel = productsListViewModel
 
         return binding.root

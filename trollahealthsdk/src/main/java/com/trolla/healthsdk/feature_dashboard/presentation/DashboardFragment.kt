@@ -33,7 +33,7 @@ class DashboardFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -44,81 +44,88 @@ class DashboardFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        binding.rlProgressBar.show()
         dashboardViewModel.getDashboard()
+
+        binding.dashboardSwifeRefresh.setOnRefreshListener {
+            binding.dashboardSwifeRefresh.isRefreshing = false
+            dashboardViewModel.getDashboard()
+        }
+
+        dashboardViewModel.progressStatus.observe(viewLifecycleOwner)
+        {
+            (activity as DashboardActivity).showHideProgressBar(it)
+        }
 
         dashboardViewModel.dashboardResponseLiveData.observe(viewLifecycleOwner)
         {
             when (it) {
                 is Resource.Success -> {
 
-                    binding.llViewContainer?.removeAllViews()
-                    binding.llViewContainer?.invalidate()
+                    binding.llViewContainer.removeAllViews()
+                    binding.llViewContainer.invalidate()
 
-                    binding.rlProgressBar.hide()
-
-                    var response = dashboardViewModel.dashboardResponseLiveData.value
+                    val response = dashboardViewModel.dashboardResponseLiveData.value
                     response?.data?.data?.homePagePositionsList?.forEach { homepageitem ->
                         if (homepageitem.name == "Placeholder 2") {
-                            var dashboardComponentModel =
+                            val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_BANNER,
                                     homepageitem.banner_data
                                 )
-                            var fragment =
+                            val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
 
                             if (fragment != null) {
-                                childFragmentManager?.beginTransaction()
-                                    .add(binding.llViewContainer?.id!!, fragment)
+                                childFragmentManager.beginTransaction()
+                                    .add(binding.llViewContainer.id, fragment)
                                     .commit()
                             }
                         }
                         if (homepageitem.name == "Browse by Category") {
-                            var dashboardComponentModel =
+                            val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_CATEGORIES,
                                     homepageitem.banner_data
                                 )
-                            var fragment =
+                            val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
 
                             if (fragment != null) {
-                                childFragmentManager?.beginTransaction()
-                                    .add(binding.llViewContainer?.id!!, fragment)
+                                childFragmentManager.beginTransaction()
+                                    .add(binding.llViewContainer.id, fragment)
                                     .commit()
                             }
                         }
 
                         if (homepageitem.name == "Featured Brands") {
-                            var dashboardComponentModel =
+                            val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_FEATURED_BRANDS,
                                     homepageitem.banner_data
                                 )
-                            var fragment =
+                            val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
 
                             if (fragment != null) {
                                 childFragmentManager?.beginTransaction()
-                                    .add(binding.llViewContainer?.id!!, fragment)
+                                    .add(binding.llViewContainer.id, fragment)
                                     .commit()
                             }
                         }
                     }
 
                     response?.data?.data?.popularProdList?.let { trendingProducts ->
-                        var dashboardComponentModel =
+                        val dashboardComponentModel =
                             DashboardComponentModel(
                                 ComponentGenerator.TYPE_DASHBOARD_TRENDING_PRODUCTS,
                                 trendingProducts.product_list
                             )
-                        var fragment =
+                        val fragment =
                             ComponentGenerator.getComponentObject(dashboardComponentModel)
 
                         if (fragment != null) {
                             childFragmentManager?.beginTransaction()
-                                .add(binding.llViewContainer?.id!!, fragment)
+                                .add(binding.llViewContainer.id, fragment)
                                 .commit()
                         }
                     }
@@ -134,7 +141,7 @@ class DashboardFragment : Fragment() {
 
                         if (fragment != null) {
                             childFragmentManager?.beginTransaction()
-                                .add(binding.llViewContainer?.id!!, fragment)
+                                .add(binding.llViewContainer.id, fragment)
                                 .commit()
                         }
                     }
@@ -150,14 +157,13 @@ class DashboardFragment : Fragment() {
 
                         if (fragment != null) {
                             childFragmentManager?.beginTransaction()
-                                .add(binding.llViewContainer?.id!!, fragment)
+                                .add(binding.llViewContainer.id, fragment)
                                 .commit()
                         }
                     }
 
                 }
                 is Resource.Error -> {
-                    binding.rlProgressBar.hide()
                     TrollaHealthUtility.showAlertDialogue(
                         requireContext(),
                         it.uiText?.asString(requireContext())
