@@ -37,4 +37,6 @@
     <string name="trending_products">Trending Products</string>
     <string name="show_all">Show All</string>
     <string name="amount_string">\u20B9 %s</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
 </resources>

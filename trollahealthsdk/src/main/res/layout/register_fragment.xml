@@ -16,15 +16,16 @@
 
         <include
             android:id="@+id/commonHeader"
-            layout="@layout/layout_common_header" />
+            layout="@layout/layout_common_header"
+            app:title="@{registerViewModel.headerTitle}" />
 
         <ScrollView
-            app:layout_constraintBottom_toTopOf="@+id/card"
-            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:padding="@dimen/margin16dp"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            app:layout_constraintBottom_toTopOf="@+id/card"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -34,8 +35,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="@dimen/_7sdp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
                     android:hint="@string/enter_firstname"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -63,8 +64,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="@dimen/_7sdp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
                     android:hint="@string/enter_lastname"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"
@@ -92,8 +93,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="@dimen/_7sdp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
                     android:hint="Enter Mobile Number"
                     app:boxCornerRadiusBottomEnd="8dp"
                     app:boxCornerRadiusBottomStart="8dp"

@@ -45,6 +45,8 @@ class RegisterFragmentFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.registerViewModel = registerViewModel
 
+        registerViewModel.headerTitle.value="Register"
+
         var cal = Calendar.getInstance()
         binding.datePicker.maxDate = cal.timeInMillis
         cal.add(Calendar.YEAR, -18)

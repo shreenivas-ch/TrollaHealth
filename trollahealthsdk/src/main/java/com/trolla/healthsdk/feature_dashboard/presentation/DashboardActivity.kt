@@ -18,6 +18,7 @@ class DashboardActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         if (isAdd) {
             transaction.add(R.id.contentContainer, fragment)
+            transaction.addToBackStack(fragment::class.java.simpleName)
         } else {
             transaction.replace(R.id.contentContainer, fragment)
         }
@@ -26,5 +27,9 @@ class DashboardActivity : AppCompatActivity() {
 
     fun showHideProgressBar(isShow: Boolean = false) {
         findViewById<ProgressBar>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 }

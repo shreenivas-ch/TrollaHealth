@@ -6,4 +6,5 @@ import androidx.lifecycle.ViewModel
 
 open class BaseViewModel:ViewModel() {
     val progressStatus = MutableLiveData<Boolean>()
+    val headerTitle = MutableLiveData<String>()
 }

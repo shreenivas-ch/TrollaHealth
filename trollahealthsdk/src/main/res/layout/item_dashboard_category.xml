@@ -10,11 +10,13 @@
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llMain"
         android:layout_width="70dp"
-        android:layout_marginBottom="@dimen/margin32dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin4dp"
         android:layout_marginStart="@dimen/margin4dp"
+        android:layout_marginEnd="@dimen/margin4dp"
+        android:layout_marginBottom="@dimen/margin32dp"
+        android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatImageView
