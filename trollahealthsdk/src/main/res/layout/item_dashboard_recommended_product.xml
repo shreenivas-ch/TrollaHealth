@@ -19,6 +19,7 @@
         app:cardCornerRadius="@dimen/margin8dp">
 
         <RelativeLayout
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -90,6 +91,7 @@
                     tools:text="₹292.00" />
 
                 <TextView
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

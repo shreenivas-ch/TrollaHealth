@@ -40,6 +40,10 @@ class DashboardRecommendedFragment : Fragment() {
                 Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
             }
 
+            override fun onAddToCartClick(view: View, position: Int) {
+                Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG).show()
+            }
+
         })
         binding.rvRecommendedProducts.adapter = genericAdapter
         genericAdapter.addItems(bannersList)

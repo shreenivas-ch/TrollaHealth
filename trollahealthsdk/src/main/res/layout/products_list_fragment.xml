@@ -22,7 +22,7 @@
             app:title="@{viewModel.headerTitle}" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/my_list"
+            android:id="@+id/productsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/margin8dp"

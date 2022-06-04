@@ -17,8 +17,8 @@ class DashboardViewModel(private val getDashboardUsecase: GetDashboardUsecase) :
     fun getDashboard() {
         progressStatus.value = true
         viewModelScope.launch {
-            progressStatus.value = false
             dashboardResponseLiveData.value = getDashboardUsecase()!!
+            progressStatus.value = false
         }
     }
 }
