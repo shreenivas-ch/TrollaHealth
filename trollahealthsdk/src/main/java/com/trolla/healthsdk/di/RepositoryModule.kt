@@ -10,6 +10,10 @@ import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
+import com.trolla.healthsdk.feature_cart.domain.provideCartRepository
+import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
+import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
+import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.domain.provideDashboardRepository
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
@@ -47,4 +51,9 @@ val repositoryModule = module {
     single { provideProductDetailsRepository(get()) }
     single { GetProductDetailsUsecase(get()) }
     single { ProductDetailsViewModel(get()) }
+
+    single { provideCartRepository(get()) }
+    single { GetCartDetailsUsecase(get()) }
+    single { AddToCartUsercase(get()) }
+    single { CartViewModel(get()) }
 }
