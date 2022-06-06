@@ -6,22 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.ComponentGenerator
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardBinding
-import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
-import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
-import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationFragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.hide
-import com.trolla.healthsdk.utils.show
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class DashboardFragment : Fragment() {

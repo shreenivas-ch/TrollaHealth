@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import org.koin.java.KoinJavaComponent.inject
 
 class HomeFragment : Fragment() {

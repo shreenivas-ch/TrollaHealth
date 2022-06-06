@@ -1,7 +1,9 @@
 package com.trolla.healthsdk.feature_productdetails.presentation
 
-import androidx.lifecycle.ViewModel
+import com.trolla.healthsdk.feature_productdetails.domain.usecases.GetProductDetailsUsecase
+import com.trolla.healthsdk.ui_utils.BaseViewModel
 
-class ProductDetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class ProductDetailsViewModel(private val productDetailsUsecase: GetProductDetailsUsecase) :
+    BaseViewModel() {
+
 }

@@ -11,6 +11,8 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardRecommendedBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 
 class DashboardRecommendedFragment : Fragment() {
     lateinit var binding: FragmentDashboardRecommendedBinding
@@ -47,6 +49,13 @@ class DashboardRecommendedFragment : Fragment() {
         })
         binding.rvRecommendedProducts.adapter = genericAdapter
         genericAdapter.addItems(bannersList)
+
+        binding.rvRecommendedProducts.setOnClickListener {
+            var productsFragment = ProductsListFragment.newInstance(
+                getString(R.string.recommended), ""
+            )
+            (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+        }
 
         return binding.root
     }

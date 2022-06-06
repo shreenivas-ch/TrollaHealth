@@ -3,7 +3,10 @@ package com.trolla.healthsdk.data.remote
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.*
+import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
+import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import retrofit2.Call
 import retrofit2.Response
@@ -34,6 +37,18 @@ interface ApiService {
     @GET("/products/list")
     suspend fun getProductsList(
     ): Response<BaseApiResponse<ProductsListResponse>>
+
+    @GET("/products/details")
+    suspend fun getProductDetails(
+    ): Response<BaseApiResponse<GetProductDetailsResponse>>
+
+    @GET("/")
+    suspend fun getCartDetails(
+    ): Response<BaseApiResponse<GetCartDetailsResponse>>
+
+    @POST("/")
+    suspend fun addToCart(
+    ): Response<BaseApiResponse<AddToCartResponse>>
 
 
 }

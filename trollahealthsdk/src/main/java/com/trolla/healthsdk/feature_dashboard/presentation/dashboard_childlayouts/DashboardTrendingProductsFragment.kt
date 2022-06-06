@@ -11,6 +11,8 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardTrendingBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 
 class DashboardTrendingProductsFragment : Fragment() {
     lateinit var binding: FragmentDashboardTrendingBinding
@@ -43,6 +45,13 @@ class DashboardTrendingProductsFragment : Fragment() {
         })
         binding.rvTrendingProducts.adapter = genericAdapter
         genericAdapter.addItems(bannersList)
+
+        binding.txtTrendingShowAll.setOnClickListener {
+            var productsFragment = ProductsListFragment.newInstance(
+                getString(R.string.trending_products), ""
+            )
+            (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+        }
 
         return binding.root
     }

@@ -31,11 +31,12 @@
                 android:textColor="@color/textColor1" />
 
             <TextView
-                android:layout_marginEnd="@dimen/margin16dp"
-                android:layout_alignParentRight="true"
-                style="@style/trolla_fontMedium"
+                android:id="@+id/txtNewArrivalsShowAll"
+                style="@style/trolla_fontSemibold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/margin16dp"
                 android:text="@string/show_all"
                 android:textColor="@color/textColor3" />
 

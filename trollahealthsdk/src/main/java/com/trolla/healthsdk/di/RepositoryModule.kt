@@ -13,6 +13,11 @@ import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
 import com.trolla.healthsdk.feature_dashboard.domain.provideDashboardRepository
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
+import com.trolla.healthsdk.feature_productdetails.domain.provideProductDetailsRepository
+import com.trolla.healthsdk.feature_productdetails.domain.usecases.GetProductDetailsUsecase
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsViewModel
+import com.trolla.healthsdk.feature_productslist.domain.provideProductsListRepository
+import com.trolla.healthsdk.feature_productslist.domain.usecases.GetProductsListUsecase
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import org.koin.dsl.module
 
@@ -35,5 +40,11 @@ val repositoryModule = module {
     single { GetDashboardUsecase(get()) }
     single { DashboardViewModel(get()) }
 
-    single { ProductsListViewModel() }
+    single { provideProductsListRepository(get()) }
+    single { GetProductsListUsecase(get()) }
+    single { ProductsListViewModel(get()) }
+
+    single { provideProductDetailsRepository(get()) }
+    single { GetProductDetailsUsecase(get()) }
+    single { ProductDetailsViewModel(get()) }
 }

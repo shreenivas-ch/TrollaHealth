@@ -13,6 +13,8 @@ import com.trolla.healthsdk.databinding.FragmentDashboardCategoriesBinding
 import com.trolla.healthsdk.databinding.FragmentDashboardFeaturedBrandsBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 
 class DashboardFeaturedBrandsFragment:Fragment() {
     lateinit var binding: FragmentDashboardFeaturedBrandsBinding
@@ -37,7 +39,11 @@ class DashboardFeaturedBrandsFragment:Fragment() {
 
         genericAdapter.setOnListItemViewClickListener(object : GenericAdapter.OnListItemViewClickListener{
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
+                var productsFragment = ProductsListFragment.newInstance(
+                    bannersList[position].name,
+                    bannersList[position].brand_id.toString()
+                )
+                (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
             }
 
         })
