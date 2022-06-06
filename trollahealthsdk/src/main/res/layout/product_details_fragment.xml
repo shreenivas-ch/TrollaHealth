@@ -1,17 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/commonHeader"
+                layout="@layout/layout_common_header"
+                app:title="@{viewModel.headerTitle}" />
+
+            <LinearLayout
+                android:id="@+id/llProductImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+                    android:id="@+id/productsViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="145dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp" />
+
+                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                    android:id="@+id/bannerDotsIndicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="visible"
+                    app:dotsColor="@color/primary_color"
+                    app:dotsCornerRadius="5dp"
+                    app:dotsSize="5dp"
+                    app:dotsSpacing="5dp"
+                    app:dotsStrokeColor="@color/purple1"
+                    app:dotsStrokeWidth="2dp"
+                    app:dotsWidthFactor="4.5"
+                    app:progressMode="true"
+                    app:selectedDotColor="@color/primary_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin8dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginBottom="@dimen/margin16dp"
+                android:background="@color/bgColor4" />
+
+            <TextView
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:textColor="@color/textColor1"
+                tools:text="Good Day Cashew Cookies Good Day Cashew Cookies" />
+
+            <TextView
+                android:textSize="10sp"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin8dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:textColor="@color/textColor4"
+                tools:text="Novus Life Sciences Pvt Ltd" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin8dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginBottom="@dimen/margin16dp"
+                android:background="@color/bgColor4" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </layout>
