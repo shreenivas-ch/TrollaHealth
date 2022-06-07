@@ -12,7 +12,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -73,7 +74,6 @@
                 tools:text="Good Day Cashew Cookies Good Day Cashew Cookies" />
 
             <TextView
-                android:textSize="10sp"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -81,7 +81,37 @@
                 android:layout_marginTop="@dimen/margin8dp"
                 android:layout_marginEnd="@dimen/margin16dp"
                 android:textColor="@color/textColor4"
+                android:textSize="10sp"
                 tools:text="Novus Life Sciences Pvt Ltd" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin8dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin8dp"
+                android:paddingTop="@dimen/margin4dp"
+                android:paddingEnd="@dimen/margin8dp"
+                android:paddingBottom="@dimen/margin4dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="8dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="@dimen/margin8dp"
+                    app:srcCompat="@drawable/ic_prescription" />
+
+                <TextView
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prescription Required"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -89,6 +119,36 @@
                 android:layout_marginTop="@dimen/margin16dp"
                 android:layout_marginBottom="@dimen/margin16dp"
                 android:background="@color/bgColor4" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:tabGravity="start"
+                app:tabIndicatorColor="@color/primary_color"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/textColor1"
+                app:tabTextAppearance="@style/tabLayoutTextStyle"
+                app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin16dp">
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:textColor="@color/textColor2"
+                    android:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
+                    \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
@@ -37,7 +38,46 @@ class ProductDetailsFragment : Fragment() {
             false
         )
 
+        binding.lifecycleOwner = this
         binding.viewModel = productDetailsViewModel
+
+        binding.tabLayout.addTab(
+            binding.tabLayout.newTab().setText(getString(R.string.product_description))
+        )
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Uses)))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Benefits)))
+        binding.tabLayout.addTab(
+            binding.tabLayout.newTab().setText(getString(R.string.storage_conditions))
+        )
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+
+                when (tab?.position) {
+                    0 -> {
+
+                    }
+                    1 -> {
+
+                    }
+                    2 -> {
+
+                    }
+                    3 -> {
+
+                    }
+                }
+
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
 
         return binding.root
     }

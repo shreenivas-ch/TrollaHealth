@@ -39,4 +39,8 @@
     <string name="amount_string">\u20B9 %s</string>
     <string name="sort">Sort</string>
     <string name="filter">Filter</string>
+    <string name="product_description">Product Description</string>
+    <string name="Uses">Uses</string>
+    <string name="Benefits">Benifits</string>
+    <string name="storage_conditions">Storage Conditions</string>
 </resources>

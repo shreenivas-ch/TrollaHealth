@@ -55,5 +55,5 @@ val repositoryModule = module {
     single { provideCartRepository(get()) }
     single { GetCartDetailsUsecase(get()) }
     single { AddToCartUsercase(get()) }
-    single { CartViewModel(get()) }
+    single { CartViewModel(get(), get()) }
 }

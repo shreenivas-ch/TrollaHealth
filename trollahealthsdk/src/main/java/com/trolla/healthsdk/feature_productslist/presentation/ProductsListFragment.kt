@@ -15,6 +15,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
 import okhttp3.internal.notify
@@ -64,6 +65,11 @@ class ProductsListFragment() : Fragment() {
 
         productsListViewModel.headerTitle.value = title
 
+        binding.root.setOnClickListener {
+            var productDetailsFragment = ProductDetailsFragment.newInstance();
+            (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
+        }
+
         val genericAdapter = GenericAdapter<DashboardProduct>(
             R.layout.item_dashboard_recommended_product
         )
@@ -75,7 +81,8 @@ class ProductsListFragment() : Fragment() {
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG).show()
+                Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG)
+                    .show()
             }
 
         })
