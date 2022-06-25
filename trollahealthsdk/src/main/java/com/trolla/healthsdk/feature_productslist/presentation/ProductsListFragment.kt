@@ -25,6 +25,8 @@ import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
 
+    var cartItemsIdsArray = ArrayList<String>()
+
     val title by lazy {
         arguments?.let {
             it.getString("title")
@@ -94,6 +96,7 @@ class ProductsListFragment() : Fragment() {
             }
 
         })
+
         binding.productsList.adapter = genericAdapter
 
         productsListViewModel.productsListResponseLiveData.observe(viewLifecycleOwner)
@@ -101,8 +104,50 @@ class ProductsListFragment() : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     val response = productsListViewModel.productsListResponseLiveData.value
-                    genericAdapter.addItems(response?.data?.data?.list!!)
+                    genericAdapter.addItems(response?.data?.data?.list!!,cartItemsIdsArray)
                     genericAdapter.notifyDataSetChanged()
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        cartViewModel.addToCartResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    val response = cartViewModel.addToCartResponseLiveData.value
+                    cartItemsIdsArray.clear()
+                    for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
+                    }
+
+                    getProductsList()
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        cartViewModel.cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    val response = cartViewModel.cartDetailsResponseLiveData.value
+                    cartItemsIdsArray.clear()
+                    for (i in response?.data?.data?.products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(response?.data?.data?.products?.get(i)?.product?.product_id.toString())
+                    }
+
+                    getProductsList()
                 }
 
                 is Resource.Error -> {
@@ -119,15 +164,19 @@ class ProductsListFragment() : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
+        cartViewModel.getCartDetails()
+
+        return binding.root
+
+    }
+
+    fun getProductsList() {
         productsListViewModel.getProductsList(
             page.toString(),
             limit.toString(),
             "4196",
             "test"
         )
-
-        return binding.root
-
     }
 
 }

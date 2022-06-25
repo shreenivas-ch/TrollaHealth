@@ -16,7 +16,7 @@ class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int) :
     private var inflater: LayoutInflater? = null
     private var onListItemViewClickListener: OnListItemViewClickListener? = null
 
-    fun addItems(items: List<T>) {
+    fun addItems(items: List<T>, cartItemsIdsArray: ArrayList<String>? = null) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
