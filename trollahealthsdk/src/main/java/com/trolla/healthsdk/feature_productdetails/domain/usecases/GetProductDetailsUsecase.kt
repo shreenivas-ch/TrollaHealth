@@ -8,7 +8,8 @@ import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 
 class GetProductDetailsUsecase(private val productDetailsRepository: ProductDetailsRepository) {
     suspend operator fun invoke(
+        id: String
     ): Resource<BaseApiResponse<GetProductDetailsResponse>> {
-        return productDetailsRepository.getProductDetails()
+        return productDetailsRepository.getProductDetails(id)
     }
 }

@@ -5,5 +5,10 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 interface ProductsListRepository {
-    suspend fun getProductsList(): Resource<BaseApiResponse<ProductsListResponse>>
+    suspend fun getProductsList(
+        page: String,
+        limit: String,
+        category: String,
+        type: String
+    ): Resource<BaseApiResponse<ProductsListResponse>>
 }

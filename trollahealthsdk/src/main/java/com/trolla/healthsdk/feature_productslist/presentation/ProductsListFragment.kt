@@ -11,11 +11,13 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
+import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.utils.TrollaConstants
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
 import okhttp3.internal.notify
@@ -35,7 +37,11 @@ class ProductsListFragment() : Fragment() {
         }
     }
 
+    var page = TrollaConstants.PAGINATION_DEFAULT_INITIAL_PAGE
+    var limit = TrollaConstants.PAGINATION_DEFAULT_LIMIT
+
     val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
+    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
 
     companion object {
         fun newInstance(title: String, id: String): ProductsListFragment {
@@ -83,6 +89,8 @@ class ProductsListFragment() : Fragment() {
             override fun onAddToCartClick(view: View, position: Int) {
                 Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG)
                     .show()
+
+                cartViewModel
             }
 
         })
@@ -93,7 +101,7 @@ class ProductsListFragment() : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     val response = productsListViewModel.productsListResponseLiveData.value
-                    genericAdapter.addItems(response?.data?.data?.product_list!!)
+                    genericAdapter.addItems(response?.data?.data?.list!!)
                     genericAdapter.notifyDataSetChanged()
                 }
 
@@ -111,7 +119,12 @@ class ProductsListFragment() : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
-        productsListViewModel.getProductsList(id.toString())
+        productsListViewModel.getProductsList(
+            page.toString(),
+            limit.toString(),
+            "4196",
+            "test"
+        )
 
         return binding.root
 

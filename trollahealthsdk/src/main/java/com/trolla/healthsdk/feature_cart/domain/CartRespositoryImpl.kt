@@ -7,6 +7,7 @@ import com.trolla.healthsdk.data.remote.ApiService
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
@@ -14,8 +15,14 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
         return APIErrorHandler<GetCartDetailsResponse>().process(response)
     }
 
-    override suspend fun addToCart(): Resource<BaseApiResponse<AddToCartResponse>> {
-        val response = apiService.addToCart()
+    override suspend fun addToCart(
+        product_id: String,
+        qty: String
+    ): Resource<BaseApiResponse<AddToCartResponse>> {
+
+        var cartRequest = AddToCartRequest(product_id, qty)
+
+        val response = apiService.addToCart(cartRequest)
         return APIErrorHandler<AddToCartResponse>().process(response)
     }
 }

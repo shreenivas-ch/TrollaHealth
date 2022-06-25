@@ -8,8 +8,13 @@ import com.trolla.healthsdk.feature_productslist.data.ProductsListRepository
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 
 class ProductsListRepositoryImpl(private val apiService: ApiService) : ProductsListRepository {
-    override suspend fun getProductsList(): Resource<BaseApiResponse<ProductsListResponse>> {
-        val response = apiService.getProductsList()
+    override suspend fun getProductsList(
+        page: String,
+        limit: String,
+        category: String,
+        type: String
+    ): Resource<BaseApiResponse<ProductsListResponse>> {
+        val response = apiService.getProductsList(page, limit, category, type)
         val resource = APIErrorHandler<ProductsListResponse>().process(response)
         return resource
     }

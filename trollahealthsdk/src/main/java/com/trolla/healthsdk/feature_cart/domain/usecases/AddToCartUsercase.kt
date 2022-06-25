@@ -7,7 +7,8 @@ import com.trolla.healthsdk.feature_cart.data.CartRepository
 
 class AddToCartUsercase(private val cartRepository: CartRepository) {
     suspend operator fun invoke(
+        product_id: String, qty: String
     ): Resource<BaseApiResponse<AddToCartResponse>> {
-        return cartRepository.addToCart()
+        return cartRepository.addToCart(product_id, qty)
     }
 }

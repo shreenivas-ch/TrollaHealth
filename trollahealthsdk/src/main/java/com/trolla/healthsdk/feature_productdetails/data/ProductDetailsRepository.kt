@@ -4,5 +4,5 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 
 interface ProductDetailsRepository {
-    suspend fun getProductDetails(): Resource<BaseApiResponse<GetProductDetailsResponse>>
+    suspend fun getProductDetails(id:String): Resource<BaseApiResponse<GetProductDetailsResponse>>
 }

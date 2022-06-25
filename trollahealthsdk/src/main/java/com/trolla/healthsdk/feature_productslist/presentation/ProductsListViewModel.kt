@@ -15,11 +15,11 @@ class ProductsListViewModel(val getProductsListUsecase: GetProductsListUsecase) 
     val productsListResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<ProductsListResponse>>>()
 
-    fun getProductsList(id:String)
-    {
-        progressStatus.value=true
+    fun getProductsList(page: String, limit: String, category: String, type: String) {
+        progressStatus.value = true
         viewModelScope.launch {
-            productsListResponseLiveData.value = getProductsListUsecase()!!
+            productsListResponseLiveData.value =
+                getProductsListUsecase(page, limit, category, type)!!
             progressStatus.value = false
         }
     }

@@ -29,31 +29,38 @@ val repositoryModule = module {
     single { RetrofitFactory.makeRetrofitService() }
     single { provideAuthRepository(get()) }
 
+    /*getOTP*/
     single { GetOTPOnEmailUsecase(get()) }
     single { LoginEmailViewModel(get()) }
 
+    /*Verify OTP*/
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
     single { LoginOTPVerificationViewModel(get()) }
     single { MobileOTPVerificationViewModel(get()) }
 
+    /*Profile*/
     single { UpdateProfileUsecase(get()) }
     single { RegisterViewModel(get()) }
 
+    /*Dashboard*/
     single { provideDashboardRepository(get()) }
     single { GetDashboardUsecase(get()) }
     single { DashboardViewModel(get()) }
 
-    single { provideProductsListRepository(get()) }
-    single { GetProductsListUsecase(get()) }
-    single { ProductsListViewModel(get()) }
-
-    single { provideProductDetailsRepository(get()) }
-    single { GetProductDetailsUsecase(get()) }
-    single { ProductDetailsViewModel(get()) }
-
+    /*Cart*/
     single { provideCartRepository(get()) }
     single { GetCartDetailsUsecase(get()) }
     single { AddToCartUsercase(get()) }
     single { CartViewModel(get(), get()) }
+
+    /*Products List*/
+    single { provideProductsListRepository(get()) }
+    single { GetProductsListUsecase(get()) }
+    single { ProductsListViewModel(get()) }
+
+    /*Product Details*/
+    single { provideProductDetailsRepository(get()) }
+    single { GetProductDetailsUsecase(get()) }
+    single { ProductDetailsViewModel(get()) }
 }
