@@ -5,15 +5,13 @@ import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.*
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -34,21 +32,25 @@ interface ApiService {
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
 
-    @GET("/products/list")
+    @GET("/products")
     suspend fun getProductsList(
+        @Query("page") page: String,
+        @Query("limit") limit: String,
+        @Query("category") category: String,
+        @Query("type") type: String,
     ): Response<BaseApiResponse<ProductsListResponse>>
 
-    @GET("/products/details")
+    @GET("/products/{id}")
     suspend fun getProductDetails(
+        @Path("id") id: String
     ): Response<BaseApiResponse<GetProductDetailsResponse>>
 
-    @GET("/")
+    @GET("/cart")
     suspend fun getCartDetails(
     ): Response<BaseApiResponse<GetCartDetailsResponse>>
 
-    @POST("/")
+    @POST("/cart/add")
     suspend fun addToCart(
+        @Body request: AddToCartRequest
     ): Response<BaseApiResponse<AddToCartResponse>>
-
-
 }

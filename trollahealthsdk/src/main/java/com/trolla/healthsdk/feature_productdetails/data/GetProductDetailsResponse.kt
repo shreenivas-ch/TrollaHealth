@@ -1,4 +1,7 @@
 package com.trolla.healthsdk.feature_productdetails.data
 
-class GetProductDetailsResponse {
-}
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+
+class GetProductDetailsResponse(
+    val detail: DashboardResponse.DashboardProduct
+)
