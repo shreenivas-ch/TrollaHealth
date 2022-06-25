@@ -23,7 +23,7 @@ class CartViewModel(
     val cartDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetCartDetailsResponse>>>()
 
-    fun addToCart(product_id: String, qty: String) {
+    fun addToCart(product_id: Int, qty: Int) {
         progressStatus.value = true
         viewModelScope.launch {
             addToCartResponseLiveData.value =

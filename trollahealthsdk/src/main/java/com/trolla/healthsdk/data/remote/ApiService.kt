@@ -47,7 +47,7 @@ interface ApiService {
 
     @GET("/cart")
     suspend fun getCartDetails(
-    ): Response<BaseApiResponse<GetCartDetailsResponse>>
+    ): Response<GetCartDetailsResponse>
 
     @POST("/cart/add")
     suspend fun addToCart(

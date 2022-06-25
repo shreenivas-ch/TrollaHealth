@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="item"
             type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
@@ -11,19 +13,19 @@
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        app:cardUseCompatPadding="true"
-        app:cardPreventCornerOverlap="false"
-        app:cardElevation="2dp"
-        android:layout_marginEnd="@dimen/margin4dp"
-        android:layout_marginStart="@dimen/margin4dp"
-        android:layout_marginBottom="@dimen/margin16dp"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/margin8dp">
+        android:layout_marginStart="@dimen/margin4dp"
+        android:layout_marginEnd="@dimen/margin4dp"
+        android:layout_marginBottom="@dimen/margin16dp"
+        app:cardCornerRadius="@dimen/margin8dp"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
 
         <RelativeLayout
-            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,7 +95,7 @@
                     tools:text="₹292.00" />
 
                 <TextView
-                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                    android:visibility="@{item.cartQty == 0 ? View.VISIBLE: View.GONE}"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,29 +103,47 @@
                     android:background="@drawable/bg_primarybutton"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingTop="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_7sdp"
-                    android:text="Add To Cart"
+                    android:text="@string/add_to_cart"
                     android:textColor="@color/white" />
+
+                <TextView
+                    android:visibility="@{item.cartQty == 1 ? View.VISIBLE: View.GONE}"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/bg_rounded_primarybutton"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="@string/go_to_cart"
+                    android:textColor="@color/primary_color" />
 
             </LinearLayout>
 
             <TextView
                 style="@style/trolla_fontBold"
-                android:paddingStart="@dimen/_10sdp"
-                android:paddingEnd="@dimen/_10sdp"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin8dp"
                 android:background="@drawable/ic_offer_tag"
                 android:gravity="center"
+                android:paddingStart="@dimen/_10sdp"
                 android:paddingTop="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_10sdp"
                 android:paddingBottom="@dimen/_15sdp"
-                app:setOfferText="@{item}"
                 android:textColor="@color/textColor1"
                 android:textSize="10sp"
+                app:setOfferText="@{item}"
                 tools:text="20% OFF" />
 
         </RelativeLayout>

@@ -6,7 +6,7 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 interface CartRepository {
     suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>>
     suspend fun addToCart(
-        product_id: String,
-        qty: String
+        product_id: Int,
+        qty: Int
     ): Resource<BaseApiResponse<AddToCartResponse>>
 }

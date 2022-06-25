@@ -17,6 +17,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardPr
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaConstants
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
@@ -85,14 +86,15 @@ class ProductsListFragment() : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
+
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG)
-                    .show()
-
-                cartViewModel
+                val response = productsListViewModel.productsListResponseLiveData.value
+                cartViewModel.addToCart(
+                    response?.data?.data?.list?.get(position)?.product_id!!,
+                    1
+                )
             }
 
         })
@@ -104,7 +106,16 @@ class ProductsListFragment() : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     val response = productsListViewModel.productsListResponseLiveData.value
-                    genericAdapter.addItems(response?.data?.data?.list!!,cartItemsIdsArray)
+
+                    for (i in response?.data?.data?.list?.indices ?: arrayListOf()) {
+                        if (cartItemsIdsArray.contains(response?.data?.data?.list?.get(i)?.product_id.toString())) {
+                            response?.data?.data?.list?.get(i)?.cartQty = 1
+                        } else {
+                            response?.data?.data?.list?.get(i)?.cartQty = 0
+                        }
+                    }
+
+                    genericAdapter.addItems(response?.data?.data?.list!!)
                     genericAdapter.notifyDataSetChanged()
                 }
 
@@ -146,6 +157,8 @@ class ProductsListFragment() : Fragment() {
                     for (i in response?.data?.data?.products?.indices ?: arrayListOf()) {
                         cartItemsIdsArray.add(response?.data?.data?.products?.get(i)?.product?.product_id.toString())
                     }
+
+                    LogUtil.printObject(cartItemsIdsArray)
 
                     getProductsList()
                 }

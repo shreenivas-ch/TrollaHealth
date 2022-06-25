@@ -8,16 +8,27 @@ import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
+import retrofit2.Response
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
         val response = apiService.getCartDetails()
-        return APIErrorHandler<GetCartDetailsResponse>().process(response)
+        var baseResponse=BaseApiResponse<GetCartDetailsResponse>(
+            true,
+            200,
+            "successfull",
+            response.body()
+        )
+
+
+        return Resource.Success(baseResponse)
+
+        //return APIErrorHandler<GetCartDetailsResponse>().process(baseResponse)
     }
 
     override suspend fun addToCart(
-        product_id: String,
-        qty: String
+        product_id: Int,
+        qty: Int
     ): Resource<BaseApiResponse<AddToCartResponse>> {
 
         var cartRequest = AddToCartRequest(product_id, qty)

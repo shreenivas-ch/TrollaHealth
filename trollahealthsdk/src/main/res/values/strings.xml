@@ -43,4 +43,6 @@
     <string name="Uses">Uses</string>
     <string name="Benefits">Benifits</string>
     <string name="storage_conditions">Storage Conditions</string>
+    <string name="go_to_cart">Go To Cart</string>
+    <string name="add_to_cart">Add To Cart</string>
 </resources>
