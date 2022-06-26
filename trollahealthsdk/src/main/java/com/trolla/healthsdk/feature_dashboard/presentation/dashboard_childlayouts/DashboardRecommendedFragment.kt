@@ -11,6 +11,8 @@ import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardRecommendedBinding
 import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.data.GoToCartEvent
+import com.trolla.healthsdk.feature_dashboard.data.GoToProductDetailsEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import org.greenrobot.eventbus.EventBus
@@ -41,10 +43,15 @@ class DashboardRecommendedFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+                EventBus.getDefault().post(GoToProductDetailsEvent(bannersList[position].product_id,bannersList[position].title))
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
                 EventBus.getDefault().post(AddToCartActionEvent(bannersList[position].product_id))
+            }
+
+            override fun goToCart() {
+                EventBus.getDefault().post(GoToCartEvent())
             }
 
         })

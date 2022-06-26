@@ -11,10 +11,10 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.ComponentGenerator
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardBinding
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
-import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
-import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
-import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
+import com.trolla.healthsdk.feature_dashboard.data.*
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
@@ -192,5 +192,23 @@ class DashboardFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(refreshDashboardEvent: RefreshDashboardEvent) {
         dashboardViewModel.getDashboard()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(goToCartEvent: GoToCartEvent) {
+
+        var cartFragment = CartFragment.newInstance()
+
+        (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(goToProductDetailsEvent: GoToProductDetailsEvent) {
+        var productDetailsFragment = ProductDetailsFragment.newInstance(
+            goToProductDetailsEvent.product_id.toString(),
+            goToProductDetailsEvent.product_name ?: ""
+        )
+
+        (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
     }
 }

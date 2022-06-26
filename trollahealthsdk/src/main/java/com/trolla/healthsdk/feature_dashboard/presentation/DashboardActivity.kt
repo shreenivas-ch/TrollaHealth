@@ -72,6 +72,8 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
         }
+
+        cartViewModel.getCartDetails()
     }
 
     fun addOrReplaceFragment(fragment: Fragment, isAdd: Boolean = false) {

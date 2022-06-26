@@ -11,6 +11,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
@@ -97,11 +98,19 @@ class ProductsListFragment() : Fragment() {
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
+
                 val response = productsListViewModel.productsListResponseLiveData.value
+
                 cartViewModel.addToCart(
                     response?.data?.data?.list?.get(position)?.product_id!!,
                     1
                 )
+            }
+
+            override fun goToCart() {
+                var cartFragment = CartFragment.newInstance()
+
+                (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
             }
 
         })

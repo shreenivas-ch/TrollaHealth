@@ -78,7 +78,7 @@
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
                     android:text="@{String.format(@string/amount_string, item.mrp)}"
-                    android:textColor="@color/secondary_color"
+                    android:textColor="@color/textColor5"
                     tools:text="₹325.00" />
 
                 <TextView
@@ -131,6 +131,7 @@
             </LinearLayout>
 
             <TextView
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
                 style="@style/trolla_fontBold"
                 android:layout_width="55dp"
                 android:layout_height="wrap_content"
