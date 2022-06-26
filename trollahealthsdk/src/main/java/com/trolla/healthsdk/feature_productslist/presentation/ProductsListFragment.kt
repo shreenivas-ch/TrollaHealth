@@ -74,11 +74,6 @@ class ProductsListFragment() : Fragment() {
 
         productsListViewModel.headerTitle.value = title
 
-        binding.root.setOnClickListener {
-            var productDetailsFragment = ProductDetailsFragment.newInstance();
-            (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
-        }
-
         val genericAdapter = GenericAdapter<DashboardProduct>(
             R.layout.item_dashboard_recommended_product
         )
@@ -86,6 +81,18 @@ class ProductsListFragment() : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+
+                val response = productsListViewModel.productsListResponseLiveData.value
+
+                var product_id = response?.data?.data?.list?.get(position)?.product_id
+                var product_name = response?.data?.data?.list?.get(position)?.product_name
+
+                var productDetailsFragment = ProductDetailsFragment.newInstance(
+                    product_id.toString(),
+                    product_name.toString()
+                )
+
+                (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
 
             }
 

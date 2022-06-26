@@ -13,17 +13,7 @@ import retrofit2.Response
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
         val response = apiService.getCartDetails()
-        var baseResponse=BaseApiResponse<GetCartDetailsResponse>(
-            true,
-            200,
-            "successfull",
-            response.body()
-        )
-
-
-        return Resource.Success(baseResponse)
-
-        //return APIErrorHandler<GetCartDetailsResponse>().process(baseResponse)
+        return APIErrorHandler<GetCartDetailsResponse>().process(response)
     }
 
     override suspend fun addToCart(

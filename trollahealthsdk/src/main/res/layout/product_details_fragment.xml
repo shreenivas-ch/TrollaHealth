@@ -8,6 +8,12 @@
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsViewModel" />
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
+
+
     </data>
 
     <ScrollView
@@ -26,127 +32,138 @@
                 app:title="@{viewModel.headerTitle}" />
 
             <LinearLayout
-                android:id="@+id/llProductImages"
+                tools:visibility="visible"
+                android:visibility="gone"
+                android:id="@+id/llProductDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
-                    android:id="@+id/productsViewPager"
+                <LinearLayout
+                    android:id="@+id/llProductImages"
                     android:layout_width="match_parent"
-                    android:layout_height="145dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    android:layout_marginBottom="@dimen/margin16dp" />
-
-                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                    android:id="@+id/bannerDotsIndicator"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="visible"
-                    app:dotsColor="@color/primary_color"
-                    app:dotsCornerRadius="5dp"
-                    app:dotsSize="5dp"
-                    app:dotsSpacing="5dp"
-                    app:dotsStrokeColor="@color/purple1"
-                    app:dotsStrokeWidth="2dp"
-                    app:dotsWidthFactor="4.5"
-                    app:progressMode="true"
-                    app:selectedDotColor="@color/primary_color" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+                        android:id="@+id/productsViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="145dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin8dp"
-                android:layout_marginTop="@dimen/margin16dp"
-                android:layout_marginBottom="@dimen/margin16dp"
-                android:background="@color/bgColor4" />
+                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                        android:id="@+id/bannerDotsIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="visible"
+                        app:dotsColor="@color/primary_color"
+                        app:dotsCornerRadius="5dp"
+                        app:dotsSize="5dp"
+                        app:dotsSpacing="5dp"
+                        app:dotsStrokeColor="@color/purple1"
+                        app:dotsStrokeWidth="2dp"
+                        app:dotsWidthFactor="4.5"
+                        app:progressMode="true"
+                        app:selectedDotColor="@color/primary_color" />
 
-            <TextView
-                style="@style/trolla_fontSemibold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginEnd="@dimen/margin16dp"
-                android:textColor="@color/textColor1"
-                tools:text="Good Day Cashew Cookies Good Day Cashew Cookies" />
+                </LinearLayout>
 
-            <TextView
-                style="@style/trolla_fontMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginTop="@dimen/margin8dp"
-                android:layout_marginEnd="@dimen/margin16dp"
-                android:textColor="@color/textColor4"
-                android:textSize="10sp"
-                tools:text="Novus Life Sciences Pvt Ltd" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginTop="@dimen/margin8dp"
-                android:background="@drawable/bg_primarybutton"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/margin8dp"
-                android:paddingTop="@dimen/margin4dp"
-                android:paddingEnd="@dimen/margin8dp"
-                android:paddingBottom="@dimen/margin4dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="8dp"
-                    android:layout_height="10dp"
-                    android:layout_marginEnd="@dimen/margin8dp"
-                    app:srcCompat="@drawable/ic_prescription" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
 
                 <TextView
+                    android:id="@+id/txtTitle"
                     style="@style/trolla_fontSemibold"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Prescription Required"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin8dp"
-                android:layout_marginTop="@dimen/margin16dp"
-                android:layout_marginBottom="@dimen/margin16dp"
-                android:background="@color/bgColor4" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/trolla_fontMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:tabGravity="start"
-                app:tabIndicatorColor="@color/primary_color"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/textColor1"
-                app:tabTextAppearance="@style/tabLayoutTextStyle"
-                app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin16dp">
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="@{item.title}"
+                    android:textColor="@color/textColor1" />
 
                 <TextView
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
                     android:layout_marginEnd="@dimen/margin16dp"
-                    android:textColor="@color/textColor2"
-                    android:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
-                    \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰" />
+                    android:textColor="@color/textColor4"
+                    android:textSize="10sp"
+                    tools:text="Novus Life Sciences Pvt Ltd" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:background="@drawable/bg_primarybutton"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin8dp"
+                    android:paddingTop="@dimen/margin4dp"
+                    android:paddingEnd="@dimen/margin8dp"
+                    android:paddingBottom="@dimen/margin4dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="8dp"
+                        android:layout_height="10dp"
+                        android:layout_marginEnd="@dimen/margin8dp"
+                        app:srcCompat="@drawable/ic_prescription" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prescription Required"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:tabGravity="start"
+                    app:tabIndicatorColor="@color/primary_color"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/textColor1"
+                    app:tabTextAppearance="@style/tabLayoutTextStyle"
+                    app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
+                    \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰"
+                        android:textColor="@color/textColor2" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
