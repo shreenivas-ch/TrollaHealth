@@ -112,7 +112,6 @@ class ProductsListFragment() : Fragment() {
 
                 (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
             }
-
         })
 
         binding.productsList.adapter = genericAdapter

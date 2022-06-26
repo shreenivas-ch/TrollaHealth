@@ -120,7 +120,7 @@
                     android:background="@drawable/bg_rounded_primarybutton"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.goToCart()}"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingTop="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_2sdp"

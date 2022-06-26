@@ -44,6 +44,10 @@ class DashboardCategoriesFragment : Fragment() {
                 (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
             }
 
+            override fun goToCart() {
+
+            }
+
         })
         binding.rlDashboardCategories.adapter = genericAdapter
         genericAdapter.addItems(bannersList)

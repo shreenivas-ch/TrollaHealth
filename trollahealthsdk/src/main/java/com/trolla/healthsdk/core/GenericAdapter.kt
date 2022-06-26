@@ -55,10 +55,9 @@ class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int) :
 
     interface OnListItemViewClickListener {
         fun onClick(view: View, position: Int)
-        fun onAddToCartClick(view: View, position: Int) {
-
-        }
-
-        fun goToCart()
+        fun onAddToCartClick(view: View, position: Int) {}
+        fun goToCart() {}
+        fun cartMinusClick(view: View, position: Int) {}
+        fun cartPlusClick(view: View, position: Int) {}
     }
 }

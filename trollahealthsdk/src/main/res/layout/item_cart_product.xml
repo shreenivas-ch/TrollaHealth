@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
+            type="com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse.CartProduct" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,16 +16,20 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin4dp"
         android:layout_marginEnd="@dimen/margin4dp"
-        android:layout_marginBottom="@dimen/margin16dp"
+        android:layout_marginBottom="@dimen/margin8dp"
         app:cardCornerRadius="@dimen/margin8dp"
-        app:cardElevation="2dp"
+        app:cardElevation="1dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}">
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProductImage"
@@ -34,7 +38,7 @@
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerCrop"
                 app:isShowPlaceHolder="@{true}"
-                app:loadImage="@{item.product_img[0]}" />
+                app:loadImage="@{item.product.product_img[0]}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,7 +60,7 @@
                         android:maxLines="2"
                         android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
-                        android:text="@{item.product_name}"
+                        android:text="@{item.product.title}"
                         android:textColor="@color/textColor1"
                         tools:text="Dark Chocolate and Cranberry Muesli" />
 
@@ -82,7 +86,7 @@
                     android:paddingBottom="@dimen/_5sdp"
                     android:textColor="@color/textColor1"
                     android:textSize="10sp"
-                    app:setOfferText="@{item}"
+                    app:setOfferText="@{item.product}"
                     tools:text="20% OFF" />
 
                 <TextView
@@ -93,7 +97,7 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{item.brand_name+`|`+item.pack_size}"
+                    android:text="@{item.product.brand_name+`|`+item.product.pack_size}"
                     android:textColor="@color/textColor4"
                     tools:text="Yoga Bar | 400 g" />
 
@@ -105,7 +109,7 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{String.format(@string/amount_string, item.mrp)}"
+                    android:text="@{String.format(@string/amount_string, item.product.mrp)}"
                     android:textColor="@color/textColor5"
                     tools:text="₹325.00" />
 
@@ -121,7 +125,7 @@
                         android:maxLines="1"
                         android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
-                        android:text="@{String.format(@string/amount_string, item.sale_price)}"
+                        android:text="@{String.format(@string/amount_string, item.product.sale_price)}"
                         android:textColor="@color/textColor1"
                         android:textSize="20sp"
                         tools:text="₹292.00" />
@@ -139,7 +143,7 @@
                             android:layout_height="@dimen/_20sdp"
                             android:background="@drawable/bg_rounded_primarybutton"
                             android:gravity="center"
-                            android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                            android:onClick="@{(v)-> item.onListItemViewClickListener.cartMinusClick(v,item.adapterPosition)}"
                             android:text="-"
                             android:textColor="@color/primary_color"
                             android:textSize="@dimen/_15sdp" />
@@ -151,6 +155,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:layout_marginEnd="@dimen/_3sdp"
                             android:gravity="center"
+                            android:text="@{Integer.toString(item.qty)}"
                             android:textColor="@color/textColor1"
                             android:textSize="@dimen/_10sdp"
                             tools:text="1" />
@@ -161,7 +166,7 @@
                             android:layout_height="@dimen/_20sdp"
                             android:background="@drawable/bg_primarybutton"
                             android:gravity="center"
-                            android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                            android:onClick="@{(v)-> item.onListItemViewClickListener.cartPlusClick(v,item.adapterPosition)}"
                             android:text="+"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_15sdp" />

@@ -45,4 +45,6 @@
     <string name="storage_conditions">Storage Conditions</string>
     <string name="go_to_cart">Go To Cart</string>
     <string name="add_to_cart">Add To Cart</string>
+    <string name="my_cart">My Cart</string>
+    <string name="prescription_not_required">Prescription not required</string>
 </resources>

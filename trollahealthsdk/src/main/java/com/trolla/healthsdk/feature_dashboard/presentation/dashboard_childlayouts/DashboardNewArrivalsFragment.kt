@@ -52,7 +52,7 @@ class DashboardNewArrivalsFragment : Fragment() {
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
-                EventBus.getDefault().post(AddToCartActionEvent(bannersList[position].product_id))
+                EventBus.getDefault().post(AddToCartActionEvent(bannersList[position].product_id,1))
             }
 
             override fun goToCart() {
