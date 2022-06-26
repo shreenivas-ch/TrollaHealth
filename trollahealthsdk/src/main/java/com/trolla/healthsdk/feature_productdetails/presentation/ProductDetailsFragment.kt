@@ -21,6 +21,7 @@ import com.trolla.healthsdk.feature_dashboard.presentation.adapters.BannersAdapt
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.setVisibilityOnBoolean
 import com.trolla.healthsdk.utils.show
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
@@ -84,6 +85,12 @@ class ProductDetailsFragment : Fragment() {
 
                     var dashboardProduct = response?.data?.data?.detail!!
                     binding.txtTitle.text = dashboardProduct.title
+                    binding.txtManufacturer.text = dashboardProduct.manufacturer_name
+                    binding.txtProductDescription.text = dashboardProduct.product_brief
+                    binding.viewRx.setVisibilityOnBoolean(
+                        dashboardProduct.rx_type == "NON-RX",
+                        false
+                    )
                     manageProductImages(dashboardProduct.product_img)
                 }
 

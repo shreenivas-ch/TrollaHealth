@@ -30,7 +30,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
 }
@@ -57,7 +57,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
 
     /*dependency Injection*/
-    def koin_version="3.1.5"
+    def koin_version = "3.1.5"
     implementation "io.insert-koin:koin-core:$koin_version"
     implementation "io.insert-koin:koin-android:$koin_version"
 
@@ -70,5 +70,5 @@ dependencies {
     /*imageloading*/
     implementation 'com.github.bumptech.glide:glide:4.13.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
-
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

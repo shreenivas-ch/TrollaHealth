@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.feature_productdetails.presentation
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,12 @@ class ProductImagesAdapter(
 
         mContext.let {
             Glide.with(it).load(productImages?.get(position)).into(imageBanner)
+        }
+
+        imageBanner.setOnClickListener {
+            var fullscreenIntent = Intent(mContext, FullscreenImageViewerActivity::class.java)
+            fullscreenIntent.putExtra("imageurl", productImages[position])
+            mContext.startActivity(fullscreenIntent)
         }
 
         collection.addView(layout)

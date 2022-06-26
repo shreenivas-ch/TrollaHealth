@@ -125,6 +125,8 @@ data class DashboardResponse(
         val product_img: ArrayList<String>,
         val product_video: ArrayList<String>,
         val offer_name: String,
+        val manufacturer_name: String,
+        val product_brief: String,
 
         /*local params*/
         var cartQty: Int = 0

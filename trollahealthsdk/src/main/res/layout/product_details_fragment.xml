@@ -13,31 +13,30 @@
             name="item"
             type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
 
-
     </data>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:title="@{viewModel.headerTitle}" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/commonHeader"
-                layout="@layout/layout_common_header"
-                app:title="@{viewModel.headerTitle}" />
+            android:background="@color/white">
 
             <LinearLayout
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/llProductDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/llProductImages"
@@ -89,6 +88,7 @@
                     android:textColor="@color/textColor1" />
 
                 <TextView
+                    android:id="@+id/txtManufacturer"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,6 +100,7 @@
                     tools:text="Novus Life Sciences Pvt Ltd" />
 
                 <LinearLayout
+                    android:id="@+id/viewRx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
@@ -149,11 +150,13 @@
                     app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
 
                 <LinearLayout
+                    android:layout_marginBottom="@dimen/margin16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin16dp">
 
                     <TextView
+                        android:id="@+id/txtProductDescription"
                         style="@style/trolla_fontMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -167,8 +170,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
-
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 
 </layout>
