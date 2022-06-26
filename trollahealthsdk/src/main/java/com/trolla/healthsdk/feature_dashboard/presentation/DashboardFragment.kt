@@ -10,7 +10,9 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.ComponentGenerator
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardBinding
+import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent.inject
@@ -19,6 +21,9 @@ class DashboardFragment : Fragment() {
     lateinit var binding: FragmentDashboardBinding
 
     val dashboardViewModel: DashboardViewModel by inject(DashboardViewModel::class.java)
+
+    var cartItemsIdsArray = ArrayList<String>()
+    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +40,7 @@ class DashboardFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        dashboardViewModel.getDashboard()
+        cartViewModel.getCartDetails()
 
         binding.dashboardSwifeRefresh.setOnRefreshListener {
             binding.dashboardSwifeRefresh.isRefreshing = false
@@ -154,6 +159,51 @@ class DashboardFragment : Fragment() {
                     }
 
                 }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        cartViewModel.addToCartResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    val response = cartViewModel.addToCartResponseLiveData.value
+                    cartItemsIdsArray.clear()
+                    for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
+                    }
+
+                    dashboardViewModel.getDashboard()
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        cartViewModel.cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    val response = cartViewModel.cartDetailsResponseLiveData.value
+                    cartItemsIdsArray.clear()
+                    for (i in response?.data?.data?.products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(response?.data?.data?.products?.get(i)?.product?.product_id.toString())
+                    }
+
+                    LogUtil.printObject(cartItemsIdsArray)
+
+                    dashboardViewModel.getDashboard()
+
+                }
+
                 is Resource.Error -> {
                     TrollaHealthUtility.showAlertDialogue(
                         requireContext(),
