@@ -18,9 +18,4 @@ class MainActivity : AppCompatActivity() {
                 .launch()
         }
     }
-
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this);
-    }
 }

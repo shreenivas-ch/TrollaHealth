@@ -49,6 +49,15 @@ class DashboardNewArrivalsFragment : Fragment() {
 
         })
         binding.rvNewArrivals.adapter = genericAdapter
+
+        for (i in bannersList.indices) {
+            if ((activity as DashboardActivity).cartItemsIdsArray.contains(bannersList?.get(i)?.product_id.toString())) {
+                bannersList[i]?.cartQty = 1
+            } else {
+                bannersList[i]?.cartQty = 0
+            }
+        }
+
         genericAdapter.addItems(bannersList)
 
         binding.txtNewArrivalsShowAll.setOnClickListener {

@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardRecommendedBinding
+import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
+import org.greenrobot.eventbus.EventBus
+
 
 class DashboardRecommendedFragment : Fragment() {
     lateinit var binding: FragmentDashboardRecommendedBinding
@@ -39,15 +41,23 @@ class DashboardRecommendedFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
             }
 
             override fun onAddToCartClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Add to cart clicked at $position", Toast.LENGTH_LONG).show()
+                EventBus.getDefault().post(AddToCartActionEvent(bannersList[position].product_id))
             }
 
         })
         binding.rvRecommendedProducts.adapter = genericAdapter
+
+        for (i in bannersList.indices) {
+            if ((activity as DashboardActivity).cartItemsIdsArray.contains(bannersList?.get(i)?.product_id.toString())) {
+                bannersList[i]?.cartQty = 1
+            } else {
+                bannersList[i]?.cartQty = 0
+            }
+        }
+
         genericAdapter.addItems(bannersList)
 
         binding.rvRecommendedProducts.setOnClickListener {
