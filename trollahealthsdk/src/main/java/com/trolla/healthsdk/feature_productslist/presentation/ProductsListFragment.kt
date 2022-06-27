@@ -27,6 +27,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
 
+    var isFirstTimeOpen = true
     var cartItemsIdsArray = ArrayList<String>()
 
     val title by lazy {
@@ -46,6 +47,9 @@ class ProductsListFragment() : Fragment() {
 
     val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
     val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
+
+    var productsList = ArrayList<DashboardProduct>()
+    lateinit var genericAdapter: GenericAdapter<DashboardProduct>
 
     companion object {
         fun newInstance(title: String, id: String): ProductsListFragment {
@@ -75,8 +79,8 @@ class ProductsListFragment() : Fragment() {
 
         productsListViewModel.headerTitle.value = title
 
-        val genericAdapter = GenericAdapter<DashboardProduct>(
-            R.layout.item_dashboard_recommended_product
+        genericAdapter = GenericAdapter<DashboardProduct>(
+            R.layout.item_dashboard_recommended_product, productsList
         )
 
         genericAdapter.setOnListItemViewClickListener(object :
@@ -120,17 +124,18 @@ class ProductsListFragment() : Fragment() {
         {
             when (it) {
                 is Resource.Success -> {
-                    val response = productsListViewModel.productsListResponseLiveData.value
+                    productsList.clear()
+                    productsList.addAll(productsListViewModel.productsListResponseLiveData.value?.data?.data?.list!!)
 
-                    for (i in response?.data?.data?.list?.indices ?: arrayListOf()) {
-                        if (cartItemsIdsArray.contains(response?.data?.data?.list?.get(i)?.product_id.toString())) {
-                            response?.data?.data?.list?.get(i)?.cartQty = 1
+                    for (i in productsList?.indices) {
+                        if (cartItemsIdsArray.contains(productsList?.get(i)?.product_id.toString())) {
+                            productsList?.get(i)?.cartQty = 1
                         } else {
-                            response?.data?.data?.list?.get(i)?.cartQty = 0
+                            productsList?.get(i)?.cartQty = 0
                         }
                     }
 
-                    genericAdapter.addItems(response?.data?.data?.list!!)
+                    //genericAdapter.addItems(productsList)
                     genericAdapter.notifyDataSetChanged()
                 }
 
@@ -152,7 +157,7 @@ class ProductsListFragment() : Fragment() {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
-                    getProductsList()
+                    refreshProductsList()
                 }
 
                 is Resource.Error -> {
@@ -196,6 +201,19 @@ class ProductsListFragment() : Fragment() {
 
         return binding.root
 
+    }
+
+    private fun refreshProductsList() {
+        for (i in productsList.indices) {
+            if (cartItemsIdsArray.contains(productsList[i].product_id.toString())) {
+                productsList[i].cartQty == 1
+            } else {
+                productsList[i].cartQty == 0
+            }
+        }
+
+        //genericAdapter.addItems(productsList)
+        genericAdapter.notifyDataSetChanged()
     }
 
     fun getProductsList() {

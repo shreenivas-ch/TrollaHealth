@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
+import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
@@ -34,7 +35,7 @@ class DashboardActivity : AppCompatActivity() {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
-                    EventBus.getDefault().post(RefreshDashboardEvent())
+                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
                 }
 
                 is Resource.Error -> {
@@ -60,11 +61,17 @@ class DashboardActivity : AppCompatActivity() {
                         init = true
                     }
 
-                    EventBus.getDefault().post(RefreshDashboardEvent())
+                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
 
                 }
 
                 is Resource.Error -> {
+
+                    if (!init) {
+                        addOrReplaceFragment(HomeFragment())
+                        init = true
+                    }
+
                     TrollaHealthUtility.showAlertDialogue(
                         this@DashboardActivity,
                         it.uiText?.asString(this@DashboardActivity)

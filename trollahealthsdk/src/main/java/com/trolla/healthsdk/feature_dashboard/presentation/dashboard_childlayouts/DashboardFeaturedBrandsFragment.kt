@@ -35,7 +35,7 @@ class DashboardFeaturedBrandsFragment:Fragment() {
         )
 
         val genericAdapter = GenericAdapter<BannerData>(
-            R.layout.item_dashboard_featured_brand)
+            R.layout.item_dashboard_featured_brand,bannersList)
 
         genericAdapter.setOnListItemViewClickListener(object : GenericAdapter.OnListItemViewClickListener{
             override fun onClick(view: View, position: Int) {
@@ -48,7 +48,8 @@ class DashboardFeaturedBrandsFragment:Fragment() {
 
         })
         binding.rvFeaturedBrands.adapter = genericAdapter
-        genericAdapter.addItems(bannersList)
+        //genericAdapter.addItems(bannersList)
+        genericAdapter.notifyDataSetChanged()
 
         return binding.root
     }

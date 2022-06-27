@@ -31,7 +31,8 @@ class DashboardCategoriesFragment : Fragment() {
             false
         )
 
-        val genericAdapter = GenericAdapter<BannerData>(R.layout.item_dashboard_category)
+        val genericAdapter =
+            GenericAdapter<BannerData>(R.layout.item_dashboard_category, bannersList)
 
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
@@ -50,7 +51,8 @@ class DashboardCategoriesFragment : Fragment() {
 
         })
         binding.rlDashboardCategories.adapter = genericAdapter
-        genericAdapter.addItems(bannersList)
+        //genericAdapter.addItems(bannersList)
+        genericAdapter.notifyDataSetChanged()
 
         return binding.root
     }

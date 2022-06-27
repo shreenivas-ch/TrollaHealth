@@ -4,7 +4,7 @@ import com.trolla.healthsdk.core.ListItemViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 class GetCartDetailsResponse(
-    val products: List<CartProduct>,
+    val products: ArrayList<CartProduct>,
 ) {
     data class CartProduct(
         val product: DashboardResponse.DashboardProduct,

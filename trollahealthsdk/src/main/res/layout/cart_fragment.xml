@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/pageBackgroundColor"
         android:clickable="true">
 
         <include
@@ -21,30 +21,384 @@
             layout="@layout/layout_common_header"
             app:title="@string/my_cart" />
 
-        <TextView
-            android:id="@+id/txtLabelPrescriptionNotRequired"
-            style="@style/trolla_fontMedium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin16dp"
-            android:text="@string/prescription_not_required"
-            android:textColor="@color/textColor1"
-            app:layout_constraintTop_toBottomOf="@+id/commonHeader" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cartList"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin8dp"
-            android:layout_marginTop="@dimen/margin16dp"
-            android:layout_marginEnd="@dimen/margin8dp"
-            android:layout_marginBottom="@dimen/margin8dp"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
-            tools:itemCount="10"
-            tools:listitem="@layout/item_cart_product" />
+            android:layout_marginBottom="@dimen/margin16dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardViewCartPayment"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin16dp"
+                android:paddingBottom="@dimen/margin16dp">
+
+                <TextView
+                    android:id="@+id/txtLabelPrescriptionNotRequired"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:text="@string/prescription_not_required"
+                    android:textColor="@color/textColor1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin8dp"
+                    android:layout_marginBottom="@dimen/margin8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_cart_product" />
+
+                <TextView
+                    android:id="@+id/txtLabelPrescriptionRequired"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:text="@string/prescription_not_required"
+                    android:textColor="@color/textColor1" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartListWith"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin8dp"
+                    android:layout_marginBottom="@dimen/margin8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/item_cart_product" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="@string/upload_prescription"
+                    android:textColor="@color/textColor1" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin16dp"
+                    android:paddingEnd="@dimen/margin16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin16dp"
+                            android:layout_height="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_camera" />
+
+                        <TextView
+                            style="@style/trolla_fontSemibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin8dp"
+                            android:text="@string/camera" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin16dp"
+                            android:layout_height="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_gallery" />
+
+                        <TextView
+                            style="@style/trolla_fontSemibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin8dp"
+                            android:text="@string/gallery" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/margin16dp"
+                            android:layout_height="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_myprescriptions" />
+
+                        <TextView
+                            style="@style/trolla_fontSemibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin8dp"
+                            android:text="@string/my_prescriptions" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:background="@drawable/bg_rounded_primarybutton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/margin16dp"
+                        android:layout_height="@dimen/margin16dp"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin8dp"
+                        android:text="@string/add_delivery_address" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="@string/payment_details"
+                    android:textColor="@color/textColor1" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardCornerRadius="@dimen/margin8dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gst"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/delivery"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:background="@color/bgColor4" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to_be_paid"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor3"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCartPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin16dp">
+
+                <LinearLayout
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/textColor2"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        tools:text="₹89999"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/textColor1"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtProceed"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin48dp"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:gravity="center"
+                    android:text="@string/proceed"
+                    android:textColor="#B9B9B9" />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

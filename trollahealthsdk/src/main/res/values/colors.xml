@@ -18,4 +18,5 @@
     <color name="bgColor2">#D0E4EB</color>
     <color name="bgColor3">#FEDF59</color>
     <color name="bgColor4">#F0F0F0</color>
+    <color name="pageBackgroundColor">#f7f8f9</color>
 </resources>

@@ -67,13 +67,13 @@ object ComponentGenerator {
 
     fun createRecommendedProductsFragment(banners: ArrayList<DashboardProduct>): Fragment {
         var dashboardRecommendedFragment = DashboardRecommendedFragment()
-        dashboardRecommendedFragment.bannersList = banners
+        dashboardRecommendedFragment.productsList = banners
         return dashboardRecommendedFragment
     }
 
     fun createNewArrivalsProductsFragment(banners: ArrayList<DashboardProduct>): Fragment {
         var dashboardNewArrivalsFragment = DashboardNewArrivalsFragment()
-        dashboardNewArrivalsFragment.bannersList = banners
+        dashboardNewArrivalsFragment.productsList = banners
         return dashboardNewArrivalsFragment
     }
 

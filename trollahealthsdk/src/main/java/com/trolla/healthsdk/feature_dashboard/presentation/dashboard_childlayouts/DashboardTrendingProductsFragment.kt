@@ -33,7 +33,7 @@ class DashboardTrendingProductsFragment : Fragment() {
         )
 
         val genericAdapter = GenericAdapter<DashboardProduct>(
-            R.layout.item_dashboard_trending_product
+            R.layout.item_dashboard_trending_product, bannersList
         )
 
         genericAdapter.setOnListItemViewClickListener(object :
@@ -44,7 +44,8 @@ class DashboardTrendingProductsFragment : Fragment() {
 
         })
         binding.rvTrendingProducts.adapter = genericAdapter
-        genericAdapter.addItems(bannersList)
+        //genericAdapter.addItems(bannersList)
+        genericAdapter.notifyDataSetChanged()
 
         binding.txtTrendingShowAll.setOnClickListener {
             var productsFragment = ProductsListFragment.newInstance(

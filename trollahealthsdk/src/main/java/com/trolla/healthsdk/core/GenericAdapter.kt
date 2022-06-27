@@ -9,18 +9,18 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.trolla.healthsdk.BR
 
-class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int) :
+class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int,private val items:List<T>) :
     RecyclerView.Adapter<GenericAdapter.GenericViewHolder<T>>() {
 
-    private val items = mutableListOf<T>()
+    //private val items = mutableListOf<T>()
     private var inflater: LayoutInflater? = null
     private var onListItemViewClickListener: OnListItemViewClickListener? = null
 
-    fun addItems(items: List<T>) {
+    /*fun addItems(items: List<T>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
-    }
+    }*/
 
     fun setOnListItemViewClickListener(onListItemViewClickListener: OnListItemViewClickListener?) {
         this.onListItemViewClickListener = onListItemViewClickListener

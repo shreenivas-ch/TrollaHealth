@@ -33,6 +33,9 @@ class CartFragment : Fragment() {
         fun newInstance() = CartFragment()
     }
 
+    var cartItemsList = ArrayList<GetCartDetailsResponse.CartProduct>()
+    lateinit var genericAdapter: GenericAdapter<GetCartDetailsResponse.CartProduct>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,8 +50,9 @@ class CartFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        val genericAdapter = GenericAdapter<GetCartDetailsResponse.CartProduct>(
-            R.layout.item_cart_product
+        genericAdapter = GenericAdapter<GetCartDetailsResponse.CartProduct>(
+            R.layout.item_cart_product,
+            cartItemsList
         )
 
         genericAdapter.setOnListItemViewClickListener(object :
@@ -111,8 +115,11 @@ class CartFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     val response = it.data?.data?.products
-                    genericAdapter.addItems(response!!)
+                    cartItemsList.clear()
+                    cartItemsList.addAll(response!!)
+                    //genericAdapter.addItems(response!!)
                     genericAdapter.notifyDataSetChanged()
+                    binding.executePendingBindings()
                 }
 
                 is Resource.Error -> {

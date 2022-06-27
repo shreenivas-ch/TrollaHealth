@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
 
-    const val BASE_URL: String = "http://43.204.113.59/api/"
+    const val BASE_URL: String = "https://api.coshop.app/"
 
     fun makeRetrofitService(): ApiService {
         return Retrofit.Builder()

@@ -47,4 +47,14 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="my_cart">My Cart</string>
     <string name="prescription_not_required">Prescription not required</string>
+    <string name="upload_prescription">Upload Prescription</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="my_prescriptions">My Prescriptions</string>
+    <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="payment_details">Payment Details</string>
+    <string name="cart_total">Cart Total</string>
+    <string name="gst">GST</string>
+    <string name="delivery">Delivery</string>
+    <string name="to_be_paid">To be paid</string>
 </resources>
