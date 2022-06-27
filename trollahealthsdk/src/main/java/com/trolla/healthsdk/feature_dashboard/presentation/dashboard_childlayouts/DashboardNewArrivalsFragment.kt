@@ -104,15 +104,14 @@ class DashboardNewArrivalsFragment : Fragment() {
         val cartProductIds = (activity as DashboardActivity).cartItemsIdsArray
         for (i in productsList.indices) {
             if (cartProductIds.contains(productsList[i].product_id.toString())) {
-                productsList[i].cartQty==1
+                productsList[i].cartQty=1
             }
             else
             {
-                productsList[i].cartQty==0
+                productsList[i].cartQty=0
             }
         }
 
-        //genericAdapter.addItems(productsList)
         genericAdapter.notifyDataSetChanged()
     }
 }

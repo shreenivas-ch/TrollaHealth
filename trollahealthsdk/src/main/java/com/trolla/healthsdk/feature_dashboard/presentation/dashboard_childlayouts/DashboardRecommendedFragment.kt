@@ -101,23 +101,21 @@ class DashboardRecommendedFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
+        LogUtil.printObject("DashboardRecommendedFragment:onStop")
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.POSTING)
     fun doThis(event: RefreshLocalCartDataEvent) {
         val cartProductIds = (activity as DashboardActivity).cartItemsIdsArray
         for (i in productsList.indices) {
             if (cartProductIds.contains(productsList[i].product_id.toString())) {
-                productsList[i].cartQty == 1
-                LogUtil.printObject("-----> I am here ")
+                productsList[i].cartQty = 1
             } else {
-                productsList[i].cartQty == 0
+                productsList[i].cartQty = 0
             }
         }
 
-        //genericAdapter.addItems(productsList)
-        genericAdapter.notifyItemChanged(0)
-        genericAdapter.notifyItemChanged(1)
+        genericAdapter?.notifyDataSetChanged()
 
     }
 }

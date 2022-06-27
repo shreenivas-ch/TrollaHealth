@@ -52,7 +52,7 @@ val repositoryModule = module {
     single { provideCartRepository(get()) }
     single { GetCartDetailsUsecase(get()) }
     single { AddToCartUsercase(get()) }
-    single { CartViewModel(get(), get()) }
+    factory { CartViewModel(get(), get()) }
 
     /*Products List*/
     single { provideProductsListRepository(get()) }

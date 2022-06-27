@@ -27,7 +27,6 @@ import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
 
-    var isFirstTimeOpen = true
     var cartItemsIdsArray = ArrayList<String>()
 
     val title by lazy {
@@ -159,6 +158,8 @@ class ProductsListFragment() : Fragment() {
 
                     //refreshProductsList()
                     getProductsList()
+                    (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                        it
                 }
 
                 is Resource.Error -> {

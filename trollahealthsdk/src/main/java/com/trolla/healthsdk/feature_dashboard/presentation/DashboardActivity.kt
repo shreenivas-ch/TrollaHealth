@@ -35,8 +35,8 @@ class DashboardActivity : AppCompatActivity() {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
-                    //EventBus.getDefault().post(RefreshLocalCartDataEvent())
-                    EventBus.getDefault().post(RefreshDashboardEvent())
+                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    //EventBus.getDefault().post(RefreshDashboardEvent())
                 }
 
                 is Resource.Error -> {
@@ -51,11 +51,13 @@ class DashboardActivity : AppCompatActivity() {
         cartViewModel.cartDetailsResponseLiveData.observe(this) {
             when (it) {
                 is Resource.Success -> {
-                    val response = cartViewModel.cartDetailsResponseLiveData.value
+                    val products = it.data?.data?.products
                     cartItemsIdsArray.clear()
-                    for (i in response?.data?.data?.products?.indices ?: arrayListOf()) {
-                        cartItemsIdsArray.add(response?.data?.data?.products?.get(i)?.product?.product_id.toString())
+                    for (i in products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(products?.get(i)?.product?.product_id.toString())
                     }
+
+                    LogUtil.printObject("-----> $cartItemsIdsArray")
 
                     if (!init) {
                         addOrReplaceFragment(HomeFragment())

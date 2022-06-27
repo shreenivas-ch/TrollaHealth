@@ -11,13 +11,12 @@ import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
-import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
 import com.trolla.healthsdk.utils.setVisibilityOnBoolean
-import org.greenrobot.eventbus.EventBus
+import org.koin.java.KoinJavaComponent
 
 class CartFragment : Fragment() {
 
@@ -30,12 +29,15 @@ class CartFragment : Fragment() {
     lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
     lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
 
+    val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
+    lateinit var binding: CartFragmentBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<CartFragmentBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.cart_fragment,
             container,
@@ -43,10 +45,10 @@ class CartFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-        binding.viewModel = (activity as DashboardActivity).cartViewModel
+        binding.viewModel = cartViewModel
 
-        (activity as DashboardActivity).cartViewModel.headerTitle.value = "My Cart"
-        (activity as DashboardActivity).cartViewModel.headerBottomLine.value = 1
+        cartViewModel.headerTitle.value = "My Cart"
+        cartViewModel.headerBottomLine.value = 1
 
         cartAdapterWithoutRx = GenericAdapter(
             R.layout.item_cart_product,
@@ -74,29 +76,26 @@ class CartFragment : Fragment() {
             }
 
             override fun cartMinusClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                val product = cartItemsListWithoutRx[position]
+                var productid = product.product.product_id
+                var existingQty = product.qty
                 var newQty = existingQty!! - 1
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+                cartViewModel.addToCart(productid!!, newQty)
 
             }
 
             override fun cartPlusClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                val product = cartItemsListWithoutRx[position]
+                var productid = product.product.product_id
+                var existingQty = product.qty
                 var newQty = existingQty!! + 1
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+                cartViewModel.addToCart(productid!!, newQty)
             }
 
             override fun cartDeleteClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, 0))
+                val product = cartItemsListWithoutRx[position]
+                var productid = product.product.product_id
+                cartViewModel.addToCart(productid!!, 0)
             }
         })
 
@@ -116,41 +115,42 @@ class CartFragment : Fragment() {
             }
 
             override fun cartMinusClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                val product = cartItemsListWithRx[position]
+                var productid = product.product.product_id
+                var existingQty = product.qty
                 var newQty = existingQty!! - 1
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+                cartViewModel.addToCart(productid!!, newQty)
 
             }
 
             override fun cartPlusClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                val product = cartItemsListWithRx[position]
+                var productid = product.product.product_id
+                var existingQty = product.qty
                 var newQty = existingQty!! + 1
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+                cartViewModel.addToCart(productid!!, newQty)
             }
 
             override fun cartDeleteClick(view: View, position: Int) {
-                val response =
-                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
-                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
-                EventBus.getDefault().post(AddToCartActionEvent(productid!!, 0))
+                val product = cartItemsListWithRx[position]
+                var productid = product.product.product_id
+                cartViewModel.addToCart(productid!!, 0)
             }
         })
 
         binding.cartList.adapter = cartAdapterWithoutRx
         binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
 
-        (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.observe(
+        cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             when (it) {
                 is Resource.Success -> {
-                    (activity as DashboardActivity).cartViewModel.getCartDetails()
+
+                    processCartData(it.data?.data?.cart?.products!!)
+                    //(activity as DashboardActivity).cartViewModel.getCartDetails()
+                    (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                        it
                 }
 
                 is Resource.Error -> {
@@ -162,7 +162,7 @@ class CartFragment : Fragment() {
             }
         }
 
-        (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.observe(
+        cartViewModel.cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             when (it) {
@@ -170,34 +170,8 @@ class CartFragment : Fragment() {
 
                     LogUtil.printObject("-----> CartFragment: CartDetails")
 
-                    cartItemsListWithoutRx.clear()
-                    cartItemsListWithRx.clear()
+                    processCartData(it.data?.data?.products!!)
 
-                    val response = it.data?.data?.products
-
-                    for (i in response!!.indices) {
-                        if (response[i].product.rx_type == "NON-RX" || response[i].product.rx_type == "NON-RX") {
-                            cartItemsListWithoutRx.add(response[i])
-                        } else {
-                            cartItemsListWithRx.add(response[i])
-                        }
-                    }
-
-                    cartAdapterWithoutRx.notifyDataSetChanged()
-                    cartAdapterWithRx.notifyDataSetChanged()
-
-                    binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
-                        cartItemsListWithoutRx.size == 0,
-                        false
-                    )
-                    binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
-                        cartItemsListWithRx.size == 0,
-                        false
-                    )
-
-                    binding.cartNesterScrollView.setVisibilityOnBoolean(response.size == 0, false)
-                    binding.cardViewCartPayment.setVisibilityOnBoolean(response.size == 0, false)
-                    binding.txtCartEmpty.setVisibilityOnBoolean(response.size == 0, true)
                 }
 
                 is Resource.Error -> {
@@ -209,9 +183,40 @@ class CartFragment : Fragment() {
             }
         }
 
-        (activity as DashboardActivity).cartViewModel.getCartDetails()
+        cartViewModel.getCartDetails()
 
         return binding.root
+    }
+
+    fun processCartData(products: ArrayList<GetCartDetailsResponse.CartProduct>) {
+        cartItemsListWithoutRx.clear()
+        cartItemsListWithRx.clear()
+
+        for (i in products!!.indices) {
+            if (products[i].product.rx_type == "NON-RX" || products[i].product.rx_type == "NON-RX") {
+                cartItemsListWithoutRx.add(products[i])
+            } else {
+                cartItemsListWithRx.add(products[i])
+            }
+
+            LogUtil.printObject("----->: " + products[i].qty)
+        }
+
+        cartAdapterWithoutRx.notifyDataSetChanged()
+        cartAdapterWithRx.notifyDataSetChanged()
+
+        binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
+            cartItemsListWithoutRx.size == 0,
+            false
+        )
+        binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
+            cartItemsListWithRx.size == 0,
+            false
+        )
+
+        binding.cartNesterScrollView.setVisibilityOnBoolean(products.size == 0, false)
+        binding.cardViewCartPayment.setVisibilityOnBoolean(products.size == 0, false)
+        binding.txtCartEmpty.setVisibilityOnBoolean(products.size == 0, true)
     }
 
 }
