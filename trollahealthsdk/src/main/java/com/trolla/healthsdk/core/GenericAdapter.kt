@@ -59,5 +59,6 @@ class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int,private
         fun goToCart() {}
         fun cartMinusClick(view: View, position: Int) {}
         fun cartPlusClick(view: View, position: Int) {}
+        fun cartDeleteClick(view:View,position: Int){}
     }
 }

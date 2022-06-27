@@ -63,9 +63,11 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgDelete"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
                         android:layout_alignParentRight="true"
+                        android:onClick="@{(v)-> item.onListItemViewClickListener.cartDeleteClick(v,item.adapterPosition)}"
+                        android:padding="@dimen/_3sdp"
                         app:srcCompat="@drawable/ic_delete" />
 
                 </RelativeLayout>

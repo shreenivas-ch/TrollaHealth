@@ -157,7 +157,8 @@ class ProductsListFragment() : Fragment() {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
-                    refreshProductsList()
+                    //refreshProductsList()
+                    getProductsList()
                 }
 
                 is Resource.Error -> {

@@ -1,31 +1,23 @@
 package com.trolla.healthsdk.feature_cart.presentation
 
-import android.media.metrics.Event
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.CartFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_dashboard.presentation.HomeFragment
-import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.setVisibilityOnBoolean
 import org.greenrobot.eventbus.EventBus
-import org.koin.java.KoinJavaComponent
-import org.koin.java.KoinJavaComponent.inject
 
 class CartFragment : Fragment() {
 
@@ -51,7 +43,7 @@ class CartFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-        binding.viewModel=(activity as DashboardActivity).cartViewModel
+        binding.viewModel = (activity as DashboardActivity).cartViewModel
 
         (activity as DashboardActivity).cartViewModel.headerTitle.value = "My Cart"
         (activity as DashboardActivity).cartViewModel.headerBottomLine.value = 1
@@ -99,6 +91,13 @@ class CartFragment : Fragment() {
                 var newQty = existingQty!! + 1
                 EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
             }
+
+            override fun cartDeleteClick(view: View, position: Int) {
+                val response =
+                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
+                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
+                EventBus.getDefault().post(AddToCartActionEvent(productid!!, 0))
+            }
         })
 
         cartAdapterWithRx.setOnListItemViewClickListener(object :
@@ -134,6 +133,13 @@ class CartFragment : Fragment() {
                 var newQty = existingQty!! + 1
                 EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
             }
+
+            override fun cartDeleteClick(view: View, position: Int) {
+                val response =
+                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
+                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
+                EventBus.getDefault().post(AddToCartActionEvent(productid!!, 0))
+            }
         })
 
         binding.cartList.adapter = cartAdapterWithoutRx
@@ -162,6 +168,7 @@ class CartFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
+                    LogUtil.printObject("-----> CartFragment: CartDetails")
 
                     cartItemsListWithoutRx.clear()
                     cartItemsListWithRx.clear()
@@ -169,8 +176,7 @@ class CartFragment : Fragment() {
                     val response = it.data?.data?.products
 
                     for (i in response!!.indices) {
-                        if (i % 2 == 0) {
-                            //if (response[i].product.rx_type == "NON-RX"||response[i].product.rx_type == "NON-RX") {
+                        if (response[i].product.rx_type == "NON-RX" || response[i].product.rx_type == "NON-RX") {
                             cartItemsListWithoutRx.add(response[i])
                         } else {
                             cartItemsListWithRx.add(response[i])
@@ -179,6 +185,19 @@ class CartFragment : Fragment() {
 
                     cartAdapterWithoutRx.notifyDataSetChanged()
                     cartAdapterWithRx.notifyDataSetChanged()
+
+                    binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
+                        cartItemsListWithoutRx.size == 0,
+                        false
+                    )
+                    binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
+                        cartItemsListWithRx.size == 0,
+                        false
+                    )
+
+                    binding.cartNesterScrollView.setVisibilityOnBoolean(response.size == 0, false)
+                    binding.cardViewCartPayment.setVisibilityOnBoolean(response.size == 0, false)
+                    binding.txtCartEmpty.setVisibilityOnBoolean(response.size == 0, true)
                 }
 
                 is Resource.Error -> {

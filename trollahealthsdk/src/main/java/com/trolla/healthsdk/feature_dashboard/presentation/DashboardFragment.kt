@@ -186,6 +186,8 @@ class DashboardFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(addToCartActionEvent: AddToCartActionEvent) {
+
+        LogUtil.printObject("-----> DashboardFragment: AddToCartActionEvent")
         (activity as DashboardActivity).cartViewModel.addToCart(addToCartActionEvent.product_id, addToCartActionEvent.qty)
     }
 

@@ -23,9 +23,11 @@
             app:title="@{viewModel.headerTitle}" />
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/cartNesterScrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/margin16dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/cardViewCartPayment"
             app:layout_constraintTop_toBottomOf="@+id/commonHeader">
 
@@ -89,7 +91,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin8dp"
-                    android:layout_marginTop="@dimen/margin16dp"
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4" />
 
@@ -252,7 +253,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/cart_total"
+                                android:text="₹1250"
                                 android:textColor="@color/textColor1"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
@@ -277,7 +278,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/cart_total"
+                                android:text="₹1250"
                                 android:textColor="@color/textColor1"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
@@ -302,7 +303,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/cart_total"
+                                android:text="₹1250"
                                 android:textColor="@color/textColor1"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
@@ -318,7 +319,8 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin16dp">
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp">
 
                             <TextView
                                 style="@style/trolla_fontMedium"
@@ -333,7 +335,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="@string/cart_total"
+                                android:text="₹1250"
                                 android:textColor="@color/textColor3"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
@@ -351,6 +353,7 @@
             android:id="@+id/cardViewCartPayment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -377,10 +380,9 @@
                         style="@style/trolla_fontSemibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Total"
+                        android:text="₹89999"
                         android:textColor="@color/textColor1"
-                        android:textSize="20sp"
-                        tools:text="₹89999" />
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 
@@ -400,6 +402,19 @@
             </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:visibility="gone"
+            android:textSize="18sp"
+            style="@style/trolla_fontBold"
+            android:id="@+id/txtCartEmpty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Cart Is Empty"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

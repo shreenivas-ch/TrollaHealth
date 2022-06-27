@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardRecommendedBinding
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
@@ -16,6 +17,9 @@ import com.trolla.healthsdk.feature_dashboard.data.GoToCartEvent
 import com.trolla.healthsdk.feature_dashboard.data.GoToProductDetailsEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
+import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -100,18 +104,20 @@ class DashboardRecommendedFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun doThis(addToCartActionEvent: RefreshLocalCartDataEvent) {
+    fun doThis(event: RefreshLocalCartDataEvent) {
         val cartProductIds = (activity as DashboardActivity).cartItemsIdsArray
         for (i in productsList.indices) {
             if (cartProductIds.contains(productsList[i].product_id.toString())) {
                 productsList[i].cartQty == 1
+                LogUtil.printObject("-----> I am here ")
             } else {
                 productsList[i].cartQty == 0
             }
         }
 
         //genericAdapter.addItems(productsList)
-        genericAdapter.notifyDataSetChanged()
+        genericAdapter.notifyItemChanged(0)
+        genericAdapter.notifyItemChanged(1)
 
     }
 }

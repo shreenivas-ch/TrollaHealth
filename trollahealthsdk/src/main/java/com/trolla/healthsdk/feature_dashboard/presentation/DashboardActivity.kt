@@ -35,7 +35,8 @@ class DashboardActivity : AppCompatActivity() {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
-                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    //EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    EventBus.getDefault().post(RefreshDashboardEvent())
                 }
 
                 is Resource.Error -> {

@@ -66,9 +66,6 @@ class CustomBindingAdapter {
                             }
                         }
 
-
-                    LogUtil.printObject("----->$discountString")
-
                     if (discountString != "") {
                         view.visibility = View.VISIBLE
                         view.text = discountString
