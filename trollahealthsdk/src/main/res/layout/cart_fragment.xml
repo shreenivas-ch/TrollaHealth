@@ -19,7 +19,8 @@
         <include
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
-            app:title="@string/my_cart" />
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
-                    tools:itemCount="2"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_cart_product" />
 
                 <TextView
@@ -82,7 +83,7 @@
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
-                    tools:itemCount="2"
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_cart_product" />
 
                 <View
@@ -310,9 +311,9 @@
 
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="2dp"
+                            android:layout_height="5dp"
                             android:layout_marginTop="@dimen/margin16dp"
-                            android:background="@color/bgColor4" />
+                            android:background="@drawable/dottedline" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -328,7 +329,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
-                                style="@style/trolla_fontMedium"
+                                style="@style/trolla_fontSemibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
@@ -359,9 +360,9 @@
                 android:padding="@dimen/margin16dp">
 
                 <LinearLayout
-                    android:layout_centerVertical="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -373,23 +374,23 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        tools:text="₹89999"
                         style="@style/trolla_fontSemibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total"
                         android:textColor="@color/textColor1"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        tools:text="₹89999" />
 
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/txtProceed"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:background="@drawable/bg_inactivebutton"
                     android:gravity="center"
                     android:text="@string/proceed"

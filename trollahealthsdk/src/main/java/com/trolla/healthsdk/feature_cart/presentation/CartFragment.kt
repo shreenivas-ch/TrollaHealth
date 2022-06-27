@@ -51,13 +51,17 @@ class CartFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
+        binding.viewModel=(activity as DashboardActivity).cartViewModel
 
-        cartAdapterWithoutRx = GenericAdapter<GetCartDetailsResponse.CartProduct>(
+        (activity as DashboardActivity).cartViewModel.headerTitle.value = "My Cart"
+        (activity as DashboardActivity).cartViewModel.headerBottomLine.value = 1
+
+        cartAdapterWithoutRx = GenericAdapter(
             R.layout.item_cart_product,
             cartItemsListWithoutRx
         )
 
-        cartAdapterWithRx = GenericAdapter<GetCartDetailsResponse.CartProduct>(
+        cartAdapterWithRx = GenericAdapter(
             R.layout.item_cart_product,
             cartItemsListWithRx
         )
