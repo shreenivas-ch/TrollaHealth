@@ -88,7 +88,7 @@ class ProductDetailsFragment : Fragment() {
                     binding.txtManufacturer.text = dashboardProduct.manufacturer_name
                     binding.txtProductDescription.text = dashboardProduct.product_brief
                     binding.viewRx.setVisibilityOnBoolean(
-                        dashboardProduct.rx_type == "NON-RX",
+                        dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "",
                         false
                     )
                     manageProductImages(dashboardProduct.product_img)

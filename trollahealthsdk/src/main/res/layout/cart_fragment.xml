@@ -67,11 +67,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginTop="@dimen/margin16dp"
-                    android:text="@string/prescription_not_required"
+                    android:text="@string/prescription_required"
                     android:textColor="@color/textColor1" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/cartListWith"
+                    android:id="@+id/cartListWithRequiredPrescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin8dp"

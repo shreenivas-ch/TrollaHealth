@@ -33,8 +33,10 @@ class CartFragment : Fragment() {
         fun newInstance() = CartFragment()
     }
 
-    var cartItemsList = ArrayList<GetCartDetailsResponse.CartProduct>()
-    lateinit var genericAdapter: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,12 +52,17 @@ class CartFragment : Fragment() {
 
         binding.lifecycleOwner = this
 
-        genericAdapter = GenericAdapter<GetCartDetailsResponse.CartProduct>(
+        cartAdapterWithoutRx = GenericAdapter<GetCartDetailsResponse.CartProduct>(
             R.layout.item_cart_product,
-            cartItemsList
+            cartItemsListWithoutRx
         )
 
-        genericAdapter.setOnListItemViewClickListener(object :
+        cartAdapterWithRx = GenericAdapter<GetCartDetailsResponse.CartProduct>(
+            R.layout.item_cart_product,
+            cartItemsListWithRx
+        )
+
+        cartAdapterWithoutRx.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
 
@@ -90,7 +97,43 @@ class CartFragment : Fragment() {
             }
         })
 
-        binding.cartList.adapter = genericAdapter
+        cartAdapterWithRx.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+
+            }
+
+            override fun onAddToCartClick(view: View, position: Int) {
+
+
+            }
+
+            override fun goToCart() {
+
+            }
+
+            override fun cartMinusClick(view: View, position: Int) {
+                val response =
+                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
+                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
+                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                var newQty = existingQty!! - 1
+                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+
+            }
+
+            override fun cartPlusClick(view: View, position: Int) {
+                val response =
+                    (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value
+                var productid = response?.data?.data?.products?.get(position)?.product?.product_id
+                var existingQty = response?.data?.data?.products?.get(position)?.qty
+                var newQty = existingQty!! + 1
+                EventBus.getDefault().post(AddToCartActionEvent(productid!!, newQty))
+            }
+        })
+
+        binding.cartList.adapter = cartAdapterWithoutRx
+        binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
 
         (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
@@ -114,12 +157,24 @@ class CartFragment : Fragment() {
         ) {
             when (it) {
                 is Resource.Success -> {
+
+
+                    cartItemsListWithoutRx.clear()
+                    cartItemsListWithRx.clear()
+
                     val response = it.data?.data?.products
-                    cartItemsList.clear()
-                    cartItemsList.addAll(response!!)
-                    //genericAdapter.addItems(response!!)
-                    genericAdapter.notifyDataSetChanged()
-                    binding.executePendingBindings()
+
+                    for (i in response!!.indices) {
+                        if (i % 2 == 0) {
+                            //if (response[i].product.rx_type == "NON-RX"||response[i].product.rx_type == "NON-RX") {
+                            cartItemsListWithoutRx.add(response[i])
+                        } else {
+                            cartItemsListWithRx.add(response[i])
+                        }
+                    }
+
+                    cartAdapterWithoutRx.notifyDataSetChanged()
+                    cartAdapterWithRx.notifyDataSetChanged()
                 }
 
                 is Resource.Error -> {

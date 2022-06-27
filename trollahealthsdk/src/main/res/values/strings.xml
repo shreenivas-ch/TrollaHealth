@@ -57,4 +57,5 @@
     <string name="gst">GST</string>
     <string name="delivery">Delivery</string>
     <string name="to_be_paid">To be paid</string>
+    <string name="prescription_required">Prescription required</string>
 </resources>
