@@ -10,7 +10,7 @@ import com.trolla.healthsdk.feature_productdetails.data.ProductDetailsRepository
 
 class AddressRepositoryImpl(private val apiService: ApiService) : AddressRepository {
 
-    override suspend fun getAddressList(id: String): Resource<BaseApiResponse<GetAdressListResponse>> {
+    override suspend fun getAddressList(): Resource<BaseApiResponse<GetAdressListResponse>> {
         val response = apiService.getAddressList()
         return APIErrorHandler<GetAdressListResponse>().process(response)
     }
