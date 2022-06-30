@@ -2,11 +2,13 @@ package com.trolla.healthsdk.data.remote
 
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
+import com.trolla.healthsdk.feature_address.data.*
 import com.trolla.healthsdk.feature_auth.data.models.*
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import retrofit2.Call
@@ -53,4 +55,29 @@ interface ApiService {
     suspend fun addToCart(
         @Body request: AddToCartRequest
     ): Response<BaseApiResponse<AddToCartResponse>>
+
+    @GET("/addresses")
+    suspend fun getAddressList(
+    ): Response<BaseApiResponse<GetAdressListResponse>>
+
+    @POST("/addresses")
+    suspend fun addAddress(
+        @Body request: ModelAddress
+    ): Response<BaseApiResponse<AddAddressResponse>>
+
+    @PUT("/addresses/{id}")
+    suspend fun updateAddress(
+        @Path("id") id: String,
+        @Body modelAddress: ModelAddress
+    ): Response<BaseApiResponse<EditAddressResponse>>
+
+    @PUT("/addresses/{id}")
+    suspend fun deleteAddress(
+        @Path("id") id: String
+    ): Response<BaseApiResponse<DeleteAddressResponse>>
+
+    @GET("/orders")
+    suspend fun getOrders(
+    ): Response<BaseApiResponse<GetOrdersListResponse>>
+
 }
