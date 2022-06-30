@@ -29,7 +29,8 @@
             android:layout_marginBottom="@dimen/margin16dp"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/cardViewCartPayment"
-            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
+            tools:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,14 +95,31 @@
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4" />
 
-                <TextView
-                    style="@style/trolla_fontMedium"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin16dp"
-                    android:layout_marginEnd="@dimen/margin16dp"
-                    android:text="@string/upload_prescription"
-                    android:textColor="@color/textColor1" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="@string/upload_prescription"
+                        android:textColor="@color/textColor1" />
+
+                    <TextView
+                        android:id="@+id/txtAddNewPrescription"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="@string/upload_new_prescription"
+                        android:textColor="@color/textColor3" />
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -173,6 +191,16 @@
 
                 </LinearLayout>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_uploaded_prescription" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin8dp"
@@ -180,7 +208,71 @@
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery Address"
+                        android:textColor="@color/textColor1" />
+
+                    <TextView
+                        android:id="@+id/txtChangeAddress"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="@string/add_new"
+                        android:textColor="@color/textColor3" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_below="@+id/txtChangeAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/margin8dp">
+
+                        <LinearLayout
+                            android:layout_margin="@dimen/margin8dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:textSize="12sp"
+                                android:id="@+id/txtAddressType"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Home"
+                                android:textColor="@color/textColor1" />
+
+                            <TextView
+                                android:layout_marginTop="@dimen/margin8dp"
+                                android:textSize="10sp"
+                                android:id="@+id/txtSelectedAddress"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore"
+                                android:textColor="@color/textColor2" />
+
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
                 <LinearLayout
+                    android:id="@+id/llAddressNotAdded"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin48dp"
                     android:layout_marginStart="@dimen/margin16dp"
@@ -355,7 +447,8 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:cardElevation="0dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -396,7 +489,7 @@
                     android:background="@drawable/bg_inactivebutton"
                     android:gravity="center"
                     android:text="@string/proceed"
-                    android:textColor="#B9B9B9" />
+                    android:textColor="@color/white" />
 
 
             </RelativeLayout>
@@ -404,13 +497,13 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:visibility="gone"
-            android:textSize="18sp"
-            style="@style/trolla_fontBold"
             android:id="@+id/txtCartEmpty"
+            style="@style/trolla_fontBold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Cart Is Empty"
+            android:textSize="18sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
