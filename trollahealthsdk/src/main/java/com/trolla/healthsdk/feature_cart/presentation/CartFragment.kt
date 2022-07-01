@@ -10,6 +10,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
+import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
@@ -292,14 +293,14 @@ class CartFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun doThis(address: ModelAddress) {
+    fun doThis(address: AddressSelectedEvent) {
 
-        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(address == null, false)
-        binding.llAddressNotAdded.setVisibilityOnBoolean(address == null, true)
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(address.modelAddress == null, false)
+        binding.llAddressNotAdded.setVisibilityOnBoolean(address.modelAddress == null, true)
 
-        binding.txtAddressType.text = address.type.replaceFirstChar { it.uppercase() }
+        binding.txtAddressType.text = address.modelAddress.type.replaceFirstChar { it.uppercase() }
         binding.txtSelectedAddress.text =
-            address.name + "\n" + address.address + " " + address.landmark + " " + address.city + " " + address.state + "\n" + address.pincode
+            address.modelAddress.name + "\n" + address.modelAddress.address + " " + address.modelAddress.landmark + " " + address.modelAddress.city + " " + address.modelAddress.state + "\n" + address.modelAddress.pincode
 
 
     }
