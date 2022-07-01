@@ -10,12 +10,13 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
+import com.trolla.healthsdk.feature_address.data.ModelAddress
+import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
+import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.utils.LogUtil
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.setVisibilityOnBoolean
+import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent
 
 class CartFragment : Fragment() {
@@ -31,6 +32,10 @@ class CartFragment : Fragment() {
 
     val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
     lateinit var binding: CartFragmentBinding
+
+    var prescriptionsArray = ArrayList<ModelPrescription>()
+    lateinit var selectedAddress: ModelAddress
+    var selectedPaymentMode = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -147,7 +152,11 @@ class CartFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                    processCartData(it.data?.data?.cart?.products!!)
+                    processCartData(
+                        it.data?.data?.cart?.products!!,
+                        it.data?.data?.address,
+                        it?.data?.data?.prescriptions
+                    )
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
                         it
@@ -170,7 +179,11 @@ class CartFragment : Fragment() {
 
                     LogUtil.printObject("-----> CartFragment: CartDetails")
 
-                    processCartData(it.data?.data?.products!!)
+                    processCartData(
+                        it.data?.data?.products!!,
+                        it.data?.data?.address,
+                        it.data?.data?.prescriptions
+                    )
 
                 }
 
@@ -185,10 +198,34 @@ class CartFragment : Fragment() {
 
         cartViewModel.getCartDetails()
 
+        binding.rlCashonDelivery.setOnClickListener {
+            selectedPaymentMode = "COD"
+            binding.imgCOD.setImageResource(R.drawable.ic_cod)
+            binding.imgOnline.setImageResource(R.drawable.ic_payonline_inactive)
+            binding.imgCODSelected.setImageResource(R.drawable.ic_selected)
+            binding.imgOnlineSelected.setImageResource(R.drawable.ic_unselected)
+        }
+        binding.rlPayOnline.setOnClickListener {
+            selectedPaymentMode = "prepaid"
+            binding.imgCOD.setImageResource(R.drawable.ic_cod_inactive)
+            binding.imgOnline.setImageResource(R.drawable.ic_payonline)
+            binding.imgCODSelected.setImageResource(R.drawable.ic_unselected)
+            binding.imgOnlineSelected.setImageResource(R.drawable.ic_selected)
+        }
+
+        binding.llAddressNotAdded.setOnClickListener {
+            var addressListFragment = AddressListFragment()
+            (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
+        }
+
         return binding.root
     }
 
-    fun processCartData(products: ArrayList<GetCartDetailsResponse.CartProduct>) {
+    fun processCartData(
+        products: ArrayList<GetCartDetailsResponse.CartProduct>,
+        modelAddress: ModelAddress?,
+        prescriptionsList: ArrayList<ModelPrescription>?
+    ) {
         cartItemsListWithoutRx.clear()
         cartItemsListWithRx.clear()
 
@@ -217,7 +254,21 @@ class CartFragment : Fragment() {
         binding.cartNesterScrollView.setVisibilityOnBoolean(products.size == 0, false)
         binding.cardViewCartPayment.setVisibilityOnBoolean(products.size == 0, false)
         binding.txtCartEmpty.setVisibilityOnBoolean(products.size == 0, true)
-        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(products.size == 0, true)
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(modelAddress == null, false)
+        binding.llAddressNotAdded.setVisibilityOnBoolean(modelAddress == null, true)
+        binding.txtAddNewPrescription.setVisibilityOnBoolean(
+            prescriptionsList == null || prescriptionsList.size == 0,
+            false
+        )
+        binding.rvUploadedPrescriptions.setVisibilityOnBoolean(
+            prescriptionsList == null || prescriptionsList.size == 0,
+            false
+        )
+        binding.llUploadOptions.setVisibilityOnBoolean(
+            prescriptionsList == null || prescriptionsList.size == 0,
+            true
+        )
+
     }
 
 }

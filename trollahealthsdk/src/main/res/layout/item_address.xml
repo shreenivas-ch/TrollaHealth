@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_address.data.ModelAddress" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgAddressType"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/margin16dp"
+            android:layout_marginTop="@dimen/margin16dp"
+            android:padding="@dimen/_2sdp"
+            app:addressType="@{item.type}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llAddressDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin16dp"
+            android:layout_marginEnd="@dimen/margin16dp"
+            android:layout_toRightOf="@+id/imgAddressType"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtAddressName"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:textColor="@color/textColor1"
+                app:capitaliseString="@{item.type}"
+                app:layout_constraintStart_toStartOf="@+id/imgAddressType"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtAddress"
+                style="@style/trolla_fontMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin8dp"
+                android:text="@{item.address}"
+                android:textColor="@color/textColor2"
+                app:layout_constraintStart_toStartOf="@+id/imgAddressType"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:orientation="horizontal"
+                android:visibility="@{item.isSelect? View.GONE: View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/txtEditAddress"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:text="@string/edit"
+                    android:textColor="@color/primary_color"
+                    app:layout_constraintStart_toStartOf="@+id/imgAddressType"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtDeleteAddress"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:text="@string/delete"
+                    android:textColor="@color/primary_color"
+                    app:layout_constraintStart_toStartOf="@+id/imgAddressType"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin8dp"
+            android:layout_below="@+id/llAddressDetails"
+            android:layout_marginTop="@dimen/margin16dp"
+            android:layout_marginBottom="@dimen/margin16dp"
+            android:background="@color/bgColor4" />
+
+    </RelativeLayout>
+</layout>

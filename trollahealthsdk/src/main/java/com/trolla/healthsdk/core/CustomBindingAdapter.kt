@@ -3,6 +3,7 @@ package com.trolla.healthsdk.core
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -10,6 +11,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.utils.LogUtil
+import java.util.*
 
 class CustomBindingAdapter {
 
@@ -81,5 +83,26 @@ class CustomBindingAdapter {
         fun isShowPlaceHolder(view: ImageView, isShow: Boolean) {
             this.isShowPlaceHolder = isShow
         }
+
+        @BindingAdapter("addressType")
+        @JvmStatic
+        fun setAddressType(view: AppCompatImageView, addressTye: String) {
+            if (addressTye.lowercase() == "work") {
+                view.setImageResource(R.drawable.ic_work)
+            } else if (addressTye.lowercase() == "home") {
+                view.setImageResource(R.drawable.ic_home_active)
+            } else {
+                view.setImageResource(R.drawable.ic_location_filled)
+            }
+        }
+
+
+        @BindingAdapter("capitaliseString")
+        @JvmStatic
+        fun capitaliseString(view: TextView, addressTye: String) {
+            view.text = addressTye.replaceFirstChar { it.uppercase() }
+        }
+
+
     }
 }

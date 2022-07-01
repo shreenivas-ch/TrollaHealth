@@ -7,11 +7,11 @@ import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 
 class GetCartDetailsResponse(
     val products: ArrayList<CartProduct>,
-    val address:ModelAddress,
-    val prescriptions:ArrayList<ModelPrescription>
+    val address: ModelAddress,
+    val prescriptions: ArrayList<ModelPrescription>
 ) {
     data class CartProduct(
         val product: DashboardResponse.DashboardProduct,
         val qty: Int
-    ): ListItemViewModel()
+    ) : ListItemViewModel()
 }

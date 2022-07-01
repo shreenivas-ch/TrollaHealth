@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_address.presentation.AddressListViewModel" />
@@ -14,11 +16,64 @@
         android:background="@color/pageBackgroundColor"
         android:clickable="true">
 
-    <include
-        android:id="@+id/commonHeader"
-        layout="@layout/layout_common_header"
-        app:linevisibility="@{viewModel.headerBottomLine}"
-        app:title="@{viewModel.headerTitle}" />
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/addressList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin8dp"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@+id/cardAddNewAddress"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_address" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAddNewAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/llAddNewAddress"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin48dp"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:layout_marginBottom="@dimen/margin16dp"
+                android:background="@drawable/bg_rounded_primarybutton"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/margin16dp"
+                    android:layout_height="@dimen/margin16dp"
+                    app:srcCompat="@drawable/ic_location" />
+
+                <TextView
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin8dp"
+                    android:text="@string/add_delivery_address" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -9,7 +9,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.trolla.healthsdk.BR
 
-class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int,private val items:List<T>) :
+class GenericAdapter<T : ListItemViewModel>(
+    @LayoutRes val layoutId: Int,
+    private val items: List<T>
+) :
     RecyclerView.Adapter<GenericAdapter.GenericViewHolder<T>>() {
 
     //private val items = mutableListOf<T>()
@@ -55,10 +58,15 @@ class GenericAdapter<T : ListItemViewModel>(@LayoutRes val layoutId: Int,private
 
     interface OnListItemViewClickListener {
         fun onClick(view: View, position: Int)
+
         fun onAddToCartClick(view: View, position: Int) {}
         fun goToCart() {}
+
         fun cartMinusClick(view: View, position: Int) {}
         fun cartPlusClick(view: View, position: Int) {}
-        fun cartDeleteClick(view:View,position: Int){}
+        fun cartDeleteClick(view: View, position: Int) {}
+
+        fun onEditAddressClick(view: View, position: Int) {}
+        fun onDeleteAddressClick(view: View, position: Int) {}
     }
 }
