@@ -217,6 +217,7 @@ class CartFragment : Fragment() {
         binding.cartNesterScrollView.setVisibilityOnBoolean(products.size == 0, false)
         binding.cardViewCartPayment.setVisibilityOnBoolean(products.size == 0, false)
         binding.txtCartEmpty.setVisibilityOnBoolean(products.size == 0, true)
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(products.size == 0, true)
     }
 
 }

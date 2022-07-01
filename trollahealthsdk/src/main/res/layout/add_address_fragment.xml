@@ -10,7 +10,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
+
+    <include
+        android:id="@+id/commonHeader"
+        layout="@layout/layout_common_header"
+        app:linevisibility="@{viewModel.headerBottomLine}"
+        app:title="@{viewModel.headerTitle}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
