@@ -15,6 +15,7 @@
     </data>
 
     <RelativeLayout
+        android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -56,10 +57,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin16dp"
                 android:layout_marginTop="@dimen/margin8dp"
-                android:text="@{item.address}"
                 android:textColor="@color/textColor2"
                 app:layout_constraintStart_toStartOf="@+id/imgAddressType"
                 app:layout_constraintTop_toTopOf="parent"
+                app:setAddressText="@{item}"
                 tools:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore" />
 
             <LinearLayout

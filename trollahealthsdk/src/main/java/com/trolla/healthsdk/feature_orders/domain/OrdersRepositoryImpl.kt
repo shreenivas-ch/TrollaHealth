@@ -27,6 +27,6 @@ class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepositor
     }
 }
 
-fun provideAddressRepository(apiService: ApiService): OrdersRepository {
+fun provideOrderRepository(apiService: ApiService): OrdersRepository {
     return OrdersRepositoryImpl(apiService)
 }

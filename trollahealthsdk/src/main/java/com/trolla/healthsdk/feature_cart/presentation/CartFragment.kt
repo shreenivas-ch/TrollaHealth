@@ -14,10 +14,15 @@ import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 class CartFragment : Fragment() {
 
@@ -30,7 +35,7 @@ class CartFragment : Fragment() {
     lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
     lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
 
-    val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
+    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
     lateinit var binding: CartFragmentBinding
 
     var prescriptionsArray = ArrayList<ModelPrescription>()
@@ -214,7 +219,12 @@ class CartFragment : Fragment() {
         }
 
         binding.llAddressNotAdded.setOnClickListener {
-            var addressListFragment = AddressListFragment()
+            var addressListFragment = AddressListFragment.newInstance("cart")
+            (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
+        }
+
+        binding.txtChangeAddress.setOnClickListener {
+            var addressListFragment = AddressListFragment.newInstance("cart")
             (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
         }
 
@@ -268,6 +278,29 @@ class CartFragment : Fragment() {
             prescriptionsList == null || prescriptionsList.size == 0,
             true
         )
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(address: ModelAddress) {
+
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(address == null, false)
+        binding.llAddressNotAdded.setVisibilityOnBoolean(address == null, true)
+
+        binding.txtAddressType.text = address.type.replaceFirstChar { it.uppercase() }
+        binding.txtSelectedAddress.text =
+            address.name + "\n" + address.address + " " + address.landmark + " " + address.city + " " + address.state + "\n" + address.pincode
+
 
     }
 

@@ -1,7 +1,10 @@
 package com.trolla.healthsdk.feature_address.data
 
+import android.os.Parcelable
 import com.trolla.healthsdk.core.ListItemViewModel
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class ModelAddress(
     val _id: String = "",
     val name: String = "",
@@ -14,6 +17,6 @@ data class ModelAddress(
     val type: String = "",
 
     /*local variables */
-    val isSelect: Boolean
+    var isSelect: Boolean
 
-) : ListItemViewModel()
+) : ListItemViewModel(),Parcelable

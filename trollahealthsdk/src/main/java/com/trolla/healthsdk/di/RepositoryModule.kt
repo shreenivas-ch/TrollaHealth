@@ -2,6 +2,12 @@ package com.trolla.healthsdk.di
 
 import com.trolla.healthsdk.feature_auth.domain.provideAuthRepository
 import com.trolla.healthsdk.data.remote.RetrofitFactory
+import com.trolla.healthsdk.feature_address.domain.provideAddressRepository
+import com.trolla.healthsdk.feature_address.domain.usecases.AddAddressUsecase
+import com.trolla.healthsdk.feature_address.domain.usecases.DeleteAddressUsecase
+import com.trolla.healthsdk.feature_address.domain.usecases.GetAddressListUsecase
+import com.trolla.healthsdk.feature_address.domain.usecases.UpdateAddressUsecase
+import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
@@ -63,4 +69,12 @@ val repositoryModule = module {
     single { provideProductDetailsRepository(get()) }
     single { GetProductDetailsUsecase(get()) }
     single { ProductDetailsViewModel(get()) }
+
+    /*address*/
+    single { provideAddressRepository(get()) }
+    single { GetAddressListUsecase(get()) }
+    single { AddAddressUsecase(get()) }
+    single { UpdateAddressUsecase(get()) }
+    single { DeleteAddressUsecase(get()) }
+    single { AddressListViewModel(get(), get(), get(), get()) }
 }

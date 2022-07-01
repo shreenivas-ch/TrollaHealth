@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
+import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
@@ -17,7 +18,13 @@ import org.koin.java.KoinJavaComponent.inject
 class AddAddressFragment : Fragment() {
 
     companion object {
-        fun newInstance() = AddAddressFragment()
+        fun newInstance(modelAddress: ModelAddress? = null): AddAddressFragment {
+            var bundle = Bundle()
+            bundle.putParcelable("address", modelAddress)
+            var addAddressFragment = AddAddressFragment()
+            addAddressFragment.arguments = bundle
+            return addAddressFragment
+        }
     }
 
     val addAddressViewModel: AddAddressViewModel by inject(

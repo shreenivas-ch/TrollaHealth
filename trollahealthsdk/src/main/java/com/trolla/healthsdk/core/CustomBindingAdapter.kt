@@ -8,6 +8,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.utils.LogUtil
@@ -86,8 +87,10 @@ class CustomBindingAdapter {
 
         @BindingAdapter("addressType")
         @JvmStatic
-        fun setAddressType(view: AppCompatImageView, addressTye: String) {
-            if (addressTye.lowercase() == "work") {
+        fun setAddressType(view: AppCompatImageView, addressTye: String?) {
+            if (addressTye == null) {
+                view.setImageResource(R.drawable.ic_location_filled)
+            } else if (addressTye.lowercase() == "work") {
                 view.setImageResource(R.drawable.ic_work)
             } else if (addressTye.lowercase() == "home") {
                 view.setImageResource(R.drawable.ic_home_active)
@@ -96,11 +99,26 @@ class CustomBindingAdapter {
             }
         }
 
+        @BindingAdapter("setAddressText")
+        @JvmStatic
+        fun setAddressText(view: TextView, modelAddress: ModelAddress?) {
+
+            modelAddress?.let {
+                view.text =
+                    modelAddress.name + "\n" + modelAddress.address + " " + modelAddress.landmark + " " + modelAddress.city + " " + modelAddress.state + "\n" + modelAddress.pincode
+            }
+
+        }
+
 
         @BindingAdapter("capitaliseString")
         @JvmStatic
-        fun capitaliseString(view: TextView, addressTye: String) {
-            view.text = addressTye.replaceFirstChar { it.uppercase() }
+        fun capitaliseString(view: TextView, addressTye: String?) {
+            if (addressTye == null) {
+                view.text = "Home"
+            } else {
+                view.text = addressTye.replaceFirstChar { it.uppercase() }
+            }
         }
 
 
