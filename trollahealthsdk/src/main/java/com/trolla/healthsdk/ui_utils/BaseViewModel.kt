@@ -8,4 +8,5 @@ open class BaseViewModel:ViewModel() {
     val progressStatus = MutableLiveData<Boolean>()
     val headerTitle = MutableLiveData<String>()
     val headerBottomLine = MutableLiveData<Int>()
+    val headerBackButton = MutableLiveData<Int>()
 }

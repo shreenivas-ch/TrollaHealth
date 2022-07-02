@@ -28,7 +28,19 @@ import org.koin.java.KoinJavaComponent.inject
 class CartFragment : Fragment() {
 
     companion object {
-        fun newInstance() = CartFragment()
+        fun newInstance(showBackButton: Boolean = true): CartFragment {
+            var bundle = Bundle()
+            bundle.putBoolean("showBackButton", showBackButton)
+            var cartFragment = CartFragment()
+            cartFragment.arguments = bundle
+            return cartFragment
+        }
+    }
+
+    val showBackButton by lazy {
+        arguments?.let {
+            it.getBoolean("showBackButton")
+        }
     }
 
     var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
@@ -60,6 +72,10 @@ class CartFragment : Fragment() {
 
         cartViewModel.headerTitle.value = "My Cart"
         cartViewModel.headerBottomLine.value = 1
+
+        showBackButton?.let {
+            cartViewModel.headerBackButton.value = if (it) 1 else 0
+        }
 
         cartAdapterWithoutRx = GenericAdapter(
             R.layout.item_cart_product,
@@ -246,12 +262,13 @@ class CartFragment : Fragment() {
             } else {
                 cartItemsListWithRx.add(products[i])
             }
-
             LogUtil.printObject("----->: " + products[i].qty)
         }
 
         cartAdapterWithoutRx.notifyDataSetChanged()
         cartAdapterWithRx.notifyDataSetChanged()
+
+        binding.llPrescriptionLayout.setVisibilityOnBoolean(cartItemsListWithRx.size!=0,true)
 
         binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
             cartItemsListWithoutRx.size == 0,
@@ -295,10 +312,14 @@ class CartFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(address: AddressSelectedEvent) {
 
-        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(address.modelAddress == null, false)
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
+            address.modelAddress == null,
+            false
+        )
         binding.llAddressNotAdded.setVisibilityOnBoolean(address.modelAddress == null, true)
 
-        binding.txtAddressType.text = address.modelAddress.type.replaceFirstChar { it.uppercase() }
+        binding.txtAddressType.text =
+            (address.modelAddress?.type ?: "Home").replaceFirstChar { it.uppercase() }
         binding.txtSelectedAddress.text =
             address.modelAddress.name + "\n" + address.modelAddress.address + " " + address.modelAddress.landmark + " " + address.modelAddress.city + " " + address.modelAddress.state + "\n" + address.modelAddress.pincode
 

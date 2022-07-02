@@ -14,6 +14,10 @@
         <variable
             name="linevisibility"
             type="Integer" />
+
+        <variable
+            name="backButtonVisibility"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,6 +28,7 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imgBack"
+            android:visibility="@{backButtonVisibility==1?View.VISIBLE:View.GONE}"
             android:layout_width="@dimen/margin24dp"
             android:layout_height="@dimen/margin24dp"
             android:layout_marginStart="@dimen/_8sdp"

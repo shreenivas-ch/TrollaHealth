@@ -19,6 +19,7 @@
         <include
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
             app:linevisibility="@{viewModel.headerBottomLine}"
             app:title="@{viewModel.headerTitle}" />
 
@@ -56,7 +57,6 @@
                     android:layout_marginStart="@dimen/margin8dp"
                     android:layout_marginTop="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin8dp"
-                    android:layout_marginBottom="@dimen/margin8dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -72,7 +72,8 @@
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginTop="@dimen/margin16dp"
                     android:text="@string/prescription_required"
-                    android:textColor="@color/textColor1" />
+                    android:textColor="@color/textColor1"
+                    tools:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cartListWithRequiredPrescription"
@@ -81,138 +82,145 @@
                     android:layout_marginStart="@dimen/margin8dp"
                     android:layout_marginTop="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin8dp"
-                    android:layout_marginBottom="@dimen/margin8dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
                     tools:itemCount="1"
-                    tools:listitem="@layout/item_cart_product" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin8dp"
-                    android:layout_marginBottom="@dimen/margin16dp"
-                    android:background="@color/bgColor4" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        style="@style/trolla_fontMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin16dp"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:text="@string/upload_prescription"
-                        android:textColor="@color/textColor1" />
-
-                    <TextView
-                        android:id="@+id/txtAddNewPrescription"
-                        style="@style/trolla_fontMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginStart="@dimen/margin16dp"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:text="@string/upload_new_prescription"
-                        android:textColor="@color/textColor3" />
-
-                </RelativeLayout>
+                    tools:listitem="@layout/item_cart_product"
+                    tools:visibility="gone" />
 
                 <LinearLayout
-                    android:id="@+id/llUploadOptions"
+                    android:id="@+id/llPrescriptionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/margin16dp"
-                    android:paddingEnd="@dimen/margin16dp">
+                    android:orientation="vertical"
+                    tools:visibility="gone">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:orientation="horizontal"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin16dp"
-                            android:layout_height="@dimen/margin16dp"
-                            app:srcCompat="@drawable/ic_camera" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/trolla_fontSemibold"
+                            style="@style/trolla_fontMedium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin8dp"
-                            android:text="@string/camera" />
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:text="@string/upload_prescription"
+                            android:textColor="@color/textColor1" />
+
+                        <TextView
+                            android:id="@+id/txtAddNewPrescription"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:text="@string/upload_new_prescription"
+                            android:textColor="@color/textColor3" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llUploadOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/margin16dp"
+                        android:paddingEnd="@dimen/margin16dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_camera" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/camera" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_gallery" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/gallery" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_myprescriptions" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/my_prescriptions" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUploadedPrescriptions"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:nestedScrollingEnabled="false"
                         android:orientation="horizontal"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin16dp"
-                            android:layout_height="@dimen/margin16dp"
-                            app:srcCompat="@drawable/ic_gallery" />
-
-                        <TextView
-                            style="@style/trolla_fontSemibold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin8dp"
-                            android:text="@string/gallery" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:orientation="horizontal"
-                        android:paddingTop="12dp"
-                        android:paddingBottom="12dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/margin16dp"
-                            android:layout_height="@dimen/margin16dp"
-                            app:srcCompat="@drawable/ic_myprescriptions" />
-
-                        <TextView
-                            style="@style/trolla_fontSemibold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/margin8dp"
-                            android:text="@string/my_prescriptions" />
-
-                    </LinearLayout>
-
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_uploaded_prescription" />
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvUploadedPrescriptions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/item_uploaded_prescription" />
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin16dp"
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4"
                     android:orientation="vertical"
@@ -348,8 +356,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Home"
-                                android:textColor="@color/textColor1"
-                                android:textSize="12sp" />
+                                android:textColor="@color/textColor1" />
 
                             <TextView
                                 android:id="@+id/txtSelectedAddress"
@@ -358,8 +365,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/margin8dp"
                                 android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore"
-                                android:textColor="@color/textColor2"
-                                android:textSize="12sp" />
+                                android:textColor="@color/textColor2" />
 
 
                         </LinearLayout>

@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
+import com.trolla.healthsdk.utils.hide
+import com.trolla.healthsdk.utils.show
 import org.koin.java.KoinJavaComponent.inject
 
 class HomeFragment : Fragment() {
@@ -37,10 +39,22 @@ class HomeFragment : Fragment() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.menuHome -> setCurrentFragment(DashboardFragment())
-                R.id.menuProfile -> setCurrentFragment(ProfileFragment())
-                R.id.menuCart -> setCurrentFragment(CartFragment())
-                R.id.menuSettings -> setCurrentFragment(SettingsFragment())
+                R.id.menuHome -> {
+                    binding.imgVendorLogo.show()
+                    setCurrentFragment(DashboardFragment())
+                }
+                R.id.menuProfile -> {
+                    binding.imgVendorLogo.hide()
+                    setCurrentFragment(ProfileFragment())
+                }
+                R.id.menuCart -> {
+                    binding.imgVendorLogo.hide()
+                    setCurrentFragment(CartFragment.newInstance(false))
+                }
+                R.id.menuSettings -> {
+                    binding.imgVendorLogo.hide()
+                    setCurrentFragment(SettingsFragment())
+                }
 
             }
             true
