@@ -7,6 +7,7 @@ import com.trolla.healthsdk.feature_address.domain.usecases.AddAddressUsecase
 import com.trolla.healthsdk.feature_address.domain.usecases.DeleteAddressUsecase
 import com.trolla.healthsdk.feature_address.domain.usecases.GetAddressListUsecase
 import com.trolla.healthsdk.feature_address.domain.usecases.UpdateAddressUsecase
+import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
@@ -18,6 +19,7 @@ import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewM
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
 import com.trolla.healthsdk.feature_cart.domain.provideCartRepository
 import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
+import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.domain.provideDashboardRepository
@@ -58,7 +60,8 @@ val repositoryModule = module {
     single { provideCartRepository(get()) }
     single { GetCartDetailsUsecase(get()) }
     single { AddToCartUsercase(get()) }
-    factory { CartViewModel(get(), get()) }
+    single { CreateOrderUsecase(get()) }
+    factory { CartViewModel(get(), get(), get()) }
 
     /*Products List*/
     single { provideProductsListRepository(get()) }
@@ -76,5 +79,7 @@ val repositoryModule = module {
     single { AddAddressUsecase(get()) }
     single { UpdateAddressUsecase(get()) }
     single { DeleteAddressUsecase(get()) }
-    single { AddressListViewModel(get(), get(), get(), get()) }
+    single { AddressListViewModel(get(), get()) }
+
+    single { AddAddressViewModel(get(), get()) }
 }

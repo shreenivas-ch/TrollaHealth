@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel" />
@@ -14,11 +16,338 @@
         android:background="@color/pageBackgroundColor"
         android:clickable="true">
 
-    <include
-        android:id="@+id/commonHeader"
-        layout="@layout/layout_common_header"
-        app:linevisibility="@{viewModel.headerBottomLine}"
-        app:title="@{viewModel.headerTitle}" />
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardSubmitAddress"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/margin16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="@string/enter_contact_name"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressNameValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddressContactName"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressNameLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="Enter contact number"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressContactValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddressContact"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:text="@={viewModel.addressContactLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="@string/enter_address"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddress"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="Enter Landmark"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressLandmarkValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtFirstname"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressLandmarkLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="Enter City"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressCityValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddressCity"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressCityLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="Enter State"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressStateValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddressState"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressStateLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="@string/enter_pincode"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressPincodeValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAddressPincode"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:text="@={viewModel.addressPincodeLiveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save Address As"
+                    android:textColor="@color/textColor1" />
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioHome"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.addressTypeLiveData.equalsIgnoreCase(viewModel.addressTypeHomeConstant)}"
+                        android:padding="10dp"
+                        android:text="Home"
+                        android:textColor="@color/textColor1" />
+
+                    <RadioButton
+                        android:id="@+id/radioWork"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.addressTypeLiveData.equalsIgnoreCase(viewModel.addressTypeWorkConstant)}"
+                        android:padding="10dp"
+                        android:text="Work"
+                        android:textColor="@color/textColor1" />
+
+                    <RadioButton
+                        android:id="@+id/radioOther"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@{viewModel.addressTypeLiveData.equalsIgnoreCase(viewModel.addressTypeOtherConstant)}"
+                        android:padding="10dp"
+                        android:text="Other"
+                        android:textColor="@color/textColor1" />
+
+                </RadioGroup>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/inputOtherLocation"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    android:hint="@string/name_this_location"
+                    android:visibility="gone"
+                    app:boxCornerRadiusBottomEnd="8dp"
+                    app:boxCornerRadiusBottomStart="8dp"
+                    app:boxCornerRadiusTopEnd="8dp"
+                    app:boxCornerRadiusTopStart="8dp"
+                    app:boxStrokeColor="@color/borderColor"
+                    app:boxStrokeWidth="1dp"
+                    app:error="@{viewModel.addressOtherValidator.error}"
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/textHintColor"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintHeader">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNameThisLocation"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:inputType="text"
+                        android:text="@={viewModel.addressOtheriveData}"
+                        android:textColor="@color/textColor1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSubmitAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUpdateProfile"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin48dp"
+                android:layout_margin="@dimen/margin16dp"
+                android:background="@drawable/bg_inactivebutton"
+                android:enabled="@{viewModel.addAddressFormValidMediator}"
+                android:gravity="center"
+                android:onClick="@{(v)-> viewModel.saveAddress()}"
+                android:text="@string/save_address"
+                android:textColor="@{viewModel.addAddressFormValidMediator ? @color/white : @color/inactiveTextColor}" />
+
+
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

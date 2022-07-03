@@ -11,18 +11,22 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.AddressListFragmentBinding
+import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.setVisibilityOnBoolean
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
 
 class AddressListFragment : Fragment() {
 
-    val action by lazy {
+    val from by lazy {
         arguments?.let {
             it.getString("action")
         }
@@ -39,6 +43,7 @@ class AddressListFragment : Fragment() {
         }
     }
 
+    var tmpCount = 0
     val addressListViewModel: AddressListViewModel by inject(
         AddressListViewModel::class.java
     )
@@ -71,18 +76,19 @@ class AddressListFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                if (action == "cart") {
+                if (from == "cart") {
                     EventBus.getDefault().post(AddressSelectedEvent(addressList[position]))
                     parentFragmentManager?.popBackStack()
                 }
             }
 
             override fun onDeleteAddressClick(view: View, position: Int) {
-                addressListViewModel.deleteAddress(addressList.get(position)._id)
+                addressListViewModel.deleteAddress(addressList[position]._id)
             }
 
             override fun onEditAddressClick(view: View, position: Int) {
-                var addAddressFragment = AddAddressFragment.newInstance(addressList[position])
+                var addAddressFragment =
+                    AddAddressFragment.newInstance(addressList[position], from = from ?: "")
                 (activity as DashboardActivity).addOrReplaceFragment(addAddressFragment, true)
             }
         })
@@ -93,33 +99,23 @@ class AddressListFragment : Fragment() {
                     addressList.clear()
                     addressList.addAll(it.data?.data?.addresses!!)
                     for (i in addressList.indices) {
-                        addressList[i].isSelect = action == "cart"
-                    }
-
-                    genericAdapter.notifyDataSetChanged()
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
-
-        addressListViewModel.addAddressLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-
-                    addressList.clear()
-                    addressList.addAll(it.data?.data?.addresses!!)
-                    for (i in addressList.indices) {
-                        addressList[i].isSelect = action != "cart"
+                        addressList[i].isSelect = from == "cart"
                     }
 
                     genericAdapter.notifyDataSetChanged()
 
+                    if (tmpCount == 0) {
+                        tmpCount = 1
+                        if (addressList.size == 0 && from == "cart") {
+                            parentFragmentManager.popBackStack()
+                            var addNewAddressFragment =
+                                AddAddressFragment.newInstance(from = from ?: "")
+                            (activity as DashboardActivity).addOrReplaceFragment(
+                                addNewAddressFragment,
+                                true
+                            )
+                        }
+                    }
                 }
 
                 is Resource.Error -> {
@@ -137,28 +133,7 @@ class AddressListFragment : Fragment() {
                     addressList.clear()
                     addressList.addAll(it.data?.data?.addresses!!)
                     for (i in addressList.indices) {
-                        addressList[i].isSelect = action != "cart"
-                    }
-
-                    genericAdapter.notifyDataSetChanged()
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
-
-        addressListViewModel.updateAddressLiveData.observe(viewLifecycleOwner) {
-            when (it) {
-                is Resource.Success -> {
-                    addressList.clear()
-                    addressList.addAll(it.data?.data?.addresses!!)
-                    for (i in addressList.indices) {
-                        addressList[i].isSelect = action != "cart"
+                        addressList[i].isSelect = from != "cart"
                     }
 
                     genericAdapter.notifyDataSetChanged()
@@ -174,7 +149,7 @@ class AddressListFragment : Fragment() {
         }
 
         binding.llAddNewAddress.setOnClickListener {
-            var addNewAddressFragment = AddAddressFragment()
+            var addNewAddressFragment = AddAddressFragment.newInstance(from = from ?: "")
             (activity as DashboardActivity).addOrReplaceFragment(addNewAddressFragment, true)
         }
 
@@ -183,6 +158,21 @@ class AddressListFragment : Fragment() {
         addressListViewModel.getAddressList()
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addressListRefreshEvent: AddressListRefreshEvent) {
+        addressListViewModel.getAddressList()
     }
 
 }

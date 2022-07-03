@@ -12,10 +12,8 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
-import com.trolla.healthsdk.feature_dashboard.data.AddToCartActionEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
@@ -53,7 +51,6 @@ class CartFragment : Fragment() {
 
     var prescriptionsArray = ArrayList<ModelPrescription>()
     lateinit var selectedAddress: ModelAddress
-    var selectedPaymentMode = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -129,15 +126,6 @@ class CartFragment : Fragment() {
         cartAdapterWithRx.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-
-            }
-
-            override fun onAddToCartClick(view: View, position: Int) {
-
-
-            }
-
-            override fun goToCart() {
 
             }
 
@@ -218,17 +206,36 @@ class CartFragment : Fragment() {
             }
         }
 
+        cartViewModel.createOrderResponseLiveData.observe(
+            viewLifecycleOwner
+        ) {
+            when (it) {
+                is Resource.Success -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(), it?.data?.message
+                    )
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
         cartViewModel.getCartDetails()
 
         binding.rlCashonDelivery.setOnClickListener {
-            selectedPaymentMode = "COD"
+            cartViewModel.selectedPaymentModeLiveData.value = "COD"
             binding.imgCOD.setImageResource(R.drawable.ic_cod)
             binding.imgOnline.setImageResource(R.drawable.ic_payonline_inactive)
             binding.imgCODSelected.setImageResource(R.drawable.ic_selected)
             binding.imgOnlineSelected.setImageResource(R.drawable.ic_unselected)
         }
         binding.rlPayOnline.setOnClickListener {
-            selectedPaymentMode = "prepaid"
+            cartViewModel.selectedPaymentModeLiveData.value = "prepaid"
             binding.imgCOD.setImageResource(R.drawable.ic_cod_inactive)
             binding.imgOnline.setImageResource(R.drawable.ic_payonline)
             binding.imgCODSelected.setImageResource(R.drawable.ic_unselected)
@@ -268,7 +275,7 @@ class CartFragment : Fragment() {
         cartAdapterWithoutRx.notifyDataSetChanged()
         cartAdapterWithRx.notifyDataSetChanged()
 
-        binding.llPrescriptionLayout.setVisibilityOnBoolean(cartItemsListWithRx.size!=0,true)
+        binding.llPrescriptionLayout.setVisibilityOnBoolean(cartItemsListWithRx.size != 0, true)
 
         binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
             cartItemsListWithoutRx.size == 0,
@@ -311,6 +318,8 @@ class CartFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(address: AddressSelectedEvent) {
+
+        cartViewModel.selectedAddressIdLiveData.value = address.modelAddress._id
 
         binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
             address.modelAddress == null,

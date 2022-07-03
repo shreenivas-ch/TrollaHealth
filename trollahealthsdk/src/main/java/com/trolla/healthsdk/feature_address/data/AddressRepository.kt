@@ -5,7 +5,7 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 
 interface AddressRepository {
     suspend fun getAddressList(): Resource<BaseApiResponse<GetAdressListResponse>>
-    suspend fun updateAddress(id:String,modelAddress: ModelAddress): Resource<BaseApiResponse<EditAddressResponse>>
-    suspend fun addAddress(modelAddress: ModelAddress): Resource<BaseApiResponse<AddAddressResponse>>
+    suspend fun updateAddress(id:String,modelAddress: AddAddressRequest): Resource<BaseApiResponse<EditAddressResponse>>
+    suspend fun addAddress(modelAddress: AddAddressRequest): Resource<BaseApiResponse<AddAddressResponse>>
     suspend fun deleteAddress(id:String): Resource<BaseApiResponse<DeleteAddressResponse>>
 }

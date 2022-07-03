@@ -17,13 +17,13 @@ class AddressRepositoryImpl(private val apiService: ApiService) : AddressReposit
 
     override suspend fun updateAddress(
         id: String,
-        modelAddress: ModelAddress
+        modelAddress: AddAddressRequest
     ): Resource<BaseApiResponse<EditAddressResponse>> {
         val response = apiService.updateAddress(id, modelAddress)
         return APIErrorHandler<EditAddressResponse>().process(response)
     }
 
-    override suspend fun addAddress(modelAddress: ModelAddress): Resource<BaseApiResponse<AddAddressResponse>> {
+    override suspend fun addAddress(modelAddress: AddAddressRequest): Resource<BaseApiResponse<AddAddressResponse>> {
         val response = apiService.addAddress(modelAddress)
         return APIErrorHandler<AddAddressResponse>().process(response)
     }

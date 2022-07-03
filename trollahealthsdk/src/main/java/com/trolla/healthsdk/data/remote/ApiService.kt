@@ -8,13 +8,12 @@ import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_orders.data.CreateOrderResponse
+import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
-import com.trolla.healthsdk.feature_orders.data.OrderRequestModel
+import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -65,13 +64,13 @@ interface ApiService {
 
     @POST("/addresses")
     suspend fun addAddress(
-        @Body request: ModelAddress
+        @Body request: AddAddressRequest
     ): Response<BaseApiResponse<AddAddressResponse>>
 
     @PUT("/addresses/{id}")
     suspend fun updateAddress(
         @Path("id") id: String,
-        @Body modelAddress: ModelAddress
+        @Body modelAddress: AddAddressRequest
     ): Response<BaseApiResponse<EditAddressResponse>>
 
     @PUT("/addresses/{id}")

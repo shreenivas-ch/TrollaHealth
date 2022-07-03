@@ -64,4 +64,9 @@
     <string name="online_payment">Online Payment</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="enter_contact_name">Enter contact name</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_pincode">Enter Pincode</string>
+    <string name="save_address">Save Address</string>
+    <string name="name_this_location">Name this location</string>
 </resources>

@@ -8,6 +8,8 @@ import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
+import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
+import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import retrofit2.Response
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
@@ -25,6 +27,11 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
 
         val response = apiService.addToCart(cartRequest)
         return APIErrorHandler<AddToCartResponse>().process(response)
+    }
+
+    override suspend fun createOrder(orderRequestModel: OrderRequestModel): Resource<BaseApiResponse<CreateOrderResponse>> {
+        val response = apiService.createOrder(orderRequestModel)
+        return APIErrorHandler<CreateOrderResponse>().process(response)
     }
 }
 

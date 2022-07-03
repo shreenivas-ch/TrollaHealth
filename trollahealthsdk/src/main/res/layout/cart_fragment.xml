@@ -589,6 +589,7 @@
                     android:layout_height="@dimen/margin48dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:onClick="@{(v)-> viewModel.placeOrder()}"
                     android:background="@drawable/bg_inactivebutton"
                     android:gravity="center"
                     android:text="@string/proceed"

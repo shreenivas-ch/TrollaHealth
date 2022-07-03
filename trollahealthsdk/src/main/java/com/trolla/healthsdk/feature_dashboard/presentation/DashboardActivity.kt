@@ -60,7 +60,7 @@ class DashboardActivity : AppCompatActivity() {
                     LogUtil.printObject("-----> $cartItemsIdsArray")
 
                     if (!init) {
-                        addOrReplaceFragment(HomeFragment())
+                        addOrReplaceFragment(HomeFragment(), animationRequired = false)
                         init = true
                     }
 
@@ -71,7 +71,7 @@ class DashboardActivity : AppCompatActivity() {
                 is Resource.Error -> {
 
                     if (!init) {
-                        addOrReplaceFragment(HomeFragment())
+                        addOrReplaceFragment(HomeFragment(), animationRequired = false)
                         init = true
                     }
 
@@ -86,8 +86,20 @@ class DashboardActivity : AppCompatActivity() {
         cartViewModel.getCartDetails()
     }
 
-    fun addOrReplaceFragment(fragment: Fragment, isAdd: Boolean = false) {
+    fun addOrReplaceFragment(
+        fragment: Fragment,
+        isAdd: Boolean = false,
+        animationRequired: Boolean = true
+    ) {
         val transaction = supportFragmentManager.beginTransaction()
+        if (animationRequired) {
+            transaction.setCustomAnimations(
+                R.anim.slide_in,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out
+            )
+        }
         if (isAdd) {
             transaction.add(R.id.contentContainer, fragment)
             transaction.addToBackStack(fragment::class.java.simpleName)

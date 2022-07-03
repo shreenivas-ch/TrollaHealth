@@ -14,9 +14,10 @@ data class ModelAddress(
     val state: String = "",
     val landmark: String = "",
     val pincode: String = "",
-    val type: String = "",
+    val type: String = "Other",
+    val other: String = "",
 
     /*local variables */
-    var isSelect: Boolean
+    var isSelect: Boolean = false
 
-) : ListItemViewModel(),Parcelable
+) : ListItemViewModel(), Parcelable
