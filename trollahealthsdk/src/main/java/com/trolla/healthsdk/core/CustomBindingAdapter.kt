@@ -6,11 +6,14 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
+import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 
 class CustomBindingAdapter {
@@ -172,6 +175,28 @@ class CustomBindingAdapter {
                         )
                     )
                 }
+            }
+        }
+
+        @BindingAdapter("setOrderListProductImages")
+        @JvmStatic
+        fun setOrderListProductImages(
+            rv: RecyclerView?,
+            products: ArrayList<GetCartDetailsResponse.CartProduct>
+        ) {
+            var imagesArray = ArrayList<ModelOrderProductImage>()
+            if (products != null) {
+
+                for (i in products.indices) {
+                    if (products[i].product.product_img != null && products[i].product.product_img.size > 0) {
+                        imagesArray.add(ModelOrderProductImage(products[i].product.product_img[0]))
+                    }
+                }
+                var orderProductImagesAdapter = GenericAdapter(
+                    R.layout.item_order_productimage,
+                    imagesArray
+                )
+                rv?.adapter = orderProductImagesAdapter
             }
         }
     }

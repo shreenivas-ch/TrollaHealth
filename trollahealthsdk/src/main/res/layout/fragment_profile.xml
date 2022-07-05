@@ -37,26 +37,82 @@
                 android:layout_marginTop="@dimen/margin16dp"
                 android:orientation="vertical">
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    app:srcCompat="@drawable/ic_profile_placeholder" />
+
+                <TextView
+                    android:id="@+id/txtUsername"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:textColor="@color/textColor1"
+                    tools:text="Shreenivas" />
+
+                <TextView
+                    android:id="@+id/txtEmail"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:textColor="@color/textColor1"
+                    tools:text="something@gmail.com" />
+
                 <RelativeLayout
                     android:id="@+id/txtMyOrders"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin24dp"
+                    android:layout_marginTop="@dimen/margin32dp"
+                    android:layout_marginEnd="@dimen/margin24dp">
 
                     <TextView
                         style="@style/trolla_fontSemibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/margin16dp"
-                        android:text="My Orders"
+                        android:text="@string/my_orders"
                         android:textColor="@color/textColor1" />
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:rotation="180"
                         android:layout_width="@dimen/_23sdp"
                         android:layout_height="@dimen/_23sdp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/margin16dp"
+                        android:rotation="180"
+                        app:srcCompat="@drawable/ic_left_arrow" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/txtMyAddresses"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin24dp">
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin16dp"
+                        android:text="@string/my_addresses"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:rotation="180"
                         app:srcCompat="@drawable/ic_left_arrow" />
 
                 </RelativeLayout>

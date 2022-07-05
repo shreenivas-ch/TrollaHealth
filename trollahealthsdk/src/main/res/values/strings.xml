@@ -70,4 +70,9 @@
     <string name="save_address">Save Address</string>
     <string name="name_this_location">Name this location</string>
     <string name="amount">\u20B9 %s</string>
+    <string name="my_addresses">My Addresses</string>
+    <string name="my_orders">My Orders</string>
+    <string name="order_confirmed">Order Confirmed</string>
+    <string name="go_to_homepage">Go to Homepage</string>
+    <string name="track_order">Track Order</string>
 </resources>

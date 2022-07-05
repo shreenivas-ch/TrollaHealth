@@ -34,7 +34,6 @@ class OrdersListFragment : Fragment() {
         }
     }
 
-
     val orderListViewModel: OrderListViewModel by inject(OrderListViewModel::class.java)
     lateinit var binding: FragmentOrdersListBinding
 
@@ -91,6 +90,10 @@ class OrdersListFragment : Fragment() {
                     )
                 }
             }
+        }
+
+        orderListViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         orderListViewModel.getOrdersList()

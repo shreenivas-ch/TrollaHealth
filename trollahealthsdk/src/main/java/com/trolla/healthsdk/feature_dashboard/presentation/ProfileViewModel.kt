@@ -5,11 +5,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
+import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetProfileUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import kotlinx.coroutines.launch
 
-class ProfileViewModel() : BaseViewModel() {
+class ProfileViewModel(val getProfileUsecase: GetProfileUsecase) : BaseViewModel() {
+
+    var getProfileResponseLiveData =
+        MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
+
+    fun getProfile() {
+        progressStatus.value = true
+        viewModelScope.launch {
+            getProfileResponseLiveData.value =
+                getProfileUsecase()!!
+            progressStatus.value = false
+        }
+    }
 
 }

@@ -14,6 +14,7 @@ import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
@@ -211,8 +212,12 @@ class CartFragment : Fragment() {
         ) {
             when (it) {
                 is Resource.Success -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(), it?.data?.message
+                    parentFragmentManager?.popBackStack()
+                    (activity as DashboardActivity).addOrReplaceFragment(
+                        OrderConfirmedFragment.newInstance(
+                            it?.data?.data?.order?.order_id ?: ""
+                        ),
+                        true
                     )
                 }
 
@@ -250,6 +255,20 @@ class CartFragment : Fragment() {
         binding.txtChangeAddress.setOnClickListener {
             var addressListFragment = AddressListFragment.newInstance("cart")
             (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
+        }
+
+        cartViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as DashboardActivity).showHideProgressBar(it)
+        }
+
+        cartViewModel.selectedAddressIdLiveData.observe(viewLifecycleOwner)
+        {
+            checkIfCartValid()
+        }
+
+        cartViewModel.selectedPaymentModeLiveData.observe(viewLifecycleOwner)
+        {
+            checkIfCartValid()
         }
 
         return binding.root
@@ -316,6 +335,12 @@ class CartFragment : Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(address: RefreshCartEvent) {
+        cartViewModel.getCartDetails()
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(address: AddressSelectedEvent) {
 
@@ -332,7 +357,11 @@ class CartFragment : Fragment() {
         binding.txtSelectedAddress.text =
             address.modelAddress.name + "\n" + address.modelAddress.address + " " + address.modelAddress.landmark + " " + address.modelAddress.city + " " + address.modelAddress.state + "\n" + address.modelAddress.pincode
 
+    }
 
+    fun checkIfCartValid() {
+        cartViewModel.isCartValid.value =
+            cartViewModel.selectedPaymentModeLiveData.value != "" && cartViewModel.selectedAddressIdLiveData.value != ""
     }
 
 }

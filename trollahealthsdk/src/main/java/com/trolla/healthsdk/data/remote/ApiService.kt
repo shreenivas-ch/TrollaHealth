@@ -32,6 +32,9 @@ interface ApiService {
     @PUT("/users/profile")
     suspend fun updateProfile(@Body updateProfileRequest: UpdateProfileRequest): Response<BaseApiResponse<UpdateProfileResponse>>
 
+    @GET("/users/profile")
+    suspend fun getProfile(): Response<BaseApiResponse<UpdateProfileResponse>>
+
     @GET("/")
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
@@ -73,7 +76,7 @@ interface ApiService {
         @Body modelAddress: AddAddressRequest
     ): Response<BaseApiResponse<EditAddressResponse>>
 
-    @PUT("/addresses/{id}")
+    @DELETE("/addresses/{id}")
     suspend fun deleteAddress(
         @Path("id") id: String
     ): Response<BaseApiResponse<DeleteAddressResponse>>

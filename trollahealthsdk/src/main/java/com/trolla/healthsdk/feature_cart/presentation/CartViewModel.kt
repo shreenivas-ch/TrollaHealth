@@ -23,6 +23,7 @@ class CartViewModel(
 
     val selectedAddressIdLiveData = MutableLiveData<String>("")
     val selectedPaymentModeLiveData = MutableLiveData<String>("")
+    val isCartValid = MutableLiveData<Boolean>(false)
 
     val addToCartResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<AddToCartResponse>>>()

@@ -133,7 +133,7 @@ class AddressListFragment : Fragment() {
                     addressList.clear()
                     addressList.addAll(it.data?.data?.addresses!!)
                     for (i in addressList.indices) {
-                        addressList[i].isSelect = from != "cart"
+                        addressList[i].isSelect = from == "cart"
                     }
 
                     genericAdapter.notifyDataSetChanged()
@@ -151,6 +151,10 @@ class AddressListFragment : Fragment() {
         binding.llAddNewAddress.setOnClickListener {
             var addNewAddressFragment = AddAddressFragment.newInstance(from = from ?: "")
             (activity as DashboardActivity).addOrReplaceFragment(addNewAddressFragment, true)
+        }
+
+        addressListViewModel.progressStatus.observe(viewLifecycleOwner) {
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         binding.addressList.adapter = genericAdapter
