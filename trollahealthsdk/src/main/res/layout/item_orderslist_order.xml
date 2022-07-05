@@ -10,7 +10,7 @@
 
         <variable
             name="item"
-            type="com.trolla.healthsdk.feature_address.data.ModelAddress" />
+            type="com.trolla.healthsdk.feature_orders.data.ModelOrder" />
 
     </data>
 
@@ -30,6 +30,7 @@
                 style="@style/trolla_fontSemibold"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{`Order `+item.order_id+` (`+item.products.size()+` Item(s))`}"
                 android:textColor="@color/textColor1"
                 tools:text="Order 45678910 (3 items)" />
 
@@ -39,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:text="@{@string/amount(item.amount)}"
                 android:textColor="@color/textColor1"
                 tools:text="₹137.225" />
 
@@ -55,10 +57,10 @@
                 tools:listitem="@layout/item_uploaded_prescription" />
 
             <LinearLayout
-                android:layout_marginTop="@dimen/margin16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rvUploadedPrescriptions"
+                android:layout_marginTop="@dimen/margin16dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -67,6 +69,7 @@
                     android:layout_height="@dimen/margin16dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin8dp"
+                    app:setOrderStatusIcon="@{item.status}"
                     app:srcCompat="@drawable/ic_order_status_inprocess" />
 
                 <TextView
@@ -77,6 +80,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin8dp"
                     android:textColor="@color/textColor1"
+                    app:capitaliseString="@{item.status}"
                     tools:text="In-Process" />
 
                 <TextView
@@ -86,7 +90,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/textColor1"
-                    tools:text="In-Process" />
+                    app:orderDate="@{item.created_at}"
+                    app:orderStatus="@{item.status}"
+                    tools:text="5th May 2022, 05 : 35 : 00 PM" />
 
             </LinearLayout>
 

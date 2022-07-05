@@ -6,25 +6,25 @@
     <data>
 
         <variable
-            name="loginEmailViewModel"
-            type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
+            name="viewModel"
+            type="com.trolla.healthsdk.feature_dashboard.presentation.SettingsViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="@dimen/margin24dp">
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
 
-        <TextView
-            style="@style/trolla_fontSemibold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

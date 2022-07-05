@@ -6,25 +6,64 @@
     <data>
 
         <variable
-            name="loginEmailViewModel"
-            type="com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel" />
+            name="viewModel"
+            type="com.trolla.healthsdk.feature_dashboard.presentation.ProfileViewModel" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:padding="@dimen/margin24dp">
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
 
-        <TextView
-            style="@style/trolla_fontSemibold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:id="@+id/txtMyOrders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/margin16dp"
+                        android:text="My Orders"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:rotation="180"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        app:srcCompat="@drawable/ic_left_arrow" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

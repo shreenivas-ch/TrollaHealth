@@ -69,4 +69,5 @@
     <string name="enter_pincode">Enter Pincode</string>
     <string name="save_address">Save Address</string>
     <string name="name_this_location">Name this location</string>
+    <string name="amount">\u20B9 %s</string>
 </resources>

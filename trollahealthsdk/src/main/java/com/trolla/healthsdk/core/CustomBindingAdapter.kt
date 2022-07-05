@@ -4,15 +4,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
-import com.trolla.healthsdk.utils.LogUtil
-import java.util.*
+import com.trolla.healthsdk.utils.TrollaHealthUtility
 
 class CustomBindingAdapter {
 
@@ -121,6 +120,59 @@ class CustomBindingAdapter {
             }
         }
 
+        @BindingAdapter("setOrderStatusIcon")
+        @JvmStatic
+        fun setOrderStatusIcon(view: AppCompatImageView, orderStatus: String?) {
+            orderStatus?.let {
+                if (orderStatus.lowercase() == "pending") {
+                    view.setImageResource(R.drawable.ic_order_status_inprocess)
+                } else if (orderStatus.lowercase() == "cancelled") {
+                    view.setImageResource(R.drawable.ic_order_status_cancelled)
+                } else if (orderStatus.lowercase() == "delivered") {
+                    view.setImageResource(R.drawable.ic_order_status_delivered)
+                } else {
+                    view.setImageResource(R.drawable.ic_order_status_inprocess)
+                }
+            }
+        }
 
+        @BindingAdapter("orderStatus", "orderDate")
+        @JvmStatic
+        fun setOrderDateTime(view: TextView, orderStatus: String?, orderDate: String) {
+
+            view.text = ": " + TrollaHealthUtility.getDate(orderDate)
+
+            if (orderStatus != null) {
+                if (orderStatus.lowercase() == "pending") {
+                    view.setTextColor(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.colorOrderInProgress
+                        )
+                    )
+                } else if (orderStatus.lowercase() == "cancelled") {
+                    view.setTextColor(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.colorOrderCancelled
+                        )
+                    )
+                } else if (orderStatus.lowercase() == "delivered") {
+                    view.setTextColor(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.colorOrderDelivered
+                        )
+                    )
+                } else {
+                    view.setTextColor(
+                        ContextCompat.getColor(
+                            view.context,
+                            R.color.colorOrderInProgress
+                        )
+                    )
+                }
+            }
+        }
     }
 }

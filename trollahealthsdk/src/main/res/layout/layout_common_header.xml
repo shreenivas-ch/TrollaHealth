@@ -26,31 +26,41 @@
         android:layout_height="@dimen/_40sdp"
         android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgBack"
-            android:visibility="@{backButtonVisibility==1?View.VISIBLE:View.GONE}"
-            android:layout_width="@dimen/margin24dp"
-            android:layout_height="@dimen/margin24dp"
+        <LinearLayout
             android:layout_marginStart="@dimen/_8sdp"
-            android:padding="3dp"
-            android:tint="@color/primary_color"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
-
-        <TextView
-            android:id="@+id/txtTitle"
-            style="@style/trolla_fontSemibold"
+            android:gravity="center_vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:text="@{title}"
-            android:textColor="@color/textColor1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgBack"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/app_name" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgBack"
+                android:layout_width="@dimen/margin24dp"
+                android:layout_height="@dimen/margin24dp"
+                android:padding="3dp"
+                android:tint="@color/primary_color"
+                android:visibility="@{backButtonVisibility==1?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="@{title}"
+                android:textColor="@color/textColor1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgBack"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/app_name" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"
