@@ -589,12 +589,12 @@
                     android:layout_height="@dimen/margin48dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:gravity="center"
                     android:background="@drawable/bg_inactivebutton"
                     android:enabled="@{viewModel.isCartValid}"
-                    android:textColor="@{viewModel.isCartValid ? @color/white : @color/inactiveTextColor}"
+                    android:gravity="center"
                     android:onClick="@{(v)-> viewModel.placeOrder()}"
-                    android:text="@string/proceed" />
+                    android:text="@string/proceed"
+                    android:textColor="@{viewModel.isCartValid ? @color/white : @color/inactiveTextColor}" />
 
 
             </RelativeLayout>

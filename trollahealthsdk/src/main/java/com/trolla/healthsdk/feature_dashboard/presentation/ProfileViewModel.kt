@@ -10,19 +10,16 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetProfileUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(val getProfileUsecase: GetProfileUsecase) : BaseViewModel() {
+class ProfileViewModel() : BaseViewModel() {
 
-    var getProfileResponseLiveData =
-        MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
-
+    val profileLiveData = MutableLiveData<UpdateProfileResponse>()
     fun getProfile() {
-        progressStatus.value = true
         viewModelScope.launch {
-            getProfileResponseLiveData.value =
-                getProfileUsecase()!!
-            progressStatus.value = false
+            profileLiveData.value = TrollaPreferencesManager.get(TrollaPreferencesManager.USER_DATA)
+
         }
     }
 

@@ -39,21 +39,10 @@ class ProfileFragment : Fragment() {
         profileViewModel.headerBottomLine.value = 1
         profileViewModel.headerBackButton.value = 0
 
-        profileViewModel.getProfileResponseLiveData.observe(viewLifecycleOwner)
+        profileViewModel.profileLiveData.observe(viewLifecycleOwner)
         {
-            when (it) {
-                is Resource.Success -> {
-                    binding.txtEmail.text = it?.data?.data?.email
-                    binding.txtUsername.text = it?.data?.data?.name
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
+            binding.txtEmail.text = it?.email
+            binding.txtUsername.text = it?.name
         }
 
         profileViewModel.progressStatus.observe(viewLifecycleOwner) {

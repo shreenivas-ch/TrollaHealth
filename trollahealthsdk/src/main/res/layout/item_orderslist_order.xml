@@ -17,6 +17,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="true"
         android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}">
 
         <RelativeLayout
@@ -33,6 +34,16 @@
                 android:text="@{`Order `+item.order_id+` (`+item.products.size()+` Item(s))`}"
                 android:textColor="@color/textColor1"
                 tools:text="Order 45678910 (3 items)" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgPaymentMode"
+                android:layout_width="@dimen/margin16dp"
+                android:layout_height="@dimen/margin16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin8dp"
+                android:layout_toLeftOf="@+id/txtOrderAmount"
+                app:setOrderPaymentModeIcon="@{item.transactions.get(0).mode}"
+                />
 
             <TextView
                 android:id="@+id/txtOrderAmount"
@@ -53,8 +64,8 @@
                 android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:itemCount="5"
                 app:setOrderListProductImages="@{item.products}"
+                tools:itemCount="5"
                 tools:listitem="@layout/item_order_productimage" />
 
             <LinearLayout
@@ -70,8 +81,7 @@
                     android:layout_height="@dimen/margin16dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="@dimen/margin8dp"
-                    app:setOrderStatusIcon="@{item.status}"
-                    app:srcCompat="@drawable/ic_order_status_inprocess" />
+                    app:setOrderStatusIcon="@{item.status}" />
 
                 <TextView
                     android:id="@+id/txtOrderStatus"

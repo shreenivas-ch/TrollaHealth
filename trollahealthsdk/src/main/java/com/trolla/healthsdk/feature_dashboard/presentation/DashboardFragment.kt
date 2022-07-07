@@ -44,6 +44,7 @@ class DashboardFragment : Fragment() {
 
         binding.lifecycleOwner = this
         dashboardViewModel.getDashboard()
+        dashboardViewModel.getProfile()
 
         binding.dashboardSwifeRefresh.setOnRefreshListener {
             binding.dashboardSwifeRefresh.isRefreshing = false
@@ -187,7 +188,10 @@ class DashboardFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(addToCartActionEvent: AddToCartActionEvent) {
         LogUtil.printObject("-----> DashboardFragment: AddToCartActionEvent")
-        (activity as DashboardActivity).cartViewModel.addToCart(addToCartActionEvent.product_id, addToCartActionEvent.qty)
+        (activity as DashboardActivity).cartViewModel.addToCart(
+            addToCartActionEvent.product_id,
+            addToCartActionEvent.qty
+        )
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

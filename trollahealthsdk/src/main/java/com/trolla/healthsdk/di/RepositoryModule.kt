@@ -31,7 +31,9 @@ import com.trolla.healthsdk.feature_dashboard.presentation.SettingsViewModel
 import com.trolla.healthsdk.feature_orders.domain.provideOrderRepository
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
+import com.trolla.healthsdk.feature_orders.presentation.OrderDetailsViewModel
 import com.trolla.healthsdk.feature_orders.presentation.OrderListViewModel
+import com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationViewModel
 import com.trolla.healthsdk.feature_productdetails.domain.provideProductDetailsRepository
 import com.trolla.healthsdk.feature_productdetails.domain.usecases.GetProductDetailsUsecase
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsViewModel
@@ -61,7 +63,7 @@ val repositoryModule = module {
     /*Dashboard*/
     single { provideDashboardRepository(get()) }
     single { GetDashboardUsecase(get()) }
-    single { DashboardViewModel(get()) }
+    single { DashboardViewModel(get(), get()) }
 
     /*Cart*/
     single { provideCartRepository(get()) }
@@ -94,10 +96,13 @@ val repositoryModule = module {
     single { GetOrdersListUsecase(get()) }
     single { GetOrderDetailsUsecase(get()) }
     single { OrderListViewModel(get()) }
+    single { OrderDetailsViewModel(get()) }
+
+    single { PaymentGatewayIntegrationViewModel() }
 
     /*profile*/
     single { GetProfileUsecase(get()) }
-    single { ProfileViewModel(get()) }
+    single { ProfileViewModel() }
 
     /*settings*/
     single { SettingsViewModel() }

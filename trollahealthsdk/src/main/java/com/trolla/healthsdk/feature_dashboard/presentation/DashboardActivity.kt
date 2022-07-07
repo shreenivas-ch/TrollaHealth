@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.razorpay.PaymentResultListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
@@ -16,7 +17,7 @@ import com.trolla.healthsdk.utils.setVisibilityOnBoolean
 import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(), PaymentResultListener {
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
@@ -112,4 +113,14 @@ class DashboardActivity : AppCompatActivity() {
     fun showHideProgressBar(isShow: Boolean = false) {
         findViewById<ProgressBar>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
     }
+
+    override fun onPaymentSuccess(razorpayPaymentID: String?) {
+        LogUtil.printObject("RazorPay: $razorpayPaymentID")
+    }
+
+    override fun onPaymentError(code: Int, response: String?) {
+        LogUtil.printObject("RazorPay: $code:$response")
+    }
+
+
 }

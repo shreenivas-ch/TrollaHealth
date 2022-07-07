@@ -18,8 +18,10 @@
         <include
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
             app:linevisibility="@{viewModel.headerBottomLine}"
             app:title="@{viewModel.headerTitle}" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

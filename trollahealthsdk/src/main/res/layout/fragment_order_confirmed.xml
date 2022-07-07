@@ -24,21 +24,41 @@
                 app:srcCompat="@drawable/ic_order_confirmed" />
 
             <TextView
+                android:gravity="center"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:layout_marginStart="@dimen/margin16dp"
                 style="@style/trolla_fontBold"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/order_confirmed"
                 android:textColor="@color/textColor1" />
 
             <TextView
+                android:gravity="center"
                 android:id="@+id/txtOrderDetails"
                 style="@style/trolla_fontMedium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
                 android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
                 android:text="@string/order_confirmed"
+                android:textColor="@color/textColor2"
+                android:textSize="15sp" />
+
+            <TextView
+                android:gravity="center"
+                android:id="@+id/txtPaymentRedirectionMessage"
+                style="@style/trolla_fontBold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:text="Please wait"
                 android:textColor="@color/textColor2"
                 android:textSize="15sp" />
 

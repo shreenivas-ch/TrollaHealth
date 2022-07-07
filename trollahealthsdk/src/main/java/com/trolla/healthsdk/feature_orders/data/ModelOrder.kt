@@ -3,6 +3,7 @@ package com.trolla.healthsdk.feature_orders.data
 import com.trolla.healthsdk.core.ListItemViewModel
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_payment.data.ModelTransaction
 
 data class ModelOrder(
     val _id: String,
@@ -12,5 +13,6 @@ data class ModelOrder(
     val status: String,
     val created_at: String,
     val order_id: String,
-    val address: ModelAddress
+    val address: ModelAddress,
+    val transactions: ArrayList<ModelTransaction>
 ) : ListItemViewModel()

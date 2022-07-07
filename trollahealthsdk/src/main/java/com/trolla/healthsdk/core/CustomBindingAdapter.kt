@@ -139,6 +139,18 @@ class CustomBindingAdapter {
             }
         }
 
+        @BindingAdapter("setOrderPaymentModeIcon")
+        @JvmStatic
+        fun setOrderPaymentModeIcon(view: AppCompatImageView, paymentMode: String?) {
+            paymentMode?.let {
+                if (paymentMode.lowercase() == "cod") {
+                    view.setImageResource(R.drawable.ic_cod)
+                } else if (paymentMode.lowercase() == "prepaid") {
+                    view.setImageResource(R.drawable.ic_payonline)
+                }
+            }
+        }
+
         @BindingAdapter("orderStatus", "orderDate")
         @JvmStatic
         fun setOrderDateTime(view: TextView, orderStatus: String?, orderDate: String) {

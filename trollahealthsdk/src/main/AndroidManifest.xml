@@ -24,6 +24,11 @@
         <activity
             android:name=".feature_auth.presentation.AuthenticationActivity"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_ILgsfZCZoFIKMb" />
+
     </application>
 
 </manifest>

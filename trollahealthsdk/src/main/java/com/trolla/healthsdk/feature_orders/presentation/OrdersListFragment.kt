@@ -67,7 +67,11 @@ class OrdersListFragment : Fragment() {
         orderAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-
+                var ordersDetailsFragment = OrdersDetailsFragment.newInstance(
+                    ordersList[position]._id,
+                    ordersList[position].order_id
+                )
+                (activity as DashboardActivity).addOrReplaceFragment(ordersDetailsFragment, true)
             }
         })
 

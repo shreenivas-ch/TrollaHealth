@@ -21,7 +21,6 @@ import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class CartFragment : Fragment() {
@@ -213,9 +212,13 @@ class CartFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     parentFragmentManager?.popBackStack()
+
                     (activity as DashboardActivity).addOrReplaceFragment(
                         OrderConfirmedFragment.newInstance(
-                            it?.data?.data?.order?.order_id ?: ""
+                            it?.data?.data?.order?.order_id ?: "",
+                            cartViewModel.selectedPaymentModeLiveData.value,
+                            it?.data?.data?.transaction?._id,
+                            it?.data?.data?.order?.amount
                         ),
                         true
                     )

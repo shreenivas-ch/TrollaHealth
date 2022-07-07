@@ -85,4 +85,7 @@ dependencies {
 
     /*aws*/
     implementation 'com.amazonaws:aws-android-sdk-s3:2.49.0'
+
+    /*razorpay*/
+    implementation 'com.razorpay:checkout:1.6.20'
 }
