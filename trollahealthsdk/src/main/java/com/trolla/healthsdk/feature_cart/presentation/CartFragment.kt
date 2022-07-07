@@ -43,14 +43,13 @@ class CartFragment : Fragment() {
 
     var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
     var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
     lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
     lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    lateinit var cartUploadedPrescriptionsAdapter: GenericAdapter<ModelPrescription>
 
     val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
     lateinit var binding: CartFragmentBinding
-
-    var prescriptionsArray = ArrayList<ModelPrescription>()
-    lateinit var selectedAddress: ModelAddress
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +81,11 @@ class CartFragment : Fragment() {
         cartAdapterWithRx = GenericAdapter(
             R.layout.item_cart_product,
             cartItemsListWithRx
+        )
+
+        cartUploadedPrescriptionsAdapter = GenericAdapter(
+            R.layout.item_uploaded_prescription,
+            uploadedPrescriptionsList
         )
 
         cartAdapterWithoutRx.setOnListItemViewClickListener(object :
@@ -153,8 +157,28 @@ class CartFragment : Fragment() {
             }
         })
 
+        cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+
+            }
+
+            override fun onDeletePrescriptionClick(view: View, position: Int) {
+                var newarray = ArrayList<String>()
+                for (i in uploadedPrescriptionsList.indices) {
+                    if (i != position) {
+                        newarray.add(uploadedPrescriptionsList[i].url)
+                    }
+                }
+
+                cartViewModel.addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
+            }
+
+        })
+
         binding.cartList.adapter = cartAdapterWithoutRx
         binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
+        binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
 
         cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
@@ -164,8 +188,7 @@ class CartFragment : Fragment() {
 
                     processCartData(
                         it.data?.data?.cart?.products!!,
-                        it.data?.data?.address,
-                        it?.data?.data?.prescriptions
+                        it?.data?.data?.cart?.prescriptions
                     )
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
@@ -191,7 +214,6 @@ class CartFragment : Fragment() {
 
                     processCartData(
                         it.data?.data?.products!!,
-                        it.data?.data?.address,
                         it.data?.data?.prescriptions
                     )
 
@@ -279,23 +301,28 @@ class CartFragment : Fragment() {
 
     fun processCartData(
         products: ArrayList<GetCartDetailsResponse.CartProduct>,
-        modelAddress: ModelAddress?,
-        prescriptionsList: ArrayList<ModelPrescription>?
+        prescriptionsList: ArrayList<String>
     ) {
         cartItemsListWithoutRx.clear()
         cartItemsListWithRx.clear()
+        uploadedPrescriptionsList.clear()
 
         for (i in products!!.indices) {
             if (products[i].product.rx_type == "NON-RX" || products[i].product.rx_type == "NON-RX") {
-                cartItemsListWithoutRx.add(products[i])
+                cartItemsListWithRx.add(products[i])
             } else {
                 cartItemsListWithRx.add(products[i])
             }
             LogUtil.printObject("----->: " + products[i].qty)
         }
 
+        for (i in prescriptionsList.indices) {
+            uploadedPrescriptionsList.add(ModelPrescription(prescriptionsList[i]))
+        }
+
         cartAdapterWithoutRx.notifyDataSetChanged()
         cartAdapterWithRx.notifyDataSetChanged()
+        cartUploadedPrescriptionsAdapter.notifyDataSetChanged()
 
         binding.llPrescriptionLayout.setVisibilityOnBoolean(cartItemsListWithRx.size != 0, true)
 
@@ -311,21 +338,31 @@ class CartFragment : Fragment() {
         binding.cartNesterScrollView.setVisibilityOnBoolean(products.size == 0, false)
         binding.cardViewCartPayment.setVisibilityOnBoolean(products.size == 0, false)
         binding.txtCartEmpty.setVisibilityOnBoolean(products.size == 0, true)
-        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(modelAddress == null, false)
-        binding.llAddressNotAdded.setVisibilityOnBoolean(modelAddress == null, true)
-        binding.txtAddNewPrescription.setVisibilityOnBoolean(
-            prescriptionsList == null || prescriptionsList.size == 0,
+        binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
+            cartViewModel.selectedAddressIdLiveData.value == "",
             false
         )
+        binding.llAddressNotAdded.setVisibilityOnBoolean(
+            cartViewModel.selectedAddressIdLiveData.value == "",
+            true
+        )
+
+        if (!prescriptionsList.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
+            binding.txtAddNewPrescription.show()
+        } else {
+            binding.txtAddNewPrescription.hide()
+        }
+
         binding.rvUploadedPrescriptions.setVisibilityOnBoolean(
             prescriptionsList == null || prescriptionsList.size == 0,
             false
         )
-        binding.llUploadOptions.setVisibilityOnBoolean(
-            prescriptionsList == null || prescriptionsList.size == 0,
-            true
-        )
 
+        if (prescriptionsList.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
+            binding.llUploadOptions.show()
+        } else {
+            binding.llUploadOptions.hide()
+        }
     }
 
     override fun onStart() {

@@ -11,8 +11,8 @@ import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
 import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
-import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import com.trolla.healthsdk.ui_utils.BaseViewModel
+import com.trolla.healthsdk.utils.TrollaConstants
 import kotlinx.coroutines.launch
 
 class CartViewModel(
@@ -34,11 +34,15 @@ class CartViewModel(
     val createOrderResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<CreateOrderResponse>>>()
 
-    fun addToCart(product_id: Int, qty: Int) {
+    fun addToCart(
+        product_id: Int, qty: Int,
+        type: String = TrollaConstants.ADDTOCART_TYPE_PRODUCT,
+        prescriptions: ArrayList<String> = arrayListOf()
+    ) {
         progressStatus.value = true
         viewModelScope.launch {
             addToCartResponseLiveData.value =
-                addToCartUsercase(product_id, qty)!!
+                addToCartUsercase(product_id, qty, type, prescriptions)!!
             progressStatus.value = false
         }
     }

@@ -68,5 +68,7 @@ class GenericAdapter<T : ListItemViewModel>(
 
         fun onEditAddressClick(view: View, position: Int) {}
         fun onDeleteAddressClick(view: View, position: Int) {}
+
+        fun onDeletePrescriptionClick(view: View, position: Int) {}
     }
 }

@@ -8,4 +8,7 @@ object TrollaConstants {
 
     val DATEFORMAT_1 = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"
     val DATE_FORMAT_2 = "dd MMM yyyy"
+
+    val ADDTOCART_TYPE_PRODUCT="product"
+    val ADDTOCART_TYPE_PRESCRIPTION="prescription"
 }

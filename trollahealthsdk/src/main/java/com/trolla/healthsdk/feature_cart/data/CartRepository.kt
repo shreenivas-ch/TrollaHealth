@@ -9,7 +9,9 @@ interface CartRepository {
     suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>>
     suspend fun addToCart(
         product_id: Int,
-        qty: Int
+        qty: Int,
+        type: String,
+        prescriptions: ArrayList<String>
     ): Resource<BaseApiResponse<AddToCartResponse>>
     suspend fun createOrder(orderRequestModel: OrderRequestModel): Resource<BaseApiResponse<CreateOrderResponse>>
 }

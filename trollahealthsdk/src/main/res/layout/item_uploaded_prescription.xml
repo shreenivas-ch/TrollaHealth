@@ -5,13 +5,15 @@
 
         <variable
             name="item"
-            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData" />
+            type="com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="@dimen/_85sdp"
-        android:layout_marginStart="@dimen/margin16dp"
         android:layout_height="@dimen/_85sdp"
+        android:layout_marginStart="@dimen/margin8dp"
+        android:layout_marginEnd="@dimen/margin8dp"
+        android:layout_marginBottom="@dimen/margin8dp"
         app:cardCornerRadius="@dimen/margin8dp"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
@@ -22,22 +24,30 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imvBanner"
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_70sdp"
+                android:layout_width="@dimen/_75sdp"
+                android:layout_height="@dimen/_75sdp"
                 android:layout_centerInParent="true"
                 android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
                 android:scaleType="centerCrop"
                 app:isShowPlaceHolder="@{true}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:loadImage="@{item.img_url}"
+                app:loadImage="@{item.url}"
                 app:riv_corner_radius="@dimen/margin8dp" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
+            <RelativeLayout
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_alignParentRight="true"
-                app:srcCompat="@drawable/ic_delete" />
+                android:background="@drawable/bg_rounded_white_fill"
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onDeletePrescriptionClick(v,item.adapterPosition)}"
+                android:padding="@dimen/_7sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_delete" />
+            </RelativeLayout>
 
         </RelativeLayout>
 

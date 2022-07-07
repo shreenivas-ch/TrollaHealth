@@ -20,10 +20,12 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
 
     override suspend fun addToCart(
         product_id: Int,
-        qty: Int
+        qty: Int,
+        type: String,
+        prescriptions: ArrayList<String>
     ): Resource<BaseApiResponse<AddToCartResponse>> {
 
-        var cartRequest = AddToCartRequest(product_id, qty)
+        var cartRequest = AddToCartRequest(product_id, qty, type, prescriptions)
 
         val response = apiService.addToCart(cartRequest)
         return APIErrorHandler<AddToCartResponse>().process(response)

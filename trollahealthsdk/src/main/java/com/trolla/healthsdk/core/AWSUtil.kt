@@ -16,7 +16,7 @@ object AWSUtil {
     private const val BUCKET_NAME = "mobileapp-prescriptions"
     private const val BUCKET_REGION = "ap-south-1"
     private const val POST_IMAGES_LINK = "https://cdn.mecuresmartbuy.com"
-    private const val POOL_ID = "ap-south-1:8def6a35-0e8c-461f-8937-6411ced57dee"
+    private const val POOL_ID = "ap-south-1:8a59998d-8f79-40f5-ac79-bb623bd21673"
     var PATH_PROFILE_PIC = "/msb/profile_image/"
     private const val PATH_PRESCRIPTION = "/msb/prescription_image/"
     private var sS3Client: AmazonS3Client? = null
