@@ -1,21 +1,29 @@
 package com.trolla.healthsdk.feature_dashboard.presentation
 
+import android.app.Activity
+import android.net.Uri
 import android.os.Bundle
 import android.widget.ProgressBar
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.github.drjacky.imagepicker.ImagePicker
+import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.razorpay.PaymentResultListener
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.AWSUtil
+import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
-import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
-import com.trolla.healthsdk.utils.LogUtil
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.setVisibilityOnBoolean
+import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent
+import java.io.File
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity(), PaymentResultListener {
 
@@ -122,5 +130,60 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
         LogUtil.printObject("RazorPay: $code:$response")
     }
 
+    var imagePickerLauncherFrom = ""
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val uri = it.data?.data!!
+                LogUtil.printObject("ImagePicker: Image:  $uri")
+                uri?.let {
+                    uploadImageToS3Bucket(uri)
+                }
+            }
+        }
 
+    fun launchImagePicker(launcherFrom: String, pickerType: ImageProvider) {
+        imagePickerLauncherFrom = launcherFrom
+        ImagePicker.with(this)
+            .provider(ImageProvider.BOTH) //Or bothCameraGallery()
+            .createIntentFromDialog { launcher.launch(it) }
+    }
+
+    fun uploadImageToS3Bucket(uri: Uri) {
+
+        var userData =
+            TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
+
+        var userid = userData?._id
+
+        var filePath = FetchPath.getPath(this@DashboardActivity, uri)
+        val pathtoupload = AWSUtil.PATH_PRESCRIPTION + userid
+
+        try {
+            lifecycleScope.launch {
+                val compressedImageFile =
+                    Compressor.compress(this@DashboardActivity, File(filePath))
+                AWSUtil.uploadFile(
+                    this@DashboardActivity,
+                    compressedImageFile,
+                    0,
+                    pathtoupload,
+                    object : InterfaceAWS {
+                        override fun onError(index: Int, error: String?) {
+                            LogUtil.printObject("AWS: UploadError:  $error")
+                        }
+
+                        override fun onSuccess(index: Int, url: String?) {
+                            LogUtil.printObject("AWS: Upload Success: $url")
+                        }
+
+                        override fun onProgress(index: Int, progress: Float) {
+                            LogUtil.printObject("AWS: Upload Success: $progress")
+                        }
+                    })
+            }
+        } catch (ex: Exception) {
+            LogUtil.printObject("AWS: Upload Error: $ex")
+        }
+    }
 }

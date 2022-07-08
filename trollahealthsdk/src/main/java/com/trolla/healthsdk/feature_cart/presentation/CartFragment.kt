@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.GenericAdapter
+import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
@@ -22,6 +25,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
+import java.io.File
 
 class CartFragment : Fragment() {
 
@@ -309,6 +313,8 @@ class CartFragment : Fragment() {
 
         for (i in products!!.indices) {
             if (products[i].product.rx_type == "NON-RX" || products[i].product.rx_type == "NON-RX") {
+
+//                TODO("cartItemsListWithoutRX")
                 cartItemsListWithRx.add(products[i])
             } else {
                 cartItemsListWithRx.add(products[i])
@@ -362,6 +368,16 @@ class CartFragment : Fragment() {
             binding.llUploadOptions.show()
         } else {
             binding.llUploadOptions.hide()
+        }
+
+        binding.txtAddNewPrescription.setOnClickListener {
+            (activity as DashboardActivity).launchImagePicker("cart", ImageProvider.BOTH)
+        }
+        binding.llUploadUsingCamera.setOnClickListener {
+            (activity as DashboardActivity).launchImagePicker("cart", ImageProvider.CAMERA)
+        }
+        binding.llUploadingUsingGallery.setOnClickListener {
+            (activity as DashboardActivity).launchImagePicker("cart", ImageProvider.GALLERY)
         }
     }
 

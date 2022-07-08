@@ -85,7 +85,11 @@ dependencies {
 
     /*aws*/
     implementation 'com.amazonaws:aws-android-sdk-s3:2.49.0'
+    implementation 'id.zelory:compressor:3.0.1'
 
     /*razorpay*/
     implementation 'com.razorpay:checkout:1.6.20'
+
+    /*gallery*/
+    implementation 'com.github.Drjacky:ImagePicker:2.1.16'
 }
