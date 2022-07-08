@@ -119,6 +119,8 @@ class LoginOTPVerificationFragment : Fragment() {
                         TrollaPreferencesManager.IS_PROFILE_COMPLETE
                     )
 
+                    isProfileComplete = true
+
                     if (isProfileComplete) {
                         startActivity(Intent(activity, DashboardActivity::class.java))
                         (activity as AuthenticationActivity).finish()

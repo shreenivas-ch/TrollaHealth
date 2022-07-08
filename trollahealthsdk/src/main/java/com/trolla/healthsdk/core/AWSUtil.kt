@@ -11,6 +11,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.regions.Region
 import java.io.File
 import java.lang.Exception
+import java.util.*
 
 object AWSUtil {
     private const val BUCKET_NAME = "mobileapp-prescriptions"
@@ -24,7 +25,7 @@ object AWSUtil {
     private fun getS3Client(context: Context): AmazonS3Client? {
         if (sS3Client == null) {
             //sS3Client = new AmazonS3Client(new BasicAWSCredentials(ACCESS_KEY, SECRET_KEY));
-            sS3Client = AmazonS3Client(CognitoCredentialsProvider(POOL_ID, Regions.EU_WEST_2))
+            sS3Client = AmazonS3Client(CognitoCredentialsProvider(POOL_ID, Regions.AP_SOUTH_1))
             sS3Client!!.setRegion(Region.getRegion(Regions.fromName(BUCKET_REGION)))
         }
         return sS3Client
@@ -48,13 +49,16 @@ object AWSUtil {
         pathToUpload: String,
         interfaceAWS: InterfaceAWS
     ) {
-
         val transferUtility = getTransferUtility(ctx)
         transferUtility!!.getTransfersWithType(TransferType.UPLOAD)
+
+        var filename = Calendar.getInstance().timeInMillis.toString() + "." + file.extension
         val transfer = getTransferUtility(ctx)!!
             .upload(
-                BUCKET_NAME + "" + pathToUpload, file.name,
-                file, CannedAccessControlList.PublicRead
+                BUCKET_NAME + "" + pathToUpload,
+                filename,
+                file,
+                CannedAccessControlList.PublicRead
             )
         transfer.setTransferListener(object : TransferListener {
             override fun onError(id: Int, e: Exception) {
@@ -72,7 +76,7 @@ object AWSUtil {
             override fun onStateChanged(id: Int, newState: TransferState) {
                 printObject("onStateChanged: $id, $newState")
                 if (newState == TransferState.COMPLETED) {
-                    val url = POST_IMAGES_LINK + pathToUpload + "/" + file.name
+                    val url = "$POST_IMAGES_LINK$pathToUpload/$filename"
                     interfaceAWS.onSuccess(index, url)
                 }
             }
