@@ -39,9 +39,9 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="@dimen/_50sdp"
-                    android:layout_marginTop="@dimen/margin16dp"
                     android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin16dp"
                     app:srcCompat="@drawable/ic_profile_placeholder" />
 
                 <TextView
@@ -63,6 +63,16 @@
                     android:layout_marginTop="@dimen/margin8dp"
                     android:textColor="@color/textColor1"
                     tools:text="something@gmail.com" />
+
+                <TextView
+                    android:id="@+id/txtLogout"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:textColor="@color/textColor5"
+                    android:text="LOGOUT" />
 
                 <RelativeLayout
                     android:id="@+id/txtMyOrders"

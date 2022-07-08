@@ -13,9 +13,11 @@ class MainActivity : AppCompatActivity() {
         TrollaHealthManager.Builder().appid("adfad").context(this).application(application).build()
             .launch()
 
-        findViewById<TextView>(R.id.txtLaunch).setOnClickListener {
+        finish()
+
+        /*findViewById<TextView>(R.id.txtLaunch).setOnClickListener {
             TrollaHealthManager.Builder().appid("adfad").context(this).application(application).build()
                 .launch()
-        }
+        }*/
     }
 }

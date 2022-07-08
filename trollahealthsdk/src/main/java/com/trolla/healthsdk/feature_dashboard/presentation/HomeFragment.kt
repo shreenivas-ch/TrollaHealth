@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menuHome -> {
-                    binding.imgVendorLogo.show()
+                    binding.imgVendorLogo.hide()
                     setCurrentFragment(DashboardFragment())
                 }
                 R.id.menuProfile -> {

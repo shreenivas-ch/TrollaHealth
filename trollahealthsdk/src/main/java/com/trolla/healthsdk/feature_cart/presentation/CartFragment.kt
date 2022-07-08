@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.github.drjacky.imagepicker.constant.ImageProvider
+import com.google.android.gms.maps.model.Dash
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.GenericAdapter
@@ -17,6 +18,7 @@ import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
@@ -197,6 +199,11 @@ class CartFragment : Fragment() {
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
                         it
+
+                    if(it.data?.message?.lowercase()=="prescriptions added")
+                    {
+                        (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
+                    }
                 }
 
                 is Resource.Error -> {
@@ -418,6 +425,16 @@ class CartFragment : Fragment() {
     fun checkIfCartValid() {
         cartViewModel.isCartValid.value =
             cartViewModel.selectedPaymentModeLiveData.value != "" && cartViewModel.selectedAddressIdLiveData.value != ""
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(prescriptionUploadedEvent: PrescriptionUploadedEvent) {
+        var newarray = ArrayList<String>()
+        for (i in uploadedPrescriptionsList.indices) {
+            newarray.add(uploadedPrescriptionsList[i].url)
+        }
+        newarray.add(prescriptionUploadedEvent.prescription_url)
+        cartViewModel.addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
     }
 
 }

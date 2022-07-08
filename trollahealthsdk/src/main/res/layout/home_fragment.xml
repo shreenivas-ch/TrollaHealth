@@ -14,11 +14,12 @@
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="90dp"
             android:id="@+id/imgVendorLogo"
-            android:layout_marginTop="@dimen/_12sdp"
-            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_width="90dp"
             android:layout_height="25dp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/brand_samplepic" />

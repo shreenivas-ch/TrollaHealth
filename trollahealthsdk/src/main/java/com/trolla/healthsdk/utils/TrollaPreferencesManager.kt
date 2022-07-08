@@ -28,6 +28,10 @@ object TrollaPreferencesManager {
         )
     }
 
+    fun clearPreferences() {
+        preferences.edit().clear().commit()
+    }
+
     /**
      * Saves object into the Preferences.
      *

@@ -1,9 +1,17 @@
 package com.trolla.healthsdk.feature_dashboard.presentation
 
 import android.app.Activity
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -16,14 +24,15 @@ import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
+import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.utils.*
+import id.zelory.compressor.Compressor
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent
 import java.io.File
-import id.zelory.compressor.Compressor
-import kotlinx.coroutines.launch
 
 class DashboardActivity : AppCompatActivity(), PaymentResultListener {
 
@@ -171,19 +180,82 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
                     object : InterfaceAWS {
                         override fun onError(index: Int, error: String?) {
                             LogUtil.printObject("AWS: UploadError:  $error")
+                            showPrescriptionUploadedFailedDialogue(error ?: "Something went wrong")
                         }
 
                         override fun onSuccess(index: Int, url: String?) {
                             LogUtil.printObject("AWS: Upload Success: $url")
+                            EventBus.getDefault().post(PrescriptionUploadedEvent(url!!))
                         }
 
                         override fun onProgress(index: Int, progress: Float) {
                             LogUtil.printObject("AWS: Upload Success: $progress")
+                            progressDialogueSubTitle.text =
+                                "Please wait while we are uploading your prescription\n$progress file uploaded"
                         }
                     })
+
+                prepareProgressDialogue(
+                    "File Uploading",
+                    "Please wait while we are uploading your prescription"
+                )
             }
         } catch (ex: Exception) {
             LogUtil.printObject("AWS: Upload Error: $ex")
+        }
+    }
+
+    lateinit var progressDialogueTitle: TextView
+    lateinit var progressDialogueSubTitle: TextView
+    lateinit var llOptions: LinearLayout
+
+    var dialog: Dialog? = null
+
+    fun prepareProgressDialogue(title: String, subtitle: String) {
+        dialog = Dialog(this@DashboardActivity)
+        dialog?.setContentView(R.layout.layout_fileupload_progress_dialog)
+        dialog?.setTitle(null)
+        dialog?.setCanceledOnTouchOutside(false)
+
+        progressDialogueTitle = dialog?.findViewById<View>(R.id.txtTitle) as TextView
+        progressDialogueSubTitle = dialog?.findViewById<View>(R.id.txtSubtitle) as TextView
+        llOptions = dialog?.findViewById<View>(R.id.llOptions) as LinearLayout
+        val txtViewTerms = dialog?.findViewById<View>(R.id.txtViewTerms) as TextView
+        val txtOKButton = dialog?.findViewById<View>(R.id.txtOKButton) as TextView
+
+        progressDialogueTitle.text = title
+        progressDialogueSubTitle.text = subtitle
+
+        txtViewTerms.setOnClickListener { v: View? -> dialog?.dismiss() }
+        txtOKButton.setOnClickListener { v: View? -> dialog?.dismiss() }
+
+        dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        val height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog?.window?.setLayout(width, height)
+        dialog?.let {
+            if (!it.isShowing) {
+                it.show()
+            }
+        }
+    }
+
+    fun showPrescriptionUploadedSuccessDialogue() {
+
+        dialog?.let {
+            progressDialogueTitle.text = "Prescription Uploaded Successfully"
+            progressDialogueSubTitle.text =
+                "Your prescription needes to be validated to process your order successfully"
+            llOptions.show()
+        }
+    }
+
+    fun showPrescriptionUploadedFailedDialogue(message: String) {
+
+        dialog?.let {
+            progressDialogueTitle.text = "Failed to Upload Prescription"
+            progressDialogueSubTitle.text = message
+            llOptions.show()
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_dashboard.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +11,10 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentProfileBinding
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
+import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.asString
 import org.koin.java.KoinJavaComponent.inject
 
@@ -61,6 +64,15 @@ class ProfileFragment : Fragment() {
                 AddressListFragment.newInstance("profile"),
                 true
             )
+        }
+
+        binding.txtLogout.setOnClickListener {
+            TrollaPreferencesManager.clearPreferences()
+            activity?.finish()
+            var myIntent = Intent(activity, AuthenticationActivity::class.java)
+            myIntent.flags =
+                Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            activity?.startActivity(myIntent)
         }
 
         profileViewModel.getProfile()
