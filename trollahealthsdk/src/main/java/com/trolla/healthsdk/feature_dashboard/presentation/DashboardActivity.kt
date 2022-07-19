@@ -31,6 +31,7 @@ import com.trolla.healthsdk.utils.*
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
@@ -257,5 +258,10 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
             progressDialogueSubTitle.text = message
             llOptions.show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopKoin()
     }
 }

@@ -13,6 +13,7 @@ import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 class TrollaHealthManager private constructor(
     val context: Context?,
@@ -73,5 +74,9 @@ class TrollaHealthManager private constructor(
         } else {
             context?.startActivity(Intent(context, DashboardActivity::class.java))
         }
+    }
+
+    fun closeHealthSDK() {
+        stopKoin()
     }
 }

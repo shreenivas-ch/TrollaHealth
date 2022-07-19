@@ -101,7 +101,6 @@ class DashboardRecommendedFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
-        LogUtil.printObject("DashboardRecommendedFragment:onStop")
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
