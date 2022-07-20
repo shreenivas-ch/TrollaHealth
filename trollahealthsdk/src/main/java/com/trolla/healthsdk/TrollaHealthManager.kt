@@ -1,19 +1,19 @@
 package com.trolla.healthsdk
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import com.google.firebase.messaging.RemoteMessage
+import com.trolla.healthsdk.data.PushnotificationDataModel
 import com.trolla.healthsdk.data.models.UserAddress
 import com.trolla.healthsdk.di.repositoryModule
-import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
-import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_onboarding.presentation.OnboardingActivity
+import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.NotificationHandler
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
 
 class TrollaHealthManager private constructor(
     val context: Context?,
@@ -76,7 +76,30 @@ class TrollaHealthManager private constructor(
         }
     }
 
-    fun closeHealthSDK() {
-        stopKoin()
+    fun updateFCMToken(fcmToken: String?) {
+        fcmToken?.let {
+            LogUtil.printObject("FCM Token:$fcmToken")
+
+        }
     }
+
+    private fun showNotification(remoteMessage: RemoteMessage) {
+        val pushNotificationModel = PushnotificationDataModel()
+        pushNotificationModel.title =
+            remoteMessage.data["title"] ?: context!!.getString(R.string.app_name)
+        pushNotificationModel.body = remoteMessage.data["body"] ?: ""
+        pushNotificationModel.type = remoteMessage.data["type"] ?: ""
+        pushNotificationModel.element_id = remoteMessage.data["element_id"] ?: ""
+
+        if (remoteMessage.data.containsKey("big_image")) {
+            pushNotificationModel.big_image = remoteMessage.data["big_image"] ?: ""
+        }
+
+        val resultIntent = Intent(application, DashboardActivity::class.java)
+        resultIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context?.let {
+            NotificationHandler().generateNotification(it, pushNotificationModel, resultIntent)
+        }
+    }
+
 }
