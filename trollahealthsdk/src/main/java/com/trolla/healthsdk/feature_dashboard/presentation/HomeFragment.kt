@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
                     binding.imgVendorLogo.hide()
                     setCurrentFragment(DashboardFragment())
                 }
-                R.id.menuProfile -> {
+                R.id.menuCategories -> {
                     binding.imgVendorLogo.hide()
                     setCurrentFragment(ProfileFragment())
                 }

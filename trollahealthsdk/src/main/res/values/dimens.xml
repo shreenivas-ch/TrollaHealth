@@ -11,4 +11,7 @@
     <dimen name="margin32dp">32dp</dimen>
     <dimen name="margin48dp">48dp</dimen>
     <dimen name="width40dp">40dp</dimen>
+
+    <dimen name="default_size">4dp</dimen>
+    <dimen name="bottom_margin">6dp</dimen>
 </resources>
