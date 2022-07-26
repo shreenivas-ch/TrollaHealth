@@ -24,8 +24,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
 
-        if (!remoteMessage.data.isNullOrEmpty()) {
+        Log.e("coshop", "onMessageReceived")
 
+        if (!remoteMessage.data.isNullOrEmpty()) {
+            TrollaHealthManager.Builder().appid(COSHOP_APPID).context(this).application(application)
+                .build().showNotification(remoteMessage)
         }
     }
 }

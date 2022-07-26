@@ -7,6 +7,15 @@ plugins {
 android {
     compileSdk 31
 
+    signingConfigs {
+        config {
+            keyAlias 'coshop'
+            keyPassword 'coshop'
+            storeFile file('D:\\SupportFiles\\TrollaHealth\\keystore\\coshop.jks')
+            storePassword 'coshop'
+        }
+    }
+
     defaultConfig {
         applicationId "io.instastack.coshop"
         minSdk 21
@@ -15,22 +24,30 @@ android {
         versionName "1.0"
     }
 
-    buildFeatures{
+    buildFeatures {
         dataBinding true
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Coshop-${variant.versionName}.apk"
+        }
     }
 }
 

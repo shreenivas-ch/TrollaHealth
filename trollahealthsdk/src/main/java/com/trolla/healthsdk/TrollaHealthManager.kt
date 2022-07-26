@@ -83,7 +83,7 @@ class TrollaHealthManager private constructor(
         }
     }
 
-    private fun showNotification(remoteMessage: RemoteMessage) {
+    fun showNotification(remoteMessage: RemoteMessage) {
         val pushNotificationModel = PushnotificationDataModel()
         pushNotificationModel.title =
             remoteMessage.data["title"] ?: context!!.getString(R.string.app_name)
