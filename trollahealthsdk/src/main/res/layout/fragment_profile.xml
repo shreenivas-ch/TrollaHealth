@@ -17,115 +17,356 @@
         android:background="@color/pageBackgroundColor"
         android:clickable="true">
 
-        <include
-            android:id="@+id/commonHeader"
-            layout="@layout/layout_common_header"
-            app:backButtonVisibility="@{viewModel.headerBackButton}"
-            app:linevisibility="@{viewModel.headerBottomLine}"
-            app:title="@{viewModel.headerTitle}" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin24dp"
                 android:orientation="vertical">
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:elevation="0dp"
+                    app:cardBackgroundColor="@color/textColor3"
+                    app:cardCornerRadius="@dimen/margin16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="200dp"
+                            android:layout_height="200dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="-60dp"
+                            android:layout_marginBottom="-154dp"
+                            app:srcCompat="@drawable/ic_coshoplogo"
+                            app:tint="#33ffffff" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgProfilePic"
+                            android:layout_width="@dimen/width40dp"
+                            android:layout_height="@dimen/width40dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_profile_placeholder" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin8dp"
+                            android:layout_toLeftOf="@+id/imgRightArrow"
+                            android:layout_toRightOf="@+id/imgProfilePic"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtUsername"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                tools:text="Shreenivas" />
+
+                            <TextView
+                                android:id="@+id/txtEmail"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                tools:text="something@gmail.com" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgRightArrow"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_left_arrow"
+                            app:tint="@color/white" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/margin16dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="@dimen/_12sdp"
+                            android:id="@+id/rlMyOrders"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgMyOrders"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_myorders" />
+
+                            <TextView
+                                android:id="@+id/txtMyOrders"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgMyOrders"
+                                android:text="Your Orders"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="@dimen/margin12dp"
+                            android:id="@+id/rlAddressBook"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgAddressBook"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_addressbook" />
+
+                            <TextView
+                                android:id="@+id/txtAddressBook"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgAddressBook"
+                                android:text="Address book"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/margin16dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginTop="@dimen/margin12dp"
+                            android:id="@+id/rlPrivacyPolicy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgPrivacyPolicy"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_help" />
+
+                            <TextView
+                                android:id="@+id/txtPrivacyPolicy"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgPrivacyPolicy"
+                                android:text="@string/privacy_policy"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="@dimen/margin12dp"
+                            android:id="@+id/rlTerms"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgTerms"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_help" />
+
+                            <TextView
+                                android:id="@+id/txtTerms"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgTerms"
+                                android:text="Terms &amp; Conditions"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/margin16dp"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlLogout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgLogout"
+                            android:layout_width="@dimen/margin24dp"
+                            android:layout_height="@dimen/margin24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_logout" />
+
+                        <TextView
+                            android:id="@+id/txtLogout"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_toRightOf="@+id/imgLogout"
+                            android:text="@string/logout"
+                            android:textColor="@color/textColor1"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_left_arrow"
+                            app:tint="@color/bgColor" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    app:srcCompat="@drawable/ic_profile_placeholder" />
-
-                <TextView
-                    android:id="@+id/txtUsername"
-                    style="@style/trolla_fontSemibold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin8dp"
-                    android:textColor="@color/textColor1"
-                    tools:text="Shreenivas" />
-
-                <TextView
-                    android:id="@+id/txtEmail"
-                    style="@style/trolla_fontMedium"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin8dp"
-                    android:textColor="@color/textColor1"
-                    tools:text="something@gmail.com" />
-
-                <TextView
-                    android:id="@+id/txtLogout"
-                    style="@style/trolla_fontSemibold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    android:textColor="@color/textColor5"
-                    android:text="LOGOUT" />
-
-                <RelativeLayout
-                    android:id="@+id/txtMyOrders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin24dp"
-                    android:layout_marginTop="@dimen/margin32dp"
-                    android:layout_marginEnd="@dimen/margin24dp">
-
-                    <TextView
-                        style="@style/trolla_fontSemibold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/margin16dp"
-                        android:text="@string/my_orders"
-                        android:textColor="@color/textColor1" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:rotation="180"
-                        app:srcCompat="@drawable/ic_left_arrow" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/txtMyAddresses"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin24dp"
-                    android:layout_marginEnd="@dimen/margin24dp">
-
-                    <TextView
-                        style="@style/trolla_fontSemibold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/margin16dp"
-                        android:text="@string/my_addresses"
-                        android:textColor="@color/textColor1" />
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="@dimen/_23sdp"
-                        android:layout_height="@dimen/_23sdp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:rotation="180"
-                        app:srcCompat="@drawable/ic_left_arrow" />
-
-                </RelativeLayout>
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin24dp"
+                    app:srcCompat="@drawable/ic_coshoplogo2" />
 
             </LinearLayout>
 

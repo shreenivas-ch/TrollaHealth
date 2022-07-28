@@ -222,7 +222,7 @@ class ProductsListFragment() : Fragment() {
         productsListViewModel.getProductsList(
             page.toString(),
             limit.toString(),
-            "4196",
+            id!!,
             "test"
         )
     }

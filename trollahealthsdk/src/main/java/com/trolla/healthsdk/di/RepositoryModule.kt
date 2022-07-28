@@ -40,6 +40,7 @@ import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsVi
 import com.trolla.healthsdk.feature_productslist.domain.provideProductsListRepository
 import com.trolla.healthsdk.feature_productslist.domain.usecases.GetProductsListUsecase
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
+import com.trolla.healthsdk.ui_utils.WebviewViewModel
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -48,22 +49,22 @@ val repositoryModule = module {
 
     /*getOTP*/
     single { GetOTPOnEmailUsecase(get()) }
-    single { LoginEmailViewModel(get()) }
+    factory { LoginEmailViewModel(get()) }
 
     /*Verify OTP*/
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
-    single { LoginOTPVerificationViewModel(get()) }
-    single { MobileOTPVerificationViewModel(get()) }
+    factory { LoginOTPVerificationViewModel(get()) }
+    factory { MobileOTPVerificationViewModel(get()) }
 
     /*Profile*/
     single { UpdateProfileUsecase(get()) }
-    single { RegisterViewModel(get()) }
+    factory { RegisterViewModel(get()) }
 
     /*Dashboard*/
     single { provideDashboardRepository(get()) }
     single { GetDashboardUsecase(get()) }
-    single { DashboardViewModel(get(), get()) }
+    factory { DashboardViewModel(get(), get()) }
 
     /*Cart*/
     single { provideCartRepository(get()) }
@@ -75,12 +76,12 @@ val repositoryModule = module {
     /*Products List*/
     single { provideProductsListRepository(get()) }
     single { GetProductsListUsecase(get()) }
-    single { ProductsListViewModel(get()) }
+    factory { ProductsListViewModel(get()) }
 
     /*Product Details*/
     single { provideProductDetailsRepository(get()) }
     single { GetProductDetailsUsecase(get()) }
-    single { ProductDetailsViewModel(get()) }
+    factory { ProductDetailsViewModel(get()) }
 
     /*address*/
     single { provideAddressRepository(get()) }
@@ -88,23 +89,24 @@ val repositoryModule = module {
     single { AddAddressUsecase(get()) }
     single { UpdateAddressUsecase(get()) }
     single { DeleteAddressUsecase(get()) }
-    single { AddressListViewModel(get(), get()) }
-    single { AddAddressViewModel(get(), get()) }
+    factory { AddressListViewModel(get(), get()) }
+    factory { AddAddressViewModel(get(), get()) }
 
     /*orders*/
     single { provideOrderRepository(get()) }
     single { GetOrdersListUsecase(get()) }
     single { GetOrderDetailsUsecase(get()) }
-    single { OrderListViewModel(get()) }
-    single { OrderDetailsViewModel(get()) }
+    factory { OrderListViewModel(get()) }
+    factory { OrderDetailsViewModel(get()) }
 
-    single { PaymentGatewayIntegrationViewModel() }
+    factory { PaymentGatewayIntegrationViewModel() }
 
     /*profile*/
     single { GetProfileUsecase(get()) }
-    single { ProfileViewModel() }
+    factory { ProfileViewModel() }
+    factory { WebviewViewModel() }
 
     /*settings*/
-    single { SettingsViewModel() }
+    factory { SettingsViewModel() }
 
 }

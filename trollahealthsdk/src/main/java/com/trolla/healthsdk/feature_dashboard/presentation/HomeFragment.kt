@@ -45,7 +45,7 @@ class HomeFragment : Fragment() {
                 }
                 R.id.menuCategories -> {
                     binding.imgVendorLogo.hide()
-                    setCurrentFragment(ProfileFragment())
+                    setCurrentFragment(SettingsFragment())
                 }
                 R.id.menuCart -> {
                     binding.imgVendorLogo.hide()
@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
                 }
                 R.id.menuSettings -> {
                     binding.imgVendorLogo.hide()
-                    setCurrentFragment(SettingsFragment())
+                    setCurrentFragment(ProfileFragment())
                 }
 
             }

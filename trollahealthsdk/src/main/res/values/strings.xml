@@ -78,4 +78,6 @@
     <string name="order_confirmed">Order Confirmed</string>
     <string name="go_to_homepage">Go to Homepage</string>
     <string name="track_order">Track Order</string>
+    <string name="logout">Logout</string>
+    <string name="privacy_policy">Privacy Policy</string>
 </resources>
