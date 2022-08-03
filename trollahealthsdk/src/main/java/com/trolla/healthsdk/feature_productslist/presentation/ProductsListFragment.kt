@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
@@ -18,6 +19,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardPr
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.ui_utils.PaginationScrollListener
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaConstants
 import com.trolla.healthsdk.utils.TrollaHealthUtility
@@ -50,6 +52,9 @@ class ProductsListFragment() : Fragment() {
     var productsList = ArrayList<DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardProduct>
 
+    var isLoading = false
+    var isLastPage = false
+
     companion object {
         fun newInstance(title: String, id: String): ProductsListFragment {
             val bundle = Bundle()
@@ -76,7 +81,12 @@ class ProductsListFragment() : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = productsListViewModel
 
+        productsListViewModel.headerBackButton.value = 1
         productsListViewModel.headerTitle.value = title
+
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
 
         genericAdapter = GenericAdapter<DashboardProduct>(
             R.layout.item_dashboard_recommended_product, productsList
@@ -118,12 +128,28 @@ class ProductsListFragment() : Fragment() {
         })
 
         binding.productsList.adapter = genericAdapter
+        binding.productsList.addOnScrollListener(object :
+            PaginationScrollListener(binding.productsList.layoutManager as GridLayoutManager) {
+            override fun loadMoreItems() {
+                page += 1
+                getProductsList()
+            }
+
+            override fun isLastPage(): Boolean {
+                return isLastPage
+            }
+
+            override fun isLoading(): Boolean {
+                return isLoading
+            }
+
+        })
 
         productsListViewModel.productsListResponseLiveData.observe(viewLifecycleOwner)
         {
             when (it) {
                 is Resource.Success -> {
-                    productsList.clear()
+                    //productsList.clear()
                     productsList.addAll(productsListViewModel.productsListResponseLiveData.value?.data?.data?.list!!)
 
                     for (i in productsList?.indices) {
@@ -136,6 +162,10 @@ class ProductsListFragment() : Fragment() {
 
                     //genericAdapter.addItems(productsList)
                     genericAdapter.notifyDataSetChanged()
+
+                    if (productsListViewModel.productsListResponseLiveData.value?.data?.data?.list!!.isNullOrEmpty()) {
+                        isLastPage = true
+                    }
                 }
 
                 is Resource.Error -> {
@@ -176,8 +206,8 @@ class ProductsListFragment() : Fragment() {
                 is Resource.Success -> {
                     val response = cartViewModel.cartDetailsResponseLiveData.value
                     cartItemsIdsArray.clear()
-                    for (i in response?.data?.data?.products?.indices ?: arrayListOf()) {
-                        cartItemsIdsArray.add(response?.data?.data?.products?.get(i)?.product?.product_id.toString())
+                    for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
+                        cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
                     }
 
                     LogUtil.printObject(cartItemsIdsArray)
@@ -197,6 +227,7 @@ class ProductsListFragment() : Fragment() {
         productsListViewModel.progressStatus.observe(viewLifecycleOwner)
         {
             (activity as DashboardActivity).showHideProgressBar(it)
+            isLoading = it
         }
 
         cartViewModel.getCartDetails()

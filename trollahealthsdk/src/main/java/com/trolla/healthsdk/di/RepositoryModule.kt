@@ -22,6 +22,9 @@ import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
 import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
+import com.trolla.healthsdk.feature_categories.domain.provideCategoriesRepository
+import com.trolla.healthsdk.feature_categories.domain.usecases.GetCategoriesUsecase
+import com.trolla.healthsdk.feature_categories.presentation.CategoriesViewModel
 import com.trolla.healthsdk.feature_dashboard.domain.provideDashboardRepository
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetDashboardUsecase
 import com.trolla.healthsdk.feature_dashboard.domain.usecases.GetProfileUsecase
@@ -72,6 +75,11 @@ val repositoryModule = module {
     single { AddToCartUsercase(get()) }
     single { CreateOrderUsecase(get()) }
     factory { CartViewModel(get(), get(), get()) }
+
+    /*Categories*/
+    single { provideCategoriesRepository(get()) }
+    single { GetCategoriesUsecase(get()) }
+    single { CategoriesViewModel(get()) }
 
     /*Products List*/
     single { provideProductsListRepository(get()) }

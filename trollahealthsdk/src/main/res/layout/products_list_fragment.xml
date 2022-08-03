@@ -17,6 +17,7 @@
         android:clickable="true">
 
         <include
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
             app:title="@{viewModel.headerTitle}" />

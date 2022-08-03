@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
+import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
 import com.trolla.healthsdk.utils.hide
 import com.trolla.healthsdk.utils.show
 import org.koin.java.KoinJavaComponent.inject
@@ -45,7 +46,7 @@ class HomeFragment : Fragment() {
                 }
                 R.id.menuCategories -> {
                     binding.imgVendorLogo.hide()
-                    setCurrentFragment(SettingsFragment())
+                    setCurrentFragment(CategoriesFragment())
                 }
                 R.id.menuCart -> {
                     binding.imgVendorLogo.hide()

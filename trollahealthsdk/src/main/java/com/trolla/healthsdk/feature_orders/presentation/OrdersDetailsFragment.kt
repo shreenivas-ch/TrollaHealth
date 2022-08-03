@@ -75,6 +75,10 @@ class OrdersDetailsFragment : Fragment() {
         orderDetailsViewModel.headerBottomLine.value = 1
         orderDetailsViewModel.headerBackButton.value = 1
 
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {

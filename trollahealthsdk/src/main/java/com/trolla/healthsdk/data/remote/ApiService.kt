@@ -12,6 +12,7 @@ import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
+import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import retrofit2.Response
@@ -38,6 +39,10 @@ interface ApiService {
     @GET("/")
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
+
+    @GET("/categories")
+    suspend fun getCategories(
+    ): Response<BaseApiResponse<CategoriesResponse>>
 
     @GET("/products")
     suspend fun getProductsList(

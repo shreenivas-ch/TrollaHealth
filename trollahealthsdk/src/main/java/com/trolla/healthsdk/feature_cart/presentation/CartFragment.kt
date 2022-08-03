@@ -193,15 +193,13 @@ class CartFragment : Fragment() {
                 is Resource.Success -> {
 
                     processCartData(
-                        it.data?.data?.cart?.products!!,
-                        it?.data?.data?.cart?.prescriptions
+                        it.data?.data?.cart!!
                     )
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
                         it
 
-                    if(it.data?.message?.lowercase()=="prescriptions added")
-                    {
+                    if (it.data?.message?.lowercase() == "prescriptions added") {
                         (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
                     }
                 }
@@ -224,8 +222,7 @@ class CartFragment : Fragment() {
                     LogUtil.printObject("-----> CartFragment: CartDetails")
 
                     processCartData(
-                        it.data?.data?.products!!,
-                        it.data?.data?.prescriptions
+                        it.data?.data?.cart!!
                     )
 
                 }
@@ -307,30 +304,41 @@ class CartFragment : Fragment() {
             checkIfCartValid()
         }
 
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
         return binding.root
     }
 
     fun processCartData(
-        products: ArrayList<GetCartDetailsResponse.CartProduct>,
-        prescriptionsList: ArrayList<String>
+        cart: GetCartDetailsResponse.Cart
     ) {
+
+        binding.txtCartTotal.text = getString(R.string.amount_string, cart.cartValue)
+        binding.txtCartGST.text = getString(R.string.amount_string, cart.gst)
+        binding.txtDeliveryFee.text = getString(R.string.amount_string, cart.deliveryFees)
+        binding.txtDiscount.text = "-" + getString(R.string.amount_string, cart.totalDiscount)
+        binding.txtTobePaid.text = getString(R.string.amount_string, cart.payable)
+        binding.txtFinalPayable.text = getString(R.string.amount_string, cart.payable)
+
         cartItemsListWithoutRx.clear()
         cartItemsListWithRx.clear()
         uploadedPrescriptionsList.clear()
 
-        for (i in products!!.indices) {
-            if (products[i].product.rx_type == "NON-RX" || products[i].product.rx_type == "NON-RX") {
+        for (i in cart.products!!.indices) {
+            if (cart.products[i].product.rx_type == "NON-RX" || cart.products[i].product.rx_type == "NON-RX") {
 
 //                TODO("cartItemsListWithoutRX")
-                cartItemsListWithRx.add(products[i])
+                cartItemsListWithRx.add(cart.products[i])
             } else {
-                cartItemsListWithRx.add(products[i])
+                cartItemsListWithRx.add(cart.products[i])
             }
-            LogUtil.printObject("----->: " + products[i].qty)
+            LogUtil.printObject("----->: " + cart.products[i].qty)
         }
 
-        for (i in prescriptionsList.indices) {
-            uploadedPrescriptionsList.add(ModelPrescription(prescriptionsList[i]))
+        for (i in cart.prescriptions.indices) {
+            uploadedPrescriptionsList.add(ModelPrescription(cart.prescriptions[i]))
         }
 
         cartAdapterWithoutRx.notifyDataSetChanged()
@@ -348,9 +356,9 @@ class CartFragment : Fragment() {
             false
         )
 
-        binding.cartNesterScrollView.setVisibilityOnBoolean(products.size == 0, false)
-        binding.cardViewCartPayment.setVisibilityOnBoolean(products.size == 0, false)
-        binding.txtCartEmpty.setVisibilityOnBoolean(products.size == 0, true)
+        binding.cartNesterScrollView.setVisibilityOnBoolean(cart.products.size == 0, false)
+        binding.cardViewCartPayment.setVisibilityOnBoolean(cart.products.size == 0, false)
+        binding.txtCartEmpty.setVisibilityOnBoolean(cart.products.size == 0, true)
         binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
             cartViewModel.selectedAddressIdLiveData.value == "",
             false
@@ -360,18 +368,18 @@ class CartFragment : Fragment() {
             true
         )
 
-        if (!prescriptionsList.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
+        if (!cart.prescriptions.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
             binding.txtAddNewPrescription.show()
         } else {
             binding.txtAddNewPrescription.hide()
         }
 
         binding.rvUploadedPrescriptions.setVisibilityOnBoolean(
-            prescriptionsList == null || prescriptionsList.size == 0,
+            cart.prescriptions == null || cart.prescriptions.size == 0,
             false
         )
 
-        if (prescriptionsList.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
+        if (cart.prescriptions.isNullOrEmpty() && cartItemsListWithRx.size > 0) {
             binding.llUploadOptions.show()
         } else {
             binding.llUploadOptions.hide()

@@ -72,7 +72,12 @@ class ProductDetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = productDetailsViewModel
 
+        productDetailsViewModel.headerBackButton.value = 1
         productDetailsViewModel.headerTitle.value = ""
+
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
 
         productDetailsViewModel.getProductDetailsResponseLiveData.observe(viewLifecycleOwner)
         {

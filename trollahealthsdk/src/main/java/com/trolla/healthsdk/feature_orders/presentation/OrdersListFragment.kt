@@ -100,6 +100,11 @@ class OrdersListFragment : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
+
         orderListViewModel.getOrdersList()
 
         return binding.root

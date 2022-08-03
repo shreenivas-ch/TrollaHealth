@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_cart.presentation.CartViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -446,11 +447,11 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/txtCartTotal"
                                 style="@style/trolla_fontSemibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
-                                android:text="₹1250"
                                 android:textColor="@color/textColor1"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
@@ -471,6 +472,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/txtCartGST"
                                 style="@style/trolla_fontSemibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -496,12 +498,39 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/txtDeliveryFee"
                                 style="@style/trolla_fontSemibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:text="₹1250"
                                 android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/discount"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtDiscount"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/colorOrderDelivered"
                                 android:textSize="12sp"
                                 tools:text="₹1250" />
 
@@ -528,6 +557,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/txtTobePaid"
                                 style="@style/trolla_fontSemibold"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -575,6 +605,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/txtFinalPayable"
                         style="@style/trolla_fontSemibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

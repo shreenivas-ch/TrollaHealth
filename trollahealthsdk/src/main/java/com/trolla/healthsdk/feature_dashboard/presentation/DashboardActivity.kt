@@ -70,7 +70,7 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
         cartViewModel.cartDetailsResponseLiveData.observe(this) {
             when (it) {
                 is Resource.Success -> {
-                    val products = it.data?.data?.products
+                    val products = it.data?.data?.cart?.products
                     cartItemsIdsArray.clear()
                     for (i in products?.indices ?: arrayListOf()) {
                         cartItemsIdsArray.add(products?.get(i)?.product?.product_id.toString())
