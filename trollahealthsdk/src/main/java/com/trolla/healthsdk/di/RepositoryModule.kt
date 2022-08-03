@@ -43,6 +43,9 @@ import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsVi
 import com.trolla.healthsdk.feature_productslist.domain.provideProductsListRepository
 import com.trolla.healthsdk.feature_productslist.domain.usecases.GetProductsListUsecase
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
+import com.trolla.healthsdk.feature_search.domain.provideSearchRepository
+import com.trolla.healthsdk.feature_search.domain.usecases.SearchUsecase
+import com.trolla.healthsdk.feature_search.presentation.SearchViewModel
 import com.trolla.healthsdk.ui_utils.WebviewViewModel
 import org.koin.dsl.module
 
@@ -85,6 +88,11 @@ val repositoryModule = module {
     single { provideProductsListRepository(get()) }
     single { GetProductsListUsecase(get()) }
     factory { ProductsListViewModel(get()) }
+
+    /*Search*/
+    single { provideSearchRepository(get()) }
+    single { SearchUsecase(get()) }
+    factory { SearchViewModel(get()) }
 
     /*Product Details*/
     single { provideProductDetailsRepository(get()) }

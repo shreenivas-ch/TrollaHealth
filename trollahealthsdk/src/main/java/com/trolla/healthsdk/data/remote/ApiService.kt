@@ -15,6 +15,7 @@ import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
+import com.trolla.healthsdk.feature_search.data.SearchResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -51,6 +52,13 @@ interface ApiService {
         @Query("category") category: String,
         @Query("type") type: String,
     ): Response<BaseApiResponse<ProductsListResponse>>
+
+    @GET("/products/search")
+    suspend fun search(
+        @Query("q") q: String,
+        @Query("page") page: String,
+        @Query("limit") limit: String
+    ): Response<BaseApiResponse<SearchResponse>>
 
     @GET("/products/{id}")
     suspend fun getProductDetails(

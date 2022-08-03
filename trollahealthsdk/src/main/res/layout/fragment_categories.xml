@@ -12,6 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true"
         android:layout_height="match_parent">
 
         <include
@@ -27,7 +29,6 @@
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin8dp"
             android:layout_marginEnd="@dimen/margin8dp"
-            android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

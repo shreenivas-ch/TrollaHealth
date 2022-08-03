@@ -15,6 +15,7 @@ import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.*
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.feature_search.presentation.SearchFragment
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
@@ -49,6 +50,10 @@ class DashboardFragment : Fragment() {
         binding.dashboardSwifeRefresh.setOnRefreshListener {
             binding.dashboardSwifeRefresh.isRefreshing = false
             dashboardViewModel.getDashboard()
+        }
+
+        binding.llSearch.setOnClickListener {
+            (activity as DashboardActivity).addOrReplaceFragment(SearchFragment.newInstance(), true)
         }
 
         dashboardViewModel.progressStatus.observe(viewLifecycleOwner)

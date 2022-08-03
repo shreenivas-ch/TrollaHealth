@@ -9,17 +9,12 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.CategoriesFragmentBinding
-import com.trolla.healthsdk.feature_cart.presentation.CartFragment
-import com.trolla.healthsdk.feature_cart.presentation.OrderConfirmedFragment
+import com.trolla.healthsdk.databinding.FragmentCategoriesBinding
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class CategoriesFragment : Fragment() {
@@ -40,9 +35,9 @@ class CategoriesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<CategoriesFragmentBinding>(
+        var binding = DataBindingUtil.inflate<FragmentCategoriesBinding>(
             inflater,
-            R.layout.categories_fragment,
+            R.layout.fragment_categories,
             container,
             false
         )
