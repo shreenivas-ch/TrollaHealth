@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.core
 
+import android.graphics.Paint
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -149,6 +150,12 @@ class CustomBindingAdapter {
                     view.setImageResource(R.drawable.ic_payonline)
                 }
             }
+        }
+
+        @BindingAdapter("setStrikeThrough")
+        @JvmStatic
+        fun setStrikeThrough(strike: TextView, str: String) {
+            strike.paintFlags = strike.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
 
         @BindingAdapter("orderStatus", "orderDate")

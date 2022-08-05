@@ -35,15 +35,16 @@
             tools:visibility="visible">
 
             <LinearLayout
+                android:paddingTop="@dimen/margin8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin16dp"
                 android:paddingBottom="@dimen/margin16dp">
 
                 <TextView
+                    tools:visibility="gone"
                     android:id="@+id/txtLabelPrescriptionNotRequired"
-                    style="@style/trolla_fontMedium"
+                    style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
@@ -63,18 +64,19 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
                     tools:itemCount="1"
+                    tools:visibility="gone"
                     tools:listitem="@layout/item_cart_product" />
 
                 <TextView
                     android:id="@+id/txtLabelPrescriptionRequired"
-                    style="@style/trolla_fontMedium"
+                    style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginTop="@dimen/margin16dp"
                     android:text="@string/prescription_required"
                     android:textColor="@color/textColor1"
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cartListWithRequiredPrescription"
@@ -109,7 +111,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            style="@style/trolla_fontMedium"
+                            style="@style/trolla_fontSemibold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/margin16dp"
@@ -135,6 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
                         android:orientation="horizontal"
                         android:paddingStart="@dimen/margin16dp"
                         android:paddingEnd="@dimen/margin16dp">
@@ -323,7 +326,7 @@
                     android:layout_marginEnd="@dimen/margin16dp">
 
                     <TextView
-                        style="@style/trolla_fontMedium"
+                        style="@style/trolla_fontSemibold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Delivery Address"
@@ -410,7 +413,7 @@
                     android:background="@color/bgColor4" />
 
                 <TextView
-                    style="@style/trolla_fontMedium"
+                    style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"

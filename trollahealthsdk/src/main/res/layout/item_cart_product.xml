@@ -110,6 +110,7 @@
                     android:paddingEnd="@dimen/_2sdp"
                     android:text="@{String.format(@string/amount_string, item.product.mrp)}"
                     android:textColor="@color/textColor5"
+                    app:setStrikeThrough="@{String.format(@string/amount_string, item.product.mrp)}"
                     tools:text="₹325.00" />
 
                 <RelativeLayout

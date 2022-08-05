@@ -328,9 +328,7 @@ class CartFragment : Fragment() {
 
         for (i in cart.products!!.indices) {
             if (cart.products[i].product.rx_type == "NON-RX" || cart.products[i].product.rx_type == "NON-RX") {
-
-//                TODO("cartItemsListWithoutRX")
-                cartItemsListWithRx.add(cart.products[i])
+                cartItemsListWithoutRx.add(cart.products[i])
             } else {
                 cartItemsListWithRx.add(cart.products[i])
             }
@@ -351,7 +349,16 @@ class CartFragment : Fragment() {
             cartItemsListWithoutRx.size == 0,
             false
         )
+        binding.cartList.setVisibilityOnBoolean(
+            cartItemsListWithoutRx.size == 0,
+            false
+        )
+
         binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
+            cartItemsListWithRx.size == 0,
+            false
+        )
+        binding.cartListWithRequiredPrescription.setVisibilityOnBoolean(
             cartItemsListWithRx.size == 0,
             false
         )

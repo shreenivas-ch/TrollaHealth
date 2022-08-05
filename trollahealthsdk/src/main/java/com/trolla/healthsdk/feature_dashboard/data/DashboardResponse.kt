@@ -104,7 +104,7 @@ data class DashboardResponse(
         val discount: String,
         val discount_type: String,
         val sale_price: String,
-        //val rx_offer_mrp: String,
+        val rx_offer_mrp: Any,
         val rx_offer_desc: String,
         val category: String,
         val category_head: String,

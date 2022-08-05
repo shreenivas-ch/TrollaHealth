@@ -16,9 +16,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener2
-import com.trolla.healthsdk.utils.TrollaConstants
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
 
 class SearchFragment : Fragment() {
@@ -69,11 +67,15 @@ class SearchFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+
+
+                activity?.hidekeyboard(binding.edtSearch)
+
                 var product_id = searchList[position].product_id
                 var product_name = searchList[position].product_name
 
                 var productDetailsFragment = ProductDetailsFragment.newInstance(
-                    product_id.toString(),
+                    product_id,
                     product_name
                 )
 
@@ -137,6 +139,9 @@ class SearchFragment : Fragment() {
                 getSearch()
             }
         }
+
+        binding.edtSearch.requestFocus()
+        activity?.showkeyboard(binding.edtSearch)
 
         return binding.root
     }

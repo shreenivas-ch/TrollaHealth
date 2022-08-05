@@ -20,10 +20,7 @@ import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener
-import com.trolla.healthsdk.utils.LogUtil
-import com.trolla.healthsdk.utils.TrollaConstants
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.*
 import okhttp3.internal.notify
 import org.koin.java.KoinJavaComponent.inject
 
@@ -102,7 +99,7 @@ class ProductsListFragment() : Fragment() {
                 var product_name = response?.data?.data?.list?.get(position)?.product_name
 
                 var productDetailsFragment = ProductDetailsFragment.newInstance(
-                    product_id.toString(),
+                    product_id!!,
                     product_name.toString()
                 )
 

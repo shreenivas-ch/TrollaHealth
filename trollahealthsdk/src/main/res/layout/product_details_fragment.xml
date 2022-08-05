@@ -15,28 +15,30 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
+        android:clickable="true"
+        android:background="@color/pageBackgroundColor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <include
-            app:backButtonVisibility="@{viewModel.headerBackButton}"
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
             app:title="@{viewModel.headerTitle}" />
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/commonHeader"
             android:background="@color/white">
 
             <LinearLayout
-                android:paddingBottom="@dimen/margin16dp"
                 android:id="@+id/llProductDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingBottom="@dimen/margin16dp"
                 android:visibility="gone"
                 tools:visibility="visible">
 
@@ -151,11 +153,16 @@
                     app:tabTextAppearance="@style/tabLayoutTextStyle"
                     app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#F0F0F0" />
+
                 <LinearLayout
-                    android:layout_marginBottom="@dimen/margin16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin16dp">
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp">
 
                     <TextView
                         android:id="@+id/txtProductDescription"
@@ -164,17 +171,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin16dp"
                         android:layout_marginEnd="@dimen/margin16dp"
-                        android:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
-                    \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰"
-                        android:textColor="@color/textColor2" />
+                        android:textColor="@color/textColor2"
+                        tools:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
+                    \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:id="@+id/llExpiry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/trolla_fontMedium"
@@ -183,6 +190,7 @@
                         android:layout_marginStart="@dimen/margin16dp"
                         android:text="Expiry:"
                         android:textColor="@color/textColor3" />
+
                     <TextView
                         android:id="@+id/txtExpiryDate"
                         style="@style/trolla_fontMedium"
@@ -195,10 +203,10 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:id="@+id/llCountryOfOrigin"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
                         style="@style/trolla_fontMedium"
@@ -207,6 +215,7 @@
                         android:layout_marginStart="@dimen/margin16dp"
                         android:text="@string/country_of_origin"
                         android:textColor="@color/textColor3" />
+
                     <TextView
                         android:id="@+id/txtCountryOfOrigin"
                         style="@style/trolla_fontMedium"
@@ -227,21 +236,21 @@
 
                 <TextView
                     android:id="@+id/txtFaqLabel"
-                    android:layout_marginStart="@dimen/margin16dp"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin16dp"
                     android:text="FAQ"
                     android:textColor="@color/textColor1" />
 
                 <TextView
                     android:id="@+id/txtFaq"
-                    android:layout_marginTop="@dimen/margin8dp"
-                    android:layout_marginStart="@dimen/margin16dp"
                     style="@style/trolla_fontMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
                     android:layout_marginEnd="@dimen/margin16dp"
                     android:text="FAQ"
                     android:textColor="@color/textColor1" />
@@ -250,6 +259,109 @@
             </LinearLayout>
 
         </ScrollView>
-    </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardCartActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            app:cardElevation="15dp"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtPrice"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/textColor5"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txtDiscountedPrice"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹89999"
+                        android:textColor="@color/textColor1"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtAddToCart"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:gravity="center"
+                    tools:visibility="gone"
+                    android:text="@string/add_to_cart"
+                    android:textColor="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/llCartActions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtRemoveFromCart"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:background="@drawable/bg_rounded_primarybutton"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="@color/primary_color"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <TextView
+                        android:id="@+id/txtQuantity"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_marginStart="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:textColor="@color/textColor1"
+                        android:textSize="@dimen/_10sdp"
+                        tools:text="1" />
+
+                    <TextView
+                        android:id="@+id/txtAddToCartAction"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:background="@drawable/bg_primarybutton"
+                        android:gravity="center"
+                        android:text="+"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15sdp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 
 </layout>

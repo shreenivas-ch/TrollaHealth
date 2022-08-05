@@ -215,7 +215,7 @@ class DashboardFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(goToProductDetailsEvent: GoToProductDetailsEvent) {
         var productDetailsFragment = ProductDetailsFragment.newInstance(
-            goToProductDetailsEvent.product_id.toString(),
+            goToProductDetailsEvent.product_id,
             goToProductDetailsEvent.product_name ?: ""
         )
 
