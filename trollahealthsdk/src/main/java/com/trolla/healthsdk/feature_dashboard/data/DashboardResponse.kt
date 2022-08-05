@@ -53,8 +53,12 @@ data class DashboardResponse(
         val product_name: String,
         val hsn_code: String,
         val product_qty: String,
+
         val short_description: String,
         val long_description: String,
+        val description: String,
+        val product_brief: String,
+
         val packing_form: String,
         val num_of_imgs: String,
         val price_to_retailer: String,
@@ -126,7 +130,19 @@ data class DashboardResponse(
         val product_video: ArrayList<String>,
         val offer_name: String,
         val manufacturer_name: String,
-        val product_brief: String,
+        val expiry_date: String,
+        val controlled_faqs: String,
+        val contraindications: String,
+        val safety_advice: String,
+        val how_drug_works: String,
+        val missed_dose: String,
+        val quick_tips: String,
+        val drug_interactions: String,
+        val benefits: String,
+        val storage_conditions: String,
+        val uses: String,
+        val ingredients: String,
+        val side_effects: String,
 
         /*local params*/
         var cartQty: Int = 0

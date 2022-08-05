@@ -81,4 +81,6 @@
     <string name="logout">Logout</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="discount">Discount</string>
+    <string name="expiry">Expiry:</string>
+    <string name="country_of_origin">Country Of Origin</string>
 </resources>

@@ -32,6 +32,7 @@
             android:background="@color/white">
 
             <LinearLayout
+                android:paddingBottom="@dimen/margin16dp"
                 android:id="@+id/llProductDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -168,6 +169,83 @@
                         android:textColor="@color/textColor2" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/llExpiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:text="Expiry:"
+                        android:textColor="@color/textColor3" />
+                    <TextView
+                        android:id="@+id/txtExpiryDate"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text=""
+                        android:textColor="@color/textColor2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:id="@+id/llCountryOfOrigin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:text="@string/country_of_origin"
+                        android:textColor="@color/textColor3" />
+                    <TextView
+                        android:id="@+id/txtCountryOfOrigin"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text=""
+                        android:textColor="@color/textColor2" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <TextView
+                    android:id="@+id/txtFaqLabel"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="FAQ"
+                    android:textColor="@color/textColor1" />
+
+                <TextView
+                    android:id="@+id/txtFaq"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="FAQ"
+                    android:textColor="@color/textColor1" />
+
 
             </LinearLayout>
 

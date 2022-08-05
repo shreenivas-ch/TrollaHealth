@@ -1,6 +1,5 @@
 package com.trolla.healthsdk.feature_productdetails.presentation
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,19 +10,10 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
-import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_dashboard.presentation.adapters.BannersAdapter
-import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.setVisibilityOnBoolean
-import com.trolla.healthsdk.utils.show
-import org.koin.java.KoinJavaComponent
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductDetailsFragment : Fragment() {
@@ -91,12 +81,31 @@ class ProductDetailsFragment : Fragment() {
                     var dashboardProduct = response?.data?.data?.detail!!
                     binding.txtTitle.text = dashboardProduct.title
                     binding.txtManufacturer.text = dashboardProduct.manufacturer_name
-                    binding.txtProductDescription.text = dashboardProduct.product_brief
+                    if (dashboardProduct.expiry_date.isNullOrEmpty()) {
+                        binding.llExpiry.hide()
+                    } else {
+                        binding.txtExpiryDate.text = dashboardProduct.expiry_date
+                    }
+
+                    if (dashboardProduct.country_origin.isNullOrEmpty()) {
+                        binding.llCountryOfOrigin.hide()
+                    } else {
+                        binding.txtCountryOfOrigin.text = dashboardProduct.country_origin
+                    }
+
+                    if (dashboardProduct.controlled_faqs.isNullOrEmpty()) {
+                        binding.txtFaq.hide()
+                        binding.txtFaqLabel.hide()
+                    } else {
+                        binding.txtFaq.text = dashboardProduct.controlled_faqs
+                    }
+
                     binding.viewRx.setVisibilityOnBoolean(
                         dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "",
                         false
                     )
                     manageProductImages(dashboardProduct.product_img)
+                    createTabs(dashboardProduct)
                 }
 
                 is Resource.Error -> {
@@ -107,8 +116,6 @@ class ProductDetailsFragment : Fragment() {
                 }
             }
         }
-
-        createTabs()
 
         productDetailsViewModel.progressStatus.observe(viewLifecycleOwner)
         {
@@ -137,15 +144,86 @@ class ProductDetailsFragment : Fragment() {
         binding.bannerDotsIndicator?.setViewPager(pager as ViewPager)
     }
 
-    private fun createTabs() {
-        binding.tabLayout.addTab(
-            binding.tabLayout.newTab().setText(getString(R.string.product_description))
+    var strDescription = ""
+    var strContraindications = ""
+    var strSafetyAdvice = ""
+    var str_how_drug_works = ""
+    var str_missed_dose = ""
+    var str_quick_tips = ""
+    var str_drug_interactions = ""
+    var str_benefits = ""
+    var str_storage_conditions = ""
+    var str_uses = ""
+    var str_ingredients = ""
+    var str_side_effects = ""
+
+    private fun createTabs(dashboardProduct: DashboardResponse.DashboardProduct) {
+        if (dashboardProduct.product_brief.isNullOrEmpty() && dashboardProduct.description.isNullOrEmpty() && dashboardProduct.short_description.isNullOrEmpty() && dashboardProduct.long_description.isNullOrEmpty()
+
         )
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Uses)))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Benefits)))
-        binding.tabLayout.addTab(
-            binding.tabLayout.newTab().setText(getString(R.string.storage_conditions))
-        )
+        else {
+            binding.tabLayout.addTab(
+                binding.tabLayout.newTab().setText(getString(R.string.product_description))
+            )
+
+            strDescription =
+                dashboardProduct.product_brief + "\n\n" + dashboardProduct.description + "\n\n" + dashboardProduct.short_description + "\n\n" + dashboardProduct.long_description
+        }
+
+        if (!dashboardProduct.contraindications.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Contraindications"))
+            strContraindications = dashboardProduct.contraindications
+        }
+
+        if (!dashboardProduct.safety_advice.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Safety Advice"))
+            strSafetyAdvice = dashboardProduct.safety_advice
+        }
+
+        if (!dashboardProduct.how_drug_works.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("How Drug Works"))
+            str_how_drug_works = dashboardProduct.how_drug_works
+        }
+
+        if (!dashboardProduct.missed_dose.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Missed Dose"))
+            str_missed_dose = dashboardProduct.missed_dose
+        }
+
+        if (!dashboardProduct.quick_tips.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Quick Tips"))
+            str_quick_tips = dashboardProduct.quick_tips
+        }
+
+        if (!dashboardProduct.drug_interactions.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Drug Interactions"))
+            str_drug_interactions = dashboardProduct.drug_interactions
+        }
+
+        if (!dashboardProduct.benefits.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Benefits"))
+            str_benefits = dashboardProduct.benefits
+        }
+
+        if (!dashboardProduct.storage_conditions.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Storage Conditions"))
+            str_storage_conditions = dashboardProduct.storage_conditions
+        }
+
+        if (!dashboardProduct.uses.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Uses"))
+            str_uses = dashboardProduct.uses
+        }
+
+        if (!dashboardProduct.ingredients.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Ingredients"))
+            str_ingredients = dashboardProduct.ingredients
+        }
+
+        if (!dashboardProduct.side_effects.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Side Effects"))
+            str_side_effects = dashboardProduct.side_effects
+        }
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
