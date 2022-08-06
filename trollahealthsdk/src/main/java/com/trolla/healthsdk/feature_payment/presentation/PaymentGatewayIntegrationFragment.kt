@@ -11,6 +11,7 @@ import com.razorpay.PaymentResultListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.PaymentGatewayIntegrationFragmentBinding
 import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
+import com.trolla.healthsdk.utils.TrollaConstants.RAZORPAY_KEYID_TEST
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.asString
@@ -31,15 +32,22 @@ class PaymentGatewayIntegrationFragment : Fragment() {
             it.getString("amount")
         }
     }
+    val rarorpay_orderid by lazy {
+        arguments?.let {
+            it.getString("rarorpay_orderid")
+        }
+    }
 
     companion object {
         fun newInstance(
             transanction_id: String,
-            amount: String
+            amount: String,
+            rarorpay_orderid: String
         ): PaymentGatewayIntegrationFragment {
             var bundle = Bundle()
             bundle.putString("transanction_id", transanction_id)
             bundle.putString("amount", amount)
+            bundle.putString("rarorpay_orderid", rarorpay_orderid)
             var paymentGatewayIntegrationFragment = PaymentGatewayIntegrationFragment()
             paymentGatewayIntegrationFragment.arguments = bundle
             return paymentGatewayIntegrationFragment
@@ -81,7 +89,7 @@ class PaymentGatewayIntegrationFragment : Fragment() {
             TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
         val roundedOffAmount = Math.round((amount!!).toFloat() * 100)
         val checkout = Checkout()
-        checkout.setKeyID("rzp_live_Z0OBramMjUKTMf")
+        checkout.setKeyID(RAZORPAY_KEYID_TEST)
         checkout.setImage(R.drawable.appicon)
 
         try {
@@ -89,7 +97,7 @@ class PaymentGatewayIntegrationFragment : Fragment() {
             options.put("name", "InstaStack")
             options.put("description", "Transaction ID: $transaction_id")
             options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
-            //options.put("order_id", "100") //from response of step 3.
+            options.put("order_id", rarorpay_orderid) //from response of step 3.
             options.put("receipt", transaction_id) //from response of step 3.
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")

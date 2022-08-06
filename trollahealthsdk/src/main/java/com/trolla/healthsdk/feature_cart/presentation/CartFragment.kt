@@ -192,9 +192,10 @@ class CartFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                    processCartData(
-                        it.data?.data?.cart!!
-                    )
+                    it?.data?.data?.cart?.let { cart ->
+                        processCartData(cart)
+                    }
+
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
                         it
@@ -221,10 +222,9 @@ class CartFragment : Fragment() {
 
                     LogUtil.printObject("-----> CartFragment: CartDetails")
 
-                    processCartData(
-                        it.data?.data?.cart!!
-                    )
-
+                    it?.data?.data?.cart?.let { cart ->
+                        processCartData(cart)
+                    }
                 }
 
                 is Resource.Error -> {
@@ -248,7 +248,8 @@ class CartFragment : Fragment() {
                             it?.data?.data?.order?.order_id ?: "",
                             cartViewModel.selectedPaymentModeLiveData.value,
                             it?.data?.data?.transaction?._id,
-                            it?.data?.data?.order?.amount
+                            it?.data?.data?.order?.amount,
+                            it?.data?.data?.order?.rarorpay_orderid
                         ),
                         true
                     )

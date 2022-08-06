@@ -85,7 +85,7 @@ class ProductsListFragment() : Fragment() {
             parentFragmentManager?.popBackStack()
         }
 
-        genericAdapter = GenericAdapter<DashboardProduct>(
+        genericAdapter = GenericAdapter(
             R.layout.item_dashboard_recommended_product, productsList
         )
 

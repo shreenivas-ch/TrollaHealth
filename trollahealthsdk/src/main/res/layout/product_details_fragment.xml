@@ -16,10 +16,10 @@
     </data>
 
     <RelativeLayout
-        android:clickable="true"
-        android:background="@color/pageBackgroundColor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
 
         <include
             android:id="@+id/commonHeader"
@@ -30,6 +30,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/cardCartActions"
             android:layout_below="@+id/commonHeader"
             android:background="@color/white">
 
@@ -42,37 +43,51 @@
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <LinearLayout
-                    android:id="@+id/llProductImages"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
-                        android:id="@+id/productsViewPager"
+                    <LinearLayout
+                        android:id="@+id/llProductImages"
                         android:layout_width="match_parent"
-                        android:layout_height="145dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/margin16dp"
-                        android:layout_marginBottom="@dimen/margin16dp" />
-
-                    <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                        android:id="@+id/bannerDotsIndicator"
-                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:visibility="visible"
-                        app:dotsColor="@color/primary_color"
-                        app:dotsCornerRadius="5dp"
-                        app:dotsSize="5dp"
-                        app:dotsSpacing="5dp"
-                        app:dotsStrokeColor="@color/purple1"
-                        app:dotsStrokeWidth="2dp"
-                        app:dotsWidthFactor="4.5"
-                        app:progressMode="true"
-                        app:selectedDotColor="@color/primary_color" />
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+                            android:id="@+id/productsViewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="145dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp" />
+
+                        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                            android:id="@+id/bannerDotsIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:visibility="visible"
+                            app:dotsColor="@color/primary_color"
+                            app:dotsCornerRadius="5dp"
+                            app:dotsSize="5dp"
+                            app:dotsSpacing="5dp"
+                            app:dotsStrokeColor="@color/purple1"
+                            app:dotsStrokeWidth="2dp"
+                            app:dotsWidthFactor="4.5"
+                            app:progressMode="true"
+                            app:selectedDotColor="@color/primary_color" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/defaultImage"
+                        android:padding="@dimen/_25sdp"
+                        android:scaleType="centerInside"
+                        app:srcCompat="@drawable/ic_default_productimage"
+                        android:layout_width="match_parent"
+                        android:layout_height="160dp"/>
+
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -89,7 +104,8 @@
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin16dp"
                     android:text="@{item.title}"
-                    android:textColor="@color/textColor1" />
+                    android:textColor="@color/textColor1"
+                    tools:text="Product names" />
 
                 <TextView
                     android:id="@+id/txtManufacturer"
@@ -130,6 +146,75 @@
                         android:text="Prescription Required"
                         android:textColor="@color/white"
                         android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSizes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="Sizes"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSizes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_product_size"></androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOtherOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="Other options"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOtherOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_product_size"></androidx.recyclerview.widget.RecyclerView>
+
 
                 </LinearLayout>
 
@@ -241,6 +326,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
                     android:text="FAQ"
                     android:textColor="@color/textColor1" />
 
@@ -250,8 +336,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
-                    android:layout_marginTop="@dimen/margin8dp"
                     android:layout_marginEnd="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
                     android:text="FAQ"
                     android:textColor="@color/textColor1" />
 
@@ -309,9 +395,9 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_inactivebutton"
                     android:gravity="center"
-                    tools:visibility="gone"
                     android:text="@string/add_to_cart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    tools:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/llCartActions"

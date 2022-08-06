@@ -306,6 +306,88 @@
 
                         </RelativeLayout>
 
+                        <RelativeLayout
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="@dimen/margin12dp"
+                            android:id="@+id/rlCancellation"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgCancellation"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_help" />
+
+                            <TextView
+                                android:id="@+id/txtCancellation"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgCancellation"
+                                android:text="Cancellation Policy"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="@dimen/margin12dp"
+                            android:id="@+id/rlRefundPolicy"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingTop="@dimen/margin12dp"
+                            android:paddingBottom="@dimen/margin12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgRefundPolicy"
+                                android:layout_width="@dimen/margin24dp"
+                                android:layout_height="@dimen/margin24dp"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_help" />
+
+                            <TextView
+                                android:id="@+id/txtRefundPolicy"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_toRightOf="@+id/imgRefundPolicy"
+                                android:text="Refund Policy"
+                                android:textColor="@color/textColor1"
+                                android:textSize="14sp" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/_18sdp"
+                                android:layout_height="@dimen/_18sdp"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="@dimen/margin16dp"
+                                android:rotation="180"
+                                app:srcCompat="@drawable/ic_left_arrow"
+                                app:tint="@color/bgColor" />
+
+                        </RelativeLayout>
+
                     </LinearLayout>
 
                 </androidx.cardview.widget.CardView>

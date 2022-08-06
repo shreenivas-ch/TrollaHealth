@@ -55,6 +55,8 @@ class OrdersDetailsFragment : Fragment() {
     }
 
     var transactionid: String = ""
+    var amount: String = ""
+    var rarorpay_orderid: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,6 +93,8 @@ class OrdersDetailsFragment : Fragment() {
                             )
 
                             transactionid = it?.data?.data?.order?.transactions!![0]._id
+                            amount = it?.data?.data?.order?.amount
+                            rarorpay_orderid = it?.data?.data?.order?.rarorpay_orderid
                         } else {
                             binding.txtPay.hide()
                         }
@@ -109,7 +113,7 @@ class OrdersDetailsFragment : Fragment() {
 
         binding.txtPay.setOnClickListener {
             (activity as DashboardActivity).addOrReplaceFragment(
-                PaymentGatewayIntegrationFragment.newInstance(transactionid, "3.37"),
+                PaymentGatewayIntegrationFragment.newInstance(transactionid, amount,rarorpay_orderid),
                 true
             )
         }

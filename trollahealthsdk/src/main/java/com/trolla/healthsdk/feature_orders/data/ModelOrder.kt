@@ -14,5 +14,6 @@ data class ModelOrder(
     val created_at: String,
     val order_id: String,
     val address: ModelAddress,
-    val transactions: ArrayList<ModelTransaction>
+    val transactions: ArrayList<ModelTransaction>,
+    val rarorpay_orderid: String
 ) : ListItemViewModel()

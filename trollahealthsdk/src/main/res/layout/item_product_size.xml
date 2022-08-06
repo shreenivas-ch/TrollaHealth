@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.ProductVariantValues" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llMain"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_circular_grey">
+
+        <TextView
+            style="@style/trolla_fontSemibold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingTop="@dimen/_9sdp"
+            android:paddingRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_9sdp"
+            android:text="@{item.value_name}"
+            android:textColor="@color/textColor2"
+            tools:text="100ml" />
+
+    </RelativeLayout>
+</layout>

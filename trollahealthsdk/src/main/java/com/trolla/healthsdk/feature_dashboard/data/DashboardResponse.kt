@@ -147,4 +147,14 @@ data class DashboardResponse(
         /*local params*/
         var cartQty: Int = 0
     ) : ListItemViewModel()
+
+    data class ProductVariant(
+        val variant_name:String,
+        val values:ArrayList<ProductVariantValues>
+    )
+
+    data class ProductVariantValues(
+        val product_id:Int,
+        val value_name:String
+    ):ListItemViewModel()
 }

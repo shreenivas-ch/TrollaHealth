@@ -10,12 +10,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.*
+import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductDetailsFragment : Fragment() {
@@ -30,15 +33,23 @@ class ProductDetailsFragment : Fragment() {
         }
     }
 
-    val id by lazy {
+    val extrasProductId by lazy {
         arguments?.let {
             it.getInt("id")
         }
     }
 
+    var productid = ""
+
     lateinit var binding: ProductDetailsFragmentBinding
 
     var cartQuantity = 0
+
+    var sizesList = ArrayList<DashboardResponse.ProductVariantValues>()
+    lateinit var sizesAdapter: GenericAdapter<DashboardResponse.ProductVariantValues>
+
+    var otherOptionsList = ArrayList<DashboardResponse.ProductVariantValues>()
+    lateinit var otherOptionsAdapter: GenericAdapter<DashboardResponse.ProductVariantValues>
 
     companion object {
         fun newInstance(id: Int, title: String): ProductDetailsFragment {
@@ -69,9 +80,38 @@ class ProductDetailsFragment : Fragment() {
         productDetailsViewModel.headerBackButton.value = 1
         productDetailsViewModel.headerTitle.value = ""
 
+        productid = extrasProductId.toString()
+
         binding.commonHeader.imgBack.setOnClickListener {
             parentFragmentManager?.popBackStack()
         }
+
+        sizesAdapter = GenericAdapter(
+            R.layout.item_product_size, sizesList
+        )
+
+        otherOptionsAdapter = GenericAdapter(
+            R.layout.item_product_size, otherOptionsList
+        )
+
+        binding.rvSizes.adapter = sizesAdapter
+        binding.rvOtherOptions.adapter = otherOptionsAdapter
+
+        sizesAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+                productid = sizesList[position].product_id.toString()
+                productDetailsViewModel.getProductDetails(productid)
+            }
+        })
+
+        otherOptionsAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+                productid = otherOptionsList[position].product_id.toString()
+                productDetailsViewModel.getProductDetails(productid)
+            }
+        })
 
         productDetailsViewModel.getProductDetailsResponseLiveData.observe(viewLifecycleOwner)
         {
@@ -103,13 +143,13 @@ class ProductDetailsFragment : Fragment() {
                         )
                     }
 
-                    if (dashboardProduct.expiry_date.isNullOrEmpty()) {
+                    if (dashboardProduct.expiry_date.isNullOrEmpty() || dashboardProduct.expiry_date == "null") {
                         binding.llExpiry.hide()
                     } else {
                         binding.txtExpiryDate.text = dashboardProduct.expiry_date
                     }
 
-                    if (dashboardProduct.country_origin.isNullOrEmpty()) {
+                    if (dashboardProduct.country_origin.isNullOrEmpty() || dashboardProduct.country_origin == "null") {
                         binding.llCountryOfOrigin.hide()
                     } else {
                         binding.txtCountryOfOrigin.text = dashboardProduct.country_origin
@@ -128,6 +168,9 @@ class ProductDetailsFragment : Fragment() {
                     )
                     manageProductImages(dashboardProduct.product_img)
                     createTabs(dashboardProduct)
+                    it?.data?.data?.variants?.let { variants ->
+                        processVariants(variants)
+                    }
 
                     productDetailsViewModel.getCartDetails()
                 }
@@ -146,7 +189,7 @@ class ProductDetailsFragment : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
-        productDetailsViewModel.getProductDetails(id.toString())
+        productDetailsViewModel.getProductDetails(productid)
 
         productDetailsViewModel.cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
@@ -194,19 +237,21 @@ class ProductDetailsFragment : Fragment() {
         binding.txtRemoveFromCart.setOnClickListener {
             if (cartQuantity > 0) {
                 var newQuantity = cartQuantity - 1
-                productDetailsViewModel.addToCart(id!!, newQuantity)
+                productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
             }
         }
 
         binding.txtAddToCartAction.setOnClickListener {
             var newQuantity = cartQuantity + 1
-            productDetailsViewModel.addToCart(id!!, newQuantity)
+            productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
         }
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
-            productDetailsViewModel.addToCart(id!!, newQuantity)
+            productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
         }
+
+        activity?.hidekeyboard(binding.root)
 
         return binding.root
     }
@@ -235,6 +280,42 @@ class ProductDetailsFragment : Fragment() {
         }
     }
 
+    private fun processVariants(variants: ArrayList<DashboardResponse.ProductVariant>) {
+        sizesList.clear()
+        otherOptionsList.clear()
+
+        for (i in variants.indices) {
+            if (variants[i].variant_name.lowercase() == "sizes") {
+                for (j in variants[i].values.indices) {
+                    if (variants[i].values[j].product_id.toString() != productid) {
+                        sizesList.add(variants[i].values[j])
+                    }
+                }
+            } else {
+                for (j in variants[i].values.indices) {
+                    if (variants[i].values[j].product_id.toString() != productid) {
+                        otherOptionsList.add(variants[i].values[j])
+                    }
+                }
+            }
+        }
+
+        sizesAdapter.notifyDataSetChanged()
+        otherOptionsAdapter.notifyDataSetChanged()
+
+        if (sizesList.size == 0) {
+            binding.llSizes.hide()
+        } else {
+            binding.llSizes.show()
+        }
+
+        if (otherOptionsList.size == 0) {
+            binding.llOtherOptions.hide()
+        } else {
+            binding.llOtherOptions.show()
+        }
+    }
+
     private fun manageProductImages(productImages: ArrayList<String>) {
         val sliderAdapter = ProductImagesAdapter(
             requireActivity(),
@@ -250,7 +331,21 @@ class ProductDetailsFragment : Fragment() {
         }
 
         binding.bannerDotsIndicator?.setViewPager(pager as ViewPager)
+
+        if (productImages.size == 0) {
+            binding.llProductImages.hide()
+            binding.defaultImage.show()
+        } else {
+            binding.llProductImages.show()
+            binding.defaultImage.hide()
+        }
+
     }
+
+    var product_brief = ""
+    var description = ""
+    var short_description = ""
+    var long_description = ""
 
     var strDescription = ""
     var strContraindications = ""
@@ -266,17 +361,36 @@ class ProductDetailsFragment : Fragment() {
     var str_side_effects = ""
 
     private fun createTabs(dashboardProduct: DashboardResponse.DashboardProduct) {
-        if (dashboardProduct.product_brief.isNullOrEmpty() && dashboardProduct.description.isNullOrEmpty() && dashboardProduct.short_description.isNullOrEmpty() && dashboardProduct.long_description.isNullOrEmpty()
 
-        )
-        else {
+        binding.tabLayout.removeAllTabs()
+        strDescription = ""
+        strContraindications = ""
+        strSafetyAdvice = ""
+        str_how_drug_works = ""
+        str_missed_dose = ""
+        str_quick_tips = ""
+        str_drug_interactions = ""
+        str_benefits = ""
+        str_storage_conditions = ""
+        str_uses = ""
+        str_ingredients = ""
+        str_side_effects = ""
+
+
+        product_brief = dashboardProduct.product_brief
+        description = dashboardProduct.description
+        short_description = dashboardProduct.short_description
+        long_description = dashboardProduct.long_description
+
+        strDescription += if (product_brief.isNullOrEmpty() || product_brief == "null") "" else product_brief
+        strDescription += if (description.isNullOrEmpty() || description == "null") "" else description
+        strDescription += if (short_description.isNullOrEmpty() || short_description == "null") "" else short_description
+        strDescription += if (long_description.isNullOrEmpty() || long_description == "null") "" else long_description
+
+        if (!strDescription.isNullOrEmpty()) {
             binding.tabLayout.addTab(
-                binding.tabLayout.newTab().setText(getString(R.string.product_description))
+                binding.tabLayout.newTab().setText("Product Description")
             )
-
-            strDescription =
-                dashboardProduct.product_brief + "\n\n" + dashboardProduct.description + "\n\n" + dashboardProduct.short_description + "\n\n" + dashboardProduct.long_description
-
             setDescriptionText(strDescription, true)
 
         }
@@ -365,6 +479,9 @@ class ProductDetailsFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
                 when (tab?.text) {
+                    "Product Description" -> {
+                        setDescriptionText(strDescription)
+                    }
                     "Contraindications" -> {
                         setDescriptionText(strContraindications)
                     }

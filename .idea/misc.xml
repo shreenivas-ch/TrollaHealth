@@ -53,6 +53,7 @@
         <entry key="..\:/AndroidProjects/TrollaHealth/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1415" />
         <entry key="..\:/AndroidProjects/TrollaHealth/app/src/main/res/layout/activity_main.xml" value="0.24094202898550723" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/drawable-anydpi-v24/ic_stat_name.xml" value="0.1415" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/drawable/bg_circular_grey.xml" value="0.1415" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/drawable/bg_corners_white_fill.xml" value="0.174" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/drawable/bg_inactivebutton.xml" value="0.1685" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/drawable/bg_primarybutton.xml" value="0.174" />
@@ -94,6 +95,7 @@
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_order_productimage.xml" value="0.24094202898550723" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_orderslist_order.xml" value="0.223731884057971" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_product_image.xml" value="0.11302083333333333" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_product_size.xml" value="0.24094202898550723" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_search.xml" value="0.24094202898550723" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_uploaded_prescription.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/layout_common_header.xml" value="0.22826086956521738" />

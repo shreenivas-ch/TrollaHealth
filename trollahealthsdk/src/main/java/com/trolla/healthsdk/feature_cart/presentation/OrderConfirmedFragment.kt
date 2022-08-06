@@ -25,13 +25,15 @@ class OrderConfirmedFragment : Fragment() {
             orderId: String,
             paymentMode: String?,
             transaction_id: String?,
-            amount: String?
+            amount: String?,
+            rarorpay_orderid: String?,
         ): OrderConfirmedFragment {
             var bundle = Bundle()
             bundle.putString("orderId", orderId)
             bundle.putString("paymentMode", paymentMode)
             bundle.putString("transaction_id", transaction_id)
             bundle.putString("amount", amount)
+            bundle.putString("rarorpay_orderid", rarorpay_orderid)
             var orderConfirmedFragment = OrderConfirmedFragment()
             orderConfirmedFragment.arguments = bundle
             return orderConfirmedFragment
@@ -59,6 +61,12 @@ class OrderConfirmedFragment : Fragment() {
     val amount by lazy {
         arguments?.let {
             it.getString("amount")
+        }
+    }
+
+    val rarorpay_orderid by lazy {
+        arguments?.let {
+            it.getString("rarorpay_orderid")
         }
     }
 
@@ -122,7 +130,11 @@ class OrderConfirmedFragment : Fragment() {
                 override fun onFinish() {
                     parentFragmentManager?.popBackStack()
                     (activity as DashboardActivity).addOrReplaceFragment(
-                        PaymentGatewayIntegrationFragment.newInstance(transaction_id!!, "3.37"),
+                        PaymentGatewayIntegrationFragment.newInstance(
+                            transaction_id!!,
+                            amount ?: "0",
+                            rarorpay_orderid ?: ""
+                        ),
                         true
                     )
                 }
