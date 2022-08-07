@@ -202,6 +202,7 @@ class CartFragment : Fragment() {
 
                     if (it.data?.message?.lowercase() == "prescriptions added") {
                         (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
+                        checkIfCartValid()
                     }
                 }
 
@@ -439,8 +440,11 @@ class CartFragment : Fragment() {
     }
 
     fun checkIfCartValid() {
-        cartViewModel.isCartValid.value =
-            cartViewModel.selectedPaymentModeLiveData.value != "" && cartViewModel.selectedAddressIdLiveData.value != ""
+
+        if (cartViewModel.selectedPaymentModeLiveData.value == "" || cartViewModel.selectedAddressIdLiveData.value == "") {
+            cartViewModel.isCartValid.value = false
+        } else cartViewModel.isCartValid.value =
+            !(cartItemsListWithRx.size != 0 && uploadedPrescriptionsList.size == 0)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

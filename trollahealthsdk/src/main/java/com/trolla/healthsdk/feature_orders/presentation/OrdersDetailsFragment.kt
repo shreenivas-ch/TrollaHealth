@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
@@ -58,6 +59,13 @@ class OrdersDetailsFragment : Fragment() {
     var amount: String = ""
     var rarorpay_orderid: String = ""
 
+    var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
+    lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    lateinit var cartUploadedPrescriptionsAdapter: GenericAdapter<ModelPrescription>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,6 +89,25 @@ class OrdersDetailsFragment : Fragment() {
             parentFragmentManager?.popBackStack()
         }
 
+        cartAdapterWithoutRx = GenericAdapter(
+            R.layout.item_order_product,
+            cartItemsListWithoutRx
+        )
+
+        cartAdapterWithRx = GenericAdapter(
+            R.layout.item_order_product,
+            cartItemsListWithRx
+        )
+
+        cartUploadedPrescriptionsAdapter = GenericAdapter(
+            R.layout.item_uploaded_prescription,
+            uploadedPrescriptionsList
+        )
+
+        binding.cartList.adapter = cartAdapterWithoutRx
+        binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
+        binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
+
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
@@ -100,6 +127,70 @@ class OrdersDetailsFragment : Fragment() {
                         }
                     }
 
+                    cartItemsListWithoutRx.clear()
+                    cartItemsListWithRx.clear()
+                    uploadedPrescriptionsList.clear()
+
+                    var order = it?.data?.data?.order
+                    for (i in order?.products!!.indices) {
+                        if (order?.products[i].product.rx_type == "NON-RX" || order?.products[i].product.rx_type == "NON-RX") {
+                            cartItemsListWithoutRx.add(order.products[i])
+                        } else {
+                            cartItemsListWithRx.add(order.products[i])
+                        }
+                        LogUtil.printObject("----->: " + order.products[i].qty)
+                    }
+
+                    for (i in order?.prescriptions.indices) {
+                        uploadedPrescriptionsList.add(ModelPrescription(order.prescriptions[i]))
+                    }
+
+                    cartAdapterWithoutRx.notifyDataSetChanged()
+                    cartAdapterWithRx.notifyDataSetChanged()
+                    cartUploadedPrescriptionsAdapter.notifyDataSetChanged()
+
+                    binding.rvUploadedPrescriptions.setVisibilityOnBoolean(
+                        uploadedPrescriptionsList.size == 0,
+                        false
+                    )
+                    binding.cartList.setVisibilityOnBoolean(cartItemsListWithoutRx.size == 0, false)
+                    binding.cartListWithRequiredPrescription.setVisibilityOnBoolean(
+                        cartItemsListWithRx.size == 0,
+                        false
+                    )
+
+                    binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
+                        cartItemsListWithoutRx.size == 0,
+                        false
+                    )
+                    binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
+                        cartItemsListWithRx.size == 0,
+                        false
+                    )
+                    binding.txtUploadedPrescriptions.setVisibilityOnBoolean(
+                        uploadedPrescriptionsList.size == 0,
+                        false
+                    )
+
+                    CustomBindingAdapter.setOrderDateTime(
+                        binding.txtOrderDateTime,
+                        order.status,
+                        order.created_at
+                    )
+
+                    binding.txtOrderStatus.text = order.status.replaceFirstChar(Char::uppercase)
+
+                    CustomBindingAdapter.setOrderStatusIcon(binding.imgOrderStatus, order.status)
+
+                    binding.txtTotalPrice.text = getString(R.string.amount_string, amount)
+                    binding.txtPaymentMode.text =
+                        it?.data?.data?.order?.transactions!![0].mode.replaceFirstChar(Char::uppercase)
+
+                    binding.txtAddressType.text =
+                        if (order.address.type.isNullOrEmpty()) "Home" else order.address.type
+                    binding.txtSelectedAddress.text =
+                        order.address.name + "\n" + order.address.address + " " + order.address.landmark + " " + order.address.city + " " + order.address.state + "\n" + order.address.pincode
+
                 }
 
                 is Resource.Error -> {
@@ -117,7 +208,11 @@ class OrdersDetailsFragment : Fragment() {
                 true
             )*/
 
-            (activity as DashboardActivity).startRazorPay(amount, transactionid, rarorpay_orderid)
+            (activity as DashboardActivity).startRazorPay(
+                amount,
+                transactionid,
+                rarorpay_orderid
+            )
         }
 
         orderDetailsViewModel.getOrderDetails(orderid!!)

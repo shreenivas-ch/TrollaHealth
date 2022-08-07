@@ -16,6 +16,7 @@ import java.util.*
 object AWSUtil {
     private const val BUCKET_NAME = "mobileapp-prescriptions"
     private const val BUCKET_REGION = "ap-south-1"
+    change aws account
     private const val POST_IMAGES_LINK = "https://mobileapp-prescriptions.s3.ap-south-1.amazonaws.com"
     private const val POOL_ID = "ap-south-1:ebd76d44-20ae-4b79-9b17-83b916a1a26a"
     val PATH_PROFILE_PIC = "/msb/profile_image/"

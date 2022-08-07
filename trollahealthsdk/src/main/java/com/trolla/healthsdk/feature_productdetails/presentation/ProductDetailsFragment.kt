@@ -234,24 +234,17 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
-        binding.txtRemoveFromCart.setOnClickListener {
-            if (cartQuantity > 0) {
-                var newQuantity = cartQuantity - 1
-                productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
-            }
-        }
-
-        binding.txtAddToCartAction.setOnClickListener {
-            var newQuantity = cartQuantity + 1
-            productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
-        }
-
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
             productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
         }
 
         activity?.hidekeyboard(binding.root)
+
+        binding.txtGotoCart.setOnClickListener {
+            var cartFragment = CartFragment.newInstance()
+            (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+        }
 
         return binding.root
     }
@@ -262,21 +255,19 @@ class ProductDetailsFragment : Fragment() {
         var isProductedAddedToCart = false
         for (i in products.indices) {
             if (!isProductedAddedToCart) {
-                if (products[i].product.product_id == id) {
+                if (products[i].product.product_id.toString() == productid) {
                     isProductedAddedToCart = true
                     cartQuantity = products[i].qty
-                    binding.txtQuantity.text = cartQuantity.toString()
-
                 }
             }
         }
 
         if (!isProductedAddedToCart) {
             binding.txtAddToCart.show()
-            binding.llCartActions.hide()
+            binding.txtGotoCart.hide()
         } else {
             binding.txtAddToCart.hide()
-            binding.llCartActions.show()
+            binding.txtGotoCart.show()
         }
     }
 

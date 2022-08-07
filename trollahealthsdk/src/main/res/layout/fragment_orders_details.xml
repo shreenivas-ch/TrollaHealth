@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
-                    android:layout_marginTop="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
                     android:text="@string/prescription_not_required"
                     android:textColor="@color/textColor1"
                     android:visibility="gone"
@@ -61,7 +61,7 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
-                    tools:itemCount="1"
+                    tools:itemCount="0"
                     tools:listitem="@layout/item_cart_product"
                     tools:visibility="visible" />
 
@@ -89,9 +89,32 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
-                    tools:itemCount="1"
+                    tools:itemCount="0"
                     tools:listitem="@layout/item_cart_product"
                     tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtUploadedPrescriptions"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:text="@string/uploaded_prescriptions"
+                    android:textColor="@color/textColor1"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvUploadedPrescriptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_uploaded_prescription" />
 
                 <View
                     android:layout_width="match_parent"

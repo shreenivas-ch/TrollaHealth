@@ -249,6 +249,8 @@ class DashboardActivity : AppCompatActivity(),
     lateinit var progressDialogueTitle: TextView
     lateinit var progressDialogueSubTitle: TextView
     lateinit var llOptions: LinearLayout
+    lateinit var txtViewTerms: TextView
+    lateinit var txtOKButton: TextView
 
     var dialog: Dialog? = null
 
@@ -261,8 +263,8 @@ class DashboardActivity : AppCompatActivity(),
         progressDialogueTitle = dialog?.findViewById<View>(R.id.txtTitle) as TextView
         progressDialogueSubTitle = dialog?.findViewById<View>(R.id.txtSubtitle) as TextView
         llOptions = dialog?.findViewById<View>(R.id.llOptions) as LinearLayout
-        val txtViewTerms = dialog?.findViewById<View>(R.id.txtViewTerms) as TextView
-        val txtOKButton = dialog?.findViewById<View>(R.id.txtOKButton) as TextView
+        txtViewTerms = dialog?.findViewById<View>(R.id.txtViewTerms) as TextView
+        txtOKButton = dialog?.findViewById<View>(R.id.txtOKButton) as TextView
 
         progressDialogueTitle.text = title
         progressDialogueSubTitle.text = subtitle
@@ -287,7 +289,7 @@ class DashboardActivity : AppCompatActivity(),
             progressDialogueTitle.text = "Prescription Uploaded Successfully"
             progressDialogueSubTitle.text =
                 "Your prescription needes to be validated to process your order successfully"
-            llOptions.show()
+            txtViewTerms.show()
         }
     }
 
@@ -296,7 +298,8 @@ class DashboardActivity : AppCompatActivity(),
         dialog?.let {
             progressDialogueTitle.text = "Failed to Upload Prescription"
             progressDialogueSubTitle.text = message
-            llOptions.show()
+            txtViewTerms.hide()
+            txtOKButton.show()
         }
     }
 
