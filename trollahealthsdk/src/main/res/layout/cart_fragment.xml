@@ -35,14 +35,13 @@
             tools:visibility="visible">
 
             <LinearLayout
-                android:paddingTop="@dimen/margin8dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
+                android:paddingTop="@dimen/margin8dp"
                 android:paddingBottom="@dimen/margin16dp">
 
                 <TextView
-                    tools:visibility="gone"
                     android:id="@+id/txtLabelPrescriptionNotRequired"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
@@ -50,7 +49,8 @@
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginTop="@dimen/margin8dp"
                     android:text="@string/prescription_not_required"
-                    android:textColor="@color/textColor1" />
+                    android:textColor="@color/textColor1"
+                    tools:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cartList"
@@ -64,8 +64,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
                     tools:itemCount="1"
-                    tools:visibility="gone"
-                    tools:listitem="@layout/item_cart_product" />
+                    tools:listitem="@layout/item_cart_product"
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txtLabelPrescriptionRequired"

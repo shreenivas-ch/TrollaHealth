@@ -42,8 +42,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/margin8dp"
                 android:layout_toLeftOf="@+id/txtOrderAmount"
-                app:setOrderPaymentModeIcon="@{item.transactions.get(0).mode}"
-                />
+                app:setOrderPaymentModeIcon="@{item.transactions.get(0).mode}" />
 
             <TextView
                 android:id="@+id/txtOrderAmount"
@@ -61,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtOrderId"
                 android:layout_marginTop="@dimen/margin16dp"
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
                 android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

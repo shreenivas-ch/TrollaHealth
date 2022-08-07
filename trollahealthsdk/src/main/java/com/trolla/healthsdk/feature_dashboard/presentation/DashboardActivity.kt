@@ -18,7 +18,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
+import com.razorpay.Checkout
+import com.razorpay.PaymentData
 import com.razorpay.PaymentResultListener
+import com.razorpay.PaymentResultWithDataListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
@@ -31,11 +34,13 @@ import com.trolla.healthsdk.utils.*
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import org.json.JSONObject
 import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent
 import java.io.File
 
-class DashboardActivity : AppCompatActivity(), PaymentResultListener {
+class DashboardActivity : AppCompatActivity(),
+    PaymentResultWithDataListener {
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
@@ -132,12 +137,47 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
         findViewById<ProgressBar>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
     }
 
-    override fun onPaymentSuccess(razorpayPaymentID: String?) {
-        LogUtil.printObject("RazorPay: $razorpayPaymentID")
-    }
+    fun startRazorPay(amount: String, transaction_id: String, rarorpay_orderid: String) {
 
-    override fun onPaymentError(code: Int, response: String?) {
-        LogUtil.printObject("RazorPay: $code:$response")
+        var userData =
+            TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
+        val roundedOffAmount = Math.round((amount!!).toFloat() * 100)
+        val checkout = Checkout()
+        checkout.setKeyID(TrollaConstants.RAZORPAY_KEYID_TEST)
+        checkout.setImage(R.drawable.appicon)
+
+        try {
+            val options = JSONObject()
+            options.put("name", "InstaStack")
+            options.put("description", "Transaction ID: $transaction_id")
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
+            //options.put("order_id", rarorpay_orderid) //from response of step 3.
+            options.put("receipt", transaction_id) //from response of step 3.
+            options.put("theme.color", "#6757d7")
+            options.put("currency", "INR")
+            options.put("amount", roundedOffAmount) //pass amount in currency subunits
+            options.put("prefill.name", userData?.name)
+            options.put("prefill.email", userData?.email)
+            options.put("prefill.contact", userData?.mobile)
+
+            var notesObject = JSONObject()
+            notesObject.put("transactionid", transaction_id)
+
+            var hideObject = JSONObject()
+            hideObject.put("contact", true)
+            hideObject.put("email", true)
+
+            options.put("notes", notesObject)
+            options.put("hidden", hideObject)
+
+            checkout.open(this, options)
+
+        } catch (e: Exception) {
+            TrollaHealthUtility.showAlertDialogue(
+                this,
+                "Error in starting Razorpay Checkout"
+            )
+        }
     }
 
     var imagePickerLauncherFrom = ""
@@ -264,4 +304,21 @@ class DashboardActivity : AppCompatActivity(), PaymentResultListener {
         super.onDestroy()
         stopKoin()
     }
+
+    override fun onPaymentSuccess(razorpayPaymentId: String?, paymentData: PaymentData?) {
+        LogUtil.printObject("RazorPay: $razorpayPaymentId:$paymentData.")
+    }
+
+    override fun onPaymentError(errorCode: Int, p1: String?, paymentData: PaymentData?) {
+        LogUtil.printObject("RazorPay: $errorCode:$paymentData")
+    }
+
+
+    /*override fun onPaymentSuccess(razorpayPaymentID: String?) {
+        LogUtil.printObject("RazorPay: $razorpayPaymentID")
+    }
+
+    override fun onPaymentError(code: Int, response: String?) {
+        LogUtil.printObject("RazorPay: $code:$response")
+    }*/
 }

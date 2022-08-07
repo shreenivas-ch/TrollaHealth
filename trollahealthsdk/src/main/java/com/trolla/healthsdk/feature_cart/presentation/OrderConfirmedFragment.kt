@@ -129,13 +129,21 @@ class OrderConfirmedFragment : Fragment() {
 
                 override fun onFinish() {
                     parentFragmentManager?.popBackStack()
-                    (activity as DashboardActivity).addOrReplaceFragment(
+                    /*(activity as DashboardActivity).addOrReplaceFragment(
                         PaymentGatewayIntegrationFragment.newInstance(
                             transaction_id!!,
                             amount ?: "0",
                             rarorpay_orderid ?: ""
                         ),
                         true
+                    )*/
+
+                    (activity as DashboardActivity).cartViewModel.getCartDetails()
+
+                    (activity as DashboardActivity).startRazorPay(
+                        amount!!,
+                        transaction_id!!,
+                        rarorpay_orderid ?: "0"
                     )
                 }
             }

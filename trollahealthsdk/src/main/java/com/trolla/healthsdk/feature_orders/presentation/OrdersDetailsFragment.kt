@@ -112,10 +112,12 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         binding.txtPay.setOnClickListener {
-            (activity as DashboardActivity).addOrReplaceFragment(
+            /*(activity as DashboardActivity).addOrReplaceFragment(
                 PaymentGatewayIntegrationFragment.newInstance(transactionid, amount,rarorpay_orderid),
                 true
-            )
+            )*/
+
+            (activity as DashboardActivity).startRazorPay(amount, transactionid, rarorpay_orderid)
         }
 
         orderDetailsViewModel.getOrderDetails(orderid!!)
