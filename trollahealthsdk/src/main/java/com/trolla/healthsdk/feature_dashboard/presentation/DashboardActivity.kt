@@ -107,6 +107,27 @@ class DashboardActivity : AppCompatActivity(),
             }
         }
 
+        cartViewModel.updatePaymentResponseLiveData.observe(this) {
+            when (it) {
+                is Resource.Success -> {
+
+                    TrollaHealthUtility.showAlertDialogue(
+                        this@DashboardActivity,
+                        it.uiText?.asString(this@DashboardActivity)
+                    )
+
+                }
+
+                is Resource.Error -> {
+
+                    TrollaHealthUtility.showAlertDialogue(
+                        this@DashboardActivity,
+                        it.uiText?.asString(this@DashboardActivity)
+                    )
+                }
+            }
+        }
+
         cartViewModel.getCartDetails()
     }
 
@@ -137,7 +158,7 @@ class DashboardActivity : AppCompatActivity(),
         findViewById<ProgressBar>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
     }
 
-    fun startRazorPay(amount: String, transaction_id: String, rarorpay_orderid: String) {
+    fun startRazorPay(amount: String, transaction_id: String, rarorpay_orderid: String?) {
 
         var userData =
             TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
@@ -308,14 +329,17 @@ class DashboardActivity : AppCompatActivity(),
         stopKoin()
     }
 
+    var transaction_id: String = ""
+
     override fun onPaymentSuccess(razorpayPaymentId: String?, paymentData: PaymentData?) {
-        LogUtil.printObject("RazorPay: $razorpayPaymentId:$paymentData.")
+        LogUtil.printObject("RazorPay: $razorpayPaymentId:${paymentData?.data}")
+        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject())
     }
 
     override fun onPaymentError(errorCode: Int, p1: String?, paymentData: PaymentData?) {
         LogUtil.printObject("RazorPay: $errorCode:$paymentData")
+        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject())
     }
-
 
     /*override fun onPaymentSuccess(razorpayPaymentID: String?) {
         LogUtil.printObject("RazorPay: $razorpayPaymentID")

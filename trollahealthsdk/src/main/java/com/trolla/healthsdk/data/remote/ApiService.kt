@@ -12,6 +12,7 @@ import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
+import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
@@ -107,5 +108,11 @@ interface ApiService {
     suspend fun getOrderDetails(
         @Path("id") id: String
     ): Response<BaseApiResponse<OrderDetailsResponse>>
+
+    @PUT("/transactions/{transactionid}")
+    suspend fun updatePayment(
+        @Path("transactionid") transactionid: String,
+        @Body paymentUpdateRequest: PaymentUpdateRequest
+    ): Response<BaseApiResponse<CommonAPIResponse>>
 
 }

@@ -2,23 +2,29 @@ package com.trolla.healthsdk.feature_cart.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonObject
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
+import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
 import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
 import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
+import com.trolla.healthsdk.feature_cart.domain.usecases.UpdatePaymentUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.utils.TrollaConstants
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class CartViewModel(
     private val addToCartUsercase: AddToCartUsercase,
     private val getCartDetailsUsecase: GetCartDetailsUsecase,
-    private val createOrderUsecase: CreateOrderUsecase
+    private val createOrderUsecase: CreateOrderUsecase,
+    private val updatePaymentUsecase: UpdatePaymentUsecase
 ) : BaseViewModel() {
 
     val selectedAddressIdLiveData = MutableLiveData<String>("")
@@ -33,6 +39,9 @@ class CartViewModel(
 
     val createOrderResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<CreateOrderResponse>>>()
+
+    val updatePaymentResponseLiveData =
+        MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
 
     fun addToCart(
         product_id: Int, qty: Int,
@@ -65,6 +74,17 @@ class CartViewModel(
         viewModelScope.launch {
             createOrderResponseLiveData.value =
                 createOrderUsecase(createOrderRequestModel)!!
+            progressStatus.value = false
+        }
+    }
+
+    fun updatePayment(transactionid: String, data: JSONObject) {
+        var paymentUpdateRequest = PaymentUpdateRequest(data)
+
+        progressStatus.value = true
+        viewModelScope.launch {
+            updatePaymentResponseLiveData.value =
+                updatePaymentUsecase(transactionid, paymentUpdateRequest)!!
             progressStatus.value = false
         }
     }

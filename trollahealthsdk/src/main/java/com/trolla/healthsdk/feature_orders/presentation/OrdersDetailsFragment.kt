@@ -121,7 +121,7 @@ class OrdersDetailsFragment : Fragment() {
 
                             transactionid = it?.data?.data?.order?.transactions!![0]._id
                             amount = it?.data?.data?.order?.amount
-                            rarorpay_orderid = it?.data?.data?.order?.rarorpay_orderid
+                            rarorpay_orderid = "123"//it?.data?.data?.order?.rarorpay_orderid ?: ""
                         } else {
                             binding.txtPay.hide()
                         }
@@ -208,10 +208,12 @@ class OrdersDetailsFragment : Fragment() {
                 true
             )*/
 
+            (activity as DashboardActivity).transaction_id = transactionid!!
+
             (activity as DashboardActivity).startRazorPay(
                 amount,
                 transactionid,
-                rarorpay_orderid
+                ""
             )
         }
 

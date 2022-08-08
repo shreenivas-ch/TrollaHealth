@@ -145,6 +145,8 @@ class OrderConfirmedFragment : Fragment() {
                         transaction_id!!,
                         rarorpay_orderid ?: "0"
                     )
+
+                    (activity as DashboardActivity).transaction_id = transaction_id!!
                 }
             }
             timer.start()
