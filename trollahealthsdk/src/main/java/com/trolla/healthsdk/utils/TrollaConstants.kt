@@ -13,4 +13,5 @@ object TrollaConstants {
     val ADDTOCART_TYPE_PRESCRIPTION="prescription"
 
     val RAZORPAY_KEYID_TEST="rzp_test_96LO0xMVkNAHYW"
+    val RAZORPAY_KEYID_LIVE="rzp_live_5q6YIIlWdSQGkZ"
 }

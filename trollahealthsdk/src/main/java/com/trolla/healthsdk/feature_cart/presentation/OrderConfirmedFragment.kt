@@ -8,32 +8,35 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.CustomBindingAdapter
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentOrderConfirmedBinding
 import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_orders.presentation.OrderDetailsViewModel
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationFragment
-import com.trolla.healthsdk.utils.hide
+import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.fragment_order_confirmed.*
 import org.greenrobot.eventbus.EventBus
+import org.koin.java.KoinJavaComponent
 
 class OrderConfirmedFragment : Fragment() {
+
+    val orderDetailsViewModel: OrderDetailsViewModel by KoinJavaComponent.inject(
+        OrderDetailsViewModel::class.java
+    )
 
     companion object {
         fun newInstance(
             orderId: String,
-            paymentMode: String?,
-            transaction_id: String?,
-            amount: String?,
-            rarorpay_orderid: String?,
+            paymentMode: String?
         ): OrderConfirmedFragment {
             var bundle = Bundle()
             bundle.putString("orderId", orderId)
             bundle.putString("paymentMode", paymentMode)
-            bundle.putString("transaction_id", transaction_id)
-            bundle.putString("amount", amount)
-            bundle.putString("rarorpay_orderid", rarorpay_orderid)
             var orderConfirmedFragment = OrderConfirmedFragment()
             orderConfirmedFragment.arguments = bundle
             return orderConfirmedFragment
@@ -51,26 +54,13 @@ class OrderConfirmedFragment : Fragment() {
             it.getString("paymentMode")
         }
     }
-
-    val transaction_id by lazy {
-        arguments?.let {
-            it.getString("transaction_id")
-        }
-    }
-
-    val amount by lazy {
-        arguments?.let {
-            it.getString("amount")
-        }
-    }
-
-    val rarorpay_orderid by lazy {
-        arguments?.let {
-            it.getString("rarorpay_orderid")
-        }
-    }
-
     var counter = 6
+
+    var rarorpay_orderid = ""
+    var transaction_id = ""
+    var amount = ""
+
+    var isTimerCompleted = false
 
     lateinit var binding: FragmentOrderConfirmedBinding
 
@@ -119,6 +109,29 @@ class OrderConfirmedFragment : Fragment() {
         binding.txtPaymentRedirectionMessage.text =
             "Please wait while we take you to payment screen in $counter seconds"
 
+        orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    it?.data?.data?.transaction?.let { transaction ->
+                        rarorpay_orderid = transaction.payment_gateway_ref.id
+                        transaction_id = transaction._id
+                        amount = transaction.amount
+                    }
+                    callPaymentGateway()
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+
+                    parentFragmentManager?.popBackStack()
+                }
+            }
+        }
+
         if (paymentMode == "prepaid") {
             val timer = object : CountDownTimer(5000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
@@ -128,7 +141,6 @@ class OrderConfirmedFragment : Fragment() {
                 }
 
                 override fun onFinish() {
-                    parentFragmentManager?.popBackStack()
                     /*(activity as DashboardActivity).addOrReplaceFragment(
                         PaymentGatewayIntegrationFragment.newInstance(
                             transaction_id!!,
@@ -140,19 +152,31 @@ class OrderConfirmedFragment : Fragment() {
 
                     (activity as DashboardActivity).cartViewModel.getCartDetails()
 
-                    (activity as DashboardActivity).startRazorPay(
-                        amount!!,
-                        transaction_id!!,
-                        rarorpay_orderid ?: "0"
-                    )
+                    isTimerCompleted = true
 
-                    (activity as DashboardActivity).transaction_id = transaction_id!!
+                    callPaymentGateway()
                 }
             }
             timer.start()
+
+            orderDetailsViewModel.getTransactionID(orderId.toString(), "prepaid")
         }
 
         return binding.root
+    }
+
+    fun callPaymentGateway() {
+        if (rarorpay_orderid != "" && isTimerCompleted) {
+            (activity as DashboardActivity).startRazorPay(
+                amount!!,
+                transaction_id!!,
+                rarorpay_orderid
+            )
+
+            (activity as DashboardActivity).transaction_id = transaction_id!!
+            (activity as DashboardActivity).paymentRedirectionScreen = "createorder"
+            parentFragmentManager?.popBackStack()
+        }
     }
 
 

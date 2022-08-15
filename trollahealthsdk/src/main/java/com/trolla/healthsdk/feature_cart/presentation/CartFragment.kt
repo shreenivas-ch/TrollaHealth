@@ -200,10 +200,11 @@ class CartFragment : Fragment() {
                     (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
                         it
 
-                    if (it.data?.message?.lowercase() == "prescriptions added") {
-                        (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
-                        checkIfCartValid()
-                    }
+                    // if (it.data?.message?.lowercase() == "prescriptions added") {
+                    (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
+                    checkIfCartValid()
+                    //
+                    // //}
                 }
 
                 is Resource.Error -> {
@@ -226,6 +227,31 @@ class CartFragment : Fragment() {
                     it?.data?.data?.cart?.let { cart ->
                         processCartData(cart)
                     }
+
+                    it?.data?.data?.payment_options?.let { paymentOptions ->
+                        var isCODAvailable = false
+                        var codAvailableTitle = "COD"
+                        var isOnlineAvailable = false
+                        var onlineAvailableTitle = "Online"
+                        for (i in paymentOptions.indices) {
+                            if (paymentOptions[i].payment_mode == "COD") {
+                                if (!isCODAvailable) {
+                                    isCODAvailable = true
+                                    codAvailableTitle = paymentOptions[i].name
+                                }
+                            } else if (paymentOptions[i].payment_mode == "prepaid") {
+                                if (!isOnlineAvailable) {
+                                    isOnlineAvailable = true
+                                    onlineAvailableTitle = paymentOptions[i].name
+                                }
+                            }
+                        }
+
+                        binding.rlCashonDelivery.setVisibilityOnBoolean(isCODAvailable, true)
+                        binding.rlPayOnline.setVisibilityOnBoolean(isOnlineAvailable, true)
+                        binding.txtCODTitle.text = codAvailableTitle
+                        binding.txtOnline.text = onlineAvailableTitle
+                    }
                 }
 
                 is Resource.Error -> {
@@ -246,12 +272,8 @@ class CartFragment : Fragment() {
 
                     (activity as DashboardActivity).addOrReplaceFragment(
                         OrderConfirmedFragment.newInstance(
-                            it?.data?.data?.order?.order_id ?: "",
-                            cartViewModel.selectedPaymentModeLiveData.value,
-                            it?.data?.data?.transaction?._id,
-                            it?.data?.data?.order?.amount,
-                            it?.data?.data?.order?.rarorpay_orderid
-
+                            it?.data?.data?.order?._id ?: "",
+                            cartViewModel.selectedPaymentModeLiveData.value
                         ),
                         true
                     )

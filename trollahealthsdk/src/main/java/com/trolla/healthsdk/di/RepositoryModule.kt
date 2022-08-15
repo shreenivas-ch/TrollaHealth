@@ -18,10 +18,7 @@ import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewMo
 import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.RegisterViewModel
 import com.trolla.healthsdk.feature_cart.domain.provideCartRepository
-import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
-import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
-import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
-import com.trolla.healthsdk.feature_cart.domain.usecases.UpdatePaymentUsecase
+import com.trolla.healthsdk.feature_cart.domain.usecases.*
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_categories.domain.provideCategoriesRepository
 import com.trolla.healthsdk.feature_categories.domain.usecases.GetCategoriesUsecase
@@ -79,6 +76,7 @@ val repositoryModule = module {
     single { AddToCartUsercase(get()) }
     single { CreateOrderUsecase(get()) }
     single { UpdatePaymentUsecase(get()) }
+    single { GetTransactionIDUsecase(get()) }
     factory { CartViewModel(get(), get(), get(), get()) }
 
     /*Categories*/
@@ -115,7 +113,7 @@ val repositoryModule = module {
     single { GetOrdersListUsecase(get()) }
     single { GetOrderDetailsUsecase(get()) }
     factory { OrderListViewModel(get()) }
-    factory { OrderDetailsViewModel(get()) }
+    factory { OrderDetailsViewModel(get(), get()) }
 
     factory { PaymentGatewayIntegrationViewModel() }
 

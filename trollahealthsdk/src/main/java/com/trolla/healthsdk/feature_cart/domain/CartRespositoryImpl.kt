@@ -8,10 +8,7 @@ import com.trolla.healthsdk.data.remote.ApiService
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
-import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
-import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
-import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
-import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
+import com.trolla.healthsdk.feature_cart.data.models.*
 import retrofit2.Response
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
@@ -44,6 +41,13 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     ): Resource<BaseApiResponse<CommonAPIResponse>> {
         val response = apiService.updatePayment(transactionid, paymentUpdateRequest)
         return APIErrorHandler<CommonAPIResponse>().process(response)
+    }
+
+    override suspend fun getTrasactionID(
+        getTransactionIDRequest: GetTransactionIDRequest
+    ): Resource<BaseApiResponse<GetTransactionIDResponse>> {
+        val response = apiService.getTransactionID(getTransactionIDRequest)
+        return APIErrorHandler<GetTransactionIDResponse>().process(response)
     }
 }
 

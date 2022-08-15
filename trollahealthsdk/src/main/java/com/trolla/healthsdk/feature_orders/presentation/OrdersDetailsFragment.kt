@@ -10,22 +10,11 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.databinding.FragmentOrdersDetailsBinding
-import com.trolla.healthsdk.databinding.FragmentOrdersListBinding
-import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
-import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_orders.data.ModelOrder
-import com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationFragment
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class OrdersDetailsFragment : Fragment() {
@@ -58,12 +47,12 @@ class OrdersDetailsFragment : Fragment() {
     var transactionid: String = ""
     var amount: String = ""
     var rarorpay_orderid: String = ""
+    var payable_amount: String = ""
+    var payment_mode: String = ""
 
-    var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
-    var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
+    var cartItems = ArrayList<GetCartDetailsResponse.CartProduct>()
     var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
-    lateinit var cartAdapterWithoutRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
-    lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
+    lateinit var cartItemsAdapter: GenericAdapter<GetCartDetailsResponse.CartProduct>
     lateinit var cartUploadedPrescriptionsAdapter: GenericAdapter<ModelPrescription>
 
     override fun onCreateView(
@@ -86,17 +75,12 @@ class OrdersDetailsFragment : Fragment() {
         orderDetailsViewModel.headerBackButton.value = 1
 
         binding.commonHeader.imgBack.setOnClickListener {
-            parentFragmentManager?.popBackStack()
+            parentFragmentManager.popBackStack()
         }
 
-        cartAdapterWithoutRx = GenericAdapter(
+        cartItemsAdapter = GenericAdapter(
             R.layout.item_order_product,
-            cartItemsListWithoutRx
-        )
-
-        cartAdapterWithRx = GenericAdapter(
-            R.layout.item_order_product,
-            cartItemsListWithRx
+            cartItems
         )
 
         cartUploadedPrescriptionsAdapter = GenericAdapter(
@@ -104,67 +88,56 @@ class OrdersDetailsFragment : Fragment() {
             uploadedPrescriptionsList
         )
 
-        binding.cartList.adapter = cartAdapterWithoutRx
-        binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
+        binding.cartList.adapter = cartItemsAdapter
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
 
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
 
-                    if (it?.data?.data?.order?.transactions!![0].status.lowercase() == "pending") {
-                        if (it?.data?.data?.order?.transactions!![0].mode.lowercase() == "prepaid") {
+                    if (it.data?.data?.order?.transactions!![0].status.lowercase() == "pending") {
+                        binding.txtPay.show()
+                        if (it.data.data.order.transactions[0].mode.lowercase() == "prepaid") {
+                            payment_mode = "prepaid"
                             binding.txtPay.text = "Pay " + getString(
                                 R.string.amount,
-                                it?.data?.data?.order?.transactions!![0].amount
+                                it.data.data.order.transactions[0].amount
                             )
-
-                            transactionid = it?.data?.data?.order?.transactions!![0]._id
-                            amount = it?.data?.data?.order?.amount
-                            rarorpay_orderid = "123"//it?.data?.data?.order?.rarorpay_orderid ?: ""
                         } else {
-                            binding.txtPay.hide()
+                            payment_mode = "COD"
+                            "Pay " + getString(
+                                R.string.amount,
+                                it.data.data.order.transactions[0].amount + " by Cash"
+                            )
                         }
+                    } else {
+                        binding.txtPay.hide()
                     }
 
-                    cartItemsListWithoutRx.clear()
-                    cartItemsListWithRx.clear()
+                    amount = it.data.data.order.amount
+                    cartItems.clear()
                     uploadedPrescriptionsList.clear()
 
-                    var order = it?.data?.data?.order
-                    for (i in order?.products!!.indices) {
-                        if (order?.products[i].product.rx_type == "NON-RX" || order?.products[i].product.rx_type == "NON-RX") {
-                            cartItemsListWithoutRx.add(order.products[i])
-                        } else {
-                            cartItemsListWithRx.add(order.products[i])
-                        }
+                    var order = it.data.data.order
+                    for (i in order.products.indices) {
+                        cartItems.add(order.products[i])
                         LogUtil.printObject("----->: " + order.products[i].qty)
                     }
 
-                    for (i in order?.prescriptions.indices) {
-                        uploadedPrescriptionsList.add(ModelPrescription(order.prescriptions[i]))
+                    for (i in order.prescriptions.indices) {
+                        uploadedPrescriptionsList.add(
+                            ModelPrescription(
+                                order.prescriptions[i],
+                                false
+                            )
+                        )
                     }
 
-                    cartAdapterWithoutRx.notifyDataSetChanged()
-                    cartAdapterWithRx.notifyDataSetChanged()
+                    cartItemsAdapter.notifyDataSetChanged()
                     cartUploadedPrescriptionsAdapter.notifyDataSetChanged()
 
                     binding.rvUploadedPrescriptions.setVisibilityOnBoolean(
                         uploadedPrescriptionsList.size == 0,
-                        false
-                    )
-                    binding.cartList.setVisibilityOnBoolean(cartItemsListWithoutRx.size == 0, false)
-                    binding.cartListWithRequiredPrescription.setVisibilityOnBoolean(
-                        cartItemsListWithRx.size == 0,
-                        false
-                    )
-
-                    binding.txtLabelPrescriptionNotRequired.setVisibilityOnBoolean(
-                        cartItemsListWithoutRx.size == 0,
-                        false
-                    )
-                    binding.txtLabelPrescriptionRequired.setVisibilityOnBoolean(
-                        cartItemsListWithRx.size == 0,
                         false
                     )
                     binding.txtUploadedPrescriptions.setVisibilityOnBoolean(
@@ -183,8 +156,8 @@ class OrdersDetailsFragment : Fragment() {
                     CustomBindingAdapter.setOrderStatusIcon(binding.imgOrderStatus, order.status)
 
                     binding.txtTotalPrice.text = getString(R.string.amount_string, amount)
-                    binding.txtPaymentMode.text =
-                        it?.data?.data?.order?.transactions!![0].mode.replaceFirstChar(Char::uppercase)
+                    binding.txtPaymentMode.text = "Payment Mode: " +
+                            it.data.data.order.transactions[0].mode.replaceFirstChar(Char::uppercase)
 
                     binding.txtAddressType.text =
                         if (order.address.type.isNullOrEmpty()) "Home" else order.address.type
@@ -203,23 +176,47 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         binding.txtPay.setOnClickListener {
-            /*(activity as DashboardActivity).addOrReplaceFragment(
-                PaymentGatewayIntegrationFragment.newInstance(transactionid, amount,rarorpay_orderid),
-                true
-            )*/
+            orderDetailsViewModel.getTransactionID(orderid.toString(), "prepaid")
+        }
 
-            (activity as DashboardActivity).transaction_id = transactionid!!
+        orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    it.data?.data?.transaction?.let { transaction ->
+                        rarorpay_orderid = transaction.payment_gateway_ref.id
+                        transactionid = transaction._id
+                        payable_amount = transaction.amount
+                    }
+                    callPaymentGateway()
+                }
 
-            (activity as DashboardActivity).startRazorPay(
-                amount,
-                transactionid,
-                ""
-            )
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+
+                    parentFragmentManager.popBackStack()
+                }
+            }
         }
 
         orderDetailsViewModel.getOrderDetails(orderid!!)
 
         return binding.root
+    }
+
+    fun callPaymentGateway() {
+        (activity as DashboardActivity).startRazorPay(
+            amount,
+            payable_amount,
+            rarorpay_orderid
+        )
+
+        (activity as DashboardActivity).transaction_id = transactionid
+        (activity as DashboardActivity).paymentRedirectionScreen = "orderdetails"
+        parentFragmentManager.popBackStack()
     }
 
 }

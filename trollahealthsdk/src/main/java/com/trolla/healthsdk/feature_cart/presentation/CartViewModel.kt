@@ -9,6 +9,7 @@ import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
+import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDRequest
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
 import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
@@ -78,8 +79,8 @@ class CartViewModel(
         }
     }
 
-    fun updatePayment(transactionid: String, data: JSONObject) {
-        var paymentUpdateRequest = PaymentUpdateRequest(data)
+    fun updatePayment(transactionid: String, data: JSONObject, paymentStatus: String) {
+        var paymentUpdateRequest = PaymentUpdateRequest(data, paymentStatus)
 
         progressStatus.value = true
         viewModelScope.launch {

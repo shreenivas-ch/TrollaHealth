@@ -6,13 +6,10 @@ import com.trolla.healthsdk.feature_address.data.*
 import com.trolla.healthsdk.feature_auth.data.models.*
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
-import com.trolla.healthsdk.feature_cart.data.models.AddToCartRequest
+import com.trolla.healthsdk.feature_cart.data.models.*
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
-import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
-import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
@@ -114,5 +111,10 @@ interface ApiService {
         @Path("transactionid") transactionid: String,
         @Body paymentUpdateRequest: PaymentUpdateRequest
     ): Response<BaseApiResponse<CommonAPIResponse>>
+
+    @POST("/transactions")
+    suspend fun getTransactionID(
+        @Body getTransactionIDRequest: GetTransactionIDRequest
+    ): Response<BaseApiResponse<GetTransactionIDResponse>>
 
 }

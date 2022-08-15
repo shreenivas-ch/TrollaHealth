@@ -4,6 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDRequest
+import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDResponse
+import com.trolla.healthsdk.feature_cart.domain.usecases.GetTransactionIDUsecase
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
@@ -11,16 +14,32 @@ import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import kotlinx.coroutines.launch
 
-class OrderDetailsViewModel(val getOrderDetailsUsecase: GetOrderDetailsUsecase) : BaseViewModel() {
+class OrderDetailsViewModel(
+    val getOrderDetailsUsecase: GetOrderDetailsUsecase,
+    val getTransactionIDUsecase: GetTransactionIDUsecase
+) : BaseViewModel() {
 
     val orderDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<OrderDetailsResponse>>>()
+    val getTransactionIDLiveData =
+        MutableLiveData<Resource<BaseApiResponse<GetTransactionIDResponse>>>()
 
-    fun getOrderDetails(orderid:String) {
+    fun getOrderDetails(orderid: String) {
         progressStatus.value = true
         viewModelScope.launch {
             orderDetailsResponseLiveData.value =
                 getOrderDetailsUsecase(orderid)!!
+            progressStatus.value = false
+        }
+    }
+
+    fun getTransactionID(orderid: String, paymentMode: String) {
+        var getTransactionIDRequest = GetTransactionIDRequest(orderid, paymentMode)
+
+        progressStatus.value = true
+        viewModelScope.launch {
+            getTransactionIDLiveData.value =
+                getTransactionIDUsecase(getTransactionIDRequest)!!
             progressStatus.value = false
         }
     }

@@ -12,7 +12,7 @@ class APIErrorHandler<T> {
     fun process(response: Response<BaseApiResponse<T>>): Resource<BaseApiResponse<T>> {
         return try {
             if (response.code() in 200..299) {
-                Resource.Success(response.body())
+                Resource.Success(response.body(),UiText.DynamicString(response.body()?.message ?: ""))
             } else {
                 when {
                     response.body()?.message != null -> {

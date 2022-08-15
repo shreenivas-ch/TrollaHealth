@@ -38,6 +38,7 @@ import org.json.JSONObject
 import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent
 import java.io.File
+import kotlin.math.roundToInt
 
 class DashboardActivity : AppCompatActivity(),
     PaymentResultWithDataListener {
@@ -110,11 +111,23 @@ class DashboardActivity : AppCompatActivity(),
         cartViewModel.updatePaymentResponseLiveData.observe(this) {
             when (it) {
                 is Resource.Success -> {
-
-                    TrollaHealthUtility.showAlertDialogue(
-                        this@DashboardActivity,
-                        it.uiText?.asString(this@DashboardActivity)
-                    )
+                    when (paymentRedirectionScreen) {
+                        "createorder" -> {
+                            TrollaHealthUtility.showAlertDialogue(this, "Order Placed Successfully")
+                        }
+                        "orderdetails" -> {
+                            TrollaHealthUtility.showAlertDialogue(
+                                this,
+                                "Payment Updated Successfully"
+                            )
+                        }
+                        else -> {
+                            TrollaHealthUtility.showAlertDialogue(
+                                this@DashboardActivity,
+                                it.uiText?.asString(this@DashboardActivity)
+                            )
+                        }
+                    }
 
                 }
 
@@ -162,9 +175,9 @@ class DashboardActivity : AppCompatActivity(),
 
         var userData =
             TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
-        val roundedOffAmount = Math.round((amount!!).toFloat() * 100)
+        val roundedOffAmount = ((amount!!).toFloat() * 100).roundToInt()
         val checkout = Checkout()
-        checkout.setKeyID(TrollaConstants.RAZORPAY_KEYID_TEST)
+        checkout.setKeyID(TrollaConstants.RAZORPAY_KEYID_LIVE)
         checkout.setImage(R.drawable.appicon)
 
         try {
@@ -172,7 +185,7 @@ class DashboardActivity : AppCompatActivity(),
             options.put("name", "InstaStack")
             options.put("description", "Transaction ID: $transaction_id")
             options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
-            //options.put("order_id", rarorpay_orderid) //from response of step 3.
+            options.put("order_id", rarorpay_orderid) //from response of step 3.
             options.put("receipt", transaction_id) //from response of step 3.
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")
@@ -330,15 +343,16 @@ class DashboardActivity : AppCompatActivity(),
     }
 
     var transaction_id: String = ""
+    var paymentRedirectionScreen: String = ""
 
     override fun onPaymentSuccess(razorpayPaymentId: String?, paymentData: PaymentData?) {
         LogUtil.printObject("RazorPay: $razorpayPaymentId:${paymentData?.data}")
-        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject())
+        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject(), "success")
     }
 
     override fun onPaymentError(errorCode: Int, p1: String?, paymentData: PaymentData?) {
         LogUtil.printObject("RazorPay: $errorCode:$paymentData")
-        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject())
+        cartViewModel.updatePayment(transaction_id, paymentData?.data ?: JSONObject(), "failure")
     }
 
     /*override fun onPaymentSuccess(razorpayPaymentID: String?) {

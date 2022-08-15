@@ -260,6 +260,7 @@
                                 app:srcCompat="@drawable/ic_cod" />
 
                             <TextView
+                                android:id="@+id/txtCODTitle"
                                 style="@style/trolla_fontMedium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -301,6 +302,7 @@
                                 app:srcCompat="@drawable/ic_payonline" />
 
                             <TextView
+                                android:id="@+id/txtOnline"
                                 style="@style/trolla_fontMedium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
