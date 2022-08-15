@@ -60,12 +60,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtOrderId"
                 android:layout_marginTop="@dimen/margin16dp"
-                android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
                 android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:setOrderListProductImages="@{item.products}"
-                tools:itemCount="5"
+                tools:itemCount="2"
                 tools:listitem="@layout/item_order_productimage" />
 
             <LinearLayout

@@ -8,7 +8,7 @@
             type="com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin8dp"
@@ -26,5 +26,5 @@
             app:loadImage="@{item.img_url}"
             app:riv_corner_radius="@dimen/margin8dp" />
 
-    </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 </layout>
