@@ -68,7 +68,6 @@ class SearchFragment : Fragment() {
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
 
-
                 activity?.hidekeyboard(binding.edtSearch)
 
                 var product_id = searchList[position].product_id
@@ -132,7 +131,7 @@ class SearchFragment : Fragment() {
             page = 1
             isLastPage = false
 
-            if (searchStr.isEmpty()) {
+            if (searchStr.isEmpty() || searchStr.length < 3) {
                 searchList.clear()
                 genericAdapter.notifyDataSetChanged()
             } else {
