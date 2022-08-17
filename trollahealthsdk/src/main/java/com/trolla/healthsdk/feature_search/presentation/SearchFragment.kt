@@ -139,6 +139,10 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
         binding.edtSearch.requestFocus()
         activity?.showkeyboard(binding.edtSearch)
 
