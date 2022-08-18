@@ -636,7 +636,7 @@
                     android:enabled="@{viewModel.isCartValid}"
                     android:gravity="center"
                     android:onClick="@{(v)-> viewModel.placeOrder()}"
-                    android:text="@string/proceed"
+                    android:text="PLACE ORDER"
                     android:textColor="@{viewModel.isCartValid ? @color/white : @color/inactiveTextColor}" />
 
 

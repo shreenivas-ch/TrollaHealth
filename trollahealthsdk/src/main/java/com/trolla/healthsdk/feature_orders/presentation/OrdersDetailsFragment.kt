@@ -48,7 +48,6 @@ class OrdersDetailsFragment : Fragment() {
     var amount: String = ""
     var rarorpay_orderid: String = ""
     var payable_amount: String = ""
-    var payment_mode: String = ""
 
     var cartItems = ArrayList<GetCartDetailsResponse.CartProduct>()
     var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
@@ -94,27 +93,25 @@ class OrdersDetailsFragment : Fragment() {
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-
-                    if (it.data?.data?.order?.transactions!![0].status.lowercase() == "pending") {
-                        binding.txtPay.show()
-                        if (it.data.data.order.transactions[0].mode.lowercase() == "prepaid") {
-                            payment_mode = "prepaid"
+                    if (it.data?.data?.order?.transactions != null && it.data?.data?.order?.transactions?.size > 0) {
+                        if (it.data?.data?.order?.transactions!![0].status.lowercase() == "pending" || it.data?.data?.order?.transactions!![0].status.lowercase() == "failure") {
+                            binding.txtPay.show()
                             binding.txtPay.text = "Pay " + getString(
                                 R.string.amount,
                                 it.data.data.order.transactions[0].amount
-                            )
+                            ) + " Online Now"
                         } else {
-                            payment_mode = "COD"
-                            "Pay " + getString(
-                                R.string.amount,
-                                it.data.data.order.transactions[0].amount + " by Cash"
-                            )
+                            binding.txtPay.hide()
                         }
                     } else {
-                        binding.txtPay.hide()
+                        binding.txtPay.show()
+                        binding.txtPay.text = "Pay " + getString(
+                            R.string.amount,
+                            it.data?.data?.order?.order_value?.payable
+                        ) + " Online Now"
                     }
 
-                    amount = it.data.data.order.amount
+                    amount = it.data?.data?.order?.order_value?.payable!!
                     cartItems.clear()
                     uploadedPrescriptionsList.clear()
 
@@ -155,9 +152,23 @@ class OrdersDetailsFragment : Fragment() {
 
                     CustomBindingAdapter.setOrderStatusIcon(binding.imgOrderStatus, order.status)
 
-                    binding.txtTotalPrice.text = getString(R.string.amount_string, amount)
-                    binding.txtPaymentMode.text = "Payment Mode: " +
+                    binding.txtCartTotal.text =
+                        getString(R.string.amount_string, order.order_value.totalValue)
+                    binding.txtCartGST.text =
+                        getString(R.string.amount_string, order.order_value.gst)
+                    binding.txtDeliveryFee.text =
+                        getString(R.string.amount_string, order.order_value.deliveryFees)
+                    binding.txtDiscount.text =
+                        "-" + getString(R.string.amount_string, order.order_value.totalDiscount)
+                    binding.txtTobePaid.text =
+                        getString(R.string.amount_string, order.order_value.payable)
+
+                    if (it.data.data.order.transactions != null && it.data.data.order.transactions.size > 0) {
+                        binding.txtPaymentMode.text =
                             it.data.data.order.transactions[0].mode.replaceFirstChar(Char::uppercase)
+                    } else {
+                        binding.txtPaymentMode.text = "Cash On Delivery"
+                    }
 
                     binding.txtAddressType.text =
                         if (order.address.type.isNullOrEmpty()) "Home" else order.address.type

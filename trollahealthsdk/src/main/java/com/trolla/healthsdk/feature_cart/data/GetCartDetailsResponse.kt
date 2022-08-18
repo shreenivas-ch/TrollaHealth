@@ -10,8 +10,8 @@ class GetCartDetailsResponse(
     val payment_options: ArrayList<PaymentOptions>,
 ) {
     data class Cart(
-        val cartValue: String,
-        val cartValueAfterDisc: String,
+        val totalValue: String,
+        val totalValueAfterDisc: String,
         val gst: String,
         val totalDiscount: String,
         val deliveryFees: String,

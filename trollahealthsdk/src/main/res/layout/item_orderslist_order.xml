@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="@{@string/amount(item.amount)}"
+                android:text="@{@string/amount(item.order_value.payable)}"
                 android:textColor="@color/textColor1"
                 tools:text="₹137.225" />
 

@@ -9,10 +9,20 @@ data class ModelOrder(
     val _id: String,
     val products: ArrayList<GetCartDetailsResponse.CartProduct>,
     val prescriptions: ArrayList<String>,
-    val amount: String,
+    val order_value: OrderValue,
     val status: String,
     val created_at: String,
     val order_id: String,
     val address: ModelAddress,
     val transactions: ArrayList<ModelTransaction>
-) : ListItemViewModel()
+) : ListItemViewModel() {
+
+    data class OrderValue(
+        val totalValue: String,
+        val totalValueAfterDisc: String,
+        val gst: String,
+        val totalDiscount: String,
+        val deliveryFees: String,
+        val payable: String,
+    )
+}

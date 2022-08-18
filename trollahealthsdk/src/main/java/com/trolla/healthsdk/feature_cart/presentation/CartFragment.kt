@@ -340,7 +340,7 @@ class CartFragment : Fragment() {
         cart: GetCartDetailsResponse.Cart
     ) {
 
-        binding.txtCartTotal.text = getString(R.string.amount_string, cart.cartValue)
+        binding.txtCartTotal.text = getString(R.string.amount_string, cart.totalValue)
         binding.txtCartGST.text = getString(R.string.amount_string, cart.gst)
         binding.txtDeliveryFee.text = getString(R.string.amount_string, cart.deliveryFees)
         binding.txtDiscount.text = "-" + getString(R.string.amount_string, cart.totalDiscount)

@@ -174,41 +174,169 @@
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4" />
 
-                <RelativeLayout
+                <TextView
+                    style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="@string/payment_details"
+                    android:textColor="@color/textColor1" />
 
-                    <TextView
-                        style="@style/trolla_fontSemibold"
-                        android:layout_width="wrap_content"
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardCornerRadius="@dimen/margin8dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin16dp"
-                        android:text="Total Order Price"
-                        android:textColor="@color/textColor1" />
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin8dp">
 
-                    <TextView
-                        android:id="@+id/txtTotalPrice"
-                        style="@style/trolla_fontSemibold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:textColor="@color/textColor3"
-                        tools:text="Rs 1200" />
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
 
-                    <TextView
-                        android:id="@+id/txtPaymentMode"
-                        style="@style/trolla_fontMedium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtTotalPrice"
-                        android:layout_marginStart="@dimen/margin16dp"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:text="Total Order Price"
-                        android:textColor="@color/textColor1"
-                        tools:text="Online" />
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
 
-                </RelativeLayout>
+                            <TextView
+                                android:id="@+id/txtCartTotal"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gst"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtCartGST"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/delivery"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtDeliveryFee"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/discount"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtDiscount"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/colorOrderDelivered"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:background="@drawable/dottedline" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to_be_paid"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtTobePaid"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor3"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <View
                     android:layout_width="match_parent"
@@ -216,6 +344,33 @@
                     android:layout_marginTop="@dimen/margin16dp"
                     android:layout_marginBottom="@dimen/margin16dp"
                     android:background="@color/bgColor4" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtTotalPrice"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text="Payment Mode: "
+                        android:textColor="@color/textColor1" />
+
+                    <TextView
+                        android:id="@+id/txtPaymentMode"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtTotalPrice"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:text=""
+                        android:textColor="@color/textColor1"
+                        tools:text="Online" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -234,11 +389,14 @@
                 style="@style/trolla_fontSemibold"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin48dp"
-                android:layout_margin="@dimen/margin16dp"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:layout_marginBottom="@dimen/margin16dp"
                 android:background="@drawable/bg_inactivebutton"
                 android:enabled="true"
                 android:gravity="center"
-                android:text="Pay Online"
+                android:text="Pay Now"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
