@@ -139,6 +139,10 @@ class SearchFragment : Fragment() {
             }
         }
 
+        binding.imgClear.setOnClickListener {
+            binding.edtSearch.setText("")
+        }
+
         binding.imgBack.setOnClickListener {
             parentFragmentManager?.popBackStack()
         }
