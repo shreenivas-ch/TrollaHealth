@@ -21,8 +21,18 @@ import java.util.*
 class RegisterFragmentFragment : Fragment() {
 
     companion object {
-        fun getInstance(email: String): RegisterFragmentFragment {
-            return RegisterFragmentFragment()
+        fun getInstance(from: String): RegisterFragmentFragment {
+            var bundle = Bundle()
+            bundle.putString("from", from)
+            var registerFragmentFragment = RegisterFragmentFragment()
+            registerFragmentFragment.arguments = bundle
+            return registerFragmentFragment
+        }
+    }
+
+    val from by lazy {
+        arguments?.let {
+            it.getString("from")
         }
     }
 
@@ -45,7 +55,15 @@ class RegisterFragmentFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.registerViewModel = registerViewModel
 
-        registerViewModel.headerTitle.value = "Register"
+        registerViewModel.headerTitle.value = if (from == "auth") "Register" else "Edit Profile"
+
+        registerViewModel.profileLiveData.observe(viewLifecycleOwner)
+        {
+            var namearr = it?.name?.split(" ")
+            binding.edtFirstname.setText(namearr?.get(0) ?: "")
+            binding.edtLastname.setText(if ((namearr?.size ?: 0) > 1) namearr?.get(1) else "")
+            binding.edtMobileNumber.setText(it?.mobile)
+        }
 
         var cal = Calendar.getInstance()
         binding.datePicker.maxDate = cal.timeInMillis

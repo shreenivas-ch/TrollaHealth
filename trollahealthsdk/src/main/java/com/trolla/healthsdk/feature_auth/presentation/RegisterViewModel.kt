@@ -14,12 +14,21 @@ import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.DateCalculator
 import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
 import org.koin.core.component.getScopeId
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) : BaseViewModel() {
+
+    val profileLiveData = MutableLiveData<UpdateProfileResponse>()
+    fun getProfile() {
+        viewModelScope.launch {
+            profileLiveData.value = TrollaPreferencesManager.get(TrollaPreferencesManager.USER_DATA)
+
+        }
+    }
 
     val updateProfileResponse = MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
 

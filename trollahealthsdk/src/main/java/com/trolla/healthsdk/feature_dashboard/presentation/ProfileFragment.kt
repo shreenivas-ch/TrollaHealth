@@ -13,6 +13,7 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentProfileBinding
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
+import com.trolla.healthsdk.feature_auth.presentation.RegisterFragmentFragment
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.TrollaHealthUtility
@@ -56,7 +57,7 @@ class ProfileFragment : Fragment() {
 
         binding.rlEditProfile.setOnClickListener {
             (activity as DashboardActivity).addOrReplaceFragment(
-                OrdersListFragment.newInstance(),
+                RegisterFragmentFragment.getInstance("profile"),
                 true
             )
         }

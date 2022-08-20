@@ -127,7 +127,7 @@ class LoginOTPVerificationFragment : Fragment() {
                         (activity as AuthenticationActivity).finish()
                     } else {
                         (activity as AuthenticationActivity).addOrReplaceFragment(
-                            RegisterFragmentFragment.getInstance(email!!),
+                            RegisterFragmentFragment.getInstance("auth"),
                             true
                         )
                     }
