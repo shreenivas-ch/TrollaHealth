@@ -54,6 +54,13 @@ class ProfileFragment : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
+        binding.rlEditProfile.setOnClickListener {
+            (activity as DashboardActivity).addOrReplaceFragment(
+                OrdersListFragment.newInstance(),
+                true
+            )
+        }
+
         binding.rlMyOrders.setOnClickListener {
             (activity as DashboardActivity).addOrReplaceFragment(
                 OrdersListFragment.newInstance(),
@@ -106,8 +113,6 @@ class ProfileFragment : Fragment() {
                     TrollaPreferencesManager.clearPreferences()
                     activity?.finish()
                     var myIntent = Intent(activity, AuthenticationActivity::class.java)
-                    myIntent.flags =
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     activity?.startActivity(myIntent)
 
                 }

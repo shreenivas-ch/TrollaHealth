@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
+import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
@@ -142,6 +143,14 @@ class ProductDetailsFragment : Fragment() {
                             dashboardProduct.rx_offer_mrp
                         )
                     }
+
+                    if (binding.txtPrice.text == binding.txtDiscountedPrice.text) {
+                        binding.txtPrice.hide()
+                    } else {
+                        binding.txtPrice.show()
+                    }
+
+                    CustomBindingAdapter.setOfferText(binding.txtOfferText, dashboardProduct)
 
                     if (dashboardProduct.expiry_date.isNullOrEmpty() || dashboardProduct.expiry_date == "null") {
                         binding.llExpiry.hide()

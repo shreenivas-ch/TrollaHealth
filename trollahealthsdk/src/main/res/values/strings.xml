@@ -12,11 +12,11 @@
     <string name="medicines_at_your_doorstep">Medicines at Your Doorstep</string>
     <string name="log_in">Log In</string>
 
-    <string name="onboarding_slide1_title">Medicines at Your Doorstep</string>
+    <string name="onboarding_slide1_title">Buy Medicines &amp; Groceries</string>
     <string name="onboarding_slide2_title">Money Saving Deals</string>
     <string name="onboarding_slide3_title">Get Fast Delivery 24 x 7</string>
 
-    <string name="onboarding_slide1_subtitle">Order quality medicines or products online and get them safely delivered to you</string>
+    <string name="onboarding_slide1_subtitle">Order quality medicines &amp; daily products online</string>
     <string name="onboarding_slide2_subtitle">Get offers, coupons, deals and points the more you shop.</string>
     <string name="onboarding_slide3_subtitle">Our stores are open 24x7 &amp; are at your service at all times</string>
     <string name="proceed">Proceed</string>

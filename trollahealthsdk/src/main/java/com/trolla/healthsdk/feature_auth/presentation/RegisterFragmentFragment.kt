@@ -45,7 +45,7 @@ class RegisterFragmentFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.registerViewModel = registerViewModel
 
-        registerViewModel.headerTitle.value="Register"
+        registerViewModel.headerTitle.value = "Register"
 
         var cal = Calendar.getInstance()
         binding.datePicker.maxDate = cal.timeInMillis
@@ -143,6 +143,8 @@ class RegisterFragmentFragment : Fragment() {
                 }
             }
         }
+
+        binding.edtFirstname.requestFocus()
 
         return binding.root
     }

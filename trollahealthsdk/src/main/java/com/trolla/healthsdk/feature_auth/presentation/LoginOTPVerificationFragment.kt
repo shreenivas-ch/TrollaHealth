@@ -18,6 +18,7 @@ import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.hidekeyboard
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -118,6 +119,8 @@ class LoginOTPVerificationFragment : Fragment() {
                         isProfileComplete,
                         TrollaPreferencesManager.IS_PROFILE_COMPLETE
                     )
+
+                    activity?.hidekeyboard(binding.edt1)
 
                     if (isProfileComplete) {
                         startActivity(Intent(activity, DashboardActivity::class.java))

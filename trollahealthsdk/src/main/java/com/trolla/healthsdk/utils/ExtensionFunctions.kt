@@ -21,6 +21,10 @@ fun View.hide() {
     visibility = View.GONE
 }
 
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
 fun UiText.asString(context: Context): String {
     return when (this) {
         is UiText.DynamicString -> this.value

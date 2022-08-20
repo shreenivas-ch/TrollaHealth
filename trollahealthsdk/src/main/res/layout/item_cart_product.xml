@@ -102,6 +102,7 @@
 
                 <TextView
                     style="@style/trolla_fontMedium"
+                    saleprice="@{item.product.sale_price}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_7sdp"
@@ -110,7 +111,7 @@
                     android:paddingEnd="@dimen/_2sdp"
                     android:text="@{String.format(@string/amount_string, item.product.mrp)}"
                     android:textColor="@color/textColor5"
-                    app:setStrikeThrough="@{String.format(@string/amount_string, item.product.mrp)}"
+                    app:setStrikeThrough="@{item.product.mrp}"
                     tools:text="₹325.00" />
 
                 <RelativeLayout

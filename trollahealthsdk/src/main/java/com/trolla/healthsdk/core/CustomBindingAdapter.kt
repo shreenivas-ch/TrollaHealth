@@ -16,13 +16,14 @@ import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
 import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.hide
+import com.trolla.healthsdk.utils.invisible
+import com.trolla.healthsdk.utils.show
 
 class CustomBindingAdapter {
 
     companion object {
 
-        val requestOptions = RequestOptions().placeholder(R.drawable.placeholderimage)
-            .error(R.drawable.placeholderimage)
         private var isShowPlaceHolder: Boolean = false
 
         @BindingAdapter("loadImage")
@@ -33,12 +34,12 @@ class CustomBindingAdapter {
                     if (url.isNotEmpty()) {
                         Glide.with(view.context)
                             .load(url)
-                            .placeholder(R.drawable.placeholderimage)
+                            .placeholder(R.drawable.ic_default_productimage2)
                             .into(view)
                     } else {
                         Glide.with(view.context)
-                            .load(R.drawable.placeholderimage)
-                            .placeholder(R.drawable.placeholderimage)
+                            .load(R.drawable.ic_default_productimage2)
+                            .placeholder(R.drawable.ic_default_productimage2)
                             .circleCrop()
                             .into(
                                 view
@@ -51,6 +52,15 @@ class CustomBindingAdapter {
                             .into(view)
                     }
                 }
+            } else {
+                Glide.with(view.context)
+                    .load(R.drawable.ic_default_productimage2)
+                    .placeholder(R.drawable.ic_default_productimage2)
+                    .into(
+                        view
+                    )
+
+
             }
         }
 
@@ -152,10 +162,15 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("setStrikeThrough")
+        @BindingAdapter("setStrikeThrough", "saleprice")
         @JvmStatic
-        fun setStrikeThrough(strike: TextView, str: String) {
-            strike.paintFlags = strike.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        fun setStrikeThrough(strike: TextView, actualprice: String, saleprice: String) {
+            if (actualprice == saleprice) {
+                strike.invisible()
+            } else {
+                strike.show()
+                strike.paintFlags = strike.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
         }
 
         @BindingAdapter("orderStatus", "orderDate")

@@ -76,7 +76,8 @@
                     android:paddingEnd="@dimen/_2sdp"
                     android:text="@{String.format(@string/amount_string, item.mrp)}"
                     android:textColor="@color/textColor5"
-                    app:setStrikeThrough="@{String.format(@string/amount_string, item.mrp)}"
+                    app:saleprice="@{item.sale_price}"
+                    app:setStrikeThrough="@{item.mrp}"
                     tools:text="₹325.00" />
 
                 <TextView

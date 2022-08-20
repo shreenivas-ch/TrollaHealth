@@ -93,10 +93,8 @@ class ProductsListFragment() : Fragment() {
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
 
-                val response = productsListViewModel.productsListResponseLiveData.value
-
-                var product_id = response?.data?.data?.list?.get(position)?.product_id
-                var product_name = response?.data?.data?.list?.get(position)?.product_name
+                var product_id = productsList[position]?.product_id
+                var product_name = productsList[position]?.product_name
 
                 var productDetailsFragment = ProductDetailsFragment.newInstance(
                     product_id!!,
@@ -109,10 +107,8 @@ class ProductsListFragment() : Fragment() {
 
             override fun onAddToCartClick(view: View, position: Int) {
 
-                val response = productsListViewModel.productsListResponseLiveData.value
-
                 cartViewModel.addToCart(
-                    response?.data?.data?.list?.get(position)?.product_id!!,
+                    productsList[position]?.product_id!!,
                     1
                 )
             }
