@@ -14,7 +14,8 @@ data class DashboardResponse(
         val id: Int,
         val name: String,
         val img_url: String,
-        val banner_data: ArrayList<BannerData>
+        val banner_data: ArrayList<BannerData>,
+        val apiDefinition: APIDefinition
     ) {
         data class BannerData(
             val id: Int,
@@ -39,7 +40,14 @@ data class DashboardResponse(
             val brand_url: String,
 
             ) : ListItemViewModel()
+
+        data class APIDefinition(
+            val api: String,
+            val filterBy: String,
+            val valueOf: String
+        )
     }
+
 
     data class PopularProductsListItem(
         val total_records: Int,
@@ -149,12 +157,12 @@ data class DashboardResponse(
     ) : ListItemViewModel()
 
     data class ProductVariant(
-        val variant_name:String,
-        val values:ArrayList<ProductVariantValues>
+        val variant_name: String,
+        val values: ArrayList<ProductVariantValues>
     )
 
     data class ProductVariantValues(
-        val product_id:Int,
-        val value_name:String
-    ):ListItemViewModel()
+        val product_id: Int,
+        val value_name: String
+    ) : ListItemViewModel()
 }

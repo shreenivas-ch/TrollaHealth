@@ -37,7 +37,6 @@ class DashboardCategoriesFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                //Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
                 var productsFragment = ProductsListFragment.newInstance(
                     bannersList[position].category_name,
                     bannersList[position].category_id.toString()
