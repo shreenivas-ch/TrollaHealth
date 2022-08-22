@@ -17,6 +17,7 @@ import com.trolla.healthsdk.feature_dashboard.data.GoToCartEvent
 import com.trolla.healthsdk.feature_dashboard.data.GoToProductDetailsEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
+import com.trolla.healthsdk.utils.hide
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -25,9 +26,9 @@ class DashboardNewArrivalsFragment : Fragment() {
     lateinit var binding: FragmentDashboardNewarrivalsBinding
 
     var productsList = ArrayList<DashboardProduct>()
-    lateinit var genericAdapter:GenericAdapter<DashboardProduct>
+    lateinit var genericAdapter: GenericAdapter<DashboardProduct>
 
-        override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,10 +82,12 @@ class DashboardNewArrivalsFragment : Fragment() {
 
         binding.txtNewArrivalsShowAll.setOnClickListener {
             var productsFragment = ProductsListFragment.newInstance(
-                getString(R.string.new_arrivals), ""
+                getString(R.string.new_arrivals), "",""
             )
             (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
         }
+
+        binding.txtNewArrivalsShowAll.hide()
 
         return binding.root
     }
@@ -104,11 +107,9 @@ class DashboardNewArrivalsFragment : Fragment() {
         val cartProductIds = (activity as DashboardActivity).cartItemsIdsArray
         for (i in productsList.indices) {
             if (cartProductIds.contains(productsList[i].product_id.toString())) {
-                productsList[i].cartQty=1
-            }
-            else
-            {
-                productsList[i].cartQty=0
+                productsList[i].cartQty = 1
+            } else {
+                productsList[i].cartQty = 0
             }
         }
 

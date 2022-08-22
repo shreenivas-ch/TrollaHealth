@@ -9,8 +9,8 @@ import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 
 class GetProductsListUsecase(private val productsListRepository: ProductsListRepository) {
     suspend operator fun invoke(
-        page: String, limit: String, category: String, type: String
+        page: String, limit: String, filterValue: String, filterBy: String
     ): Resource<BaseApiResponse<ProductsListResponse>> {
-        return productsListRepository.getProductsList(page, limit, category, type)
+        return productsListRepository.getProductsList(page, limit, filterValue, filterBy)
     }
 }

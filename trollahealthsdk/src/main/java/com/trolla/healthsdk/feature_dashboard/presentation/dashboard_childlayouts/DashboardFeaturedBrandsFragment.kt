@@ -16,10 +16,11 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePos
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 
-class DashboardFeaturedBrandsFragment:Fragment() {
+class DashboardFeaturedBrandsFragment : Fragment() {
     lateinit var binding: FragmentDashboardFeaturedBrandsBinding
 
     var bannersList = ArrayList<BannerData>()
+    var apiDefinition: DashboardResponse.HomePagePositionsListItem.APIDefinition? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,15 +36,33 @@ class DashboardFeaturedBrandsFragment:Fragment() {
         )
 
         val genericAdapter = GenericAdapter<BannerData>(
-            R.layout.item_dashboard_featured_brand,bannersList)
+            R.layout.item_dashboard_featured_brand, bannersList
+        )
 
-        genericAdapter.setOnListItemViewClickListener(object : GenericAdapter.OnListItemViewClickListener{
+        genericAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                var productsFragment = ProductsListFragment.newInstance(
-                    bannersList[position].name,
-                    bannersList[position].brand_id.toString()
-                )
-                (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+
+                if (apiDefinition != null) {
+
+                    var filterBy = apiDefinition?.filterBy
+                    var valueOf = apiDefinition?.valueOf
+                    var id =
+                        when (valueOf) {
+                            "id" -> bannersList[position].id
+                            "brand_id" -> bannersList[position].brand_id
+                            "tag_id" -> bannersList[position].tag_id
+                            "category_id" -> bannersList[position].category_id
+                            else -> bannersList[position].id
+                        }
+
+                    var productsFragment = ProductsListFragment.newInstance(
+                        bannersList[position].name,
+                        id.toString(),
+                        filterBy!!
+                    )
+                    (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+                }
             }
 
         })

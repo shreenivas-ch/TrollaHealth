@@ -40,6 +40,12 @@ class ProductsListFragment() : Fragment() {
         }
     }
 
+    val filterBy by lazy {
+        arguments?.let {
+            it.getString("filterBy")
+        }
+    }
+
     var page = TrollaConstants.PAGINATION_DEFAULT_INITIAL_PAGE
     var limit = TrollaConstants.PAGINATION_DEFAULT_LIMIT
 
@@ -53,10 +59,11 @@ class ProductsListFragment() : Fragment() {
     var isLastPage = false
 
     companion object {
-        fun newInstance(title: String, id: String): ProductsListFragment {
+        fun newInstance(title: String, id: String, filterBy: String): ProductsListFragment {
             val bundle = Bundle()
             bundle.putString("title", title)
             bundle.putString("id", id)
+            bundle.putString("filterBy", filterBy)
             var productsListFragment = ProductsListFragment()
             productsListFragment.arguments = bundle
             return productsListFragment
@@ -247,7 +254,7 @@ class ProductsListFragment() : Fragment() {
             page.toString(),
             limit.toString(),
             id!!,
-            "test"
+            filterBy ?: ""
         )
     }
 

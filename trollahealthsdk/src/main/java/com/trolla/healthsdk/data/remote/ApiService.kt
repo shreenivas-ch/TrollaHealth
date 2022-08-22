@@ -47,8 +47,8 @@ interface ApiService {
     suspend fun getProductsList(
         @Query("page") page: String,
         @Query("limit") limit: String,
-        @Query("category") category: String,
-        @Query("type") type: String,
+        @Query("filterValue") filterValue: String,
+        @Query("filterBy") type: String,
     ): Response<BaseApiResponse<ProductsListResponse>>
 
     @GET("/products/search")

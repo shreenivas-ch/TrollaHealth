@@ -75,7 +75,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_BANNER,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
@@ -90,7 +90,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_CATEGORIES,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
@@ -106,7 +106,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_FEATURED_BRANDS,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)

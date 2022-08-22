@@ -60,9 +60,14 @@ class CategoriesFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+
+                var filterBy = "category_id"
+                var id = categoriesList[position].category_id
+
                 var productsFragment = ProductsListFragment.newInstance(
                     categoriesList[position].category_name,
-                    categoriesList[position].category_id
+                    id,
+                    filterBy
                 )
                 (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
             }

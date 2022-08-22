@@ -8,7 +8,7 @@ interface ProductsListRepository {
     suspend fun getProductsList(
         page: String,
         limit: String,
-        category: String,
-        type: String
+        filterValue: String,
+        filterBy: String
     ): Resource<BaseApiResponse<ProductsListResponse>>
 }

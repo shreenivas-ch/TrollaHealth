@@ -469,6 +469,8 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/rlGST"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin16dp">
@@ -521,6 +523,8 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:visibility="gone"
+                            android:id="@+id/rlDiscount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin16dp">

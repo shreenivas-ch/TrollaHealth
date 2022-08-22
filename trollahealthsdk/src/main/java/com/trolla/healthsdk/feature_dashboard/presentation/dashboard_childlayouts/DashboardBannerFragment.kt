@@ -11,13 +11,16 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentDashboardBannerBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.adapters.BannersAdapter
+import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 
 class DashboardBannerFragment : Fragment() {
 
     lateinit var binding: FragmentDashboardBannerBinding
     var bannersList = ArrayList<BannerData>()
+    var apiDefinition: DashboardResponse.HomePagePositionsListItem.APIDefinition? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +43,27 @@ class DashboardBannerFragment : Fragment() {
 
         val sliderAdapter = BannersAdapter(
             requireActivity(),
-            bannersList
+            bannersList, apiDefinition, object : BannersAdapter.OnBannerClickedListner {
+                override fun onBannerClicked(position: Int) {
+                    var filterBy = apiDefinition?.filterBy
+                    var valueOf = apiDefinition?.valueOf
+                    var id =
+                        when (valueOf) {
+                            "id" -> bannersList[position].id
+                            "brand_id" -> bannersList[position].brand_id
+                            "tag_id" -> bannersList[position].tag_id
+                            "category_id" -> bannersList[position].category_id
+                            else -> bannersList[position].id
+                        }
+
+                    var productsFragment = ProductsListFragment.newInstance(
+                        bannersList[position].placeholder_name,
+                        id.toString(), filterBy!!
+                    )
+                    (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+                }
+
+            }
         )
 
         var pager = binding.bannerViewPager?.apply {

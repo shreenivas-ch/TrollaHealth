@@ -23,6 +23,7 @@ import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
+import kotlinx.android.synthetic.main.cart_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -346,6 +347,24 @@ class CartFragment : Fragment() {
         binding.txtDiscount.text = "-" + getString(R.string.amount_string, cart.totalDiscount)
         binding.txtTobePaid.text = getString(R.string.amount_string, cart.payable)
         binding.txtFinalPayable.text = getString(R.string.amount_string, cart.payable)
+
+        if(cart.gst.toDouble()>0)
+        {
+            binding.rlGST.show()
+        }
+        else
+        {
+            binding.rlGST.hide()
+        }
+
+        if(cart.totalDiscount.toDouble()>0)
+        {
+            binding.rlDiscount.show()
+        }
+        else
+        {
+            binding.rlDiscount.hide()
+        }
 
         cartItemsListWithoutRx.clear()
         cartItemsListWithRx.clear()

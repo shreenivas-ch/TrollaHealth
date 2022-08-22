@@ -13,6 +13,7 @@ import com.trolla.healthsdk.databinding.FragmentDashboardTrendingBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
+import com.trolla.healthsdk.utils.hide
 
 class DashboardTrendingProductsFragment : Fragment() {
     lateinit var binding: FragmentDashboardTrendingBinding
@@ -49,10 +50,12 @@ class DashboardTrendingProductsFragment : Fragment() {
 
         binding.txtTrendingShowAll.setOnClickListener {
             var productsFragment = ProductsListFragment.newInstance(
-                getString(R.string.trending_products), ""
+                getString(R.string.trending_products), "", ""
             )
             (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
         }
+
+        binding.txtTrendingShowAll.hide()
 
         return binding.root
     }

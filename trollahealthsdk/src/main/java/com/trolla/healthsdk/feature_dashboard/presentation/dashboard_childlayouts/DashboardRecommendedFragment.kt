@@ -20,6 +20,7 @@ import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragme
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.hide
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -83,12 +84,14 @@ class DashboardRecommendedFragment : Fragment() {
         //genericAdapter.addItems(productsList)
         genericAdapter.notifyDataSetChanged()
 
-        binding.rvRecommendedProducts.setOnClickListener {
+        binding.txtRecommendedShowAll.setOnClickListener {
             var productsFragment = ProductsListFragment.newInstance(
-                getString(R.string.recommended), ""
+                getString(R.string.recommended), "", ""
             )
             (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
         }
+
+        binding.txtRecommendedShowAll.hide()
 
         return binding.root
     }

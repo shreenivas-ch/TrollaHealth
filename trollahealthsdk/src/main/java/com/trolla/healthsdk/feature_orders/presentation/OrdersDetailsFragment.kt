@@ -163,6 +163,18 @@ class OrdersDetailsFragment : Fragment() {
                     binding.txtTobePaid.text =
                         getString(R.string.amount_string, order.order_value.payable)
 
+                    if (order.order_value.gst.toDouble() > 0) {
+                        binding.rlGST.show()
+                    } else {
+                        binding.rlGST.hide()
+                    }
+
+                    if (order.order_value.totalDiscount.toDouble() > 0) {
+                        binding.rlDiscount.show()
+                    } else {
+                        binding.rlDiscount.hide()
+                    }
+
                     if (it.data.data.order.transactions != null && it.data.data.order.transactions.size > 0) {
                         binding.txtPaymentMode.text =
                             it.data.data.order.transactions[0].mode.replaceFirstChar(Char::uppercase)

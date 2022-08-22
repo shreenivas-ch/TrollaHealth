@@ -11,10 +11,10 @@ class ProductsListRepositoryImpl(private val apiService: ApiService) : ProductsL
     override suspend fun getProductsList(
         page: String,
         limit: String,
-        category: String,
-        type: String
+        filterValue: String,
+        filterBy: String
     ): Resource<BaseApiResponse<ProductsListResponse>> {
-        val response = apiService.getProductsList(page, limit, category, type)
+        val response = apiService.getProductsList(page, limit, filterValue, filterBy)
         val resource = APIErrorHandler<ProductsListResponse>().process(response)
         return resource
     }
