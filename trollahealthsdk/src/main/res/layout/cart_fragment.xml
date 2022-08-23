@@ -38,8 +38,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin8dp"
                 android:paddingBottom="@dimen/margin16dp">
+
+                <TextView
+                    android:padding="@dimen/_5sdp"
+                    android:gravity="center"
+                    tools:text="You are saving ₹899 on this order"
+                    android:visibility="gone"
+                    android:background="@color/colorOrderDelivered"
+                    android:id="@+id/txtSavings"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:id="@+id/txtLabelPrescriptionNotRequired"
@@ -47,10 +59,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
-                    android:layout_marginTop="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
                     android:text="@string/prescription_not_required"
                     android:textColor="@color/textColor1"
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cartList"

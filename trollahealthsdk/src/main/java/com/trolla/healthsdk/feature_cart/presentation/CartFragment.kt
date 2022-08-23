@@ -348,22 +348,24 @@ class CartFragment : Fragment() {
         binding.txtTobePaid.text = getString(R.string.amount_string, cart.payable)
         binding.txtFinalPayable.text = getString(R.string.amount_string, cart.payable)
 
-        if(cart.gst.toDouble()>0)
-        {
+        if (cart.gst.toDouble() > 0) {
             binding.rlGST.show()
-        }
-        else
-        {
+        } else {
             binding.rlGST.hide()
         }
 
-        if(cart.totalDiscount.toDouble()>0)
-        {
+        if (cart.totalDiscount.toDouble() > 0) {
             binding.rlDiscount.show()
-        }
-        else
-        {
+            binding.txtSavings.show()
+
+            binding.txtSavings.text = "You are saving " + getString(
+                R.string.amount_string,
+                cart.totalDiscount
+            ) + " on this order"
+
+        } else {
             binding.rlDiscount.hide()
+            binding.txtSavings.hide()
         }
 
         cartItemsListWithoutRx.clear()
