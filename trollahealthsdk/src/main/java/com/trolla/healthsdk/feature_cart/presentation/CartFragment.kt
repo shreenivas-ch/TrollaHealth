@@ -22,6 +22,7 @@ import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.cart_fragment.*
 import org.greenrobot.eventbus.EventBus
@@ -98,6 +99,15 @@ class CartFragment : Fragment() {
         cartAdapterWithoutRx.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+                var product_id = cartItemsListWithoutRx[position]?.product.product_id
+                var product_name = cartItemsListWithoutRx[position]?.product.title
+
+                var productDetailsFragment = ProductDetailsFragment.newInstance(
+                    product_id!!,
+                    product_name
+                )
+
+                (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
 
             }
 
@@ -137,7 +147,15 @@ class CartFragment : Fragment() {
         cartAdapterWithRx.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
+                var product_id = cartItemsListWithRx[position]?.product.product_id
+                var product_name = cartItemsListWithRx[position]?.product.title
 
+                var productDetailsFragment = ProductDetailsFragment.newInstance(
+                    product_id!!,
+                    product_name
+                )
+
+                (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
             }
 
             override fun cartMinusClick(view: View, position: Int) {

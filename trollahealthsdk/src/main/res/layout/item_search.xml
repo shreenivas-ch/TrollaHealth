@@ -25,7 +25,7 @@
             android:maxLines="1"
             android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
             android:padding="@dimen/_12sdp"
-            android:text="@{item.product_name}"
+            android:text="@{item.title}"
             android:textColor="@color/textColor2"
             tools:text="Mother Care" />
 

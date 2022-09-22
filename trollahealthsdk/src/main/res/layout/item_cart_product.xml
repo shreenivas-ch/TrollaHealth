@@ -126,9 +126,10 @@
                         android:maxLines="1"
                         android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
-                        android:text="@{String.format(@string/amount_string, item.product.sale_price)}"
                         android:textColor="@color/textColor1"
                         android:textSize="20sp"
+                        app:rxType="@{item.product.rx_type}"
+                        app:cartProduct="@{item}"
                         tools:text="₹292.00" />
 
                     <LinearLayout

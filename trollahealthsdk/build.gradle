@@ -69,7 +69,7 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_version"
 
     /*dimensions*/
-    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
     /*viewpager*/
     implementation 'com.tbuonomo:dotsindicator:4.2'
@@ -91,4 +91,7 @@ dependencies {
 
     /*gallery*/
     implementation 'com.github.Drjacky:ImagePicker:2.1.16'
+
+    /*freshchat*/
+    implementation 'com.github.freshworks:freshchat-android:5.2.0'
 }

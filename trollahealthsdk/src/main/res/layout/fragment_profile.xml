@@ -240,7 +240,7 @@
                                 android:layout_height="@dimen/margin24dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/margin16dp"
-                                app:srcCompat="@drawable/ic_help" />
+                                app:srcCompat="@drawable/ic_profile_settings" />
 
                             <TextView
                                 android:id="@+id/txtPrivacyPolicy"
@@ -281,7 +281,7 @@
                                 android:layout_height="@dimen/margin24dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/margin16dp"
-                                app:srcCompat="@drawable/ic_help" />
+                                app:srcCompat="@drawable/ic_profile_settings" />
 
                             <TextView
                                 android:id="@+id/txtTerms"
@@ -322,7 +322,7 @@
                                 android:layout_height="@dimen/margin24dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/margin16dp"
-                                app:srcCompat="@drawable/ic_help" />
+                                app:srcCompat="@drawable/ic_profile_settings" />
 
                             <TextView
                                 android:id="@+id/txtCancellation"
@@ -363,7 +363,7 @@
                                 android:layout_height="@dimen/margin24dp"
                                 android:layout_centerVertical="true"
                                 android:layout_marginStart="@dimen/margin16dp"
-                                app:srcCompat="@drawable/ic_help" />
+                                app:srcCompat="@drawable/ic_profile_settings" />
 
                             <TextView
                                 android:id="@+id/txtRefundPolicy"
@@ -390,6 +390,55 @@
                         </RelativeLayout>
 
                     </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin24dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/margin16dp"
+                    app:cardElevation="0dp">
+
+                    <RelativeLayout
+                        android:id="@+id/rlChatSupport"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imgChatSupport"
+                            android:layout_width="@dimen/margin24dp"
+                            android:layout_height="@dimen/margin24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            app:srcCompat="@drawable/ic_help" />
+
+                        <TextView
+                            android:id="@+id/txtChatSupport"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_toRightOf="@+id/imgChatSupport"
+                            android:text="Chat Support"
+                            android:textColor="@color/textColor1"
+                            android:textSize="14sp" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_18sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_left_arrow"
+                            app:tint="@color/bgColor" />
+
+                    </RelativeLayout>
 
                 </androidx.cardview.widget.CardView>
 

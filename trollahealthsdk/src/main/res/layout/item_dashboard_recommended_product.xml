@@ -88,7 +88,8 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{String.format(@string/amount_string, item.sale_price)}"
+                    app:rxType="@{item.rx_type}"
+                    app:product="@{item}"
                     android:textColor="@color/textColor1"
                     android:textSize="20sp"
                     tools:text="₹292.00" />

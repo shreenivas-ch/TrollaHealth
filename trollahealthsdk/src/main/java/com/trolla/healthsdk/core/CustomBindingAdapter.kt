@@ -64,6 +64,39 @@ class CustomBindingAdapter {
             }
         }
 
+        @BindingAdapter("setMrpBasedOnRxType", "rxType", "product")
+        @JvmStatic
+        fun setMrpBasedOnRxType(textView: TextView, rxType: String, product: DashboardProduct) {
+            if (rxType.lowercase() == "rx") {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    product.rx_offer_mrp.toString()
+                )
+            } else {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    product.sale_price
+                )
+            }
+        }
+
+        @BindingAdapter("setMrpBasedOnRxTypeInCart", "rxType", "cartProduct")
+        @JvmStatic
+        fun setMrpBasedOnRxTypeInCart(textView: TextView, rxType: String, cartProduct: DashboardProduct) {
+            if (rxType.lowercase() == "rx") {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    cartProduct.rx_offer_mrp.toString()
+                )
+            } else {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    cartProduct.sale_price
+                )
+            }
+        }
+
+
         @BindingAdapter("setOfferText")
         @JvmStatic
         fun setOfferText(view: TextView, dashboardProduct: DashboardProduct?) {
@@ -233,5 +266,7 @@ class CustomBindingAdapter {
                 rv?.adapter = orderProductImagesAdapter
             }
         }
+
+
     }
 }

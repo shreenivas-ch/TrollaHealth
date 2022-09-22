@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
                 activity?.hidekeyboard(binding.edtSearch)
 
                 var product_id = searchList[position].product_id
-                var product_name = searchList[position].product_name
+                var product_name = searchList[position].title
 
                 var productDetailsFragment = ProductDetailsFragment.newInstance(
                     product_id,
