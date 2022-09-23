@@ -62,10 +62,10 @@ class CategoriesFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
 
                 var filterBy = "category_id"
-                var id = categoriesList[position].category_id
+                var id = categoriesList[position].wf_id
 
                 var productsFragment = ProductsListFragment.newInstance(
-                    categoriesList[position].category_name,
+                    categoriesList[position].wf_name,
                     id,
                     filterBy
                 )

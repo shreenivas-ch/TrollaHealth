@@ -22,4 +22,5 @@
     <color name="colorOrderInProgress">#FA7300</color>
     <color name="colorOrderDelivered">#47AD4D</color>
     <color name="colorOrderCancelled">#D75783</color>
+    <color name="freshchat_notification_accent_color">@color/primary_color</color>
 </resources>

@@ -40,12 +40,14 @@ class SearchFragment : Fragment() {
     var searchList = ArrayList<DashboardResponse.DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardResponse.DashboardProduct>
 
+    lateinit var binding : FragmentSearchBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<FragmentSearchBinding>(
+        binding = DataBindingUtil.inflate<FragmentSearchBinding>(
             inflater,
             R.layout.fragment_search,
             container,
@@ -145,16 +147,22 @@ class SearchFragment : Fragment() {
 
         binding.imgBack.setOnClickListener {
             parentFragmentManager?.popBackStack()
+            activity?.hidekeyboard(binding.edtSearch)
         }
 
-        binding.edtSearch.requestFocus()
-        activity?.showkeyboard(binding.edtSearch)
 
         return binding.root
     }
 
     fun getSearch() {
         searchViewModel.search(searchStr, page.toString(), limit.toString())
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.edtSearch.requestFocus()
+        activity?.showkeyboard(binding.edtSearch)
     }
 
 }

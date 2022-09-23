@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
 
             TrollaHealthManager.Builder().appid(COSHOP_APPID).context(this).application(application)
                 .build().updateFCMToken(token)
-
         })
 
 

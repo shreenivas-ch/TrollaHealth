@@ -128,8 +128,8 @@
                         android:paddingEnd="@dimen/_2sdp"
                         android:textColor="@color/textColor1"
                         android:textSize="20sp"
-                        app:rxType="@{item.product.rx_type}"
                         app:cartProduct="@{item}"
+                        app:rxType="@{item.product.rx_type}"
                         tools:text="₹292.00" />
 
                     <LinearLayout

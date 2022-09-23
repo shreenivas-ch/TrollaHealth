@@ -64,7 +64,7 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("setMrpBasedOnRxType", "rxType", "product")
+        @BindingAdapter("rxType", "product")
         @JvmStatic
         fun setMrpBasedOnRxType(textView: TextView, rxType: String, product: DashboardProduct) {
             if (rxType.lowercase() == "rx") {
@@ -80,18 +80,22 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("setMrpBasedOnRxTypeInCart", "rxType", "cartProduct")
+        @BindingAdapter("rxType", "cartProduct")
         @JvmStatic
-        fun setMrpBasedOnRxTypeInCart(textView: TextView, rxType: String, cartProduct: DashboardProduct) {
+        fun setMrpBasedOnRxTypeInCart(
+            textView: TextView,
+            rxType: String,
+            cartProduct: GetCartDetailsResponse.CartProduct
+        ) {
             if (rxType.lowercase() == "rx") {
                 textView.text = String.format(
                     textView.context.getString(R.string.amount_string),
-                    cartProduct.rx_offer_mrp.toString()
+                    cartProduct.product.rx_offer_mrp.toString()
                 )
             } else {
                 textView.text = String.format(
                     textView.context.getString(R.string.amount_string),
-                    cartProduct.sale_price
+                    cartProduct.product.sale_price
                 )
             }
         }
@@ -101,14 +105,18 @@ class CustomBindingAdapter {
         @JvmStatic
         fun setOfferText(view: TextView, dashboardProduct: DashboardProduct?) {
             if (dashboardProduct != null) {
-                if (dashboardProduct.discount != "0" || dashboardProduct.discount != "") {
+
+                var discount =
+                    if (dashboardProduct.rx_type.lowercase() == "rx") dashboardProduct.rx_offer_desc else dashboardProduct.discount
+
+                if (discount != "0" || discount != "") {
                     val discountString =
                         when (dashboardProduct.discount_type) {
                             "1" -> {
-                                "Rs. " + dashboardProduct.discount + " OFF"
+                                "Rs. $discount OFF"
                             }
                             "2" -> {
-                                dashboardProduct.discount + "% OFF"
+                                "$discount% OFF"
                             }
                             else -> {
                                 ""
