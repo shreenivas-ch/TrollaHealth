@@ -400,12 +400,17 @@
                 android:enabled="true"
                 android:gravity="center"
                 android:text="Pay Now"
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
+
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/txtTrackOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -423,6 +428,9 @@
                 android:textSize="15sp" />
 
             <TextView
+
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/txtChatWithUs"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -440,6 +448,9 @@
                 android:textSize="15sp" />
 
             <TextView
+
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/txtDownloadInvoice"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -457,6 +468,9 @@
                 android:textSize="15sp" />
 
             <TextView
+
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/txtCancelOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -474,6 +488,8 @@
                 android:textSize="15sp" />
 
             <TextView
+                tools:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/txtRepeatOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"

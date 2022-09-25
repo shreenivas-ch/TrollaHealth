@@ -112,15 +112,8 @@ class OrdersDetailsFragment : Fragment() {
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    if (it.data?.data?.order?.transactions != null && it.data?.data?.order?.transactions?.size > 0) {
-                        handleButtonsVisibility(it)
-                    } else {
-                        binding.txtPay.show()
-                        binding.txtPay.text = "Pay " + getString(
-                            R.string.amount,
-                            it.data?.data?.order?.order_value?.payable
-                        ) + " Online Now"
-                    }
+
+                    handleButtonsVisibility(it)
 
                     amount = it.data?.data?.order?.order_value?.payable!!
                     cartItems.clear()
@@ -273,22 +266,34 @@ class OrdersDetailsFragment : Fragment() {
     }
 
     private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
-        var transactionStatus = response.data?.data?.order?.transactions!![0].status.lowercase()
-        var orderStatus = response.data?.data?.order?.status.lowercase()
+        var orderStatus = response.data?.data?.order?.status?.lowercase()
         var tracking_url = response.data?.data?.order?.tracking_url
 
         /*Pay Button*/
-        if (transactionStatus.contains(TrollaConstants.ORDERSTATUS_PENDING) || transactionStatus.contains(
-                TrollaConstants.ORDERSTATUS_FAILURE
+
+        if (orderStatus!!.contains(TrollaConstants.ORDERSTATUS_DELIVERED) || orderStatus.contains(
+                TrollaConstants.ORDERSTATUS_CANCEL
             )
         ) {
-            binding.txtPay.show()
-            binding.txtPay.text = "Pay " + getString(
-                R.string.amount,
-                response.data.data.order.transactions[0].amount
-            ) + " Online Now"
-        } else {
             binding.txtPay.hide()
+        } else {
+            var transactionStatus = ""
+            if (response.data?.data?.order?.transactions != null && response.data?.data?.order?.transactions?.size > 0) {
+                transactionStatus = response.data?.data?.order?.transactions!![0].status.lowercase()
+            }
+
+            if (transactionStatus.contains(TrollaConstants.ORDERSTATUS_PENDING) || transactionStatus.contains(
+                    TrollaConstants.ORDERSTATUS_FAILURE
+                )
+            ) {
+                binding.txtPay.show()
+                binding.txtPay.text = "Pay " + getString(
+                    R.string.amount,
+                    response.data?.data?.order?.transactions!![0].amount
+                ) + " Online Now"
+            } else {
+                binding.txtPay.hide()
+            }
         }
 
         /*Track Order button*/
