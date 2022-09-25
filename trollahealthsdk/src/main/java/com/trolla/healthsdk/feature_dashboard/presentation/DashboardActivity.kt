@@ -173,8 +173,6 @@ class DashboardActivity : AppCompatActivity(),
 
     fun startRazorPay(amount: String, transaction_id: String, rarorpay_orderid: String?) {
 
-        var userData =
-            TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
         val roundedOffAmount = ((amount!!).toFloat() * 100).roundToInt()
         val checkout = Checkout()
         checkout.setKeyID(TrollaConstants.RAZORPAY_KEYID_LIVE)
@@ -190,9 +188,9 @@ class DashboardActivity : AppCompatActivity(),
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")
             options.put("amount", roundedOffAmount) //pass amount in currency subunits
-            options.put("prefill.name", userData?.name)
-            options.put("prefill.email", userData?.email)
-            options.put("prefill.contact", userData?.mobile)
+            options.put("prefill.name", TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME))
+            options.put("prefill.email",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL))
+            options.put("prefill.contact",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE))
 
             var notesObject = JSONObject()
             notesObject.put("transactionid", transaction_id)
@@ -235,10 +233,7 @@ class DashboardActivity : AppCompatActivity(),
 
     fun uploadImageToS3Bucket(uri: Uri) {
 
-        var userData =
-            TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
-
-        var userid = userData?._id
+        var userid = TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_ID)
 
         var filePath = FetchPath.getPath(this@DashboardActivity, uri)
         val pathtoupload = AWSUtil.PATH_PRESCRIPTION + userid

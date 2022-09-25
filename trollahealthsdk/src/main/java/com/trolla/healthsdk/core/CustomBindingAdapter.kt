@@ -14,11 +14,9 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.hide
-import com.trolla.healthsdk.utils.invisible
-import com.trolla.healthsdk.utils.show
+import com.trolla.healthsdk.utils.*
 
 class CustomBindingAdapter {
 
@@ -221,21 +219,21 @@ class CustomBindingAdapter {
             view.text = ": " + TrollaHealthUtility.getDate(orderDate)
 
             if (orderStatus != null) {
-                if (orderStatus.lowercase() == "pending") {
+                if (orderStatus.lowercase() == TrollaConstants.ORDERSTATUS_PENDING) {
                     view.setTextColor(
                         ContextCompat.getColor(
                             view.context,
                             R.color.colorOrderInProgress
                         )
                     )
-                } else if (orderStatus.lowercase() == "cancelled") {
+                } else if (orderStatus.lowercase() == TrollaConstants.ORDERSTATUS_CANCELLED) {
                     view.setTextColor(
                         ContextCompat.getColor(
                             view.context,
                             R.color.colorOrderCancelled
                         )
                     )
-                } else if (orderStatus.lowercase() == "delivered") {
+                } else if (orderStatus.lowercase() == TrollaConstants.ORDERSTATUS_DELIVERED) {
                     view.setTextColor(
                         ContextCompat.getColor(
                             view.context,
@@ -275,6 +273,26 @@ class CustomBindingAdapter {
             }
         }
 
+        @BindingAdapter("setTrackOrderVisibility")
+        @JvmStatic
+        fun setTrackOrderVisibility(view: View, order: ModelOrder) {
+            if (order.status != null) {
+                if (order.tracking_url.isNullOrEmpty()) {
+                    view.hide()
+                } else {
+                    if (order.status.lowercase()
+                            .contains(TrollaConstants.ORDERSTATUS_DELIVERED) || order.status.lowercase()
+                            .contains(TrollaConstants.ORDERSTATUS_CANCEL)
+                    ) {
+                        view.show()
+                    } else {
+                        view.hide()
+                    }
+                }
+            } else {
+                view.hide()
+            }
+        }
 
     }
 }

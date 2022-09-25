@@ -85,8 +85,6 @@ class PaymentGatewayIntegrationFragment : Fragment() {
 
     fun startRazorPay() {
 
-        var userData =
-            TrollaPreferencesManager.get<UpdateProfileResponse>(TrollaPreferencesManager.USER_DATA)
         val roundedOffAmount = Math.round((amount!!).toFloat() * 100)
         val checkout = Checkout()
         checkout.setKeyID(RAZORPAY_KEYID_TEST)
@@ -102,9 +100,9 @@ class PaymentGatewayIntegrationFragment : Fragment() {
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")
             options.put("amount", roundedOffAmount) //pass amount in currency subunits
-            options.put("prefill.name", userData?.name)
-            options.put("prefill.email", userData?.email)
-            options.put("prefill.contact", userData?.mobile)
+            options.put("prefill.name", TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME))
+            options.put("prefill.email",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL))
+            options.put("prefill.contact",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE))
 
             var notesObject = JSONObject()
             notesObject.put("transactionid", transaction_id)

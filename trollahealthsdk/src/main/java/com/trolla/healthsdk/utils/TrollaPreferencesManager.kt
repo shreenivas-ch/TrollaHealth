@@ -8,8 +8,15 @@ import com.google.gson.GsonBuilder
 object TrollaPreferencesManager {
 
     const val ACCESS_TOKEN = "access_token"
-    const val USER_DATA = "userdata"
     const val IS_PROFILE_COMPLETE = "is_profile_complete"
+    const val PROFILE_ID = "profile_id"
+    const val PROFILE_NAME = "profile_name"
+    const val PROFILE_EMAIL = "profile_email"
+    const val PROFILE_DAY = "profile_day"
+    const val PROFILE_MONTH = "profile_month"
+    const val PROFILE_YEAR = "profile_year"
+    const val PROFILE_GENDER = "profile_gender"
+    const val PROFILE_MOBILE = "profile_mobile"
 
     //Shared Preference field used to save and retrieve JSON string
     lateinit var preferences: SharedPreferences

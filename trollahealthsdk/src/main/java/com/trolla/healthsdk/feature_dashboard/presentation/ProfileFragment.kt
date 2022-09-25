@@ -45,10 +45,14 @@ class ProfileFragment : Fragment() {
         profileViewModel.headerBottomLine.value = 1
         profileViewModel.headerBackButton.value = 0
 
-        profileViewModel.profileLiveData.observe(viewLifecycleOwner)
+        profileViewModel.profileNameLiveData.observe(viewLifecycleOwner)
         {
-            binding.txtEmail.text = it?.email
-            binding.txtUsername.text = it?.name
+            binding.txtUsername.text = it
+        }
+
+        profileViewModel.profileEmailLiveData.observe(viewLifecycleOwner)
+        {
+            binding.txtEmail.text = it
         }
 
         profileViewModel.progressStatus.observe(viewLifecycleOwner) {
@@ -140,11 +144,11 @@ class ProfileFragment : Fragment() {
 
         val freshchatUser =
             Freshchat.getInstance(activity?.applicationContext!!).user
-        freshchatUser.firstName = profileViewModel.profileLiveData?.value?.name ?: "Guest"
-        freshchatUser.email = profileViewModel.profileLiveData?.value?.email ?: "guest@guest.com"
+        freshchatUser.firstName = profileViewModel.profileNameLiveData?.value ?: "Guest"
+        freshchatUser.email = profileViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
         freshchatUser.setPhone(
             "+91",
-            profileViewModel.profileLiveData?.value?.mobile ?: "9000000001"
+            profileViewModel.profileMobileLiveData?.value ?: "9000000001"
         )
 
         Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser

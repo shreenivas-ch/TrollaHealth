@@ -73,6 +73,10 @@ class OrdersListFragment : Fragment() {
                 )
                 (activity as DashboardActivity).addOrReplaceFragment(ordersDetailsFragment, true)
             }
+
+            override fun onTrackOrderClick(view: View, position: Int) {
+
+            }
         })
 
         binding.rvOrdersList.adapter = orderAdapter

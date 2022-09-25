@@ -37,8 +37,36 @@ class DashboardViewModel(
                 when (it) {
                     is Resource.Success -> {
                         TrollaPreferencesManager.put(
-                            it?.data?.data,
-                            TrollaPreferencesManager.USER_DATA
+                            it?.data?.data?.userData?._id,
+                            TrollaPreferencesManager.PROFILE_ID
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.name,
+                            TrollaPreferencesManager.PROFILE_NAME
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.email,
+                            TrollaPreferencesManager.PROFILE_EMAIL
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.mobile,
+                            TrollaPreferencesManager.PROFILE_MOBILE
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.gender,
+                            TrollaPreferencesManager.PROFILE_GENDER
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.day,
+                            TrollaPreferencesManager.PROFILE_DAY
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.month,
+                            TrollaPreferencesManager.PROFILE_MONTH
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.year,
+                            TrollaPreferencesManager.PROFILE_YEAR
                         )
                     }
 

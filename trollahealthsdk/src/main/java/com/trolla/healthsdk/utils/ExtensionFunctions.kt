@@ -3,6 +3,7 @@ package com.trolla.healthsdk.utils
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import com.trolla.healthsdk.data.UiText
 
 fun View.setVisibilityOnBoolean(condition: Boolean, visibleIf: Boolean) {
@@ -48,4 +49,12 @@ fun Context.hidekeyboard(view: View) {
     manager?.hideSoftInputFromWindow(
         view.windowToken, 0
     )
+}
+
+fun Context.showShortToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+}
+
+fun Context.showLongToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }

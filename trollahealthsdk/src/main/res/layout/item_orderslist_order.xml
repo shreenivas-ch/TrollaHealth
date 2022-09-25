@@ -68,6 +68,7 @@
                 tools:listitem="@layout/item_order_productimage" />
 
             <LinearLayout
+                android:id="@+id/llOrderStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rvUploadedPrescriptions"
@@ -105,6 +106,25 @@
                     tools:text="5th May 2022, 05 : 35 : 00 PM" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtTrackOrder"
+                style="@style/trolla_fontMedium"
+                setTrackOrderVisibility="@{item}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onTrackOrderClick(v,item.adapterPosition)}"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/track_order"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
 
         </RelativeLayout>
 

@@ -70,5 +70,7 @@ class GenericAdapter<T : ListItemViewModel>(
         fun onDeleteAddressClick(view: View, position: Int) {}
 
         fun onDeletePrescriptionClick(view: View, position: Int) {}
+
+        fun onTrackOrderClick(view: View, position: Int) {}
     }
 }

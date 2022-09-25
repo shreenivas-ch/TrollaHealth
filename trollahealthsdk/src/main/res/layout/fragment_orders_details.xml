@@ -378,10 +378,12 @@
 
         </androidx.core.widget.NestedScrollView>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/orderActions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin7dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -394,7 +396,6 @@
                 android:layout_marginStart="@dimen/margin16dp"
                 android:layout_marginTop="@dimen/margin16dp"
                 android:layout_marginEnd="@dimen/margin16dp"
-                android:layout_marginBottom="@dimen/margin16dp"
                 android:background="@drawable/bg_inactivebutton"
                 android:enabled="true"
                 android:gravity="center"
@@ -404,7 +405,92 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/txtTrackOrder"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin7dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="@string/track_order"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtChatWithUs"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin7dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="Chat With Us"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtDownloadInvoice"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin7dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="Download Invoice"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtCacelOrder"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin7dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="Cancel Order"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/txtRepeatOrder"
+                style="@style/trolla_fontMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/llOrderStatus"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/margin16dp"
+                android:layout_marginTop="@dimen/margin7dp"
+                android:layout_marginEnd="@dimen/margin16dp"
+                android:background="@drawable/bg_primarybutton"
+                android:gravity="center"
+                android:padding="@dimen/_12sdp"
+                android:text="Repeat Order"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

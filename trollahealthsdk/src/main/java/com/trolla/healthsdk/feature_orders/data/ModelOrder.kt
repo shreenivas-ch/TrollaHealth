@@ -11,6 +11,7 @@ data class ModelOrder(
     val prescriptions: ArrayList<String>,
     val order_value: OrderValue,
     val status: String,
+    val tracking_url: String,
     val created_at: String,
     val order_id: String,
     val address: ModelAddress,

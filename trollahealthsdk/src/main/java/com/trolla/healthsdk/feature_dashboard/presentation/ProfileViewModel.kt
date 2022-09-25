@@ -13,13 +13,20 @@ import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
 
-class ProfileViewModel() : BaseViewModel() {
+class ProfileViewModel : BaseViewModel() {
 
-    val profileLiveData = MutableLiveData<UpdateProfileResponse>()
+    val profileNameLiveData = MutableLiveData<String>()
+    val profileEmailLiveData = MutableLiveData<String>()
+    val profileMobileLiveData = MutableLiveData<String>()
     fun getProfile() {
-        viewModelScope.launch {
-            profileLiveData.value = TrollaPreferencesManager.get(TrollaPreferencesManager.USER_DATA)
 
+        viewModelScope.launch {
+            profileNameLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+            profileEmailLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+            profileMobileLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
         }
     }
 

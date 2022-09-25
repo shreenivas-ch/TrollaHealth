@@ -11,10 +11,8 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.RegisterFragmentBinding
-import com.trolla.healthsdk.utils.LogUtil
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.TrollaPreferencesManager
-import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
 import java.util.*
 
@@ -57,12 +55,45 @@ class RegisterFragmentFragment : Fragment() {
 
         registerViewModel.headerTitle.value = if (from == "auth") "Register" else "Edit Profile"
 
-        registerViewModel.profileLiveData.observe(viewLifecycleOwner)
+        if (from == "profile") {
+            binding.edtMobileNumber.isEnabled = false
+            registerViewModel.getProfile()
+            binding.btnUpdateProfile.text = "Update Profile"
+        }
+
+        registerViewModel.profileNameLiveData.observe(viewLifecycleOwner)
         {
-            var namearr = it?.name?.split(" ")
+            var namearr = it?.split(" ")
             binding.edtFirstname.setText(namearr?.get(0) ?: "")
             binding.edtLastname.setText(if ((namearr?.size ?: 0) > 1) namearr?.get(1) else "")
-            binding.edtMobileNumber.setText(it?.mobile)
+        }
+
+        registerViewModel.profileMobileLiveData.observe(viewLifecycleOwner)
+        {
+            binding.edtMobileNumber.setText(it)
+        }
+
+        registerViewModel.profileGenderLiveData.observe(viewLifecycleOwner)
+        {
+            registerViewModel.genderLiveData.value = it
+            if (it == registerViewModel.genderMaleConstant) {
+                binding.radioMale.isChecked = true
+                binding.radioFemale.isChecked = false
+            } else if (it == registerViewModel.genderFemaleConstant) {
+                binding.radioMale.isChecked = false
+                binding.radioFemale.isChecked = true
+            }
+        }
+
+        registerViewModel.profileDOBLiveData.observe(viewLifecycleOwner)
+        {
+            var cal = Calendar.getInstance()
+            cal.time = it
+            binding.datePicker.updateDate(
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH) - 1,
+                cal.get(Calendar.DATE)
+            )
         }
 
         var cal = Calendar.getInstance()
@@ -128,7 +159,11 @@ class RegisterFragmentFragment : Fragment() {
         }
 
         registerViewModel.progressStatus.observe(viewLifecycleOwner) {
-            (activity as AuthenticationActivity).showHideProgressBar(it)
+            if (from == "profile") {
+                (activity as DashboardActivity).showHideProgressBar(it)
+            } else {
+                (activity as AuthenticationActivity).showHideProgressBar(it)
+            }
         }
 
 
@@ -141,17 +176,51 @@ class RegisterFragmentFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                    /* TrollaPreferencesManager.put(
-                         it?.data?.data,
-                         TrollaPreferencesManager.USER_DATA
-                     )*/
+                    if (from == "profile") {
+                        activity?.showLongToast("Profile Updated")
 
-                    (activity as AuthenticationActivity).addOrReplaceFragment(
-                        MobileOTPVerificationFragment.getInstance(
-                            registerViewModel.mobileNumberLiveData.value.toString()
-                        ), true
-                    )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?._id,
+                            TrollaPreferencesManager.PROFILE_ID
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.name,
+                            TrollaPreferencesManager.PROFILE_NAME
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.email,
+                            TrollaPreferencesManager.PROFILE_EMAIL
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.mobile,
+                            TrollaPreferencesManager.PROFILE_MOBILE
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.gender,
+                            TrollaPreferencesManager.PROFILE_GENDER
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.day,
+                            TrollaPreferencesManager.PROFILE_DAY
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.month,
+                            TrollaPreferencesManager.PROFILE_MONTH
+                        )
+                        TrollaPreferencesManager.put(
+                            it?.data?.data?.userData?.year,
+                            TrollaPreferencesManager.PROFILE_YEAR
+                        )
 
+                        parentFragmentManager?.popBackStack()
+
+                    } else {
+                        (activity as AuthenticationActivity).addOrReplaceFragment(
+                            MobileOTPVerificationFragment.getInstance(
+                                registerViewModel.mobileNumberLiveData.value.toString()
+                            ), true
+                        )
+                    }
                 }
                 is Resource.Error -> {
                     TrollaHealthUtility.showAlertDialogue(
