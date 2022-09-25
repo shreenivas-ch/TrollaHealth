@@ -20,4 +20,5 @@ object TrollaConstants {
     val ORDERSTATUS_CANCELLED = "cancelled"
     val ORDERSTATUS_CANCEL = "cancel"
     val ORDERSTATUS_PROCESSING = "processing"
+    val ORDERSTATUS_FAILURE = "failure"
 }

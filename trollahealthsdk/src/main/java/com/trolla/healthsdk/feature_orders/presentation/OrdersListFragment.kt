@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.freshchat.consumer.sdk.Freshchat
+import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
@@ -75,7 +77,7 @@ class OrdersListFragment : Fragment() {
             }
 
             override fun onTrackOrderClick(view: View, position: Int) {
-
+                initiateChatSupport()
             }
         })
 
@@ -110,8 +112,31 @@ class OrdersListFragment : Fragment() {
 
 
         orderListViewModel.getOrdersList()
+        orderListViewModel.getProfile()
 
         return binding.root
+    }
+
+    private fun initiateChatSupport() {
+        val freshchatConfig = FreshchatConfig(
+            "2013a117-4341-45f5-b68c-7b8948eb40d9",
+            "b4af71ce-0fa1-4154-8d40-d76fc49909de"
+        )
+        freshchatConfig.domain = "msdk.in.freshchat.com"
+        Freshchat.getInstance(activity?.applicationContext!!).init(freshchatConfig)
+
+        val freshchatUser =
+            Freshchat.getInstance(activity?.applicationContext!!).user
+        freshchatUser.firstName = orderListViewModel.profileNameLiveData?.value ?: "Guest"
+        freshchatUser.email = orderListViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
+        freshchatUser.setPhone(
+            "+91",
+            orderListViewModel.profileMobileLiveData?.value ?: "9000000001"
+        )
+
+        Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
+
+        Freshchat.showConversations(activity?.applicationContext!!)
     }
 
 }

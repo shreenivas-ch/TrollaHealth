@@ -457,7 +457,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/txtCacelOrder"
+                android:id="@+id/txtCancelOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

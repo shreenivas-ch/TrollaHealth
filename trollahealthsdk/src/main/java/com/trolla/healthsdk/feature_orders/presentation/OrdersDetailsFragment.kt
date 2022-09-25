@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.freshchat.consumer.sdk.Freshchat
+import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.databinding.FragmentOrdersDetailsBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
@@ -90,19 +94,26 @@ class OrdersDetailsFragment : Fragment() {
         binding.cartList.adapter = cartItemsAdapter
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
 
+        orderDetailsViewModel.cancelOrderResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    orderDetailsViewModel.getOrderDetails(orderid!!)
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
         orderDetailsViewModel.orderDetailsResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
                     if (it.data?.data?.order?.transactions != null && it.data?.data?.order?.transactions?.size > 0) {
-                        if (it.data?.data?.order?.transactions!![0].status.lowercase() == "pending" || it.data?.data?.order?.transactions!![0].status.lowercase() == "failure") {
-                            binding.txtPay.show()
-                            binding.txtPay.text = "Pay " + getString(
-                                R.string.amount,
-                                it.data.data.order.transactions[0].amount
-                            ) + " Online Now"
-                        } else {
-                            binding.txtPay.hide()
-                        }
+                        handleButtonsVisibility(it)
                     } else {
                         binding.txtPay.show()
                         binding.txtPay.text = "Pay " + getString(
@@ -226,8 +237,100 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         orderDetailsViewModel.getOrderDetails(orderid!!)
+        orderDetailsViewModel.getProfile()
+
+        binding.txtChatWithUs.setOnClickListener {
+            initiateChatSupport()
+        }
+
+        binding.txtCancelOrder.setOnClickListener {
+            orderDetailsViewModel.cancelOrder(orderid!!)
+        }
 
         return binding.root
+    }
+
+    private fun initiateChatSupport() {
+        val freshchatConfig = FreshchatConfig(
+            "2013a117-4341-45f5-b68c-7b8948eb40d9",
+            "b4af71ce-0fa1-4154-8d40-d76fc49909de"
+        )
+        freshchatConfig.domain = "msdk.in.freshchat.com"
+        Freshchat.getInstance(activity?.applicationContext!!).init(freshchatConfig)
+
+        val freshchatUser =
+            Freshchat.getInstance(activity?.applicationContext!!).user
+        freshchatUser.firstName = orderDetailsViewModel.profileNameLiveData?.value ?: "Guest"
+        freshchatUser.email = orderDetailsViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
+        freshchatUser.setPhone(
+            "+91",
+            orderDetailsViewModel.profileMobileLiveData?.value ?: "9000000001"
+        )
+
+        Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
+
+        Freshchat.showConversations(activity?.applicationContext!!)
+    }
+
+    private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
+        var transactionStatus = response.data?.data?.order?.transactions!![0].status.lowercase()
+        var orderStatus = response.data?.data?.order?.status.lowercase()
+        var tracking_url = response.data?.data?.order?.tracking_url
+
+        /*Pay Button*/
+        if (transactionStatus.contains(TrollaConstants.ORDERSTATUS_PENDING) || transactionStatus.contains(
+                TrollaConstants.ORDERSTATUS_FAILURE
+            )
+        ) {
+            binding.txtPay.show()
+            binding.txtPay.text = "Pay " + getString(
+                R.string.amount,
+                response.data.data.order.transactions[0].amount
+            ) + " Online Now"
+        } else {
+            binding.txtPay.hide()
+        }
+
+        /*Track Order button*/
+        if (tracking_url.isNullOrEmpty()) {
+            binding.txtTrackOrder.hide()
+        } else {
+            if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) || orderStatus.contains(
+                    TrollaConstants.ORDERSTATUS_CANCEL
+                )
+            ) {
+                binding.txtTrackOrder.hide()
+            } else {
+                binding.txtTrackOrder.show()
+            }
+        }
+
+        /*chat with us - No Conditions */
+
+        /*Download Invoice*/
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)) {
+            binding.txtDownloadInvoice.show()
+        } else {
+            binding.txtDownloadInvoice.hide()
+        }
+
+        /*Cancel Order Button */
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) || orderStatus.contains(
+                TrollaConstants.ORDERSTATUS_CANCEL
+            )
+        ) {
+            binding.txtCancelOrder.hide()
+        } else {
+            binding.txtCancelOrder.show()
+        }
+
+        /*Cancel Order Button */
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)) {
+            binding.txtRepeatOrder.show()
+        } else {
+            binding.txtRepeatOrder.hide()
+        }
+
     }
 
     fun callPaymentGateway() {

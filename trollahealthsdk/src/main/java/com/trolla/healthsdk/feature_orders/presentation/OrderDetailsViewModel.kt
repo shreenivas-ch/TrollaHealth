@@ -4,23 +4,29 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDRequest
 import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDResponse
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetTransactionIDUsecase
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
+import com.trolla.healthsdk.feature_orders.domain.usecases.CancelOrderUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
 
 class OrderDetailsViewModel(
     val getOrderDetailsUsecase: GetOrderDetailsUsecase,
-    val getTransactionIDUsecase: GetTransactionIDUsecase
+    val getTransactionIDUsecase: GetTransactionIDUsecase,
+    val cancelOrderUsecase: CancelOrderUsecase
 ) : BaseViewModel() {
 
     val orderDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<OrderDetailsResponse>>>()
+    val cancelOrderResponseLiveData =
+        MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
     val getTransactionIDLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetTransactionIDResponse>>>()
 
@@ -33,6 +39,15 @@ class OrderDetailsViewModel(
         }
     }
 
+    fun cancelOrder(orderid: String) {
+        progressStatus.value = true
+        viewModelScope.launch {
+            cancelOrderResponseLiveData.value =
+                cancelOrderUsecase(orderid)!!
+            progressStatus.value = false
+        }
+    }
+
     fun getTransactionID(orderid: String, paymentMode: String) {
         var getTransactionIDRequest = GetTransactionIDRequest(orderid, paymentMode)
 
@@ -41,6 +56,20 @@ class OrderDetailsViewModel(
             getTransactionIDLiveData.value =
                 getTransactionIDUsecase(getTransactionIDRequest)!!
             progressStatus.value = false
+        }
+    }
+
+    val profileNameLiveData = MutableLiveData<String>()
+    val profileEmailLiveData = MutableLiveData<String>()
+    val profileMobileLiveData = MutableLiveData<String>()
+    fun getProfile() {
+        viewModelScope.launch {
+            profileNameLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+            profileEmailLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+            profileMobileLiveData.value =
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
         }
     }
 }

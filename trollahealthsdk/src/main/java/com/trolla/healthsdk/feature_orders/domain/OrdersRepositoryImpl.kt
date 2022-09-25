@@ -3,6 +3,7 @@ package com.trolla.healthsdk.feature_orders.domain
 import com.trolla.healthsdk.core.APIErrorHandler
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.data.remote.ApiService
 import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
@@ -18,6 +19,11 @@ class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepositor
     override suspend fun getOrderDetails(id: String): Resource<BaseApiResponse<OrderDetailsResponse>> {
         val response = apiService.getOrderDetails(id)
         return APIErrorHandler<OrderDetailsResponse>().process(response)
+    }
+
+    override suspend fun cancelOrder(id: String): Resource<BaseApiResponse<CommonAPIResponse>> {
+        val response = apiService.cancelOrder(id)
+        return APIErrorHandler<CommonAPIResponse>().process(response)
     }
 }
 

@@ -284,9 +284,9 @@ class CustomBindingAdapter {
                             .contains(TrollaConstants.ORDERSTATUS_DELIVERED) || order.status.lowercase()
                             .contains(TrollaConstants.ORDERSTATUS_CANCEL)
                     ) {
-                        view.show()
-                    } else {
                         view.hide()
+                    } else {
+                        view.show()
                     }
                 }
             } else {

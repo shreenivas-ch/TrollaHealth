@@ -39,7 +39,7 @@ interface ApiService {
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
 
-    @GET("/categories")
+    @GET("/categories/wf")
     suspend fun getCategories(
     ): Response<BaseApiResponse<CategoriesResponse>>
 
@@ -100,6 +100,11 @@ interface ApiService {
     suspend fun createOrder(
         @Body orderRequestModel: OrderRequestModel
     ): Response<BaseApiResponse<CreateOrderResponse>>
+
+    @PUT("/orders/{id}")
+    suspend fun cancelOrder(
+        @Path("id") id: String,
+    ): Response<BaseApiResponse<CommonAPIResponse>>
 
     @GET("/orders/{id}")
     suspend fun getOrderDetails(
