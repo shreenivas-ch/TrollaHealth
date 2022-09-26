@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_orders.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -77,7 +79,7 @@ class OrdersListFragment : Fragment() {
             }
 
             override fun onTrackOrderClick(view: View, position: Int) {
-                initiateChatSupport()
+                initiateTracking(ordersList[position].order_id, ordersList[position].tracking_url)
             }
         })
 
@@ -117,26 +119,11 @@ class OrdersListFragment : Fragment() {
         return binding.root
     }
 
-    private fun initiateChatSupport() {
-        val freshchatConfig = FreshchatConfig(
-            "2013a117-4341-45f5-b68c-7b8948eb40d9",
-            "b4af71ce-0fa1-4154-8d40-d76fc49909de"
-        )
-        freshchatConfig.domain = "msdk.in.freshchat.com"
-        Freshchat.getInstance(activity?.applicationContext!!).init(freshchatConfig)
-
-        val freshchatUser =
-            Freshchat.getInstance(activity?.applicationContext!!).user
-        freshchatUser.firstName = orderListViewModel.profileNameLiveData?.value ?: "Guest"
-        freshchatUser.email = orderListViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
-        freshchatUser.setPhone(
-            "+91",
-            orderListViewModel.profileMobileLiveData?.value ?: "9000000001"
-        )
-
-        Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
-
-        Freshchat.showConversations(activity?.applicationContext!!)
+    private fun initiateTracking(orderid: String, trackingUrl: String) {
+        var intent = Intent(requireActivity(), WebviewActivity::class.java)
+        intent.putExtra("title", "Order ID: $orderid")
+        intent.putExtra("url", trackingUrl)
+        startActivity(intent)
     }
 
 }

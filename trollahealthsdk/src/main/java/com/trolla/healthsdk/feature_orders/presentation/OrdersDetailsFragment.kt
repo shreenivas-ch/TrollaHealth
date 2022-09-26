@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_orders.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
 
@@ -52,6 +54,7 @@ class OrdersDetailsFragment : Fragment() {
     var amount: String = ""
     var rarorpay_orderid: String = ""
     var payable_amount: String = ""
+    var trackingUrl: String = ""
 
     var cartItems = ArrayList<GetCartDetailsResponse.CartProduct>()
     var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
@@ -191,6 +194,10 @@ class OrdersDetailsFragment : Fragment() {
                     binding.txtSelectedAddress.text =
                         order.address.name + "\n" + order.address.address + " " + order.address.landmark + " " + order.address.city + " " + order.address.state + "\n" + order.address.pincode
 
+                    if (!it?.data?.data?.order?.tracking_url.isNullOrEmpty()) {
+                        trackingUrl = it?.data?.data?.order?.tracking_url
+                    }
+
                 }
 
                 is Resource.Error -> {
@@ -204,6 +211,10 @@ class OrdersDetailsFragment : Fragment() {
 
         binding.txtPay.setOnClickListener {
             orderDetailsViewModel.getTransactionID(orderid.toString(), "prepaid")
+        }
+
+        binding.txtTrackOrder.setOnClickListener {
+            initiateTracking(orderid.toString(), trackingUrl)
         }
 
         orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)
@@ -241,6 +252,13 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun initiateTracking(orderid: String, trackingUrl: String) {
+        var intent = Intent(requireActivity(), WebviewActivity::class.java)
+        intent.putExtra("title", "Order ID: $orderid")
+        intent.putExtra("url", trackingUrl)
+        startActivity(intent)
     }
 
     private fun initiateChatSupport() {

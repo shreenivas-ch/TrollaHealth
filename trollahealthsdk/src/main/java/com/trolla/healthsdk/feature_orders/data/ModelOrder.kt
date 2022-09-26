@@ -12,6 +12,7 @@ data class ModelOrder(
     val order_value: OrderValue,
     val status: String,
     val tracking_url: String,
+    val eta: String,
     val created_at: String,
     val order_id: String,
     val address: ModelAddress,
