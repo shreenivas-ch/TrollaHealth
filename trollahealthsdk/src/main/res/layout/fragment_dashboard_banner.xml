@@ -20,10 +20,9 @@
         <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
             android:id="@+id/bannerViewPager"
             android:layout_width="match_parent"
-            android:layout_height="145dp"
+            android:layout_height="155dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/margin16dp"
-            android:layout_marginBottom="@dimen/margin16dp"
             app:layout_constraintBottom_toTopOf="@+id/dots_indicator" />
 
         <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator

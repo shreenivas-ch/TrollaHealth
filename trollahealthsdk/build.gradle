@@ -26,6 +26,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "default"
+    productFlavors {
+        live {
+            buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
+            buildConfigField 'String', 'APIS', '"Live"'
+        }
+        staging {
+            buildConfigField 'String', 'BASE_URL', '"https://staging-api.coshop.app/"'
+            buildConfigField 'String', 'APIS', '"Staging"'
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -91,6 +104,7 @@ dependencies {
 
     /*gallery*/
     implementation 'com.github.Drjacky:ImagePicker:2.1.16'
+    implementation 'com.github.jrvansuita:PickImage:+'
 
     /*freshchat*/
     implementation 'com.github.freshworks:freshchat-android:5.2.0'

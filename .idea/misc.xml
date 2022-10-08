@@ -50,11 +50,16 @@
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/products_list_fragment.xml" value="0.264" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/layout/register_fragment.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/EcommerceAggregatorHealthCare/trollahealthsdk/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/activity_webview.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/cart_fragment.xml" value="0.12360688956433637" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard_banner.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard_featured_brands.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_order_confirmed.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_orders_details.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_profile.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_search.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_banner.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_cart_product.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_category.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_dashboard_recommended_product.xml" value="0.22826086956521738" />

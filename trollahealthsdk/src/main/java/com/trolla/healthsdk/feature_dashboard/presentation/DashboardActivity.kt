@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,21 +15,22 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.github.drjacky.imagepicker.ImagePicker
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
-import com.razorpay.PaymentResultListener
 import com.razorpay.PaymentResultWithDataListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.utils.*
+import com.vansuita.pickimage.bean.PickResult
+import com.vansuita.pickimage.bundle.PickSetup
+import com.vansuita.pickimage.dialog.PickImageDialog
+import com.vansuita.pickimage.listeners.IPickResult
 import id.zelory.compressor.Compressor
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
@@ -40,8 +40,9 @@ import org.koin.java.KoinJavaComponent
 import java.io.File
 import kotlin.math.roundToInt
 
+
 class DashboardActivity : AppCompatActivity(),
-    PaymentResultWithDataListener {
+    PaymentResultWithDataListener, IPickResult {
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
@@ -188,9 +189,18 @@ class DashboardActivity : AppCompatActivity(),
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")
             options.put("amount", roundedOffAmount) //pass amount in currency subunits
-            options.put("prefill.name", TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME))
-            options.put("prefill.email",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL))
-            options.put("prefill.contact",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE))
+            options.put(
+                "prefill.name",
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+            )
+            options.put(
+                "prefill.email",
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+            )
+            options.put(
+                "prefill.contact",
+                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
+            )
 
             var notesObject = JSONObject()
             notesObject.put("transactionid", transaction_id)
@@ -226,9 +236,21 @@ class DashboardActivity : AppCompatActivity(),
 
     fun launchImagePicker(launcherFrom: String, pickerType: ImageProvider) {
         imagePickerLauncherFrom = launcherFrom
-        ImagePicker.with(this)
+        /*ImagePicker.with(this)
             .provider(ImageProvider.BOTH) //Or bothCameraGallery()
-            .createIntentFromDialog { launcher.launch(it) }
+            .createIntentFromDialog { launcher.launch(it) }*/
+
+        val setup = PickSetup()
+        PickImageDialog.build(setup)
+            //.setOnClick(this)
+            .show(this)
+    }
+
+
+    override fun onPickResult(r: PickResult?) {
+        r?.let {
+            uploadImageToS3Bucket(it.uri)
+        }
     }
 
     fun uploadImageToS3Bucket(uri: Uri) {
@@ -240,8 +262,8 @@ class DashboardActivity : AppCompatActivity(),
 
         try {
             lifecycleScope.launch {
-                val compressedImageFile =
-                    Compressor.compress(this@DashboardActivity, File(filePath))
+                val compressedImageFile =File(filePath)
+                    //Compressor.compress(this@DashboardActivity, File(filePath))
                 AWSUtil.uploadFile(
                     this@DashboardActivity,
                     compressedImageFile,

@@ -9,10 +9,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URLDecoder
 import java.util.concurrent.TimeUnit
+import com.trolla.healthsdk.BuildConfig
 
 object RetrofitFactory {
 
-    const val BASE_URL: String = "https://api.coshop.app/"
+    const val BASE_URL: String = BuildConfig.BASE_URL
 
     fun makeRetrofitService(): ApiService {
         return Retrofit.Builder()
