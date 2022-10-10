@@ -17,6 +17,8 @@ object TrollaPreferencesManager {
     const val PROFILE_YEAR = "profile_year"
     const val PROFILE_GENDER = "profile_gender"
     const val PROFILE_MOBILE = "profile_mobile"
+    const val PM_DEFAULT_PINCODE = "default_pincode"
+    const val PM_DEFAULT_ADDRESS = "default_address"
 
     //Shared Preference field used to save and retrieve JSON string
     lateinit var preferences: SharedPreferences
@@ -59,10 +61,11 @@ object TrollaPreferencesManager {
      **/
     inline fun <reified T> get(key: String): T? {
         //We read JSON String which was saved.
-        val value = preferences.getString(key, null)
+        val value = preferences.getString(key,null)
         //JSON String was found which means object can be read.
         //We convert this JSON String to model object. Parameter "c" (of
         //type Class < T >" is used to cast.
+
         return GsonBuilder().create().fromJson(value, T::class.java)
     }
 }

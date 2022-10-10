@@ -9,11 +9,15 @@ import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.*
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
+import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
 import retrofit2.Response
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
-        val response = apiService.getCartDetails()
+        val response = apiService.getCartDetails(
+            TrollaPreferencesManager.get<String>(PM_DEFAULT_PINCODE) ?: ""
+        )
         return APIErrorHandler<GetCartDetailsResponse>().process(response)
     }
 
@@ -24,7 +28,12 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
         prescriptions: ArrayList<String>
     ): Resource<BaseApiResponse<AddToCartResponse>> {
 
-        var cartRequest = AddToCartRequest(product_id, qty, type, prescriptions)
+        var cartRequest = AddToCartRequest(
+            product_id,
+            qty,
+            type,
+            prescriptions
+        )
 
         val response = apiService.addToCart(cartRequest)
         return APIErrorHandler<AddToCartResponse>().process(response)

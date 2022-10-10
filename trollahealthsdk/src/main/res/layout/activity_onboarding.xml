@@ -97,7 +97,8 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/margin7dp"
-            android:gravity="center"
+            android:gravity="center|top"
+            android:minLines="2"
             android:paddingStart="@dimen/margin7dp"
             android:paddingEnd="@dimen/margin7dp"
             android:text="@string/medicines_at_your_doorstep" />

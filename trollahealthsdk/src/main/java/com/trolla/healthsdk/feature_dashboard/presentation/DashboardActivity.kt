@@ -23,10 +23,15 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
+import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
+import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.utils.*
+import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_ADDRESS
+import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
 import com.vansuita.pickimage.bean.PickResult
 import com.vansuita.pickimage.bundle.PickSetup
 import com.vansuita.pickimage.dialog.PickImageDialog
@@ -47,6 +52,9 @@ class DashboardActivity : AppCompatActivity(),
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
     val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
+    val addressListViewModel: AddressListViewModel by KoinJavaComponent.inject(AddressListViewModel::class.java)
+    var userDefaultAddress = ""
+    var userDefaultPincode = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +70,6 @@ class DashboardActivity : AppCompatActivity(),
                     }
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
-                    //EventBus.getDefault().post(RefreshDashboardEvent())
                 }
 
                 is Resource.Error -> {
@@ -115,11 +122,19 @@ class DashboardActivity : AppCompatActivity(),
                     when (paymentRedirectionScreen) {
                         "createorder" -> {
                             TrollaHealthUtility.showAlertDialogue(this, "Order Placed Successfully")
+                            addOrReplaceFragment(
+                                OrdersListFragment.newInstance(),
+                                true
+                            )
                         }
                         "orderdetails" -> {
                             TrollaHealthUtility.showAlertDialogue(
                                 this,
                                 "Payment Updated Successfully"
+                            )
+                            addOrReplaceFragment(
+                                OrdersListFragment.newInstance(),
+                                true
                             )
                         }
                         else -> {
@@ -142,7 +157,39 @@ class DashboardActivity : AppCompatActivity(),
             }
         }
 
-        cartViewModel.getCartDetails()
+        addressListViewModel.getaddressListLiveData.observe(this) {
+            when (it) {
+                is Resource.Success -> {
+
+                    /*store address and pincode in SP*/
+                    var addresslist = it.data?.data?.addresses ?: arrayListOf()
+
+                    if (addresslist.size > 0) {
+                        userDefaultAddress = addresslist[0].address
+                        userDefaultPincode = addresslist[0].pincode
+                    } else {
+                        userDefaultAddress = ""
+                        userDefaultPincode = ""
+                    }
+
+                    TrollaPreferencesManager.put(userDefaultPincode, PM_DEFAULT_PINCODE)
+                    TrollaPreferencesManager.put(userDefaultAddress, PM_DEFAULT_ADDRESS)
+
+                    /*Need to pass pincode in cart details API*/
+                    cartViewModel.getCartDetails()
+
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        this,
+                        it.uiText?.asString(this)
+                    )
+                }
+            }
+        }
+
+        addressListViewModel.getAddressList()
     }
 
     fun addOrReplaceFragment(
@@ -262,8 +309,8 @@ class DashboardActivity : AppCompatActivity(),
 
         try {
             lifecycleScope.launch {
-                val compressedImageFile =File(filePath)
-                    //Compressor.compress(this@DashboardActivity, File(filePath))
+                val compressedImageFile = File(filePath)
+                //Compressor.compress(this@DashboardActivity, File(filePath))
                 AWSUtil.uploadFile(
                     this@DashboardActivity,
                     compressedImageFile,

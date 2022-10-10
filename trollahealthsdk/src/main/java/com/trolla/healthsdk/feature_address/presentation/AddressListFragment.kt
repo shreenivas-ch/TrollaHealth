@@ -14,11 +14,9 @@ import com.trolla.healthsdk.databinding.AddressListFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
+import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.utils.LogUtil
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.setVisibilityOnBoolean
+import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -137,6 +135,27 @@ class AddressListFragment : Fragment() {
                     }
 
                     genericAdapter.notifyDataSetChanged()
+
+                    var tmpAddresslist = it.data?.data?.addresses ?: arrayListOf()
+
+
+                    var userDefaultAddress = ""
+                    var userDefaultPincode = ""
+                    if (tmpAddresslist.size > 0) {
+                        userDefaultAddress = tmpAddresslist[0].address
+                        userDefaultPincode = tmpAddresslist[0].pincode
+                    }
+                    TrollaPreferencesManager.put(
+                        userDefaultPincode,
+                        TrollaPreferencesManager.PM_DEFAULT_PINCODE
+                    )
+                    TrollaPreferencesManager.put(
+                        userDefaultAddress,
+                        TrollaPreferencesManager.PM_DEFAULT_ADDRESS
+                    )
+
+                    EventBus.getDefault().post(LoadAddressOnDashboardHeaderEvent())
+
                 }
 
                 is Resource.Error -> {

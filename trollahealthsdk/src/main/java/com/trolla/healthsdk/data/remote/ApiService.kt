@@ -49,22 +49,26 @@ interface ApiService {
         @Query("limit") limit: String,
         @Query("filterValue") filterValue: String,
         @Query("filterBy") type: String,
+        @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<ProductsListResponse>>
 
     @GET("/products/search")
     suspend fun search(
         @Query("q") q: String,
         @Query("page") page: String,
-        @Query("limit") limit: String
+        @Query("limit") limit: String,
+        @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<SearchResponse>>
 
     @GET("/products/{id}")
     suspend fun getProductDetails(
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<GetProductDetailsResponse>>
 
     @GET("/cart")
     suspend fun getCartDetails(
+        @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<GetCartDetailsResponse>>
 
     @POST("/cart/add")

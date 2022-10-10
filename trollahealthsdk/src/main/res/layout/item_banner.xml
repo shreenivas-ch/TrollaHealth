@@ -18,7 +18,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/imvBanner"
             android:layout_width="match_parent"
-            android:layout_height="185dp"
+            android:layout_height="155dp"
             android:layout_marginEnd="@dimen/margin16dp"
             android:scaleType="centerCrop"
             app:isShowPlaceHolder="@{true}"
