@@ -13,6 +13,7 @@ import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_orders.domain.usecases.CancelOrderUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
+import com.trolla.healthsdk.feature_orders.domain.usecases.RepeatOrderUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
@@ -20,12 +21,15 @@ import kotlinx.coroutines.launch
 class OrderDetailsViewModel(
     val getOrderDetailsUsecase: GetOrderDetailsUsecase,
     val getTransactionIDUsecase: GetTransactionIDUsecase,
-    val cancelOrderUsecase: CancelOrderUsecase
+    val cancelOrderUsecase: CancelOrderUsecase,
+    val repeatOrderUsecase: RepeatOrderUsecase
 ) : BaseViewModel() {
 
     val orderDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<OrderDetailsResponse>>>()
     val cancelOrderResponseLiveData =
+        MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
+    val repeatOrderResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
     val getTransactionIDLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetTransactionIDResponse>>>()
@@ -44,6 +48,15 @@ class OrderDetailsViewModel(
         viewModelScope.launch {
             cancelOrderResponseLiveData.value =
                 cancelOrderUsecase(orderid)!!
+            progressStatus.value = false
+        }
+    }
+
+    fun repeatOrder(orderid: String) {
+        progressStatus.value = true
+        viewModelScope.launch {
+            repeatOrderResponseLiveData.value =
+                repeatOrderUsecase(orderid)!!
             progressStatus.value = false
         }
     }

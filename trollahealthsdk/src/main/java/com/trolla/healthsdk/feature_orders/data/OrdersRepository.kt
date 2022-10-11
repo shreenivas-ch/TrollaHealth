@@ -10,4 +10,5 @@ interface OrdersRepository {
     suspend fun getOrdersList(): Resource<BaseApiResponse<GetOrdersListResponse>>
     suspend fun getOrderDetails(id:String): Resource<BaseApiResponse<OrderDetailsResponse>>
     suspend fun cancelOrder(id:String): Resource<BaseApiResponse<CommonAPIResponse>>
+    suspend fun repeatOrder(id:String): Resource<BaseApiResponse<CommonAPIResponse>>
 }

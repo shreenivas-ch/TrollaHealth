@@ -11,6 +11,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
+import com.trolla.healthsdk.feature_orders.data.RepeatOrderRequest
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 import com.trolla.healthsdk.feature_search.data.SearchResponse
@@ -108,6 +109,11 @@ interface ApiService {
     @PUT("/orders/{id}")
     suspend fun cancelOrder(
         @Path("id") id: String,
+    ): Response<BaseApiResponse<CommonAPIResponse>>
+
+    @POST("/orders/repeat")
+    suspend fun repeatOrder(
+        @Body repeatOrderRequest: RepeatOrderRequest
     ): Response<BaseApiResponse<CommonAPIResponse>>
 
     @GET("/orders/{id}")

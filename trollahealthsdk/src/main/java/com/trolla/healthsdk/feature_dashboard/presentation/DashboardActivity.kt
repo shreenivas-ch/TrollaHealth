@@ -28,6 +28,7 @@ import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
+import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.utils.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_ADDRESS
@@ -70,6 +71,8 @@ class DashboardActivity : AppCompatActivity(),
                     }
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    EventBus.getDefault()
+                        .post(UpdateCartCountInBottomNavigationEvent(response?.data?.data?.cart?.products?.size ?: 0))
                 }
 
                 is Resource.Error -> {
@@ -98,6 +101,8 @@ class DashboardActivity : AppCompatActivity(),
                     }
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    EventBus.getDefault()
+                        .post(UpdateCartCountInBottomNavigationEvent(products?.size ?: 0))
 
                 }
 
@@ -172,8 +177,8 @@ class DashboardActivity : AppCompatActivity(),
                         userDefaultPincode = ""
                     }
 
-                    TrollaPreferencesManager.put(userDefaultPincode, PM_DEFAULT_PINCODE)
-                    TrollaPreferencesManager.put(userDefaultAddress, PM_DEFAULT_ADDRESS)
+                    TrollaPreferencesManager.put(userDefaultPincode.toString(), PM_DEFAULT_PINCODE)
+                    TrollaPreferencesManager.put(userDefaultAddress.toString(), PM_DEFAULT_ADDRESS)
 
                     /*Need to pass pincode in cart details API*/
                     cartViewModel.getCartDetails()

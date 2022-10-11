@@ -16,6 +16,7 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.databinding.FragmentOrdersDetailsBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
@@ -101,6 +102,23 @@ class OrdersDetailsFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
                     orderDetailsViewModel.getOrderDetails(orderid!!)
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        orderDetailsViewModel.repeatOrderResponseLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Success -> {
+                    parentFragmentManager.popBackStack()
+                    var cartFragment = CartFragment.newInstance()
+                    (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
                 }
 
                 is Resource.Error -> {
@@ -249,6 +267,10 @@ class OrdersDetailsFragment : Fragment() {
 
         binding.txtCancelOrder.setOnClickListener {
             orderDetailsViewModel.cancelOrder(orderid!!)
+        }
+
+        binding.txtRepeatOrder.setOnClickListener {
+            orderDetailsViewModel.repeatOrder(orderid!!)
         }
 
         return binding.root

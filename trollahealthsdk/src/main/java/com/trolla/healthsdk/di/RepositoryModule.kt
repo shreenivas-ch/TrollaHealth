@@ -33,6 +33,7 @@ import com.trolla.healthsdk.feature_orders.domain.provideOrderRepository
 import com.trolla.healthsdk.feature_orders.domain.usecases.CancelOrderUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
+import com.trolla.healthsdk.feature_orders.domain.usecases.RepeatOrderUsecase
 import com.trolla.healthsdk.feature_orders.presentation.OrderDetailsViewModel
 import com.trolla.healthsdk.feature_orders.presentation.OrderListViewModel
 import com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationViewModel
@@ -115,7 +116,8 @@ val repositoryModule = module {
     single { GetOrderDetailsUsecase(get()) }
     factory { OrderListViewModel(get()) }
     factory { CancelOrderUsecase(get()) }
-    factory { OrderDetailsViewModel(get(), get(),get()) }
+    factory { RepeatOrderUsecase(get()) }
+    factory { OrderDetailsViewModel(get(), get(), get(), get()) }
 
     factory { PaymentGatewayIntegrationViewModel() }
 

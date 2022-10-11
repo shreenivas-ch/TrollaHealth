@@ -25,6 +25,12 @@ class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepositor
         val response = apiService.cancelOrder(id)
         return APIErrorHandler<CommonAPIResponse>().process(response)
     }
+
+    override suspend fun repeatOrder(id: String): Resource<BaseApiResponse<CommonAPIResponse>> {
+        var repeatOrderRequest=RepeatOrderRequest(id)
+        val response = apiService.repeatOrder(repeatOrderRequest)
+        return APIErrorHandler<CommonAPIResponse>().process(response)
+    }
 }
 
 fun provideOrderRepository(apiService: ApiService): OrdersRepository {

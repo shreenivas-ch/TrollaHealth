@@ -391,7 +391,7 @@ class CartFragment : Fragment() {
         uploadedPrescriptionsList.clear()
 
         for (i in cart.products!!.indices) {
-            if (cart.products[i].product.rx_type == "NON-RX" || cart.products[i].product.rx_type == "NON-RX") {
+            if (cart.products[i].product.rx_type == "NON-RX" || cart.products[i].product.rx_type == "") {
                 cartItemsListWithoutRx.add(cart.products[i])
             } else {
                 cartItemsListWithRx.add(cart.products[i])
