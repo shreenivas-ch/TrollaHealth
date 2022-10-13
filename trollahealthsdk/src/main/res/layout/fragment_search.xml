@@ -97,7 +97,39 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardHeader"
             tools:itemCount="10"
-            tools:listitem="@layout/item_search" />
+            tools:listitem="@layout/item_search"
+            tools:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rlLocalSearchHistory"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardHeader">
+
+            <TextView
+                android:id="@+id/txtLocalSearchHistoryTitle"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_12sdp"
+                android:text="Recently searched items"
+                android:textColor="@color/textColor1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvLocalSearchHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/txtLocalSearchHistoryTitle"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_search" />
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

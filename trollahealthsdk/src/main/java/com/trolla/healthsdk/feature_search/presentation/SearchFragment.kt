@@ -15,6 +15,7 @@ import com.trolla.healthsdk.databinding.FragmentSearchBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.feature_search.data.ModelSearchHistory
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener2
 import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
@@ -40,7 +41,10 @@ class SearchFragment : Fragment() {
     var searchList = ArrayList<DashboardResponse.DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardResponse.DashboardProduct>
 
-    lateinit var binding : FragmentSearchBinding
+    var localSearchHistoryList = ArrayList<ModelSearchHistory>()
+    lateinit var localSearchHistoryAdapter: GenericAdapter<ModelSearchHistory>
+
+    lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,9 +66,26 @@ class SearchFragment : Fragment() {
             isLoading = it
         }
 
+        searchViewModel.localSearchHistoryLiveData.observe(viewLifecycleOwner) {
+            localSearchHistoryList.clear()
+            localSearchHistoryList.addAll(it)
+            localSearchHistoryAdapter.notifyDataSetChanged()
+            if (localSearchHistoryList.size == 0) {
+                binding.txtLocalSearchHistoryTitle.hide()
+            } else {
+                binding.txtLocalSearchHistoryTitle.show()
+            }
+        }
+
         genericAdapter = GenericAdapter(
             R.layout.item_search, searchList
         )
+
+        localSearchHistoryAdapter = GenericAdapter(
+            R.layout.item_search, localSearchHistoryList
+        )
+
+        binding.rvLocalSearchHistory.adapter = localSearchHistoryAdapter
 
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
@@ -81,6 +102,14 @@ class SearchFragment : Fragment() {
                 )
 
                 (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
+
+                searchViewModel.addSearchToLocalSearchHistory(
+                    ModelSearchHistory(
+                        product_id.toString(),
+                        product_name
+                    )
+                )
+                searchViewModel.getLocalSearchHistory()
             }
         })
 
@@ -136,8 +165,10 @@ class SearchFragment : Fragment() {
             if (searchStr.isEmpty() || searchStr.length < 3) {
                 searchList.clear()
                 genericAdapter.notifyDataSetChanged()
+                binding.rlLocalSearchHistory.show()
             } else {
                 getSearch()
+                binding.rlLocalSearchHistory.hide()
             }
         }
 
@@ -150,6 +181,7 @@ class SearchFragment : Fragment() {
             activity?.hidekeyboard(binding.edtSearch)
         }
 
+        searchViewModel.getLocalSearchHistory()
 
         return binding.root
     }

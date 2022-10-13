@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
+            type="com.trolla.healthsdk.feature_search.data.ModelSearchHistory" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

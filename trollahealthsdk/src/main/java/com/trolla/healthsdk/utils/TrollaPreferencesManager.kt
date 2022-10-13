@@ -19,6 +19,7 @@ object TrollaPreferencesManager {
     const val PROFILE_MOBILE = "profile_mobile"
     const val PM_DEFAULT_PINCODE = "default_pincode"
     const val PM_DEFAULT_ADDRESS = "default_address"
+    const val PM_LOCAL_SEARCH_HISTORY = "local_search_history"
 
     //Shared Preference field used to save and retrieve JSON string
     lateinit var preferences: SharedPreferences
