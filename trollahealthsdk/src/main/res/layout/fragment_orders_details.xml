@@ -448,7 +448,6 @@
                 android:textSize="15sp" />
 
             <TextView
-
                 tools:visibility="visible"
                 android:visibility="gone"
                 android:id="@+id/txtDownloadInvoice"

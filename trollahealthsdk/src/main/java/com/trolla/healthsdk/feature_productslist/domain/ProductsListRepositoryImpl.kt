@@ -17,7 +17,7 @@ class ProductsListRepositoryImpl(private val apiService: ApiService) : ProductsL
         filterBy: String
     ): Resource<BaseApiResponse<ProductsListResponse>> {
         val response = apiService.getProductsList(page, limit, filterValue, filterBy,
-            TrollaPreferencesManager.get<String>(PM_DEFAULT_PINCODE) ?: "")
+            TrollaPreferencesManager.getString(PM_DEFAULT_PINCODE) ?: "")
         val resource = APIErrorHandler<ProductsListResponse>().process(response)
         return resource
     }

@@ -12,7 +12,7 @@ import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
 class ProductDetailsRepositoryImpl(private val apiService: ApiService) : ProductDetailsRepository {
     override suspend fun getProductDetails(id:String): Resource<BaseApiResponse<GetProductDetailsResponse>> {
         val response = apiService.getProductDetails(id,
-            TrollaPreferencesManager.get<String>(PM_DEFAULT_PINCODE) ?: "")
+            TrollaPreferencesManager.getString(PM_DEFAULT_PINCODE) ?: "")
         return APIErrorHandler<GetProductDetailsResponse>().process(response)
     }
 }

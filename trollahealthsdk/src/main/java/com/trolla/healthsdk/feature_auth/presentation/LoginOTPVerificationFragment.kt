@@ -110,12 +110,12 @@ class LoginOTPVerificationFragment : Fragment() {
                     var accessToken = it?.data?.data?.access_token
                     var isProfileComplete = it?.data?.data?.is_profile_complete ?: false
 
-                    TrollaPreferencesManager.put(
+                    TrollaPreferencesManager.setString(
                         accessToken,
                         TrollaPreferencesManager.ACCESS_TOKEN
                     )
 
-                    TrollaPreferencesManager.put(
+                    TrollaPreferencesManager.setBoolean(
                         isProfileComplete,
                         TrollaPreferencesManager.IS_PROFILE_COMPLETE
                     )

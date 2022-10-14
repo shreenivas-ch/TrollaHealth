@@ -16,7 +16,7 @@ import retrofit2.Response
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
         val response = apiService.getCartDetails(
-            TrollaPreferencesManager.get<String>(PM_DEFAULT_PINCODE) ?: ""
+            TrollaPreferencesManager.getString(PM_DEFAULT_PINCODE) ?: ""
         )
         return APIErrorHandler<GetCartDetailsResponse>().process(response)
     }

@@ -37,7 +37,7 @@ object RetrofitFactory {
                     requestBuilder.header("Accept", "application/json")
                     requestBuilder.header(
                         "Authorization",
-                        "Bearer " + TrollaPreferencesManager.get<String>(
+                        "Bearer " + TrollaPreferencesManager.getString(
                             TrollaPreferencesManager.ACCESS_TOKEN
                         )
                     )

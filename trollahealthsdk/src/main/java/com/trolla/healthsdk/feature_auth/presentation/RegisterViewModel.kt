@@ -29,19 +29,19 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
     fun getProfile() {
         viewModelScope.launch {
             profileNameLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_NAME)
             profileEmailLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_EMAIL)
             profileMobileLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MOBILE)
             profileIdLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_ID)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_ID)
             profileGenderLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_GENDER)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_GENDER)
 
-            var day = TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_DAY)
-            var month = TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MONTH)
-            var year = TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_YEAR)
+            var day = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_DAY)
+            var month = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MONTH)
+            var year = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_YEAR)
             if (day.isNullOrEmpty() || month.isNullOrEmpty() || year.isNullOrEmpty()) {
 
             } else {

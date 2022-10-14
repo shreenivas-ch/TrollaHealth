@@ -22,11 +22,11 @@ class ProfileViewModel : BaseViewModel() {
 
         viewModelScope.launch {
             profileNameLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_NAME)
             profileEmailLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_EMAIL)
             profileMobileLiveData.value =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MOBILE)
         }
     }
 

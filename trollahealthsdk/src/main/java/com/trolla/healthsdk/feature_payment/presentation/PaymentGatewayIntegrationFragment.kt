@@ -100,9 +100,9 @@ class PaymentGatewayIntegrationFragment : Fragment() {
             options.put("theme.color", "#6757d7")
             options.put("currency", "INR")
             options.put("amount", roundedOffAmount) //pass amount in currency subunits
-            options.put("prefill.name", TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME))
-            options.put("prefill.email",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL))
-            options.put("prefill.contact",  TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE))
+            options.put("prefill.name", TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_NAME))
+            options.put("prefill.email",  TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_EMAIL))
+            options.put("prefill.contact",  TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MOBILE))
 
             var notesObject = JSONObject()
             notesObject.put("transactionid", transaction_id)

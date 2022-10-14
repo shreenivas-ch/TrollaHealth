@@ -177,8 +177,8 @@ class DashboardActivity : AppCompatActivity(),
                         userDefaultPincode = ""
                     }
 
-                    TrollaPreferencesManager.put(userDefaultPincode.toString(), PM_DEFAULT_PINCODE)
-                    TrollaPreferencesManager.put(userDefaultAddress.toString(), PM_DEFAULT_ADDRESS)
+                    TrollaPreferencesManager.setString(userDefaultPincode, PM_DEFAULT_PINCODE)
+                    TrollaPreferencesManager.setString(userDefaultAddress, PM_DEFAULT_ADDRESS)
 
                     /*Need to pass pincode in cart details API*/
                     cartViewModel.getCartDetails()
@@ -243,15 +243,15 @@ class DashboardActivity : AppCompatActivity(),
             options.put("amount", roundedOffAmount) //pass amount in currency subunits
             options.put(
                 "prefill.name",
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_NAME)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_NAME)
             )
             options.put(
                 "prefill.email",
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_EMAIL)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_EMAIL)
             )
             options.put(
                 "prefill.contact",
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_MOBILE)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MOBILE)
             )
 
             var notesObject = JSONObject()
@@ -307,7 +307,7 @@ class DashboardActivity : AppCompatActivity(),
 
     fun uploadImageToS3Bucket(uri: Uri) {
 
-        var userid = TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PROFILE_ID)
+        var userid = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_ID)
 
         var filePath = FetchPath.getPath(this@DashboardActivity, uri)
         val pathtoupload = AWSUtil.PATH_PRESCRIPTION + userid

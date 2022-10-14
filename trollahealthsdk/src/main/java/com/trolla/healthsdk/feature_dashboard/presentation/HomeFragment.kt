@@ -98,14 +98,14 @@ class HomeFragment : Fragment() {
     }
 
     fun fetchDefaultAddress() {
-        if (TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
+        if (TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
                 .isNullOrEmpty()
         ) {
             binding.llLocationAndLogoHeader.hide()
         } else {
             binding.llLocationAndLogoHeader.show()
             binding.txtAddress.text =
-                TrollaPreferencesManager.get<String>(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
                     .toString()
         }
     }

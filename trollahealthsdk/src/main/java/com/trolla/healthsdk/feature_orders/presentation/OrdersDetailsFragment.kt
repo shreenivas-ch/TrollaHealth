@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.feature_orders.presentation
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -235,6 +236,10 @@ class OrdersDetailsFragment : Fragment() {
             initiateTracking(orderid.toString(), trackingUrl)
         }
 
+        binding.txtDownloadInvoice.setOnClickListener {
+            downloadInvoice(trackingUrl)
+        }
+
         orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)
         {
             when (it) {
@@ -283,6 +288,14 @@ class OrdersDetailsFragment : Fragment() {
         startActivity(intent)
     }
 
+    private fun downloadInvoice(invoiceurl: String) {
+        val urlIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(invoiceurl)
+        )
+        startActivity(urlIntent)
+    }
+
     private fun initiateChatSupport() {
         val freshchatConfig = FreshchatConfig(
             "2013a117-4341-45f5-b68c-7b8948eb40d9",
@@ -308,6 +321,8 @@ class OrdersDetailsFragment : Fragment() {
     private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
         var orderStatus = response.data?.data?.order?.status?.lowercase()
         var tracking_url = response.data?.data?.order?.tracking_url
+        var invoice_url = response.data?.data?.order?.invoice_url
+        var eta = response.data?.data?.order?.eta
 
         /*Pay Button*/
 
@@ -353,7 +368,7 @@ class OrdersDetailsFragment : Fragment() {
         /*chat with us - No Conditions */
 
         /*Download Invoice*/
-        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)) {
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) && !invoice_url.isNullOrEmpty()) {
             binding.txtDownloadInvoice.show()
         } else {
             binding.txtDownloadInvoice.hide()

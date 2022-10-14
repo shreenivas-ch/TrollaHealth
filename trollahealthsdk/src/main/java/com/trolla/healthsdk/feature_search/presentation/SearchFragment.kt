@@ -82,7 +82,7 @@ class SearchFragment : Fragment() {
         )
 
         localSearchHistoryAdapter = GenericAdapter(
-            R.layout.item_search, localSearchHistoryList
+            R.layout.item_search_history, localSearchHistoryList
         )
 
         binding.rvLocalSearchHistory.adapter = localSearchHistoryAdapter
@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
 
                 searchViewModel.addSearchToLocalSearchHistory(
                     ModelSearchHistory(
-                        product_id.toString(),
+                        product_id,
                         product_name
                     )
                 )
@@ -113,7 +113,27 @@ class SearchFragment : Fragment() {
             }
         })
 
+        localSearchHistoryAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+
+                activity?.hidekeyboard(binding.edtSearch)
+
+                var product_id = localSearchHistoryList[position].id
+                var product_name = localSearchHistoryList[position].title
+
+                var productDetailsFragment = ProductDetailsFragment.newInstance(
+                    product_id,
+                    product_name
+                )
+
+                (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
+
+            }
+        })
+
         binding.rvSearch.adapter = genericAdapter
+
         binding.rvSearch.addOnScrollListener(object :
             PaginationScrollListener2(binding.rvSearch.layoutManager as LinearLayoutManager) {
             override fun loadMoreItems() {

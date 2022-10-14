@@ -145,11 +145,11 @@ class AddressListFragment : Fragment() {
                         userDefaultAddress = tmpAddresslist[0].address
                         userDefaultPincode = tmpAddresslist[0].pincode
                     }
-                    TrollaPreferencesManager.put(
+                    TrollaPreferencesManager.setString(
                         userDefaultPincode,
                         TrollaPreferencesManager.PM_DEFAULT_PINCODE
                     )
-                    TrollaPreferencesManager.put(
+                    TrollaPreferencesManager.setString(
                         userDefaultAddress,
                         TrollaPreferencesManager.PM_DEFAULT_ADDRESS
                     )
