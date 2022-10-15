@@ -101,8 +101,10 @@ class ProductDetailsFragment : Fragment() {
         sizesAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                productid = sizesList[position].product_id.toString()
-                productDetailsViewModel.getProductDetails(productid)
+                if(sizesList[position].product_id.toString()!=productid) {
+                    productid = sizesList[position].product_id.toString()
+                    productDetailsViewModel.getProductDetails(productid)
+                }
             }
         })
 
@@ -288,25 +290,30 @@ class ProductDetailsFragment : Fragment() {
             if (variants[i].variant_name.lowercase() == "sizes") {
                 for (j in variants[i].values.indices) {
                     //if (variants[i].values[j].product_id.toString() != productid) {
-                        sizesList.add(variants[i].values[j])
+                    var tmpVariant = variants[i].values[j]
+                    tmpVariant.currentProducId = productid
+                    sizesList.add(tmpVariant)
                     //}
                 }
             } else {
                 for (j in variants[i].values.indices) {
                     //if (variants[i].values[j].product_id.toString() != productid) {
-                        otherOptionsList.add(variants[i].values[j])
+                    var tmpVariant = variants[i].values[j]
+                    tmpVariant.currentProducId = productid
+                    otherOptionsList.add(tmpVariant)
                     //}
                 }
             }
         }
 
+
         sizesAdapter.notifyDataSetChanged()
         otherOptionsAdapter.notifyDataSetChanged()
 
-        if (sizesList.size == 0) {
-            binding.llSizes.hide()
-        } else {
+        if (sizesList.size > 1) {
             binding.llSizes.show()
+        } else {
+            binding.llSizes.hide()
         }
 
         /* Not showing other options in v1 */

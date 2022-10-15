@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
@@ -200,6 +202,32 @@ class CustomBindingAdapter {
                 } else if (paymentMode.lowercase() == "prepaid") {
                     view.setImageResource(R.drawable.ic_payonline)
                 }
+            }
+        }
+
+        @BindingAdapter("setDrawableProductVariant")
+        @JvmStatic
+        fun setDrawableProductVariant(
+            view: RelativeLayout,
+            productVariantValues: DashboardResponse.ProductVariantValues
+        ) {
+            if (productVariantValues.product_id.toString() == productVariantValues.currentProducId) {
+                view.setBackgroundResource(R.drawable.bg_circular_primarycolor_filled)
+            } else {
+                view.setBackgroundResource(R.drawable.bg_circular_primarycolor)
+            }
+        }
+
+        @BindingAdapter("setTextColorProductVariant")
+        @JvmStatic
+        fun setTextColorProductVariant(
+            view: TextView,
+            productVariantValues: DashboardResponse.ProductVariantValues
+        ) {
+            if (productVariantValues.product_id.toString() == productVariantValues.currentProducId) {
+                view.setTextColor(ContextCompat.getColor(view.context,R.color.white))
+            } else {
+                view.setTextColor(ContextCompat.getColor(view.context,R.color.primary_color))
             }
         }
 
