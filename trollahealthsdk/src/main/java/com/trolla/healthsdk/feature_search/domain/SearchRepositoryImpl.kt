@@ -17,7 +17,7 @@ class SearchRepositoryImpl(private val apiService: ApiService) : SearchRepositor
         limit: String
     ): Resource<BaseApiResponse<SearchResponse>> {
         val response = apiService.search(
-            query, page, limit,
+            query,
             TrollaPreferencesManager.getString(PM_DEFAULT_PINCODE) ?: ""
         )
         val resource = APIErrorHandler<SearchResponse>().process(response)

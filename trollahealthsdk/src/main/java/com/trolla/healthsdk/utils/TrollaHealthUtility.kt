@@ -62,15 +62,30 @@ object TrollaHealthUtility {
         ).toInt()
     }
 
-    fun getDate(addedOn: String): String {
+    fun getDate(addedOn: String?): String? {
 
         var modifiedDate = addedOn
         try {
-            val format = SimpleDateFormat(TrollaConstants.DATEFORMAT_1, Locale.getDefault())
+            val format = SimpleDateFormat(TrollaConstants.DATE_FORMAT_3, Locale.getDefault())
             format.timeZone = TimeZone.getTimeZone("UTC")
             val date = format.parse(addedOn)
             modifiedDate =
                 SimpleDateFormat(TrollaConstants.DATE_FORMAT_2, Locale.getDefault()).format(date)
+        } catch (ex: Exception) {
+            LogUtil.printObject(ex.toString())
+        }
+        return modifiedDate
+    }
+
+    fun convertOrderDate(addedOn: String?): String? {
+
+        var modifiedDate = addedOn
+        try {
+            val format = SimpleDateFormat(TrollaConstants.DATE_FORMAT_1, Locale.getDefault())
+            format.timeZone = TimeZone.getTimeZone("UTC")
+            val date = format.parse(addedOn)
+            modifiedDate =
+                SimpleDateFormat(TrollaConstants.DATE_FORMAT_4, Locale.getDefault()).format(date)
         } catch (ex: Exception) {
             LogUtil.printObject(ex.toString())
         }

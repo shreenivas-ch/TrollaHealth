@@ -11,23 +11,23 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/llMain"
-        android:layout_marginStart="@dimen/_12sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_circular_grey">
+        android:layout_marginStart="@dimen/_12sdp"
+        android:background="@drawable/bg_circular_primarycolor">
 
         <TextView
             style="@style/trolla_fontSemibold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
+            android:gravity="center"
             android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
             android:paddingLeft="@dimen/_15sdp"
             android:paddingTop="@dimen/_9sdp"
             android:paddingRight="@dimen/_15sdp"
             android:paddingBottom="@dimen/_9sdp"
-            android:text="@{item.value_name}"
-            android:textColor="@color/textColor2"
+            android:text="@{item.value_name+`\n\n`+String.format(@string/amount_string, item.sale_price)}"
+            android:textColor="@color/primary_color"
             tools:text="100ml" />
 
     </RelativeLayout>

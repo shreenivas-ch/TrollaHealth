@@ -171,7 +171,7 @@ class OrdersDetailsFragment : Fragment() {
                     CustomBindingAdapter.setOrderDateTime(
                         binding.txtOrderDateTime,
                         order.status,
-                        order.created_at
+                        order.eta
                     )
 
                     binding.txtOrderStatus.text = order.status.replaceFirstChar(Char::uppercase)
@@ -355,13 +355,11 @@ class OrdersDetailsFragment : Fragment() {
         if (tracking_url.isNullOrEmpty()) {
             binding.txtTrackOrder.hide()
         } else {
-            if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) || orderStatus.contains(
-                    TrollaConstants.ORDERSTATUS_CANCEL
-                )
+            if (orderStatus.contains(TrollaConstants.ORDERSTATUS_IN_TRANSIT)
             ) {
-                binding.txtTrackOrder.hide()
-            } else {
                 binding.txtTrackOrder.show()
+            } else {
+                binding.txtTrackOrder.hide()
             }
         }
 

@@ -156,16 +156,18 @@
                         android:textColor="@color/textColor1"
                         tools:text="In-Process" />
 
-                    <TextView
-                        android:id="@+id/txtOrderDateTime"
-                        style="@style/trolla_fontSemibold"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@color/textColor1"
-                        tools:text="5th May 2022, 05 : 35 : 00 PM" />
-
                 </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:id="@+id/txtOrderDateTime"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:textColor="@color/textColor1"
+                    tools:text="5th May 2022, 05 : 35 : 00 PM" />
 
                 <View
                     android:layout_width="match_parent"
@@ -400,17 +402,15 @@
                 android:enabled="true"
                 android:gravity="center"
                 android:text="Pay Now"
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:textColor="@color/white"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible" />
 
             <TextView
 
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/txtTrackOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -425,12 +425,12 @@
                 android:padding="@dimen/_12sdp"
                 android:text="@string/track_order"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
 
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/txtChatWithUs"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -445,11 +445,11 @@
                 android:padding="@dimen/_12sdp"
                 android:text="Chat With Us"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/txtDownloadInvoice"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -464,12 +464,12 @@
                 android:padding="@dimen/_12sdp"
                 android:text="Download Invoice"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
 
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/txtCancelOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -484,11 +484,11 @@
                 android:padding="@dimen/_12sdp"
                 android:text="Cancel Order"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
             <TextView
-                tools:visibility="visible"
-                android:visibility="gone"
                 android:id="@+id/txtRepeatOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -503,7 +503,9 @@
                 android:padding="@dimen/_12sdp"
                 android:text="Repeat Order"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

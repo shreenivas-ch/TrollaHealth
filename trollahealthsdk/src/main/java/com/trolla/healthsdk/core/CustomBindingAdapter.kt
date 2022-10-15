@@ -1,15 +1,16 @@
 package com.trolla.healthsdk.core
 
+import android.content.Context
 import android.graphics.Paint
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
@@ -17,6 +18,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardPr
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
 import com.trolla.healthsdk.utils.*
+
 
 class CustomBindingAdapter {
 
@@ -212,11 +214,33 @@ class CustomBindingAdapter {
             }
         }
 
+
+        @BindingAdapter("orderIdAndItems", "orderDate")
+        @JvmStatic
+        fun setOrderPlaceDateAndOrderId(view: TextView, orderIdAndItems: String?, orderDate: String?) {
+
+            if (orderDate.isNullOrEmpty() || orderDate == "null") {
+                view.text = orderIdAndItems
+            } else {
+                view.text = orderIdAndItems+" "+TrollaHealthUtility.getDate(orderDate)
+            }
+        }
+
         @BindingAdapter("orderStatus", "orderDate")
         @JvmStatic
-        fun setOrderDateTime(view: TextView, orderStatus: String?, orderDate: String) {
+        fun setOrderDateTime(view: TextView, orderStatus: String?, orderDate: String?) {
 
-            view.text = ": " + TrollaHealthUtility.getDate(orderDate)
+            var pretext =
+                if (orderStatus!!.lowercase() == TrollaConstants.ORDERSTATUS_CANCELLED || orderStatus!!.lowercase() == TrollaConstants.ORDERSTATUS_DELIVERED) {
+                    ""
+                } else {
+                    "ETA: "
+                }
+            if (orderDate.isNullOrEmpty() || orderDate == "null") {
+                view.text = pretext + "Not Available"
+            } else {
+                view.text = pretext + TrollaHealthUtility.getDate(orderDate) ?: "Not Available"
+            }
 
             if (orderStatus != null) {
                 if (orderStatus.lowercase() == TrollaConstants.ORDERSTATUS_PENDING) {
@@ -254,22 +278,33 @@ class CustomBindingAdapter {
         @BindingAdapter("setOrderListProductImages")
         @JvmStatic
         fun setOrderListProductImages(
-            rv: RecyclerView?,
+            rv: LinearLayout?,
             products: ArrayList<GetCartDetailsResponse.CartProduct>
         ) {
+            rv?.removeAllViews()
+            val inflater =
+                rv?.context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
             var imagesArray = ArrayList<ModelOrderProductImage>()
             if (products != null) {
 
                 for (i in products.indices) {
                     if (products[i].product.product_img != null && products[i].product.product_img.size > 0) {
                         imagesArray.add(ModelOrderProductImage(products[i].product.product_img[0]))
+
+                        val layout2: View = inflater.inflate(R.layout.item_order_productimage, null)
+
+                        var img = layout2.findViewById<AppCompatImageView>(R.id.imvBanner)
+                        loadImage(img, products[i].product.product_img[0])
+                        rv?.addView(layout2)
                     }
+                    rv?.invalidate()
                 }
-                var orderProductImagesAdapter = GenericAdapter(
+                /*var orderProductImagesAdapter = GenericAdapter(
                     R.layout.item_order_productimage,
                     imagesArray
                 )
-                rv?.adapter = orderProductImagesAdapter
+                rv?.adapter = orderProductImagesAdapter*/
             }
         }
 
@@ -281,12 +316,11 @@ class CustomBindingAdapter {
                     view.hide()
                 } else {
                     if (order.status.lowercase()
-                            .contains(TrollaConstants.ORDERSTATUS_DELIVERED) || order.status.lowercase()
-                            .contains(TrollaConstants.ORDERSTATUS_CANCEL)
+                            .contains(TrollaConstants.ORDERSTATUS_IN_TRANSIT)
                     ) {
-                        view.hide()
-                    } else {
                         view.show()
+                    } else {
+                        view.hide()
                     }
                 }
             } else {

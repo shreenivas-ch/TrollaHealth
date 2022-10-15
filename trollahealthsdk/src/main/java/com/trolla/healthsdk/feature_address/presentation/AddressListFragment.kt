@@ -77,6 +77,10 @@ class AddressListFragment : Fragment() {
                 if (from == "cart") {
                     EventBus.getDefault().post(AddressSelectedEvent(addressList[position]))
                     parentFragmentManager?.popBackStack()
+                } else if (from == "home") {
+                    (activity as DashboardActivity).saveDefaultAddressInPreferences(addressList[position])
+                    EventBus.getDefault().post(LoadAddressOnDashboardHeaderEvent())
+                    parentFragmentManager?.popBackStack()
                 }
             }
 

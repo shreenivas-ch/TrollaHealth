@@ -287,15 +287,15 @@ class ProductDetailsFragment : Fragment() {
         for (i in variants.indices) {
             if (variants[i].variant_name.lowercase() == "sizes") {
                 for (j in variants[i].values.indices) {
-                    if (variants[i].values[j].product_id.toString() != productid) {
+                    //if (variants[i].values[j].product_id.toString() != productid) {
                         sizesList.add(variants[i].values[j])
-                    }
+                    //}
                 }
             } else {
                 for (j in variants[i].values.indices) {
-                    if (variants[i].values[j].product_id.toString() != productid) {
+                    //if (variants[i].values[j].product_id.toString() != productid) {
                         otherOptionsList.add(variants[i].values[j])
-                    }
+                    //}
                 }
             }
         }
@@ -309,6 +309,7 @@ class ProductDetailsFragment : Fragment() {
             binding.llSizes.show()
         }
 
+        /* Not showing other options in v1 */
         if (otherOptionsList.size == 0) {
             binding.llOtherOptions.hide()
         } else {

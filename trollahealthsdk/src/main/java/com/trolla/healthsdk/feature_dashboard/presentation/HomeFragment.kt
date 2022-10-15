@@ -11,6 +11,7 @@ import com.google.android.material.badge.BadgeDrawable
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
+import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
 import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
@@ -81,6 +82,11 @@ class HomeFragment : Fragment() {
             addBadge(it)
         }
 
+        binding.llLocationAndLogoHeader.setOnClickListener {
+            var addressListFragment = AddressListFragment.newInstance("home")
+            (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
+        }
+
         return binding.root
     }
 
@@ -105,7 +111,9 @@ class HomeFragment : Fragment() {
         } else {
             binding.llLocationAndLogoHeader.show()
             binding.txtAddress.text =
-                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS) + ", " + TrollaPreferencesManager.getString(
+                    TrollaPreferencesManager.PM_DEFAULT_PINCODE
+                )
                     .toString()
         }
     }

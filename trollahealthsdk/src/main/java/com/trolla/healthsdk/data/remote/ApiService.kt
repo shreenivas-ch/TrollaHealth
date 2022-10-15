@@ -56,8 +56,6 @@ interface ApiService {
     @GET("/products/search")
     suspend fun search(
         @Query("q") q: String,
-        @Query("page") page: String,
-        @Query("limit") limit: String,
         @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<SearchResponse>>
 

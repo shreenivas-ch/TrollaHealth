@@ -163,6 +163,7 @@ data class DashboardResponse(
 
     data class ProductVariantValues(
         val product_id: Int,
-        val value_name: String
+        val value_name: String,
+        val sale_price: String
     ) : ListItemViewModel()
 }

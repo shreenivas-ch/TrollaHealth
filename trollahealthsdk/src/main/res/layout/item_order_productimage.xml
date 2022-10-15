@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin8dp"
         app:cardCornerRadius="@dimen/margin8dp"
+        android:layout_marginStart="@dimen/margin8dp"
         app:cardUseCompatPadding="true">
 
         <androidx.appcompat.widget.AppCompatImageView

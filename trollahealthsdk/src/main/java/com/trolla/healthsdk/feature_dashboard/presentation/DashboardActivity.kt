@@ -23,6 +23,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
@@ -72,7 +73,11 @@ class DashboardActivity : AppCompatActivity(),
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
                     EventBus.getDefault()
-                        .post(UpdateCartCountInBottomNavigationEvent(response?.data?.data?.cart?.products?.size ?: 0))
+                        .post(
+                            UpdateCartCountInBottomNavigationEvent(
+                                response?.data?.data?.cart?.products?.size ?: 0
+                            )
+                        )
                 }
 
                 is Resource.Error -> {
@@ -170,15 +175,8 @@ class DashboardActivity : AppCompatActivity(),
                     var addresslist = it.data?.data?.addresses ?: arrayListOf()
 
                     if (addresslist.size > 0) {
-                        userDefaultAddress = addresslist[0].address
-                        userDefaultPincode = addresslist[0].pincode
-                    } else {
-                        userDefaultAddress = ""
-                        userDefaultPincode = ""
+                        saveDefaultAddressInPreferences(addresslist[0])
                     }
-
-                    TrollaPreferencesManager.setString(userDefaultPincode, PM_DEFAULT_PINCODE)
-                    TrollaPreferencesManager.setString(userDefaultAddress, PM_DEFAULT_ADDRESS)
 
                     /*Need to pass pincode in cart details API*/
                     cartViewModel.getCartDetails()
@@ -195,6 +193,15 @@ class DashboardActivity : AppCompatActivity(),
         }
 
         addressListViewModel.getAddressList()
+    }
+
+    fun saveDefaultAddressInPreferences(modelAddress: ModelAddress) {
+
+        userDefaultAddress = modelAddress.city
+        userDefaultPincode = modelAddress.pincode
+
+        TrollaPreferencesManager.setString(userDefaultPincode, PM_DEFAULT_PINCODE)
+        TrollaPreferencesManager.setString(userDefaultAddress, PM_DEFAULT_ADDRESS)
     }
 
     fun addOrReplaceFragment(
