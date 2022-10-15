@@ -57,6 +57,7 @@ class OrdersDetailsFragment : Fragment() {
     var rarorpay_orderid: String = ""
     var payable_amount: String = ""
     var trackingUrl: String = ""
+    var invoiceUrl: String = ""
 
     var cartItems = ArrayList<GetCartDetailsResponse.CartProduct>()
     var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
@@ -237,7 +238,7 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         binding.txtDownloadInvoice.setOnClickListener {
-            downloadInvoice(trackingUrl)
+            downloadInvoice(invoiceUrl)
         }
 
         orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)
@@ -320,9 +321,9 @@ class OrdersDetailsFragment : Fragment() {
 
     private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
         var orderStatus = response.data?.data?.order?.status?.lowercase()
-        var tracking_url = response.data?.data?.order?.tracking_url
-        var invoice_url = response.data?.data?.order?.invoice_url
-        var eta = response.data?.data?.order?.eta
+        trackingUrl = response.data?.data?.order?.tracking_url ?: ""
+        invoiceUrl = response.data?.data?.order?.invoice_url ?: ""
+        var eta = response.data?.data?.order?.eta ?: ""
 
         /*Pay Button*/
 
@@ -352,7 +353,7 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         /*Track Order button*/
-        if (tracking_url.isNullOrEmpty()) {
+        if (trackingUrl.isNullOrEmpty()) {
             binding.txtTrackOrder.hide()
         } else {
             if (orderStatus.contains(TrollaConstants.ORDERSTATUS_IN_TRANSIT)
@@ -366,7 +367,7 @@ class OrdersDetailsFragment : Fragment() {
         /*chat with us - No Conditions */
 
         /*Download Invoice*/
-        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) && !invoice_url.isNullOrEmpty()) {
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) && !invoiceUrl.isNullOrEmpty()) {
             binding.txtDownloadInvoice.show()
         } else {
             binding.txtDownloadInvoice.hide()
@@ -383,7 +384,7 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         /*Cancel Order Button */
-        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)) {
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)||orderStatus.contains(TrollaConstants.ORDERSTATUS_CANCEL)) {
             binding.txtRepeatOrder.show()
         } else {
             binding.txtRepeatOrder.hide()

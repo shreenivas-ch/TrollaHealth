@@ -32,8 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textColor1"
-                app:orderDate="@{item.created_at}"
-                app:orderIdAndItems="@{`Order `+item.order_id+` (`+item.products.size()+` Item(s))`}"
+                app:setOrderPlaceDateAndOrderId="@{item}"
                 tools:text="Order 45678910 (3 items)" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -55,29 +54,25 @@
                 android:textColor="@color/textColor1"
                 tools:text="₹137.225" />
 
-            <HorizontalScrollView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvUploadedPrescriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/txtOrderId"
                 android:layout_marginTop="@dimen/margin16dp"
                 android:nestedScrollingEnabled="false"
-                android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
                 android:orientation="horizontal"
-                android:scrollbars="none"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:setOrderListProductImages="@{item.products}"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_order_productimage">
+                tools:listitem="@layout/item_order_productimage" />
 
-                <LinearLayout
-                    android:id="@+id/llOrderProductsImages"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:setOrderListProductImages="@{item.products}">
-
-                </LinearLayout>
-            </HorizontalScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_alignTop="@+id/rvUploadedPrescriptions"
+                android:layout_alignBottom="@+id/rvUploadedPrescriptions"
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

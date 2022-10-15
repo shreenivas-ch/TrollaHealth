@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_orders.domain
 
+import com.google.gson.JsonElement
 import com.trolla.healthsdk.core.APIErrorHandler
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
@@ -26,10 +27,10 @@ class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepositor
         return APIErrorHandler<CommonAPIResponse>().process(response)
     }
 
-    override suspend fun repeatOrder(id: String): Resource<BaseApiResponse<CommonAPIResponse>> {
+    override suspend fun repeatOrder(id: String): Resource<BaseApiResponse<JsonElement>> {
         var repeatOrderRequest=RepeatOrderRequest(id)
         val response = apiService.repeatOrder(repeatOrderRequest)
-        return APIErrorHandler<CommonAPIResponse>().process(response)
+        return APIErrorHandler<JsonElement>().process(response)
     }
 }
 

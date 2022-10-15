@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.data.remote
 
+import com.google.gson.JsonElement
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_address.data.*
@@ -112,7 +113,7 @@ interface ApiService {
     @POST("/orders/repeat")
     suspend fun repeatOrder(
         @Body repeatOrderRequest: RepeatOrderRequest
-    ): Response<BaseApiResponse<CommonAPIResponse>>
+    ): Response<BaseApiResponse<JsonElement>>
 
     @GET("/orders/{id}")
     suspend fun getOrderDetails(

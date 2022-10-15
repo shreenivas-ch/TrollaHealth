@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_orders.domain.usecases
 
+import com.google.gson.JsonElement
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
@@ -15,7 +16,7 @@ import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 class RepeatOrderUsecase(private val ordersRepository: OrdersRepository) {
     suspend operator fun invoke(
         id:String
-    ): Resource<BaseApiResponse<CommonAPIResponse>> {
+    ): Resource<BaseApiResponse<JsonElement>> {
         return ordersRepository.repeatOrder(id)
     }
 }

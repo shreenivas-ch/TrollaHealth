@@ -20,6 +20,8 @@ import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
+import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
+import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
@@ -271,6 +273,14 @@ class CartFragment : Fragment() {
                         binding.txtCODTitle.text = codAvailableTitle
                         binding.txtOnline.text = onlineAvailableTitle
                     }
+
+                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
+                    EventBus.getDefault()
+                        .post(
+                            UpdateCartCountInBottomNavigationEvent(
+                                it?.data?.data?.cart?.products?.size ?: 0
+                            )
+                        )
                 }
 
                 is Resource.Error -> {

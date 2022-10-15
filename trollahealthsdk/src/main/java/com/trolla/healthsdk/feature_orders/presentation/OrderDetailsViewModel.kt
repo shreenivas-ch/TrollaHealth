@@ -2,6 +2,7 @@ package com.trolla.healthsdk.feature_orders.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.JsonElement
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
@@ -30,7 +31,7 @@ class OrderDetailsViewModel(
     val cancelOrderResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
     val repeatOrderResponseLiveData =
-        MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
+        MutableLiveData<Resource<BaseApiResponse<JsonElement>>>()
     val getTransactionIDLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetTransactionIDResponse>>>()
 

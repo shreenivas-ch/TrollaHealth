@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_address.data.ModelAddress
@@ -99,7 +100,6 @@ class CustomBindingAdapter {
                 )
             }
         }
-
 
         @BindingAdapter("setOfferText")
         @JvmStatic
@@ -215,15 +215,18 @@ class CustomBindingAdapter {
         }
 
 
-        @BindingAdapter("orderIdAndItems", "orderDate")
+        @BindingAdapter("setOrderPlaceDateAndOrderId")
         @JvmStatic
-        fun setOrderPlaceDateAndOrderId(view: TextView, orderIdAndItems: String?, orderDate: String?) {
+        fun setOrderPlaceDateAndOrderId(view: TextView, modelOrder: ModelOrder) {
 
-            if (orderDate.isNullOrEmpty() || orderDate == "null") {
-                view.text = orderIdAndItems
+            var orderText =
+                "Order " + modelOrder.order_id + "(" + modelOrder.products.size + if (modelOrder.products.size == 1) "Item)" else "Items)"
+            if (modelOrder.created_at.isNullOrEmpty() || modelOrder.created_at == "null") {
+
             } else {
-                view.text = orderIdAndItems+" "+TrollaHealthUtility.getDate(orderDate)
+                orderText += "  "+TrollaHealthUtility.convertOrderDate(modelOrder.created_at)
             }
+            view.text = orderText
         }
 
         @BindingAdapter("orderStatus", "orderDate")
@@ -278,12 +281,12 @@ class CustomBindingAdapter {
         @BindingAdapter("setOrderListProductImages")
         @JvmStatic
         fun setOrderListProductImages(
-            rv: LinearLayout?,
+            rv: RecyclerView?,
             products: ArrayList<GetCartDetailsResponse.CartProduct>
         ) {
-            rv?.removeAllViews()
+            /*rv?.removeAllViews()
             val inflater =
-                rv?.context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                rv?.context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater*/
 
             var imagesArray = ArrayList<ModelOrderProductImage>()
             if (products != null) {
@@ -292,19 +295,18 @@ class CustomBindingAdapter {
                     if (products[i].product.product_img != null && products[i].product.product_img.size > 0) {
                         imagesArray.add(ModelOrderProductImage(products[i].product.product_img[0]))
 
-                        val layout2: View = inflater.inflate(R.layout.item_order_productimage, null)
-
+                        /*val layout2: View = inflater.inflate(R.layout.item_order_productimage, null)
                         var img = layout2.findViewById<AppCompatImageView>(R.id.imvBanner)
                         loadImage(img, products[i].product.product_img[0])
-                        rv?.addView(layout2)
+                        rv?.addView(layout2)*/
                     }
-                    rv?.invalidate()
+                    //rv?.invalidate()
                 }
-                /*var orderProductImagesAdapter = GenericAdapter(
+                var orderProductImagesAdapter = GenericAdapter(
                     R.layout.item_order_productimage,
                     imagesArray
                 )
-                rv?.adapter = orderProductImagesAdapter*/
+                rv?.adapter = orderProductImagesAdapter
             }
         }
 
