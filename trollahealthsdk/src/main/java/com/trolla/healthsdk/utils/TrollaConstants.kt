@@ -7,7 +7,7 @@ object TrollaConstants {
     val DATE_FORMAT_1 = "yyyy-MM-dd'T'HH:mm:ss.sss'Z'"
     val DATE_FORMAT_2 = "dd MMM yyyy hh:mm a"
     val DATE_FORMAT_3 = "yyyy-MM-dd HH:mm:ss"
-    val DATE_FORMAT_4 = "yyyy-MMM-dd"
+    val DATE_FORMAT_4 = "dd-MMM-yyyy"
 
     val ADDTOCART_TYPE_PRODUCT = "product"
     val ADDTOCART_TYPE_PRESCRIPTION = "prescription"

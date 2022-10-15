@@ -14,8 +14,8 @@ import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 
 class CancelOrderUsecase(private val ordersRepository: OrdersRepository) {
     suspend operator fun invoke(
-        id:String
+        id:String,wf_order_id:String
     ): Resource<BaseApiResponse<CommonAPIResponse>> {
-        return ordersRepository.cancelOrder(id)
+        return ordersRepository.cancelOrder(id,wf_order_id)
     }
 }

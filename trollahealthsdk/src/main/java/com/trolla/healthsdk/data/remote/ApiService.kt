@@ -108,6 +108,7 @@ interface ApiService {
     @PUT("/orders/{id}")
     suspend fun cancelOrder(
         @Path("id") id: String,
+        @Query("wf_order_id") wf_order_id: String,
     ): Response<BaseApiResponse<CommonAPIResponse>>
 
     @POST("/orders/repeat")
@@ -117,7 +118,8 @@ interface ApiService {
 
     @GET("/orders/{id}")
     suspend fun getOrderDetails(
-        @Path("id") id: String
+        @Path("id") id: String,
+        @Query("wf_order_id") wf_order_id: String,
     ): Response<BaseApiResponse<OrderDetailsResponse>>
 
     @PUT("/transactions/{transactionid}")

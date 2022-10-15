@@ -220,11 +220,11 @@ class CustomBindingAdapter {
         fun setOrderPlaceDateAndOrderId(view: TextView, modelOrder: ModelOrder) {
 
             var orderText =
-                "Order " + modelOrder.order_id + "(" + modelOrder.products.size + if (modelOrder.products.size == 1) "Item)" else "Items)"
+                "Order #" + modelOrder.order_id + " (" + modelOrder.products.size + if (modelOrder.products.size == 1) " Item)" else " Items)"
             if (modelOrder.created_at.isNullOrEmpty() || modelOrder.created_at == "null") {
 
             } else {
-                orderText += "  "+TrollaHealthUtility.convertOrderDate(modelOrder.created_at)
+                orderText += "     " + TrollaHealthUtility.convertOrderDate(modelOrder.created_at)
             }
             view.text = orderText
         }

@@ -35,20 +35,20 @@ class OrderDetailsViewModel(
     val getTransactionIDLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetTransactionIDResponse>>>()
 
-    fun getOrderDetails(orderid: String) {
+    fun getOrderDetails(orderid: String,wf_order_id:String) {
         progressStatus.value = true
         viewModelScope.launch {
             orderDetailsResponseLiveData.value =
-                getOrderDetailsUsecase(orderid)!!
+                getOrderDetailsUsecase(orderid,wf_order_id)!!
             progressStatus.value = false
         }
     }
 
-    fun cancelOrder(orderid: String) {
+    fun cancelOrder(orderid: String,wf_order_id:String) {
         progressStatus.value = true
         viewModelScope.launch {
             cancelOrderResponseLiveData.value =
-                cancelOrderUsecase(orderid)!!
+                cancelOrderUsecase(orderid,wf_order_id)!!
             progressStatus.value = false
         }
     }

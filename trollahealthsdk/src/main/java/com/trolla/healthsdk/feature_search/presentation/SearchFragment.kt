@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.feature_search.presentation
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -45,6 +46,8 @@ class SearchFragment : Fragment() {
     lateinit var localSearchHistoryAdapter: GenericAdapter<ModelSearchHistory>
 
     lateinit var binding: FragmentSearchBinding
+
+    val handler = Handler()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -187,8 +190,9 @@ class SearchFragment : Fragment() {
                 genericAdapter.notifyDataSetChanged()
                 binding.rlLocalSearchHistory.show()
             } else {
-                getSearch()
-                binding.rlLocalSearchHistory.hide()
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 500)
+
             }
         }
 
@@ -204,6 +208,11 @@ class SearchFragment : Fragment() {
         searchViewModel.getLocalSearchHistory()
 
         return binding.root
+    }
+
+    private val runnable = Runnable {
+        getSearch()
+        binding.rlLocalSearchHistory.hide()
     }
 
     fun getSearch() {

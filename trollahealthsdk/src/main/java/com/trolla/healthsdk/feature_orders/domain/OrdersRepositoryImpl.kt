@@ -17,13 +17,13 @@ class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepositor
         return APIErrorHandler<GetOrdersListResponse>().process(response)
     }
 
-    override suspend fun getOrderDetails(id: String): Resource<BaseApiResponse<OrderDetailsResponse>> {
-        val response = apiService.getOrderDetails(id)
+    override suspend fun getOrderDetails(id: String,wf_order_id:String): Resource<BaseApiResponse<OrderDetailsResponse>> {
+        val response = apiService.getOrderDetails(id,wf_order_id)
         return APIErrorHandler<OrderDetailsResponse>().process(response)
     }
 
-    override suspend fun cancelOrder(id: String): Resource<BaseApiResponse<CommonAPIResponse>> {
-        val response = apiService.cancelOrder(id)
+    override suspend fun cancelOrder(id: String,wf_order_id:String): Resource<BaseApiResponse<CommonAPIResponse>> {
+        val response = apiService.cancelOrder(id,wf_order_id)
         return APIErrorHandler<CommonAPIResponse>().process(response)
     }
 

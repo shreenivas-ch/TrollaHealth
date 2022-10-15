@@ -28,10 +28,15 @@ import org.koin.java.KoinJavaComponent.inject
 class OrdersDetailsFragment : Fragment() {
 
     companion object {
-        fun newInstance(orderid: String, ordernumber: String): OrdersDetailsFragment {
+        fun newInstance(
+            orderid: String,
+            ordernumber: String,
+            wf_order_id: String
+        ): OrdersDetailsFragment {
             var bundle = Bundle()
             bundle.putString("orderid", orderid)
             bundle.putString("ordernumber", ordernumber)
+            bundle.putString("wf_order_id", wf_order_id)
             var ordersDetailsFragment = OrdersDetailsFragment()
             ordersDetailsFragment.arguments = bundle
             return ordersDetailsFragment
@@ -49,6 +54,11 @@ class OrdersDetailsFragment : Fragment() {
     val ordernumber by lazy {
         arguments?.let {
             it.getString("ordernumber")
+        }
+    }
+    val wf_order_id by lazy {
+        arguments?.let {
+            it.getString("wf_order_id")
         }
     }
 
@@ -103,7 +113,7 @@ class OrdersDetailsFragment : Fragment() {
         orderDetailsViewModel.cancelOrderResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Success -> {
-                    orderDetailsViewModel.getOrderDetails(orderid!!)
+                    orderDetailsViewModel.getOrderDetails(orderid!!, wf_order_id ?: "")
                 }
 
                 is Resource.Error -> {
@@ -264,7 +274,7 @@ class OrdersDetailsFragment : Fragment() {
             }
         }
 
-        orderDetailsViewModel.getOrderDetails(orderid!!)
+        orderDetailsViewModel.getOrderDetails(orderid!!, wf_order_id ?: "")
         orderDetailsViewModel.getProfile()
 
         binding.txtChatWithUs.setOnClickListener {
@@ -272,7 +282,7 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         binding.txtCancelOrder.setOnClickListener {
-            orderDetailsViewModel.cancelOrder(orderid!!)
+            orderDetailsViewModel.cancelOrder(orderid!!,wf_order_id?:"")
         }
 
         binding.txtRepeatOrder.setOnClickListener {
@@ -384,7 +394,10 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         /*Cancel Order Button */
-        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED)||orderStatus.contains(TrollaConstants.ORDERSTATUS_CANCEL)) {
+        if (orderStatus.contains(TrollaConstants.ORDERSTATUS_DELIVERED) || orderStatus.contains(
+                TrollaConstants.ORDERSTATUS_CANCEL
+            )
+        ) {
             binding.txtRepeatOrder.show()
         } else {
             binding.txtRepeatOrder.hide()

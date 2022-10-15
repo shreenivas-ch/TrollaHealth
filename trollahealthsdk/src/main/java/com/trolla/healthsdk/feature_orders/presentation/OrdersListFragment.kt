@@ -73,7 +73,8 @@ class OrdersListFragment : Fragment() {
             override fun onClick(view: View, position: Int) {
                 var ordersDetailsFragment = OrdersDetailsFragment.newInstance(
                     ordersList[position]._id,
-                    ordersList[position].order_id
+                    ordersList[position].order_id,
+                    ordersList[position].wf_order_id?:""
                 )
                 (activity as DashboardActivity).addOrReplaceFragment(ordersDetailsFragment, true)
             }

@@ -9,7 +9,7 @@ import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 
 interface OrdersRepository {
     suspend fun getOrdersList(): Resource<BaseApiResponse<GetOrdersListResponse>>
-    suspend fun getOrderDetails(id:String): Resource<BaseApiResponse<OrderDetailsResponse>>
-    suspend fun cancelOrder(id:String): Resource<BaseApiResponse<CommonAPIResponse>>
+    suspend fun getOrderDetails(id:String,wf_order_id:String): Resource<BaseApiResponse<OrderDetailsResponse>>
+    suspend fun cancelOrder(id:String,wf_order_id:String): Resource<BaseApiResponse<CommonAPIResponse>>
     suspend fun repeatOrder(id:String): Resource<BaseApiResponse<JsonElement>>
 }
