@@ -121,6 +121,7 @@ class ProfileFragment : Fragment() {
 
                     TrollaPreferencesManager.clearPreferences()
                     (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                    ((activity as DashboardActivity)).init=false
                     (activity as DashboardActivity).addOrReplaceFragment(LoginEmailFragment())
 
                 }

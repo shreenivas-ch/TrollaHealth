@@ -124,6 +124,7 @@ class LoginOTPVerificationFragment : Fragment() {
 
                     if (isProfileComplete) {
                         (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                        ((activity as DashboardActivity)).init=false
                         (activity as DashboardActivity).getAddressListOnDashboard()
                     } else {
                         (activity as DashboardActivity).addOrReplaceFragment(
