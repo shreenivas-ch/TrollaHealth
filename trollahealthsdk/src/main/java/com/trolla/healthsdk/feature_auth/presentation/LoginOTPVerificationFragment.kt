@@ -100,7 +100,7 @@ class LoginOTPVerificationFragment : Fragment() {
         }
 
         loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
-            (activity as AuthenticationActivity).showHideProgressBar(it)
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
@@ -123,10 +123,10 @@ class LoginOTPVerificationFragment : Fragment() {
                     activity?.hidekeyboard(binding.edt1)
 
                     if (isProfileComplete) {
-                        startActivity(Intent(activity, DashboardActivity::class.java))
-                        (activity as AuthenticationActivity).finish()
+                        (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                        (activity as DashboardActivity).getAddressListOnDashboard()
                     } else {
-                        (activity as AuthenticationActivity).addOrReplaceFragment(
+                        (activity as DashboardActivity).addOrReplaceFragment(
                             RegisterFragmentFragment.getInstance("auth"),
                             true
                         )

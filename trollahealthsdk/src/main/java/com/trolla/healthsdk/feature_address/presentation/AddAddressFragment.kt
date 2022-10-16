@@ -1,6 +1,5 @@
 package com.trolla.healthsdk.feature_address.presentation
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,19 +9,15 @@ import androidx.databinding.DataBindingUtil
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
-import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_productslist.presentation.ProductsListViewModel
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
 import com.trolla.healthsdk.utils.hide
 import com.trolla.healthsdk.utils.show
 import org.greenrobot.eventbus.EventBus
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class AddAddressFragment : Fragment() {

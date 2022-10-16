@@ -13,7 +13,7 @@ import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentProfileBinding
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
-import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
+import com.trolla.healthsdk.feature_auth.presentation.LoginEmailFragment
 import com.trolla.healthsdk.feature_auth.presentation.RegisterFragmentFragment
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.ui_utils.WebviewActivity
@@ -120,9 +120,8 @@ class ProfileFragment : Fragment() {
                 .setPositiveButton("Yes") { dialog, which ->
 
                     TrollaPreferencesManager.clearPreferences()
-                    activity?.finish()
-                    var myIntent = Intent(activity, AuthenticationActivity::class.java)
-                    activity?.startActivity(myIntent)
+                    (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                    (activity as DashboardActivity).addOrReplaceFragment(LoginEmailFragment())
 
                 }
                 .setNegativeButton("No", null)

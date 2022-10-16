@@ -24,8 +24,8 @@ import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_address.presentation.AddAddressFragment
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
+import com.trolla.healthsdk.feature_auth.presentation.LoginEmailFragment
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
@@ -38,7 +38,6 @@ import com.vansuita.pickimage.bean.PickResult
 import com.vansuita.pickimage.bundle.PickSetup
 import com.vansuita.pickimage.dialog.PickImageDialog
 import com.vansuita.pickimage.listeners.IPickResult
-import id.zelory.compressor.Compressor
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
@@ -51,12 +50,23 @@ import kotlin.math.roundToInt
 class DashboardActivity : AppCompatActivity(),
     PaymentResultWithDataListener, IPickResult {
 
+    companion object {
+        const val DASHBOARD_ACTION_LOGIN = "login"
+        const val DASHBOARD_ACTION_DASHBOARD = "dashboard"
+    }
+
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
     val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
     val addressListViewModel: AddressListViewModel by KoinJavaComponent.inject(AddressListViewModel::class.java)
     var userDefaultAddress = ""
     var userDefaultPincode = ""
+
+    val action by lazy {
+        intent?.let {
+            it.getStringExtra("action")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,6 +202,14 @@ class DashboardActivity : AppCompatActivity(),
             }
         }
 
+        if (action == DASHBOARD_ACTION_LOGIN) {
+            addOrReplaceFragment(LoginEmailFragment())
+        } else {
+            getAddressListOnDashboard()
+        }
+    }
+
+    fun getAddressListOnDashboard() {
         addressListViewModel.getAddressList()
     }
 
@@ -236,7 +254,7 @@ class DashboardActivity : AppCompatActivity(),
         val roundedOffAmount = ((amount!!).toFloat() * 100).roundToInt()
         val checkout = Checkout()
         checkout.setKeyID(TrollaConstants.RAZORPAY_KEYID_LIVE)
-        checkout.setImage(R.drawable.appicon)
+        checkout.setImage(R.drawable.appicon_for_payment_gateway)
 
         try {
             val options = JSONObject()
@@ -438,4 +456,10 @@ class DashboardActivity : AppCompatActivity(),
     override fun onPaymentError(code: Int, response: String?) {
         LogUtil.printObject("RazorPay: $code:$response")
     }*/
+
+    fun removeAllFragmentFromDashboardBackstack() {
+        for (i in 0 until supportFragmentManager.backStackEntryCount) {
+            supportFragmentManager.popBackStack()
+        }
+    }
 }

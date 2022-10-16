@@ -103,7 +103,7 @@ class MobileOTPVerificationFragment : Fragment() {
         }
 
         mobileOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
-            (activity as AuthenticationActivity).showHideProgressBar(it)
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         mobileOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
@@ -124,8 +124,8 @@ class MobileOTPVerificationFragment : Fragment() {
                     )
 
                     if (isProfileComplete) {
-                        startActivity(Intent(activity, DashboardActivity::class.java))
-                        (activity as AuthenticationActivity).finish()
+                        (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                        (activity as DashboardActivity).getAddressListOnDashboard()
                     } else {
                         TrollaHealthUtility.showAlertDialogue(
                             requireContext(),

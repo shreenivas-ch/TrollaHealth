@@ -15,6 +15,8 @@ import androidx.lifecycle.Observer
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentLoginEmailBinding
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardFragment
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
@@ -45,14 +47,14 @@ class LoginEmailFragment : Fragment() {
         }
 
         loginEmailViewModel.progressStatus.observe(viewLifecycleOwner) {
-            (activity as AuthenticationActivity).showHideProgressBar(it)
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         loginEmailViewModel.getOTPResponse.observe(viewLifecycleOwner)
         {
             when (it) {
                 is Resource.Success -> {
-                    (activity as AuthenticationActivity).addOrReplaceFragment(
+                    (activity as DashboardActivity).addOrReplaceFragment(
                         LoginOTPVerificationFragment.getInstance(
                             loginEmailViewModel.emailLiveData.value.toString()
                         ), true

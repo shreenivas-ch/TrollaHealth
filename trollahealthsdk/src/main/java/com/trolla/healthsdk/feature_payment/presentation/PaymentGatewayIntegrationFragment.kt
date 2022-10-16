@@ -88,7 +88,7 @@ class PaymentGatewayIntegrationFragment : Fragment() {
         val roundedOffAmount = Math.round((amount!!).toFloat() * 100)
         val checkout = Checkout()
         checkout.setKeyID(RAZORPAY_KEYID_TEST)
-        checkout.setImage(R.drawable.appicon)
+        checkout.setImage(R.drawable.appicon_for_payment_gateway)
 
         try {
             val options = JSONObject()

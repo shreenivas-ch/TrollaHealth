@@ -159,11 +159,7 @@ class RegisterFragmentFragment : Fragment() {
         }
 
         registerViewModel.progressStatus.observe(viewLifecycleOwner) {
-            if (from == "profile") {
-                (activity as DashboardActivity).showHideProgressBar(it)
-            } else {
-                (activity as AuthenticationActivity).showHideProgressBar(it)
-            }
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
 
@@ -215,7 +211,7 @@ class RegisterFragmentFragment : Fragment() {
                         parentFragmentManager?.popBackStack()
 
                     } else {
-                        (activity as AuthenticationActivity).addOrReplaceFragment(
+                        (activity as DashboardActivity).addOrReplaceFragment(
                             MobileOTPVerificationFragment.getInstance(
                                 registerViewModel.mobileNumberLiveData.value.toString()
                             ), true

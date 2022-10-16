@@ -26,16 +26,6 @@
             android:tint="@color/primary_color"
             app:srcCompat="@drawable/ic_back" />
 
-        <TextView
-            android:id="@+id/imgSkip"
-            style="@style/trolla_fontMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/skip"
-            android:visibility="gone" />
-
     </RelativeLayout>
 
     <com.trolla.healthsdk.ui_utils.AutoScrollViewPager

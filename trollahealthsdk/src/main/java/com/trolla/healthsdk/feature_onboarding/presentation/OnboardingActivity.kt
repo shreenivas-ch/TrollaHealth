@@ -3,14 +3,11 @@ package com.trolla.healthsdk.feature_onboarding.presentation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.viewpager.widget.ViewPager
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.feature_auth.presentation.AuthenticationActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.ui_utils.AutoScrollViewPager
 import com.trolla.healthsdk.utils.LogUtil
@@ -69,18 +66,18 @@ class OnboardingActivity : AppCompatActivity() {
             finish()
         }
 
-        findViewById<TextView>(R.id.imgSkip)?.setOnClickListener {
-            startActivity(Intent(this, DashboardActivity::class.java))
-            finish()
-        }
-
         findViewById<TextView>(R.id.txtLogin)?.setOnClickListener {
-            startActivity(Intent(this, AuthenticationActivity::class.java))
+            var loginIntent=Intent(this, DashboardActivity::class.java)
+            loginIntent.putExtra("action",DashboardActivity.DASHBOARD_ACTION_LOGIN)
+            startActivity(loginIntent)
+            finish()
             finish()
         }
 
         findViewById<TextView>(R.id.txtSignup)?.setOnClickListener {
-            startActivity(Intent(this, AuthenticationActivity::class.java))
+            var loginIntent=Intent(this, DashboardActivity::class.java)
+            loginIntent.putExtra("action",DashboardActivity.DASHBOARD_ACTION_LOGIN)
+            startActivity(loginIntent)
             finish()
         }
     }

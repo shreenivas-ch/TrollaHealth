@@ -29,9 +29,6 @@
         <activity
             android:name=".feature_onboarding.presentation.OnboardingActivity"
             android:exported="false" />
-        <activity
-            android:name=".feature_auth.presentation.AuthenticationActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.razorpay.ApiKey"
