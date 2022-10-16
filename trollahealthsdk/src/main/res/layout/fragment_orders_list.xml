@@ -34,6 +34,40 @@
             tools:itemCount="10"
             tools:listitem="@layout/item_orderslist_order" />
 
+        <LinearLayout
+            android:id="@+id/llNoRecords"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="@dimen/_160sdp"
+                android:layout_height="@dimen/_160sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_fileName="lottie/lottie_norecords.json"
+                app:lottie_loop="true" />
+
+            <TextView
+                android:id="@+id/txtNoRecordsMessage"
+                style="@style/trolla_fontMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/textHintColor"
+                android:textSize="14dp"
+                android:text="Not yet received your first order" />
+
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

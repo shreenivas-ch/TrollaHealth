@@ -106,6 +106,12 @@ class AddressListFragment : Fragment() {
 
                     genericAdapter.notifyDataSetChanged()
 
+                    if (addressList.size > 0) {
+                        binding.llNoRecords.hide()
+                    } else {
+                        binding.llNoRecords.show()
+                    }
+
                     if (tmpCount == 0) {
                         tmpCount = 1
                         if (addressList.size == 0 && from == "cart") {

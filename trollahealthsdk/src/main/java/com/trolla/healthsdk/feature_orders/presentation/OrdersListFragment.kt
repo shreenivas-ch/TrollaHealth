@@ -74,7 +74,7 @@ class OrdersListFragment : Fragment() {
                 var ordersDetailsFragment = OrdersDetailsFragment.newInstance(
                     ordersList[position]._id,
                     ordersList[position].order_id,
-                    ordersList[position].wf_order_id?:""
+                    ordersList[position].wf_order_id ?: ""
                 )
                 (activity as DashboardActivity).addOrReplaceFragment(ordersDetailsFragment, true)
             }
@@ -94,6 +94,11 @@ class OrdersListFragment : Fragment() {
                     ordersList.clear()
                     ordersList.addAll(it?.data?.data?.orders!!)
                     orderAdapter.notifyDataSetChanged()
+                    if (ordersList.size > 0) {
+                        binding.llNoRecords.hide()
+                    } else {
+                        binding.llNoRecords.show()
+                    }
                 }
 
                 is Resource.Error -> {

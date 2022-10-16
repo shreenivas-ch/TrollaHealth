@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.menuHome -> {
-                    binding.llLocationAndLogoHeader.show()
+                    fetchDefaultAddress()
                     setCurrentFragment(DashboardFragment())
                 }
                 R.id.menuCategories -> {
@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
         } else {
             binding.llLocationAndLogoHeader.show()
             binding.txtAddress.text =
-                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS) + ", " + TrollaPreferencesManager.getString(
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)?.replaceFirstChar(Char::titlecase) + ", " + TrollaPreferencesManager.getString(
                     TrollaPreferencesManager.PM_DEFAULT_PINCODE
                 )
                     .toString()
