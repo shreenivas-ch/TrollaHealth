@@ -55,17 +55,44 @@ class RegisterFragmentFragment : Fragment() {
 
         registerViewModel.headerTitle.value = if (from == "auth") "Register" else "Edit Profile"
 
+        binding.edtMobileNumber.isEnabled =
+            TrollaPreferencesManager.getBoolean(TrollaPreferencesManager.IS_PROFILE_COMPLETE) != true
+
         if (from == "profile") {
-            binding.edtMobileNumber.isEnabled = false
             registerViewModel.getProfile()
             binding.btnUpdateProfile.text = "Update Profile"
+            binding.txtSkip.hide()
+        } else {
+            binding.txtSkip.show()
+        }
+
+        binding.txtSkip.setOnClickListener {
+            (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+            ((activity as DashboardActivity)).init = false
+            (activity as DashboardActivity).getAddressListOnDashboard()
         }
 
         registerViewModel.profileNameLiveData.observe(viewLifecycleOwner)
         {
-            var namearr = it?.split(" ")
-            binding.edtFirstname.setText(namearr?.get(0) ?: "")
-            binding.edtLastname.setText(if ((namearr?.size ?: 0) > 1) namearr?.get(1) else "")
+            var namearr = it?.split(" ") ?: arrayListOf()
+
+            if ((namearr.size) > 0) {
+                binding.edtFirstname.setText(namearr[0] ?: "")
+            }
+
+            if (namearr.size == 2) {
+                binding.edtLastname.setText(namearr[1])
+            }
+
+            if ((namearr.size) > 2) {
+                var lastname = ""
+                for (i in namearr.indices) {
+                    if (i != 0) {
+                        lastname += namearr[i] +" "
+                    }
+                }
+                binding.edtLastname.setText(lastname.trim())
+            }
         }
 
         registerViewModel.profileMobileLiveData.observe(viewLifecycleOwner)
@@ -208,7 +235,15 @@ class RegisterFragmentFragment : Fragment() {
                             TrollaPreferencesManager.PROFILE_YEAR
                         )
 
-                        parentFragmentManager?.popBackStack()
+                        if (TrollaPreferencesManager.getBoolean(TrollaPreferencesManager.IS_PROFILE_COMPLETE) == true) {
+                            parentFragmentManager?.popBackStack()
+                        } else {
+                            (activity as DashboardActivity).addOrReplaceFragment(
+                                MobileOTPVerificationFragment.getInstance(
+                                    registerViewModel.mobileNumberLiveData.value.toString()
+                                ), true
+                            )
+                        }
 
                     } else {
                         (activity as DashboardActivity).addOrReplaceFragment(

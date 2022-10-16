@@ -167,7 +167,7 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
         progressStatus.value = true
         viewModelScope.launch {
             updateProfileResponse.value = updateProfileUsecase(
-                firstNameLiveData.value + " " + lastnameLiveData.value,
+                firstNameLiveData.value?.trim() + " " + lastnameLiveData.value?.trim(),
                 mobileNumberLiveData.value.toString(), genderLiveData.value.toString(),
                 dobDateLiveData.value.toString(),
                 dobMonthLiveData.value.toString(),

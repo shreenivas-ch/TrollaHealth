@@ -25,6 +25,10 @@ class ProfileFragment : Fragment() {
 
     val profileViewModel: ProfileViewModel by inject(ProfileViewModel::class.java)
 
+    val isProfileComplete by lazy {
+        TrollaPreferencesManager?.getString(TrollaPreferencesManager.IS_PROFILE_COMPLETE)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,16 +48,6 @@ class ProfileFragment : Fragment() {
         profileViewModel.headerTitle.value = "My Profile"
         profileViewModel.headerBottomLine.value = 1
         profileViewModel.headerBackButton.value = 0
-
-        profileViewModel.profileNameLiveData.observe(viewLifecycleOwner)
-        {
-            binding.txtUsername.text = it
-        }
-
-        profileViewModel.profileEmailLiveData.observe(viewLifecycleOwner)
-        {
-            binding.txtEmail.text = it
-        }
 
         profileViewModel.progressStatus.observe(viewLifecycleOwner) {
             (activity as DashboardActivity).showHideProgressBar(it)
@@ -121,7 +115,7 @@ class ProfileFragment : Fragment() {
 
                     TrollaPreferencesManager.clearPreferences()
                     (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
-                    ((activity as DashboardActivity)).init=false
+                    ((activity as DashboardActivity)).init = false
                     (activity as DashboardActivity).addOrReplaceFragment(LoginEmailFragment())
 
                 }
@@ -130,6 +124,13 @@ class ProfileFragment : Fragment() {
         }
 
         profileViewModel.getProfile()
+        if (TrollaPreferencesManager.getBoolean(TrollaPreferencesManager.IS_PROFILE_COMPLETE) == true) {
+            binding.txtUsername.text = profileViewModel.profileNameLiveData.value
+            binding.txtEmail.text = profileViewModel.profileEmailLiveData.value
+        } else {
+            binding.txtUsername.text = "Update your profile".uppercase()
+            binding.txtEmail.text = profileViewModel.profileEmailLiveData.value
+        }
 
         return binding.root
     }
@@ -146,10 +147,12 @@ class ProfileFragment : Fragment() {
             Freshchat.getInstance(activity?.applicationContext!!).user
         freshchatUser.firstName = profileViewModel.profileNameLiveData?.value ?: "Guest"
         freshchatUser.email = profileViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
-        freshchatUser.setPhone(
-            "+91",
-            profileViewModel.profileMobileLiveData?.value ?: "9000000001"
-        )
+        if (!profileViewModel.profileMobileLiveData?.value.isNullOrEmpty()) {
+            freshchatUser.setPhone(
+                "+91",
+                profileViewModel.profileMobileLiveData?.value
+            )
+        }
 
         Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
 

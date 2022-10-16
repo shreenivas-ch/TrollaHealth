@@ -282,7 +282,7 @@ class OrdersDetailsFragment : Fragment() {
         }
 
         binding.txtCancelOrder.setOnClickListener {
-            orderDetailsViewModel.cancelOrder(orderid!!,wf_order_id?:"")
+            orderDetailsViewModel.cancelOrder(orderid!!, wf_order_id ?: "")
         }
 
         binding.txtRepeatOrder.setOnClickListener {
@@ -319,10 +319,12 @@ class OrdersDetailsFragment : Fragment() {
             Freshchat.getInstance(activity?.applicationContext!!).user
         freshchatUser.firstName = orderDetailsViewModel.profileNameLiveData?.value ?: "Guest"
         freshchatUser.email = orderDetailsViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
-        freshchatUser.setPhone(
-            "+91",
-            orderDetailsViewModel.profileMobileLiveData?.value ?: "9000000001"
-        )
+        if (!orderDetailsViewModel.profileMobileLiveData.value.isNullOrEmpty()) {
+            freshchatUser.setPhone(
+                "+91",
+                orderDetailsViewModel.profileMobileLiveData?.value ?: "9000000001"
+            )
+        }
 
         Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
 

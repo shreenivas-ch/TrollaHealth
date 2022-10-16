@@ -73,7 +73,7 @@ class TrollaHealthManager private constructor(
             TrollaPreferencesManager.getBoolean(TrollaPreferencesManager.IS_PROFILE_COMPLETE)
                 ?: false
 
-        if (accessToken == "" || !isProfileComplete) {
+        if (accessToken == "") {
             context?.startActivity(Intent(context, OnboardingActivity::class.java))
         } else {
             var loginIntent = Intent(context, DashboardActivity::class.java)

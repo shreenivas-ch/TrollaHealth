@@ -19,6 +19,19 @@
             layout="@layout/layout_common_header"
             app:title="@{registerViewModel.headerTitle}" />
 
+        <TextView
+            android:id="@+id/txtSkip"
+            style="@style/trolla_fontSemibold"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_40sdp"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin16dp"
+            android:paddingEnd="@dimen/margin16dp"
+            android:text="SKIP"
+            android:textColor="@color/textColor1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
