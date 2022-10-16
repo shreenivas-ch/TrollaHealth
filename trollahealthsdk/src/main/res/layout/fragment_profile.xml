@@ -79,7 +79,7 @@
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/white"
                                 android:textSize="16sp"
-                                tools:text="Shreenivas" />
+                                tools:text="Shreenivas chiakti" />
 
                             <TextView
                                 android:id="@+id/txtEmail"
