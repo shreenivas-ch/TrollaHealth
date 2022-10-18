@@ -30,6 +30,8 @@ import kotlinx.android.synthetic.main.cart_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 import java.io.File
 
@@ -51,6 +53,8 @@ class CartFragment : Fragment() {
         }
     }
 
+    val cartViewModel by sharedViewModel<CartViewModel>()
+
     var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
     var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
     var uploadedPrescriptionsList = ArrayList<ModelPrescription>()
@@ -58,7 +62,6 @@ class CartFragment : Fragment() {
     lateinit var cartAdapterWithRx: GenericAdapter<GetCartDetailsResponse.CartProduct>
     lateinit var cartUploadedPrescriptionsAdapter: GenericAdapter<ModelPrescription>
 
-    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
     lateinit var binding: CartFragmentBinding
 
     override fun onCreateView(
@@ -210,6 +213,7 @@ class CartFragment : Fragment() {
         cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
+            LogUtil.printObject("----->cart fragment: addToCartResponseLiveData")
             when (it) {
                 is Resource.Success -> {
 
@@ -240,10 +244,9 @@ class CartFragment : Fragment() {
         cartViewModel.cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
+            LogUtil.printObject("----->cart fragment: cartDetailsResponseLiveData")
             when (it) {
                 is Resource.Success -> {
-
-                    LogUtil.printObject("-----> CartFragment: CartDetails")
 
                     it?.data?.data?.cart?.let { cart ->
                         processCartData(cart)

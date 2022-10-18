@@ -99,7 +99,7 @@ val repositoryModule = module {
     /*Product Details*/
     single { provideProductDetailsRepository(get()) }
     single { GetProductDetailsUsecase(get()) }
-    factory { ProductDetailsViewModel(get(), get(), get()) }
+    factory { ProductDetailsViewModel(get()) }
 
     /*address*/
     single { provideAddressRepository(get()) }

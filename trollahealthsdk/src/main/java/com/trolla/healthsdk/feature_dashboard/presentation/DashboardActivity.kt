@@ -42,6 +42,7 @@ import com.vansuita.pickimage.listeners.IPickResult
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent
 import java.io.File
@@ -58,7 +59,7 @@ class DashboardActivity : AppCompatActivity(),
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
-    val cartViewModel: CartViewModel by KoinJavaComponent.inject(CartViewModel::class.java)
+    val cartViewModel by viewModel<CartViewModel>()
     val addressListViewModel: AddressListViewModel by KoinJavaComponent.inject(AddressListViewModel::class.java)
     var userDefaultAddress = ""
     var userDefaultPincode = ""
@@ -74,6 +75,9 @@ class DashboardActivity : AppCompatActivity(),
         setContentView(R.layout.activity_dashboard)
 
         cartViewModel.addToCartResponseLiveData.observe(this) {
+
+            LogUtil.printObject("----->dashboard activity: addToCartResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
                     val response = cartViewModel.addToCartResponseLiveData.value
@@ -101,6 +105,9 @@ class DashboardActivity : AppCompatActivity(),
         }
 
         cartViewModel.cartDetailsResponseLiveData.observe(this) {
+
+            LogUtil.printObject("----->dashboard activity: cartDetailsResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
                     val products = it.data?.data?.cart?.products

@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import com.trolla.healthsdk.R
@@ -14,19 +13,16 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
-import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener
 import com.trolla.healthsdk.utils.*
-import okhttp3.internal.notify
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
@@ -55,7 +51,8 @@ class ProductsListFragment() : Fragment() {
     var limit = TrollaConstants.PAGINATION_DEFAULT_LIMIT
 
     val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
-    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
+
+    val cartViewModel by viewModel<CartViewModel>()
 
     var productsList = ArrayList<DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardProduct>
@@ -182,7 +179,10 @@ class ProductsListFragment() : Fragment() {
             }
         }
 
-        cartViewModel.addToCartResponseLiveData.observe(viewLifecycleOwner) {
+        cartViewModel.addToCartResponseLiveData.observe(requireActivity()) {
+
+            LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
                     val response = cartViewModel.addToCartResponseLiveData.value
@@ -207,6 +207,10 @@ class ProductsListFragment() : Fragment() {
         }
 
         cartViewModel.cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
+
+
+            LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
                     val response = cartViewModel.cartDetailsResponseLiveData.value

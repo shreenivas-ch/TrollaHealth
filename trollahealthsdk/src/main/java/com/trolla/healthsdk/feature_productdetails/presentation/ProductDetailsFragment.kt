@@ -23,6 +23,7 @@ import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.greenrobot.eventbus.EventBus
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductDetailsFragment : Fragment() {
@@ -30,7 +31,8 @@ class ProductDetailsFragment : Fragment() {
     val productDetailsViewModel: ProductDetailsViewModel by inject(
         ProductDetailsViewModel::class.java
     )
-    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
+
+    val cartViewModel by viewModel<CartViewModel>()
 
     val title by lazy {
         arguments?.let {
@@ -209,6 +211,9 @@ class ProductDetailsFragment : Fragment() {
         cartViewModel.cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
+
+            LogUtil.printObject("----->product details fragment: cartDetailsResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
 
@@ -231,6 +236,9 @@ class ProductDetailsFragment : Fragment() {
         cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
+
+            LogUtil.printObject("----->product details fragment: cartDetailsResponseLiveData")
+
             when (it) {
                 is Resource.Success -> {
 
@@ -324,7 +332,7 @@ class ProductDetailsFragment : Fragment() {
         if (otherOptionsList.size == 0) {
             binding.llOtherOptions.hide()
         } else {
-            binding.llOtherOptions.show()
+            binding.llOtherOptions.hide()
         }
     }
 
