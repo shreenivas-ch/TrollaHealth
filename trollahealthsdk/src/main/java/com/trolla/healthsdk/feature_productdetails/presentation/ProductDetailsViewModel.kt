@@ -29,11 +29,11 @@ class ProductDetailsViewModel(
 
     var dashboardProduct = MutableLiveData<DashboardResponse.DashboardProduct>()
 
-    val cartDetailsResponseLiveData =
+    /*val cartDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetCartDetailsResponse>>>()
 
     val addToCartResponseLiveData =
-        MutableLiveData<Resource<BaseApiResponse<AddToCartResponse>>>()
+        MutableLiveData<Resource<BaseApiResponse<AddToCartResponse>>>()*/
 
     fun getProductDetails(id: String) {
         progressStatus.value = true
@@ -44,7 +44,7 @@ class ProductDetailsViewModel(
         }
     }
 
-    fun getCartDetails() {
+    /*fun getCartDetails() {
         progressStatus.value = true
         viewModelScope.launch {
             cartDetailsResponseLiveData.value =
@@ -64,5 +64,5 @@ class ProductDetailsViewModel(
                 addToCartUsercase(product_id, qty, type, prescriptions)!!
             progressStatus.value = false
         }
-    }
+    }*/
 }

@@ -16,10 +16,13 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
+import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.product_details_fragment.*
+import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductDetailsFragment : Fragment() {
@@ -27,6 +30,7 @@ class ProductDetailsFragment : Fragment() {
     val productDetailsViewModel: ProductDetailsViewModel by inject(
         ProductDetailsViewModel::class.java
     )
+    val cartViewModel: CartViewModel by inject(CartViewModel::class.java)
 
     val title by lazy {
         arguments?.let {
@@ -101,7 +105,7 @@ class ProductDetailsFragment : Fragment() {
         sizesAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                if(sizesList[position].product_id.toString()!=productid) {
+                if (sizesList[position].product_id.toString() != productid) {
                     productid = sizesList[position].product_id.toString()
                     productDetailsViewModel.getProductDetails(productid)
                 }
@@ -183,7 +187,7 @@ class ProductDetailsFragment : Fragment() {
                         processVariants(variants)
                     }
 
-                    productDetailsViewModel.getCartDetails()
+                    cartViewModel.getCartDetails()
                 }
 
                 is Resource.Error -> {
@@ -202,7 +206,7 @@ class ProductDetailsFragment : Fragment() {
 
         productDetailsViewModel.getProductDetails(productid)
 
-        productDetailsViewModel.cartDetailsResponseLiveData.observe(
+        cartViewModel.cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             when (it) {
@@ -224,7 +228,7 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
-        productDetailsViewModel.addToCartResponseLiveData.observe(
+        cartViewModel.addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             when (it) {
@@ -247,7 +251,7 @@ class ProductDetailsFragment : Fragment() {
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
-            productDetailsViewModel.addToCart(productid.toInt(), newQuantity)
+            cartViewModel.addToCart(productid.toInt(), newQuantity)
         }
 
         activity?.hidekeyboard(binding.root)

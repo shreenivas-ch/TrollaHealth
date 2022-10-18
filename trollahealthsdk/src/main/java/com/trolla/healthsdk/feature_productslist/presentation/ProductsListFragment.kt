@@ -16,12 +16,17 @@ import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener
 import com.trolla.healthsdk.utils.*
 import okhttp3.internal.notify
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
@@ -234,6 +239,21 @@ class ProductsListFragment() : Fragment() {
 
         return binding.root
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(refreshProductListEvent: RefreshProductListEvent) {
+        cartViewModel.getCartDetails()
     }
 
     private fun refreshProductsList() {

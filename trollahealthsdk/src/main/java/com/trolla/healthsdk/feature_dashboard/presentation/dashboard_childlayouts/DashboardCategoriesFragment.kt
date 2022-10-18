@@ -42,7 +42,7 @@ class DashboardCategoriesFragment : Fragment() {
 
                 var filterBy = apiDefinition?.filterBy
                 var valueOf = apiDefinition?.valueOf
-                var id =
+                var categoryid =
                     when (valueOf) {
                         "id" -> bannersList[position].id
                         "brand_id" -> bannersList[position].brand_id
@@ -51,11 +51,14 @@ class DashboardCategoriesFragment : Fragment() {
                         else -> bannersList[position].id
                     }
 
-                var productsFragment = ProductsListFragment.newInstance(
-                    bannersList[position].category_name,
-                    id.toString(), filterBy!!
-                )
-                (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+                if(categoryid!=null && categoryid!=0) {
+                    var productsFragment = ProductsListFragment.newInstance(
+                        bannersList[position].category_name ?: "Category",
+                        categoryid.toString(), filterBy!!
+                    )
+                    (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
+                }
+
             }
 
             override fun goToCart() {

@@ -11,9 +11,11 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardTrendingBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.data.GoToProductDetailsEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.hide
+import org.greenrobot.eventbus.EventBus
 
 class DashboardTrendingProductsFragment : Fragment() {
     lateinit var binding: FragmentDashboardTrendingBinding
@@ -40,7 +42,12 @@ class DashboardTrendingProductsFragment : Fragment() {
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
+                EventBus.getDefault().post(
+                    GoToProductDetailsEvent(
+                        bannersList[position].product_id,
+                        bannersList[position].title
+                    )
+                )
             }
 
         })
