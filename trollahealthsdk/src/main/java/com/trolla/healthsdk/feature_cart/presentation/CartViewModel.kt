@@ -17,6 +17,7 @@ import com.trolla.healthsdk.feature_cart.domain.usecases.CreateOrderUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetCartDetailsUsecase
 import com.trolla.healthsdk.feature_cart.domain.usecases.UpdatePaymentUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaConstants
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -47,8 +48,9 @@ class CartViewModel(
     fun addToCart(
         product_id: Int, qty: Int,
         type: String = TrollaConstants.ADDTOCART_TYPE_PRODUCT,
-        prescriptions: ArrayList<String> = arrayListOf()
+        prescriptions: ArrayList<String> = arrayListOf(), from: String="cart"
     ) {
+        LogUtil.printObject("----->1$from")
         progressStatus.value = true
         viewModelScope.launch {
             addToCartResponseLiveData.value =

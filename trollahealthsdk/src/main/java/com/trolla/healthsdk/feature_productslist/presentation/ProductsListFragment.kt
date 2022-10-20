@@ -22,6 +22,7 @@ import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
@@ -52,7 +53,7 @@ class ProductsListFragment() : Fragment() {
 
     val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
 
-    val cartViewModel by viewModel<CartViewModel>()
+    val cartViewModel: CartViewModel by sharedViewModel()
 
     var productsList = ArrayList<DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardProduct>
@@ -118,7 +119,7 @@ class ProductsListFragment() : Fragment() {
 
                 cartViewModel.addToCart(
                     productsList[position]?.product_id!!,
-                    1
+                    1, from = "product list"
                 )
             }
 
@@ -181,7 +182,7 @@ class ProductsListFragment() : Fragment() {
 
         cartViewModel.addToCartResponseLiveData.observe(requireActivity()) {
 
-            LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
+            LogUtil.printObject("----->product list fragment: addToCartResponseLiveData")
 
             when (it) {
                 is Resource.Success -> {
@@ -193,8 +194,8 @@ class ProductsListFragment() : Fragment() {
 
                     //refreshProductsList()
                     getProductsList()
-                    (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
-                        it
+                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                        it*/
                 }
 
                 is Resource.Error -> {

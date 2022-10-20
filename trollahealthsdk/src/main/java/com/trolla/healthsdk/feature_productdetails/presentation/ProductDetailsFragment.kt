@@ -23,6 +23,7 @@ import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.greenrobot.eventbus.EventBus
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
@@ -32,7 +33,7 @@ class ProductDetailsFragment : Fragment() {
         ProductDetailsViewModel::class.java
     )
 
-    val cartViewModel by viewModel<CartViewModel>()
+    val cartViewModel: CartViewModel by sharedViewModel()
 
     val title by lazy {
         arguments?.let {
@@ -217,8 +218,6 @@ class ProductDetailsFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
-                    LogUtil.printObject("-----> CartFragment: CartDetails")
-
                     processCartData(it?.data?.data?.cart?.products ?: arrayListOf())
 
                 }
@@ -237,13 +236,13 @@ class ProductDetailsFragment : Fragment() {
             viewLifecycleOwner
         ) {
 
-            LogUtil.printObject("----->product details fragment: cartDetailsResponseLiveData")
+            LogUtil.printObject("----->product details fragment: addToCartResponseLiveData")
 
             when (it) {
                 is Resource.Success -> {
 
-                    (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
-                        it
+                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                        it*/
                     processCartData(it?.data?.data?.cart?.products ?: arrayListOf())
 
                 }
@@ -259,7 +258,7 @@ class ProductDetailsFragment : Fragment() {
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
-            cartViewModel.addToCart(productid.toInt(), newQuantity)
+            cartViewModel.addToCart(productid.toInt(), newQuantity, from = "product details")
         }
 
         activity?.hidekeyboard(binding.root)

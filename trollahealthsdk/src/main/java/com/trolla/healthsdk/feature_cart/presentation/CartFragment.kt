@@ -53,7 +53,7 @@ class CartFragment : Fragment() {
         }
     }
 
-    val cartViewModel by sharedViewModel<CartViewModel>()
+    val cartViewModel: CartViewModel by sharedViewModel()
 
     var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
     var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
@@ -222,8 +222,8 @@ class CartFragment : Fragment() {
                     }
 
                     //(activity as DashboardActivity).cartViewModel.getCartDetails()
-                    (activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
-                        it
+                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                        it*/
 
                     // if (it.data?.message?.lowercase() == "prescriptions added") {
                     (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
@@ -409,7 +409,6 @@ class CartFragment : Fragment() {
             } else {
                 cartItemsListWithRx.add(cart.products[i])
             }
-            LogUtil.printObject("----->: " + cart.products[i].qty)
         }
 
         for (i in cart.prescriptions.indices) {

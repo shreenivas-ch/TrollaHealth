@@ -108,7 +108,11 @@ class LoginOTPVerificationFragment : Fragment() {
                 is Resource.Success -> {
 
                     var accessToken = it?.data?.data?.access_token
-                    var isProfileComplete = it?.data?.data?.is_profile_complete ?: false
+                    var isProfileComplete = it?.data?.data?.is_profile_complete
+
+                    var local_isProfileComplete = if (isProfileComplete.isNullOrEmpty()) {
+                        false
+                    } else isProfileComplete != "false"
 
                     TrollaPreferencesManager.setString(
                         accessToken,
@@ -116,15 +120,15 @@ class LoginOTPVerificationFragment : Fragment() {
                     )
 
                     TrollaPreferencesManager.setBoolean(
-                        isProfileComplete,
+                        local_isProfileComplete,
                         TrollaPreferencesManager.IS_PROFILE_COMPLETE
                     )
 
                     activity?.hidekeyboard(binding.edt1)
 
-                    if (isProfileComplete) {
+                    if (local_isProfileComplete) {
                         (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
-                        ((activity as DashboardActivity)).init=false
+                        ((activity as DashboardActivity)).init = false
                         (activity as DashboardActivity).getAddressListOnDashboard()
                     } else {
                         (activity as DashboardActivity).addOrReplaceFragment(

@@ -47,6 +47,7 @@ import com.trolla.healthsdk.feature_search.domain.provideSearchRepository
 import com.trolla.healthsdk.feature_search.domain.usecases.SearchUsecase
 import com.trolla.healthsdk.feature_search.presentation.SearchViewModel
 import com.trolla.healthsdk.ui_utils.WebviewViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -79,7 +80,9 @@ val repositoryModule = module {
     single { CreateOrderUsecase(get()) }
     single { UpdatePaymentUsecase(get()) }
     single { GetTransactionIDUsecase(get()) }
-    factory { CartViewModel(get(), get(), get(), get()) }
+    viewModel {
+        CartViewModel(get(), get(), get(), get())
+    }
 
     /*Categories*/
     single { provideCategoriesRepository(get()) }

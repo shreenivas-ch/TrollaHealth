@@ -59,7 +59,7 @@ class DashboardActivity : AppCompatActivity(),
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
-    val cartViewModel by viewModel<CartViewModel>()
+    val cartViewModel: CartViewModel by viewModel()
     val addressListViewModel: AddressListViewModel by KoinJavaComponent.inject(AddressListViewModel::class.java)
     var userDefaultAddress = ""
     var userDefaultPincode = ""
@@ -469,5 +469,10 @@ class DashboardActivity : AppCompatActivity(),
         for (i in 0 until supportFragmentManager.backStackEntryCount) {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        showHideProgressBar(false)
     }
 }

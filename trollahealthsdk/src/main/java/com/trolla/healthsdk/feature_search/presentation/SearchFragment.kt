@@ -181,15 +181,15 @@ class SearchFragment : Fragment() {
         }
 
         binding.edtSearch.addTextChangedListener {
-            searchStr = it.toString().trim()
             page = 1
             isLastPage = false
 
-            if (searchStr.isEmpty() || searchStr.length < 3) {
+            if (it.toString().trim().isEmpty() || it.toString().trim().length < 3) {
                 searchList.clear()
                 genericAdapter.notifyDataSetChanged()
                 binding.rlLocalSearchHistory.show()
             } else {
+                searchStr = it.toString().trim()
                 handler.removeCallbacks(runnable)
                 handler.postDelayed(runnable, 500)
 

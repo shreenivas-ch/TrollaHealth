@@ -193,7 +193,7 @@ class DashboardFragment : Fragment() {
         LogUtil.printObject("-----> DashboardFragment: AddToCartActionEvent")
         (activity as DashboardActivity).cartViewModel.addToCart(
             addToCartActionEvent.product_id,
-            addToCartActionEvent.qty
+            addToCartActionEvent.qty, from = "dashboard"
         )
     }
 
