@@ -21,6 +21,7 @@ import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.feature_productdetails.presentation.FullscreenImageViewerActivity
 import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
@@ -106,6 +107,15 @@ class OrdersDetailsFragment : Fragment() {
             R.layout.item_uploaded_prescription,
             uploadedPrescriptionsList
         )
+
+        cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object:GenericAdapter.OnListItemViewClickListener{
+            override fun onClick(view: View, position: Int) {
+                var fullscreenIntent = Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
+                fullscreenIntent.putExtra("imageurl", uploadedPrescriptionsList[position].url)
+                startActivity(fullscreenIntent)
+            }
+
+        })
 
         binding.cartList.adapter = cartItemsAdapter
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
@@ -219,10 +229,9 @@ class OrdersDetailsFragment : Fragment() {
                         binding.txtPaymentMode.text = "Cash On Delivery"
                     }
 
-                    binding.txtAddressType.text =
-                        if (order.address.type.isNullOrEmpty()) "Home" else order.address.type
+                    binding.txtAddressType.text = order.address.name + " - " + order.address.contact
                     binding.txtSelectedAddress.text =
-                        order.address.name + "\n" + order.address.address + " " + order.address.landmark + " " + order.address.city + " " + order.address.state + "\n" + order.address.pincode
+                        order.address.address + " " + order.address.landmark + " " + order.address.city + " " + order.address.state + "\n" + order.address.pincode
 
                     if (!it?.data?.data?.order?.tracking_url.isNullOrEmpty()) {
                         trackingUrl = it?.data?.data?.order?.tracking_url

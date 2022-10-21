@@ -18,7 +18,9 @@ import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.ui_utils.WebviewActivity
@@ -118,8 +120,7 @@ class OrdersListFragment : Fragment() {
             parentFragmentManager?.popBackStack()
         }
 
-
-        orderListViewModel.getOrdersList()
+        //orderListViewModel.getOrdersList()
         orderListViewModel.getProfile()
 
         return binding.root
@@ -132,4 +133,19 @@ class OrdersListFragment : Fragment() {
         startActivity(intent)
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(eventRefreshOrders: EventRefreshOrders) {
+        LogUtil.printObject("-----> eventRefreshOrders event called")
+        orderListViewModel.getOrdersList()
+    }
 }

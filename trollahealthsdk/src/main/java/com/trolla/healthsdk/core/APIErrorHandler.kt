@@ -7,6 +7,7 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.net.SocketTimeoutException
 
 class APIErrorHandler<T> {
     fun process(response: Response<BaseApiResponse<T>>): Resource<BaseApiResponse<T>> {
@@ -29,15 +30,31 @@ class APIErrorHandler<T> {
                     }
                 }
             }
-        } catch (e: IOException) {
-            Resource.Error(
-                uiText = UiText.StringResource(R.string.error_couldnt_reach_server)
-            )
-
-        } catch (e: HttpException) {
-            Resource.Error(
-                uiText = UiText.StringResource(R.string.oops_something_went_wrong)
-            )
+        }
+        catch (e:Exception)
+        {
+            when (e) {
+                is IOException -> {
+                    Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_server)
+                    )
+                }
+                is HttpException -> {
+                    Resource.Error(
+                        uiText = UiText.StringResource(R.string.oops_something_went_wrong)
+                    )
+                }
+                is SocketTimeoutException -> {
+                    Resource.Error(
+                        uiText = UiText.StringResource(R.string.server_not_reachable)
+                    )
+                }
+                else -> {
+                    Resource.Error(
+                        uiText = UiText.StringResource(R.string.error_couldnt_reach_server)
+                    )
+                }
+            }
         }
     }
 }

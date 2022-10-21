@@ -25,7 +25,7 @@
             android:layout_height="70dp"
             android:scaleType="fitCenter"
             app:isShowPlaceHolder="@{true}"
-            app:loadImage="@{item.category_img}" />
+            app:loadImage="@{item.img}" />
 
         <TextView
             style="@style/trolla_fontSemibold"
@@ -37,7 +37,7 @@
             android:minLines="2"
             android:paddingStart="@dimen/_2sdp"
             android:paddingEnd="@dimen/_2sdp"
-            android:text="@{item.category_name}"
+            android:text="@{item.name}"
             android:textColor="@color/textColor2"
             tools:text="Mother Care" />
 

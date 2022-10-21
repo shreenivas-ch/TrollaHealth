@@ -41,7 +41,7 @@ interface ApiService {
     suspend fun getDashboard(
     ): Response<BaseApiResponse<DashboardResponse>>
 
-    @GET("/categories/wf")
+    @GET("/categories")
     suspend fun getCategories(
     ): Response<BaseApiResponse<CategoriesResponse>>
 

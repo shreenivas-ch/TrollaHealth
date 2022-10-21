@@ -6,6 +6,7 @@
     <string name="notification_channel_name_default">General</string>
     <string name="notification_channel_description_default">General push notifications</string>
     <string name="oops_something_went_wrong">\"Oops! Something went wrong. Please try again.\"</string>
+    <string name="server_not_reachable">Server not reachable at this time, we are looking into it</string>
     <string name="welcome">Welcome</string>
     <string name="enter_email">Enter Email</string>
     <string name="skip">Skip</string>
@@ -84,4 +85,5 @@
     <string name="expiry">Expiry:</string>
     <string name="country_of_origin">Country Of Origin</string>
     <string name="uploaded_prescriptions">Uploaded prescriptions</string>
+    <string name="order_total">Order Total</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.trolla.healthsdk.feature_cart.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,6 @@ import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
-import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
@@ -24,16 +24,13 @@ import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
+import com.trolla.healthsdk.feature_productdetails.presentation.FullscreenImageViewerActivity
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.utils.*
-import kotlinx.android.synthetic.main.cart_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.java.KoinJavaComponent.inject
-import java.io.File
 
 class CartFragment : Fragment() {
 
@@ -190,7 +187,9 @@ class CartFragment : Fragment() {
         cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-
+                var fullscreenIntent = Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
+                fullscreenIntent.putExtra("imageurl", uploadedPrescriptionsList[position].url)
+                startActivity(fullscreenIntent)
             }
 
             override fun onDeletePrescriptionClick(view: View, position: Int) {

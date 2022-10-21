@@ -321,7 +321,7 @@
                                 style="@style/trolla_fontMedium"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/to_be_paid"
+                                android:text="@string/order_total"
                                 android:textColor="@color/textColor1"
                                 android:textSize="12sp" />
 

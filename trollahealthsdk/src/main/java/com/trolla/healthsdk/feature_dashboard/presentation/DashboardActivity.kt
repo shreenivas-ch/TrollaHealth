@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.amazonaws.logging.Log
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
@@ -22,7 +23,6 @@ import com.razorpay.PaymentResultWithDataListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
-import com.trolla.healthsdk.core.TrollaFirebaseErrorReportingAndAnalytics
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
@@ -31,6 +31,7 @@ import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
+import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.utils.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_ADDRESS
@@ -215,6 +216,19 @@ class DashboardActivity : AppCompatActivity(),
         } else {
             getAddressListOnDashboard()
         }
+
+        supportFragmentManager?.addOnBackStackChangedListener {
+            if (supportFragmentManager != null) {
+                val stackCount: Int = supportFragmentManager.backStackEntryCount
+                if (stackCount > 0) {
+                    var entry = supportFragmentManager.getBackStackEntryAt(stackCount - 1)
+                    val tag: String = entry.name ?: ""
+                    if (tag == OrdersListFragment::class.java.simpleName) {
+                        EventBus.getDefault().post(EventRefreshOrders())
+                    }
+                }
+            }
+        }
     }
 
     fun getAddressListOnDashboard() {
@@ -347,35 +361,45 @@ class DashboardActivity : AppCompatActivity(),
 
         try {
             lifecycleScope.launch {
-                val compressedImageFile = File(filePath)
-                //Compressor.compress(this@DashboardActivity, File(filePath))
-                AWSUtil.uploadFile(
-                    this@DashboardActivity,
-                    compressedImageFile,
-                    0,
-                    pathtoupload,
-                    object : InterfaceAWS {
-                        override fun onError(index: Int, error: String?) {
-                            LogUtil.printObject("AWS: UploadError:  $error")
-                            showPrescriptionUploadedFailedDialogue(error ?: "Something went wrong")
-                        }
+                try {
 
-                        override fun onSuccess(index: Int, url: String?) {
-                            LogUtil.printObject("AWS: Upload Success: $url")
-                            EventBus.getDefault().post(PrescriptionUploadedEvent(url!!))
-                        }
 
-                        override fun onProgress(index: Int, progress: Float) {
-                            LogUtil.printObject("AWS: Upload Success: $progress")
-                            progressDialogueSubTitle.text =
-                                "Please wait while we are uploading your prescription\n$progress file uploaded"
-                        }
-                    })
+                    val compressedImageFile = File(filePath)
+                    //Compressor.compress(this@DashboardActivity, File(filePath))
+                    AWSUtil.uploadFile(
+                        this@DashboardActivity,
+                        compressedImageFile,
+                        0,
+                        pathtoupload,
+                        object : InterfaceAWS {
+                            override fun onError(index: Int, error: String?) {
+                                LogUtil.printObject("AWS: UploadError:  $error")
+                                showPrescriptionUploadedFailedDialogue(
+                                    error ?: "Something went wrong"
+                                )
+                            }
 
-                prepareProgressDialogue(
-                    "File Uploading",
-                    "Please wait while we are uploading your prescription"
-                )
+                            override fun onSuccess(index: Int, url: String?) {
+                                LogUtil.printObject("AWS: Upload Success: $url")
+                                EventBus.getDefault().post(PrescriptionUploadedEvent(url!!))
+                            }
+
+                            override fun onProgress(index: Int, progress: Float) {
+                                LogUtil.printObject("AWS: Upload Success: $progress")
+                                progressDialogueSubTitle.text =
+                                    "Please wait while we are uploading your prescription\n$progress file uploaded"
+                            }
+                        })
+
+                    prepareProgressDialogue(
+                        "File Uploading",
+                        "Please wait while we are uploading your prescription"
+                    )
+                }
+                catch (ex:Exception)
+                {
+                    showLongToast("Sorry, Something went wrong while adding prescription")
+                }
             }
         } catch (ex: Exception) {
             LogUtil.printObject("AWS: Upload Error: $ex")
