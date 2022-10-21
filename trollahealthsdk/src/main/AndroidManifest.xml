@@ -24,6 +24,7 @@
             android:name=".feature_productdetails.presentation.FullscreenImageViewerActivity"
             android:exported="false" />
         <activity
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:name=".feature_dashboard.presentation.DashboardActivity"
             android:exported="false" />
         <activity

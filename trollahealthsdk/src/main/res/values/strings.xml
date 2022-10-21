@@ -86,4 +86,5 @@
     <string name="country_of_origin">Country Of Origin</string>
     <string name="uploaded_prescriptions">Uploaded prescriptions</string>
     <string name="order_total">Order Total</string>
+    <string name="price_may_vary_depending_on_the_product_batch">Price may vary depending on the product batch*</string>
 </resources>

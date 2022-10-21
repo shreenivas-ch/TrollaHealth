@@ -253,19 +253,19 @@ class CartFragment : Fragment() {
 
                     it?.data?.data?.payment_options?.let { paymentOptions ->
                         var isCODAvailable = false
-                        var codAvailableTitle = "COD"
+                        var codAvailableTitle = "Cash On Delivery"
                         var isOnlineAvailable = false
-                        var onlineAvailableTitle = "Online"
+                        var onlineAvailableTitle = "Online Payment"
                         for (i in paymentOptions.indices) {
                             if (paymentOptions[i].payment_mode == "COD") {
                                 if (!isCODAvailable) {
                                     isCODAvailable = true
-                                    codAvailableTitle = paymentOptions[i].name
+                                    codAvailableTitle = "Cash On Delivery"//paymentOptions[i].name
                                 }
                             } else if (paymentOptions[i].payment_mode == "prepaid") {
                                 if (!isOnlineAvailable) {
                                     isOnlineAvailable = true
-                                    onlineAvailableTitle = paymentOptions[i].name
+                                    onlineAvailableTitle ="Online Payment" //paymentOptions[i].name
                                 }
                             }
                         }

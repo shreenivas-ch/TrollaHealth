@@ -94,6 +94,7 @@ class SearchFragment : Fragment() {
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
 
+                binding.edtSearch.clearFocus()
                 activity?.hidekeyboard(binding.edtSearch)
 
                 var product_id = searchList[position].product_id
