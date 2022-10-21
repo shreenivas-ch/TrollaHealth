@@ -23,6 +23,11 @@ object TrollaPreferencesManager {
     const val PM_DEFAULT_PINCODE = "default_pincode"
     const val PM_DEFAULT_ADDRESS = "default_address"
     const val PM_LOCAL_SEARCH_HISTORY = "local_search_history"
+    const val PM_CART_SELECTED_PAYMENT_METHOD = "cart_selected_payment_method"
+
+    const val PM_CART_SELECTED_ADDRESS_ID = "cart_selected_address_id"
+    const val PM_CART_SELECTED_ADDRESS_TITLE = "cart_selected_address_title"
+    const val PM_CART_SELECTED_ADDRESS_ADDRESS = "cart_selected_address_address"
 
     lateinit var preferences: SharedPreferences
 

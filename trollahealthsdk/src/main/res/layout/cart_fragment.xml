@@ -41,16 +41,16 @@
                 android:paddingBottom="@dimen/margin16dp">
 
                 <TextView
-                    android:padding="@dimen/_5sdp"
-                    android:gravity="center"
-                    tools:text="You are saving ₹899 on this order"
-                    android:visibility="gone"
-                    android:background="@color/colorOrderDelivered"
                     android:id="@+id/txtSavings"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorOrderDelivered"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
                     android:textColor="@color/white"
+                    android:visibility="gone"
+                    tools:text="You are saving ₹899 on this order"
                     tools:visibility="visible" />
 
                 <TextView
@@ -106,11 +106,11 @@
                     tools:visibility="gone" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/llPrescriptionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:visibility="gone"
                     tools:visibility="visible">
 
                     <View
@@ -482,11 +482,11 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:visibility="gone"
                             android:id="@+id/rlGST"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin16dp">
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:visibility="gone">
 
                             <TextView
                                 style="@style/trolla_fontMedium"
@@ -536,11 +536,11 @@
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:visibility="gone"
                             android:id="@+id/rlDiscount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin16dp">
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:visibility="gone">
 
                             <TextView
                                 style="@style/trolla_fontMedium"
@@ -597,15 +597,14 @@
                         </RelativeLayout>
 
                         <TextView
-                            android:layout_marginBottom="@dimen/margin16dp"
                             style="@style/trolla_fontSemibold"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
+                            android:layout_marginBottom="@dimen/margin16dp"
                             android:text="@string/price_may_vary_depending_on_the_product_batch"
                             android:textColor="@color/textColor3"
-                            android:textSize="12sp"
-                            />
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 

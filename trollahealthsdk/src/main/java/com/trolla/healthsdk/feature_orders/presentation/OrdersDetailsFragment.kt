@@ -22,6 +22,7 @@ import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.feature_productdetails.presentation.FullscreenImageViewerActivity
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
@@ -108,9 +109,11 @@ class OrdersDetailsFragment : Fragment() {
             uploadedPrescriptionsList
         )
 
-        cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object:GenericAdapter.OnListItemViewClickListener{
+        cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                var fullscreenIntent = Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
+                var fullscreenIntent =
+                    Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
                 fullscreenIntent.putExtra("imageurl", uploadedPrescriptionsList[position].url)
                 startActivity(fullscreenIntent)
             }
@@ -119,6 +122,22 @@ class OrdersDetailsFragment : Fragment() {
 
         binding.cartList.adapter = cartItemsAdapter
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
+
+        cartItemsAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+                var product_id = cartItems[position]?.product.product_id
+                var product_name = cartItems[position]?.product.title
+
+                var productDetailsFragment = ProductDetailsFragment.newInstance(
+                    product_id!!,
+                    product_name
+                )
+
+                (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
+            }
+
+        })
 
         orderDetailsViewModel.cancelOrderResponseLiveData.observe(viewLifecycleOwner) {
             when (it) {

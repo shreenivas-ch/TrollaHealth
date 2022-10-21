@@ -187,7 +187,8 @@ class CartFragment : Fragment() {
         cartUploadedPrescriptionsAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                var fullscreenIntent = Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
+                var fullscreenIntent =
+                    Intent(requireActivity(), FullscreenImageViewerActivity::class.java)
                 fullscreenIntent.putExtra("imageurl", uploadedPrescriptionsList[position].url)
                 startActivity(fullscreenIntent)
             }
@@ -265,7 +266,7 @@ class CartFragment : Fragment() {
                             } else if (paymentOptions[i].payment_mode == "prepaid") {
                                 if (!isOnlineAvailable) {
                                     isOnlineAvailable = true
-                                    onlineAvailableTitle ="Online Payment" //paymentOptions[i].name
+                                    onlineAvailableTitle = "Online Payment" //paymentOptions[i].name
                                 }
                             }
                         }
@@ -299,6 +300,29 @@ class CartFragment : Fragment() {
         ) {
             when (it) {
                 is Resource.Success -> {
+
+
+                    /* clear selected payment method and selected address from shared preferences after online order success*/
+
+                    if(cartViewModel.selectedPaymentModeLiveData.value=="COD")
+                    {
+                        TrollaPreferencesManager.setString(
+                            "",
+                            TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD
+                        )
+                        TrollaPreferencesManager.setString(
+                            "",
+                            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID
+                        )
+                        TrollaPreferencesManager.setString(
+                            "",
+                            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_TITLE
+                        )
+                        TrollaPreferencesManager.setString(
+                            "",
+                            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ADDRESS
+                        )
+                    }
                     parentFragmentManager?.popBackStack()
 
                     (activity as DashboardActivity).addOrReplaceFragment(
@@ -321,19 +345,47 @@ class CartFragment : Fragment() {
 
         cartViewModel.getCartDetails()
 
+        /*get selected payment method from shared preferences */
+        if (!TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD)
+                .isNullOrEmpty()
+        ) {
+            cartViewModel.selectedPaymentModeLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD)
+            setSelectedPaymentMethod()
+        }
+
+        /* get selected address from shared preference */
+        if (!TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID)
+                .isNullOrEmpty()
+        ) {
+            cartViewModel.selectedAddressIdLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID)
+
+            binding.rlSelectedDeliveryAddress.show()
+            binding.llAddressNotAdded.hide()
+
+            binding.txtAddressType.text =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_TITLE)
+
+            binding.txtSelectedAddress.text =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ADDRESS)
+        }
+
         binding.rlCashonDelivery.setOnClickListener {
             cartViewModel.selectedPaymentModeLiveData.value = "COD"
-            binding.imgCOD.setImageResource(R.drawable.ic_cod)
-            binding.imgOnline.setImageResource(R.drawable.ic_payonline_inactive)
-            binding.imgCODSelected.setImageResource(R.drawable.ic_selected)
-            binding.imgOnlineSelected.setImageResource(R.drawable.ic_unselected)
+            setSelectedPaymentMethod()
+            TrollaPreferencesManager.setString(
+                "COD",
+                TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD
+            )
         }
         binding.rlPayOnline.setOnClickListener {
             cartViewModel.selectedPaymentModeLiveData.value = "prepaid"
-            binding.imgCOD.setImageResource(R.drawable.ic_cod_inactive)
-            binding.imgOnline.setImageResource(R.drawable.ic_payonline)
-            binding.imgCODSelected.setImageResource(R.drawable.ic_unselected)
-            binding.imgOnlineSelected.setImageResource(R.drawable.ic_selected)
+            setSelectedPaymentMethod()
+            TrollaPreferencesManager.setString(
+                "prepaid",
+                TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD
+            )
         }
 
         binding.llAddressNotAdded.setOnClickListener {
@@ -365,6 +417,20 @@ class CartFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    fun setSelectedPaymentMethod() {
+        if (cartViewModel.selectedPaymentModeLiveData.value == "COD") {
+            binding.imgCOD.setImageResource(R.drawable.ic_cod)
+            binding.imgOnline.setImageResource(R.drawable.ic_payonline_inactive)
+            binding.imgCODSelected.setImageResource(R.drawable.ic_selected)
+            binding.imgOnlineSelected.setImageResource(R.drawable.ic_unselected)
+        } else if (cartViewModel.selectedPaymentModeLiveData.value == "prepaid") {
+            binding.imgCOD.setImageResource(R.drawable.ic_cod_inactive)
+            binding.imgOnline.setImageResource(R.drawable.ic_payonline)
+            binding.imgCODSelected.setImageResource(R.drawable.ic_unselected)
+            binding.imgOnlineSelected.setImageResource(R.drawable.ic_selected)
+        }
     }
 
     fun processCartData(
@@ -498,6 +564,10 @@ class CartFragment : Fragment() {
     fun doThis(address: AddressSelectedEvent) {
 
         cartViewModel.selectedAddressIdLiveData.value = address.modelAddress._id
+        TrollaPreferencesManager.setString(
+            address.modelAddress._id,
+            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID
+        )
 
         binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
             address.modelAddress == null,
@@ -505,11 +575,22 @@ class CartFragment : Fragment() {
         )
         binding.llAddressNotAdded.setVisibilityOnBoolean(address.modelAddress == null, true)
 
-        binding.txtAddressType.text =
-            (address.modelAddress?.type ?: "Home").replaceFirstChar { it.uppercase() }
-        binding.txtSelectedAddress.text =
-            address.modelAddress.name + "\n" + address.modelAddress.address + " " + address.modelAddress.landmark + " " + address.modelAddress.city + " " + address.modelAddress.state + "\n" + address.modelAddress.pincode
+        var addressTitle =
+            address.modelAddress.name + " - " + address.modelAddress.contact //(address.modelAddress?.type ?: "Home").replaceFirstChar { it.uppercase() }
+        binding.txtAddressType.text = addressTitle
+        TrollaPreferencesManager.setString(
+            addressTitle,
+            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_TITLE
+        )
 
+        var actualAddress =
+            address.modelAddress.address + " " + address.modelAddress.landmark + " " + address.modelAddress.city + " " + address.modelAddress.state + "\n" + address.modelAddress.pincode
+        binding.txtSelectedAddress.text = actualAddress
+
+        TrollaPreferencesManager.setString(
+            actualAddress,
+            TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ADDRESS
+        )
     }
 
     fun checkIfCartValid() {

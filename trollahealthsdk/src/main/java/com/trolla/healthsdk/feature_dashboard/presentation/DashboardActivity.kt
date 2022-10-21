@@ -155,6 +155,25 @@ class DashboardActivity : AppCompatActivity(),
                                 OrdersListFragment.newInstance(),
                                 true
                             )
+
+                            /* clear selected payment method and selected address from shared preferences after online order success*/
+                            TrollaPreferencesManager.setString(
+                                "",
+                                TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD
+                            )
+                            TrollaPreferencesManager.setString(
+                                "",
+                                TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID
+                            )
+                            TrollaPreferencesManager.setString(
+                                "",
+                                TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_TITLE
+                            )
+                            TrollaPreferencesManager.setString(
+                                "",
+                                TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ADDRESS
+                            )
+
                         }
                         "orderdetails" -> {
                             TrollaHealthUtility.showAlertDialogue(
@@ -395,9 +414,7 @@ class DashboardActivity : AppCompatActivity(),
                         "File Uploading",
                         "Please wait while we are uploading your prescription"
                     )
-                }
-                catch (ex:Exception)
-                {
+                } catch (ex: Exception) {
                     showLongToast("Sorry, Something went wrong while adding prescription")
                 }
             }
