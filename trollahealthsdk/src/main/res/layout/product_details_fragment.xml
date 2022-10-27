@@ -24,6 +24,8 @@
         <include
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
+            app:cartCount="@{viewModel.headerCartCount}"
             app:backButtonVisibility="@{viewModel.headerBackButton}"
             app:title="@{viewModel.headerTitle}" />
 
@@ -81,10 +83,13 @@
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/defaultImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="160dp"
-                        android:padding="@dimen/_25sdp"
-                        android:scaleType="centerInside"
+                        android:layout_width="145dp"
+                        android:layout_height="145dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:layout_centerHorizontal="true"
+                        android:padding="@dimen/_5sdp"
+                        android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_default_productimage" />
 
                 </RelativeLayout>

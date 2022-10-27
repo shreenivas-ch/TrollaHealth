@@ -17,33 +17,80 @@
         android:clickable="true">
 
         <include
-            app:backButtonVisibility="@{viewModel.headerBackButton}"
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:cartCount="@{viewModel.headerCartCount}"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
             app:title="@{viewModel.headerTitle}" />
+
+        <LinearLayout
+            android:id="@+id/llSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_12sdp"
+                android:background="@drawable/bg_search"
+                android:padding="@dimen/_12sdp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imgSearchIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_search"
+                    app:tint="@color/bgColor" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/search_for_products"
+                    android:textColor="@color/textColor2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/imgSearchIcon"
+                    app:layout_constraintTop_toTopOf="parent"></TextView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productsList"
-            android:layout_marginTop="@dimen/margin16dp"
-            android:layout_marginStart="@dimen/margin8dp"
-            android:layout_marginEnd="@dimen/margin8dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin8dp"
+            android:layout_marginTop="@dimen/margin16dp"
+            android:layout_marginEnd="@dimen/margin8dp"
             android:layout_marginBottom="@dimen/margin8dp"
             android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintBottom_toTopOf="@+id/cardSortAndFilter"
-            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
+            app:layout_constraintTop_toBottomOf="@+id/llSearch"
             app:spanCount="2"
             tools:itemCount="10"
             tools:listitem="@layout/item_dashboard_recommended_product" />
 
         <androidx.cardview.widget.CardView
-            android:visibility="gone"
             android:id="@+id/cardSortAndFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:visibility="gone"
             app:cardElevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent">
 

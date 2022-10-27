@@ -9,4 +9,6 @@ open class BaseViewModel:ViewModel() {
     val headerTitle = MutableLiveData<String>()
     val headerBottomLine = MutableLiveData<Int>()
     val headerBackButton = MutableLiveData<Int>()
+    val headerCartIcon = MutableLiveData<Int>()
+    val headerCartCount = MutableLiveData<Int>()
 }

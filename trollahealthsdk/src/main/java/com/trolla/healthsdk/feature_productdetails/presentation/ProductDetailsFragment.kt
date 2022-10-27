@@ -18,11 +18,14 @@ import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
@@ -317,6 +320,12 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
+        var sortedSize = sizesList.sortedWith(compareBy {
+            it.sale_price
+        })
+
+        sizesList.clear()
+        sizesList.addAll(sortedSize)
 
         sizesAdapter.notifyDataSetChanged()
         otherOptionsAdapter.notifyDataSetChanged()
@@ -555,6 +564,30 @@ class ProductDetailsFragment : Fragment() {
             }
         } else {
             binding.txtProductDescription.text = str
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
+        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    }
+
+    fun updateCartCount(count: Int) {
+        if (count == 0) {
+            productDetailsViewModel.headerCartIcon.value = 0
+        } else {
+            productDetailsViewModel.headerCartIcon.value = 1
+            productDetailsViewModel.headerCartCount.value = count
         }
     }
 

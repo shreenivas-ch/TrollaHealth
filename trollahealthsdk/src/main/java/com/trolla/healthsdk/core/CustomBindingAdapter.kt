@@ -37,12 +37,12 @@ class CustomBindingAdapter {
                     if (url.isNotEmpty()) {
                         Glide.with(view.context)
                             .load(url)
-                            .placeholder(R.drawable.ic_default_productimage2)
+                            .placeholder(R.drawable.ic_default_productimage)
                             .into(view)
                     } else {
                         Glide.with(view.context)
-                            .load(R.drawable.ic_default_productimage2)
-                            .placeholder(R.drawable.ic_default_productimage2)
+                            .load(R.drawable.ic_default_productimage)
+                            .placeholder(R.drawable.ic_default_productimage)
                             .circleCrop()
                             .into(
                                 view
@@ -57,8 +57,8 @@ class CustomBindingAdapter {
                 }
             } else {
                 Glide.with(view.context)
-                    .load(R.drawable.ic_default_productimage2)
-                    .placeholder(R.drawable.ic_default_productimage2)
+                    .load(R.drawable.ic_default_productimage)
+                    .placeholder(R.drawable.ic_default_productimage)
                     .into(
                         view
                     )

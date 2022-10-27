@@ -11,10 +11,14 @@ import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentCategoriesBinding
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
+import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
 
 class CategoriesFragment : Fragment() {
@@ -30,12 +34,14 @@ class CategoriesFragment : Fragment() {
     var categoriesList = ArrayList<CategoriesResponse.Category>()
     lateinit var genericAdapter: GenericAdapter<CategoriesResponse.Category>
 
+    lateinit var binding: FragmentCategoriesBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<FragmentCategoriesBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.fragment_categories,
             container,
@@ -94,7 +100,35 @@ class CategoriesFragment : Fragment() {
 
         categoriesViewModel.getCategories()
 
+        (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value.let {
+            updateCartCount(it?.data?.data?.cart?.products?.size?:0)
+        }
+
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
+        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    }
+
+    fun updateCartCount(count: Int) {
+        if (count == 0) {
+            categoriesViewModel.headerCartIcon.value = 0
+        } else {
+            categoriesViewModel.headerCartIcon.value = 1
+            categoriesViewModel.headerCartCount.value = count
+        }
     }
 
 }

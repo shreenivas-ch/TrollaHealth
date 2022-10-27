@@ -14,9 +14,11 @@ import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
+import com.trolla.healthsdk.feature_search.presentation.SearchFragment
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener
 import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
@@ -61,6 +63,8 @@ class ProductsListFragment() : Fragment() {
     var isLoading = false
     var isLastPage = false
 
+    lateinit var binding: ProductsListFragmentBinding
+
     companion object {
         fun newInstance(title: String, id: String, filterBy: String): ProductsListFragment {
             val bundle = Bundle()
@@ -78,7 +82,7 @@ class ProductsListFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val binding = DataBindingUtil.inflate<ProductsListFragmentBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.products_list_fragment,
             container,
@@ -89,10 +93,15 @@ class ProductsListFragment() : Fragment() {
         binding.viewModel = productsListViewModel
 
         productsListViewModel.headerBackButton.value = 1
+        productsListViewModel.headerBottomLine.value = 0
         productsListViewModel.headerTitle.value = title
 
         binding.commonHeader.imgBack.setOnClickListener {
             parentFragmentManager?.popBackStack()
+        }
+
+        binding.llSearch.setOnClickListener {
+            (activity as DashboardActivity).addOrReplaceFragment(SearchFragment.newInstance(), true)
         }
 
         genericAdapter = GenericAdapter(
@@ -222,6 +231,9 @@ class ProductsListFragment() : Fragment() {
                     LogUtil.printObject(cartItemsIdsArray)
 
                     getProductsList()
+
+                    updateCartCount(response?.data?.data?.cart?.products?.size ?: 0)
+
                 }
 
                 is Resource.Error -> {
@@ -239,7 +251,7 @@ class ProductsListFragment() : Fragment() {
             isLoading = it
         }
 
-       // cartViewModel.getCartDetails()
+        // cartViewModel.getCartDetails()
 
         return binding.root
 
@@ -259,6 +271,21 @@ class ProductsListFragment() : Fragment() {
     fun doThis(refreshProductListEvent: RefreshProductListEvent) {
         LogUtil.printObject("----->product list fragment: refreshProductListEvent")
         cartViewModel.getCartDetails()
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
+        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    }
+
+    fun updateCartCount(count: Int) {
+        if (count == 0) {
+            productsListViewModel.headerCartIcon.value = 0
+        } else {
+            productsListViewModel.headerCartIcon.value = 1
+            productsListViewModel.headerCartCount.value = count
+        }
     }
 
     private fun refreshProductsList() {

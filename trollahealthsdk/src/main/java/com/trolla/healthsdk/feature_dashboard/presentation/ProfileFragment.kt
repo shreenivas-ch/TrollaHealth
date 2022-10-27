@@ -88,16 +88,9 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-        binding.rlCancellation.setOnClickListener {
-            var intent = Intent(requireActivity(), WebviewActivity::class.java)
-            intent.putExtra("title", "Cancellation Policy")
-            intent.putExtra("url", "https://instastack.io/cancellation.html")
-            startActivity(intent)
-        }
-
         binding.rlRefundPolicy.setOnClickListener {
             var intent = Intent(requireActivity(), WebviewActivity::class.java)
-            intent.putExtra("title", "Refund Policy")
+            intent.putExtra("title", "Refund & Cancellation policy")
             intent.putExtra("url", "https://instastack.io/refund.html")
             startActivity(intent)
         }

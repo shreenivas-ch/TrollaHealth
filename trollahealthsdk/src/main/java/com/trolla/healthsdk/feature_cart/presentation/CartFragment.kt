@@ -78,6 +78,7 @@ class CartFragment : Fragment() {
 
         cartViewModel.headerTitle.value = "My Cart"
         cartViewModel.headerBottomLine.value = 1
+        cartViewModel.headerCartIcon.value = 0
 
         showBackButton?.let {
             cartViewModel.headerBackButton.value = if (it) 1 else 0

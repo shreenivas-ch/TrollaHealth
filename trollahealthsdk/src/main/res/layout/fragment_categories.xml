@@ -20,6 +20,8 @@
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
             app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
+            app:cartCount="@{viewModel.headerCartCount}"
             app:linevisibility="@{viewModel.headerBottomLine}"
             app:title="@{viewModel.headerTitle}" />
 
