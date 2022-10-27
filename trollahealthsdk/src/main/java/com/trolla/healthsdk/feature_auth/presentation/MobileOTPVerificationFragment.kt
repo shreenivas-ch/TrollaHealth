@@ -60,6 +60,9 @@ class MobileOTPVerificationFragment : Fragment() {
                 binding.txtOTPSentTo.text = mobile
                 mobileOTPVerificationViewModel.mobile.value = mobile
             }
+        }
+
+        binding.txtDidNotReceiveOTP.setOnClickListener {
 
         }
 

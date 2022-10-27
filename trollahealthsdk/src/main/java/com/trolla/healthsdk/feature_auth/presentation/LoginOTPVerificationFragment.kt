@@ -15,10 +15,7 @@ import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.LoginOTPVerificationFragmentBinding
 import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.TrollaPreferencesManager
-import com.trolla.healthsdk.utils.asString
-import com.trolla.healthsdk.utils.hidekeyboard
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
@@ -62,6 +59,25 @@ class LoginOTPVerificationFragment : Fragment() {
             if (!email.isNullOrEmpty()) {
                 binding.txtOTPSentTo.text = email
                 loginOTPVerificationViewModel.email.value = email
+            }
+        }
+
+        binding.txtDidNotReceiveOTP.setOnClickListener {
+            loginOTPVerificationViewModel.getOTPOnEmail()
+        }
+
+        loginOTPVerificationViewModel.getOTPResponse.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    activity?.showLongToast("OTP sent to your email " + email.toString())
+                }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
             }
         }
 

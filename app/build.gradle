@@ -21,8 +21,8 @@ android {
         applicationId "io.instastack.coshop"
         minSdk 21
         targetSdk 31
-        versionCode 9
-        versionName "1.0.5"
+        versionCode 10
+        versionName "1.0.6"
     }
 
     buildFeatures {

@@ -61,7 +61,7 @@ val repositoryModule = module {
     /*Verify OTP*/
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
-    factory { LoginOTPVerificationViewModel(get()) }
+    factory { LoginOTPVerificationViewModel(get(),get()) }
     factory { MobileOTPVerificationViewModel(get()) }
 
     /*Profile*/

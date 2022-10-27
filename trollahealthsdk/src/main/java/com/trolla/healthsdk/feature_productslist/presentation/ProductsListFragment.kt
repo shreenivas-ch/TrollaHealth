@@ -209,7 +209,6 @@ class ProductsListFragment() : Fragment() {
 
         cartViewModel.cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
 
-
             LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
 
             when (it) {
@@ -240,7 +239,7 @@ class ProductsListFragment() : Fragment() {
             isLoading = it
         }
 
-        cartViewModel.getCartDetails()
+       // cartViewModel.getCartDetails()
 
         return binding.root
 
@@ -258,6 +257,7 @@ class ProductsListFragment() : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(refreshProductListEvent: RefreshProductListEvent) {
+        LogUtil.printObject("----->product list fragment: refreshProductListEvent")
         cartViewModel.getCartDetails()
     }
 

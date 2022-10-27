@@ -67,6 +67,7 @@
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard_banner.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_dashboard_featured_brands.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_login_email.xml" value="0.2536231884057971" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_order_confirmed.xml" value="0.22826086956521738" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_orders_details.xml" value="0.24720496894409938" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/fragment_orders_list.xml" value="0.25416666666666665" />
@@ -87,6 +88,7 @@
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/item_uploaded_prescription.xml" value="0.2536231884057971" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/layout_common_header.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/layout_onboarding_slide.xml" value="0.22826086956521738" />
+        <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/login_o_t_p_verification_fragment.xml" value="0.2536231884057971" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/mobile_o_t_p_verification_fragment.xml" value="0.25416666666666665" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/product_details_fragment.xml" value="0.2536231884057971" />
         <entry key="..\:/AndroidProjects/TrollaHealth/trollahealthsdk/src/main/res/layout/products_list_fragment.xml" value="0.2536231884057971" />

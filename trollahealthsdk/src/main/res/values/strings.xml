@@ -23,7 +23,7 @@
     <string name="proceed">Proceed</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? Sign Up</string>
     <string name="otp_verification">OTP Verification</string>
-    <string name="din_t_receive_otp_resend_otp">Din\'t receive OTP? Resend OTP</string>
+    <string name="din_t_receive_otp_resend_otp">Didn\'t receive OTP? Resend OTP</string>
     <string name="enter_otp_sent_to">Enter otp sent to</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="wrong_otp_entered">Wrong OTP Entered</string>
