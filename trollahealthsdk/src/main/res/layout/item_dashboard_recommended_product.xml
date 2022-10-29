@@ -139,7 +139,7 @@
                     android:paddingTop="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_7sdp"
-                    android:text="Out Of Stock"
+                    android:text="@string/out_of_stock"
                     android:textColor="@color/textColor1"
                     app:setOutOfStockVisibility="@{item}" />
 

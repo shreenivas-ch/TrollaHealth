@@ -288,8 +288,6 @@ class ProductDetailsFragment : Fragment() {
         }
 
         if (!isProductedAddedToCart) {
-            binding.txtAddToCart.show()
-            binding.txtGotoCart.hide()
 
             var outOfStock =
                 productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.out_of_stock
@@ -297,15 +295,20 @@ class ProductDetailsFragment : Fragment() {
             var isPerishable =
                 productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.is_perishable
                     ?: 0
-            if (outOfStock == "1" || isPerishable == "1") {
+            if (outOfStock == TrollaConstants.OUT_OF_STOCK || isPerishable == TrollaConstants.IS_PERISHABLE) {
                 binding.txtAddToCart.hide()
+                binding.txtGotoCart.hide()
                 binding.txtOutOfStock.show()
             } else {
                 binding.txtOutOfStock.hide()
+                binding.txtAddToCart.hide()
+                binding.txtGotoCart.show()
+
             }
 
         } else {
             binding.txtAddToCart.hide()
+            binding.txtOutOfStock.hide()
             binding.txtGotoCart.show()
         }
     }

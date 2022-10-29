@@ -423,8 +423,7 @@
                     android:paddingBottom="@dimen/_7sdp"
                     android:text="@string/add_to_cart"
                     android:textColor="@color/white"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/txtOutOfStock"

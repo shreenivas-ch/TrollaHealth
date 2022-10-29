@@ -24,5 +24,5 @@ object TrollaConstants {
     val ORDERSTATUS_IN_TRANSIT = "in transit"
 
     const val OUT_OF_STOCK = "0"
-    const val IS_PERISHABLE = "0"
+    const val IS_PERISHABLE = "1"
 }

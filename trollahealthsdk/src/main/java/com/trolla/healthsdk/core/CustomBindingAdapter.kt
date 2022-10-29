@@ -371,7 +371,7 @@ class CustomBindingAdapter {
         @JvmStatic
         fun setAddToCartVisibility(textView: TextView, product: DashboardProduct) {
 
-            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+            if (product.out_of_stock ?: "0" == TrollaConstants.OUT_OF_STOCK || product.is_perishable ?: "0" == TrollaConstants.IS_PERISHABLE) {
                 textView.hide()
             } else {
                 if (product.cartQty == 0) {
@@ -387,9 +387,9 @@ class CustomBindingAdapter {
         fun setGoToCartVisibility(textView: TextView, product: DashboardProduct) {
 
             if (product.cartQty == 0) {
-                textView.show()
-            } else {
                 textView.hide()
+            } else {
+                textView.show()
             }
 
         }
@@ -398,7 +398,7 @@ class CustomBindingAdapter {
         @JvmStatic
         fun setOutOfStockVisibility(textView: TextView, product: DashboardProduct) {
             if (product.cartQty == 0) {
-                if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+                if (product.out_of_stock ?: "0" == TrollaConstants.OUT_OF_STOCK || product.is_perishable ?: "0" == TrollaConstants.IS_PERISHABLE) {
                     textView.show()
                 } else {
                     textView.hide()
@@ -412,7 +412,7 @@ class CustomBindingAdapter {
         @JvmStatic
         fun setOutOfStockVisibilityInCart(textView: TextView, product: DashboardProduct) {
 
-            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+            if (product.out_of_stock ?: "0" == TrollaConstants.OUT_OF_STOCK || product.is_perishable ?: "0" == TrollaConstants.IS_PERISHABLE) {
                 textView.show()
             } else {
                 textView.hide()
@@ -422,9 +422,9 @@ class CustomBindingAdapter {
 
         @BindingAdapter("setCartAddMinusViewVisibilityInCart")
         @JvmStatic
-        fun setCartAddMinusViewVisibilityInCart(textView: TextView, product: DashboardProduct) {
+        fun setCartAddMinusViewVisibilityInCart(textView: View, product: DashboardProduct) {
 
-            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+            if (product.out_of_stock ?: "0" == TrollaConstants.OUT_OF_STOCK || product.is_perishable ?: "0" == TrollaConstants.IS_PERISHABLE) {
                 textView.hide()
             } else {
                 textView.show()
