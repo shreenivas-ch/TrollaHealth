@@ -51,6 +51,10 @@ class WebviewActivity : AppCompatActivity() {
             binding.progressBar.setVisibilityOnBoolean(it, true)
         }
 
+        binding.commonHeader.imgBack.setOnClickListener {
+            finish()
+        }
+
     }
 
     private fun loadURL(url: String) {

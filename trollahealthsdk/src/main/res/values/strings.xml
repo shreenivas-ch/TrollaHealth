@@ -27,8 +27,8 @@
     <string name="enter_otp_sent_to">Enter otp sent to</string>
     <string name="login_to_your_account">Login to your account</string>
     <string name="wrong_otp_entered">Wrong OTP Entered</string>
-    <string name="enter_firstname">Enter Firstname</string>
-    <string name="enter_lastname">Enter Lastname</string>
+    <string name="enter_firstname">Enter First Name</string>
+    <string name="enter_lastname">Enter Last Name</string>
     <string name="gender">Gender</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -68,7 +68,7 @@
     <string name="online_payment">Online Payment</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="enter_contact_name">Enter contact name</string>
+    <string name="enter_contact_name">Enter Contact Name</string>
     <string name="enter_address">Enter Address</string>
     <string name="enter_pincode">Enter Pincode</string>
     <string name="save_address">Save Address</string>

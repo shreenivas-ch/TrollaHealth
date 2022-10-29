@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:inputType="text"
+                        android:inputType="textCapSentences"
                         android:text="@={registerViewModel.firstNameLiveData}"
                         android:textColor="@color/textColor1" />
 
@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@null"
-                        android:inputType="text"
+                        android:inputType="textCapSentences"
                         android:text="@={registerViewModel.lastnameLiveData}"
                         android:textColor="@color/textColor1" />
 

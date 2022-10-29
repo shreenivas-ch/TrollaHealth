@@ -1,11 +1,8 @@
 package com.trolla.healthsdk.core
 
-import android.content.Context
 import android.graphics.Paint
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
@@ -67,42 +64,6 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("rxType", "product")
-        @JvmStatic
-        fun setMrpBasedOnRxType(textView: TextView, rxType: String, product: DashboardProduct) {
-            if (rxType.lowercase() == "rx") {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    product.rx_offer_mrp.toString()
-                )
-            } else {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    product.sale_price
-                )
-            }
-        }
-
-        @BindingAdapter("rxType", "cartProduct")
-        @JvmStatic
-        fun setMrpBasedOnRxTypeInCart(
-            textView: TextView,
-            rxType: String,
-            cartProduct: GetCartDetailsResponse.CartProduct
-        ) {
-            if (rxType.lowercase() == "rx") {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    cartProduct.product.rx_offer_mrp.toString()
-                )
-            } else {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    cartProduct.product.sale_price
-                )
-            }
-        }
-
         @BindingAdapter("setOfferText")
         @JvmStatic
         fun setOfferText(view: TextView, dashboardProduct: DashboardProduct?) {
@@ -111,27 +72,28 @@ class CustomBindingAdapter {
                 var discount =
                     if (dashboardProduct.rx_type.lowercase() == "rx") dashboardProduct.rx_offer_desc else dashboardProduct.discount
 
-                if (discount != "0" || discount != "") {
-                    val discountString =
-                        when (dashboardProduct.discount_type) {
-                            "1" -> {
-                                "Rs. $discount OFF"
-                            }
-                            "2" -> {
-                                "$discount% OFF"
-                            }
-                            else -> {
-                                ""
-                            }
-                        }
+                var discountString = ""
 
-                    if (discountString != "") {
-                        view.visibility = View.VISIBLE
-                        view.text = discountString
+                if (discount != "0" || discount != "") {
+
+                    if (dashboardProduct.discount_type == "1") {
+                        discountString = "Rs. $discount OFF"
+                    } else if (dashboardProduct.discount_type == "2") {
+                        discountString = "$discount% OFF"
+                    } else if (dashboardProduct.discount_type == "0" && dashboardProduct.rx_type.lowercase() == "rx") {
+                        discountString = "$discount% OFF"
                     } else {
-                        view.visibility = View.GONE
+                        discountString = ""
                     }
                 }
+
+                if (discountString != "") {
+                    view.visibility = View.VISIBLE
+                    view.text = discountString
+                } else {
+                    view.visibility = View.GONE
+                }
+
             }
         }
 
@@ -165,7 +127,6 @@ class CustomBindingAdapter {
             }
 
         }
-
 
         @BindingAdapter("capitaliseString")
         @JvmStatic
@@ -225,23 +186,11 @@ class CustomBindingAdapter {
             productVariantValues: DashboardResponse.ProductVariantValues
         ) {
             if (productVariantValues.product_id.toString() == productVariantValues.currentProducId) {
-                view.setTextColor(ContextCompat.getColor(view.context,R.color.white))
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.white))
             } else {
-                view.setTextColor(ContextCompat.getColor(view.context,R.color.primary_color))
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.primary_color))
             }
         }
-
-        @BindingAdapter("setStrikeThrough", "saleprice")
-        @JvmStatic
-        fun setStrikeThrough(strike: TextView, actualprice: String, saleprice: String) {
-            if (actualprice == saleprice) {
-                strike.invisible()
-            } else {
-                strike.show()
-                strike.paintFlags = strike.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            }
-        }
-
 
         @BindingAdapter("setOrderPlaceDateAndOrderId")
         @JvmStatic
@@ -356,6 +305,131 @@ class CustomBindingAdapter {
             } else {
                 view.hide()
             }
+        }
+
+        @BindingAdapter("setMrp")
+        @JvmStatic
+        fun setMrp(textView: TextView, product: DashboardProduct) {
+            textView.text = String.format(
+                textView.context.getString(R.string.amount_string),
+                product.mrp
+            )
+
+            if (product.rx_type.lowercase() == "rx") {
+                if (product.rx_offer_mrp == product.mrp) {
+                    textView.invisible()
+                } else {
+                    textView.show()
+                    textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+            } else {
+                if (product.sale_price == product.mrp) {
+                    textView.invisible()
+                } else {
+                    textView.show()
+                    textView.paintFlags = textView.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
+            }
+        }
+
+        @BindingAdapter("setSellingPrice")
+        @JvmStatic
+        fun setSellingPrice(textView: TextView, product: DashboardProduct) {
+            if (product.rx_type.lowercase() == "rx") {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    product.rx_offer_mrp.toString()
+                )
+            } else {
+                textView.text = String.format(
+                    textView.context.getString(R.string.amount_string),
+                    product.sale_price
+                )
+            }
+        }
+
+        @BindingAdapter("setProductSecondLine")
+        @JvmStatic
+        fun setProductSecondLine(textView: TextView, product: DashboardProduct) {
+            var brandname = product.brand_name
+            var packsize = product.pack_size
+
+            if (!brandname.isNullOrEmpty() && !packsize.isNullOrEmpty()) {
+                textView.text = "$brandname | $packsize"
+            } else {
+                if (!brandname.isNullOrEmpty()) {
+                    textView.text = brandname
+                } else if (!packsize.isNullOrEmpty()) {
+                    textView.text = packsize
+                } else {
+                    textView.text = ""
+                }
+            }
+        }
+
+        @BindingAdapter("setAddToCartVisibility")
+        @JvmStatic
+        fun setAddToCartVisibility(textView: TextView, product: DashboardProduct) {
+
+            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+                textView.hide()
+            } else {
+                if (product.cartQty == 0) {
+                    textView.show()
+                } else {
+                    textView.hide()
+                }
+            }
+        }
+
+        @BindingAdapter("setGoToCartVisibility")
+        @JvmStatic
+        fun setGoToCartVisibility(textView: TextView, product: DashboardProduct) {
+
+            if (product.cartQty == 0) {
+                textView.show()
+            } else {
+                textView.hide()
+            }
+
+        }
+
+        @BindingAdapter("setOutOfStockVisibility")
+        @JvmStatic
+        fun setOutOfStockVisibility(textView: TextView, product: DashboardProduct) {
+            if (product.cartQty == 0) {
+                if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+                    textView.show()
+                } else {
+                    textView.hide()
+                }
+            } else {
+                textView.hide()
+            }
+        }
+
+        @BindingAdapter("setOutOfStockVisibilityInCart")
+        @JvmStatic
+        fun setOutOfStockVisibilityInCart(textView: TextView, product: DashboardProduct) {
+
+            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+                textView.show()
+            } else {
+                textView.hide()
+            }
+
+        }
+
+        @BindingAdapter("setCartAddMinusViewVisibilityInCart")
+        @JvmStatic
+        fun setCartAddMinusViewVisibilityInCart(textView: TextView, product: DashboardProduct) {
+
+            if (product.out_of_stock == TrollaConstants.OUT_OF_STOCK || product.is_perishable == TrollaConstants.IS_PERISHABLE) {
+                textView.hide()
+            } else {
+                textView.show()
+            }
+
         }
 
     }

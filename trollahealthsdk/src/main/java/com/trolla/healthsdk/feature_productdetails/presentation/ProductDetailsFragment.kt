@@ -290,6 +290,20 @@ class ProductDetailsFragment : Fragment() {
         if (!isProductedAddedToCart) {
             binding.txtAddToCart.show()
             binding.txtGotoCart.hide()
+
+            var outOfStock =
+                productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.out_of_stock
+                    ?: 0
+            var isPerishable =
+                productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.is_perishable
+                    ?: 0
+            if (outOfStock == "1" || isPerishable == "1") {
+                binding.txtAddToCart.hide()
+                binding.txtOutOfStock.show()
+            } else {
+                binding.txtOutOfStock.hide()
+            }
+
         } else {
             binding.txtAddToCart.hide()
             binding.txtGotoCart.show()

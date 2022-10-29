@@ -83,7 +83,7 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
     var genderFemaleConstant = "female"
     val firstNameLiveData = MutableLiveData<String>()
     val firstnameValidator = LiveDataValidator(firstNameLiveData).apply {
-        addRule("First name is required") { it.isNullOrBlank() }
+        addRule("First Name is required") { it.isNullOrBlank() }
     }
 
     val lastnameLiveData = MutableLiveData<String>()

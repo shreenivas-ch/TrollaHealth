@@ -38,19 +38,18 @@
                 app:riv_corner_radius="@dimen/margin8dp" />
 
             <RelativeLayout
-                android:elevation="10dp"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="@dimen/_3sdp"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_alignParentRight="true"
-                android:background="#80000000"
+                android:background="@drawable/bg_circular_whitecolor_filled"
                 android:onClick="@{(v)-> item.onListItemViewClickListener.onDeletePrescriptionClick(v,item.adapterPosition)}"
-                android:padding="@dimen/_7sdp"
+                android:padding="@dimen/_5sdp"
                 android:visibility="@{item.deleteAvailable? View.VISIBLE: View.GONE}">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:tint="@color/white"
                     app:srcCompat="@drawable/ic_delete" />
             </RelativeLayout>
 

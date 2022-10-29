@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="com.trolla.healthsdk.utils.TrollaConstants" />
+
         <variable
             name="item"
             type="com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse.CartProduct" />
@@ -52,6 +54,7 @@
                         style="@style/trolla_fontSemibold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:layout_toLeftOf="@+id/imgDelete"
                         android:maxLines="2"
@@ -59,7 +62,7 @@
                         android:paddingEnd="@dimen/_2sdp"
                         android:text="@{item.product.title}"
                         android:textColor="@color/textColor1"
-                        tools:text="Dark Chocolate and Cranberry Muesli" />
+                        tools:text="Dark Chocolate and" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/imgDelete"
@@ -73,22 +76,6 @@
                 </RelativeLayout>
 
                 <TextView
-                    style="@style/trolla_fontBold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    android:background="@drawable/ic_horizontal_offerbanner"
-                    android:gravity="center"
-                    android:minWidth="@dimen/_15sdp"
-                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_5sdp"
-                    android:textColor="@color/textColor1"
-                    android:textSize="10sp"
-                    app:setOfferText="@{item.product}"
-                    tools:text="20% OFF" />
-
-                <TextView
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,22 +83,20 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{item.product.brand_name+`|`+item.product.pack_size}"
                     android:textColor="@color/textColor4"
+                    app:setProductSecondLine="@{item.product}"
                     tools:text="Yoga Bar | 400 g" />
 
                 <TextView
                     style="@style/trolla_fontMedium"
-                    saleprice="@{item.product.sale_price}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{String.format(@string/amount_string, item.product.mrp)}"
                     android:textColor="@color/textColor5"
-                    app:setStrikeThrough="@{item.product.mrp}"
+                    app:setMrp="@{item.product}"
                     tools:text="₹325.00" />
 
                 <RelativeLayout
@@ -121,23 +106,40 @@
 
                     <TextView
                         style="@style/trolla_fontSemibold"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:paddingStart="@dimen/_2sdp"
                         android:paddingEnd="@dimen/_2sdp"
                         android:textColor="@color/textColor1"
                         android:textSize="20sp"
-                        app:cartProduct="@{item}"
-                        app:rxType="@{item.product.rx_type}"
+                        app:setSellingPrice="@{item.product}"
                         tools:text="₹292.00" />
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/bg_rounded_textcolor1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:paddingEnd="@dimen/_7sdp"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:text="Out Of Stock"
+                        android:textColor="@color/textColor1"
+                        app:setOutOfStockVisibilityInCart="@{item.product}" />
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        app:setCartAddMinusViewVisibilityInCart="@{item.product}">
 
                         <TextView
                             style="@style/trolla_fontMedium"
@@ -181,6 +183,22 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <TextView
+            style="@style/trolla_fontBold"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin4dp"
+            android:background="@drawable/ic_offer_tag"
+            android:gravity="center"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_15sdp"
+            android:textColor="@color/textColor1"
+            android:textSize="10sp"
+            app:setOfferText="@{item.product}"
+            tools:text="20% OFF" />
 
 
     </androidx.cardview.widget.CardView>

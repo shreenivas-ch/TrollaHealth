@@ -22,4 +22,7 @@ object TrollaConstants {
     val ORDERSTATUS_PROCESSING = "processing"
     val ORDERSTATUS_FAILURE = "failure"
     val ORDERSTATUS_IN_TRANSIT = "in transit"
+
+    const val OUT_OF_STOCK = "0"
+    const val IS_PERISHABLE = "0"
 }

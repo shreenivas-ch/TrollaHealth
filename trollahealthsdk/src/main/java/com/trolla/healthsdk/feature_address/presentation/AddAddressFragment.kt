@@ -158,6 +158,10 @@ class AddAddressFragment : Fragment() {
             }
         }
 
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
         return binding.root
     }
 }
