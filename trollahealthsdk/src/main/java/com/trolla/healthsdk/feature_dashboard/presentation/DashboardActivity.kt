@@ -27,6 +27,7 @@ import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailFragment
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
@@ -96,6 +97,9 @@ class DashboardActivity : AppCompatActivity(),
 
                     cartViewModel.cartCountLiveData.value =
                         response?.data?.data?.cart?.products?.size ?: 0
+
+                    EventBus.getDefault().post(CartCountChangeEvent())
+
                 }
 
                 is Resource.Error -> {
@@ -131,6 +135,8 @@ class DashboardActivity : AppCompatActivity(),
 
                     cartViewModel.cartCountLiveData.value =
                         it?.data?.data?.cart?.products?.size ?: 0
+
+                    EventBus.getDefault().post(CartCountChangeEvent())
 
                 }
 

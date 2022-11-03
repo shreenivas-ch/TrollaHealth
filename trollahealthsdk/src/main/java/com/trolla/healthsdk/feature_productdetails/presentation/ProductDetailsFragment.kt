@@ -143,7 +143,7 @@ class ProductDetailsFragment : Fragment() {
                     binding.txtPrice.text =
                         String.format(
                             getString(R.string.amount_string),
-                            df.format(dashboardProduct.mrp)
+                            df.format(dashboardProduct.mrp.toDouble())
                         )
 
                     binding.txtPrice.paintFlags =
@@ -152,12 +152,12 @@ class ProductDetailsFragment : Fragment() {
                     if (dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "") {
                         binding.txtDiscountedPrice.text = String.format(
                             getString(R.string.amount_string),
-                            df.format(dashboardProduct.sale_price)
+                            df.format(dashboardProduct.sale_price.toDouble())
                         )
                     } else {
                         binding.txtDiscountedPrice.text = String.format(
                             getString(R.string.amount_string),
-                            df.format(dashboardProduct.rx_offer_mrp)
+                            df.format(dashboardProduct.rx_offer_mrp.toDouble())
                         )
                     }
 
@@ -225,6 +225,11 @@ class ProductDetailsFragment : Fragment() {
         activity?.hidekeyboard(binding.root)
 
         binding.txtGotoCart.setOnClickListener {
+            var cartFragment = CartFragment.newInstance()
+            (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+        }
+
+        binding.commonHeader.rlCart.setOnClickListener {
             var cartFragment = CartFragment.newInstance()
             (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
         }

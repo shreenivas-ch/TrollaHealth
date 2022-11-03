@@ -191,6 +191,13 @@ class ProductsListFragment() : Fragment() {
             isLoading = it
         }
 
+        binding.commonHeader.rlCart.setOnClickListener {
+            var cartFragment = CartFragment.newInstance()
+            (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+        }
+
+        getCartViewModel().getCartDetails()
+
         return binding.root
 
     }
