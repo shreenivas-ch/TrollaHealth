@@ -8,21 +8,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.github.drjacky.imagepicker.constant.ImageProvider
-import com.google.android.gms.maps.model.Dash
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.GenericAdapter
-import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
-import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.feature_productdetails.presentation.FullscreenImageViewerActivity
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
@@ -30,7 +27,6 @@ import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class CartFragment : Fragment() {
 
@@ -49,8 +45,6 @@ class CartFragment : Fragment() {
             it.getBoolean("showBackButton")
         }
     }
-
-    val cartViewModel: CartViewModel by sharedViewModel()
 
     var cartItemsListWithoutRx = ArrayList<GetCartDetailsResponse.CartProduct>()
     var cartItemsListWithRx = ArrayList<GetCartDetailsResponse.CartProduct>()
@@ -74,14 +68,14 @@ class CartFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-        binding.viewModel = cartViewModel
+        binding.viewModel = getCartViewModel()
 
-        cartViewModel.headerTitle.value = "My Cart"
-        cartViewModel.headerBottomLine.value = 1
-        cartViewModel.headerCartIcon.value = 0
+        getCartViewModel().headerTitle.value = "My Cart"
+        getCartViewModel().headerBottomLine.value = 1
+        getCartViewModel().headerCartIcon.value = 0
 
         showBackButton?.let {
-            cartViewModel.headerBackButton.value = if (it) 1 else 0
+            getCartViewModel().headerBackButton.value = if (it) 1 else 0
         }
 
         cartAdapterWithoutRx = GenericAdapter(
@@ -128,7 +122,7 @@ class CartFragment : Fragment() {
                 var productid = product.product.product_id
                 var existingQty = product.qty
                 var newQty = existingQty!! - 1
-                cartViewModel.addToCart(productid!!, newQty)
+                getCartViewModel().addToCart(productid!!, newQty)
 
             }
 
@@ -137,13 +131,13 @@ class CartFragment : Fragment() {
                 var productid = product.product.product_id
                 var existingQty = product.qty
                 var newQty = existingQty!! + 1
-                cartViewModel.addToCart(productid!!, newQty)
+                getCartViewModel().addToCart(productid!!, newQty)
             }
 
             override fun cartDeleteClick(view: View, position: Int) {
                 val product = cartItemsListWithoutRx[position]
                 var productid = product.product.product_id
-                cartViewModel.addToCart(productid!!, 0)
+                getCartViewModel().addToCart(productid!!, 0)
             }
         })
 
@@ -166,7 +160,7 @@ class CartFragment : Fragment() {
                 var productid = product.product.product_id
                 var existingQty = product.qty
                 var newQty = existingQty!! - 1
-                cartViewModel.addToCart(productid!!, newQty)
+                getCartViewModel().addToCart(productid!!, newQty)
 
             }
 
@@ -175,13 +169,13 @@ class CartFragment : Fragment() {
                 var productid = product.product.product_id
                 var existingQty = product.qty
                 var newQty = existingQty!! + 1
-                cartViewModel.addToCart(productid!!, newQty)
+                getCartViewModel().addToCart(productid!!, newQty)
             }
 
             override fun cartDeleteClick(view: View, position: Int) {
                 val product = cartItemsListWithRx[position]
                 var productid = product.product.product_id
-                cartViewModel.addToCart(productid!!, 0)
+                getCartViewModel().addToCart(productid!!, 0)
             }
         })
 
@@ -202,7 +196,7 @@ class CartFragment : Fragment() {
                     }
                 }
 
-                cartViewModel.addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
+                getCartViewModel().addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
             }
 
         })
@@ -211,7 +205,7 @@ class CartFragment : Fragment() {
         binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
 
-        cartViewModel.addToCartResponseLiveData.observe(
+        getCartViewModel().addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             LogUtil.printObject("----->cart fragment: addToCartResponseLiveData")
@@ -222,8 +216,8 @@ class CartFragment : Fragment() {
                         processCartData(cart)
                     }
 
-                    //(activity as DashboardActivity).cartViewModel.getCartDetails()
-                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
+                    //getCartViewModel().getCartDetails()
+                    /*getCartViewModel().addToCartResponseLiveData.value =
                         it*/
 
                     // if (it.data?.message?.lowercase() == "prescriptions added") {
@@ -242,7 +236,7 @@ class CartFragment : Fragment() {
             }
         }
 
-        cartViewModel.cartDetailsResponseLiveData.observe(
+        getCartViewModel().cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             LogUtil.printObject("----->cart fragment: cartDetailsResponseLiveData")
@@ -279,12 +273,6 @@ class CartFragment : Fragment() {
                     }
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
-                    EventBus.getDefault()
-                        .post(
-                            UpdateCartCountInBottomNavigationEvent(
-                                it?.data?.data?.cart?.products?.size ?: 0
-                            )
-                        )
                 }
 
                 is Resource.Error -> {
@@ -296,7 +284,7 @@ class CartFragment : Fragment() {
             }
         }
 
-        cartViewModel.createOrderResponseLiveData.observe(
+        getCartViewModel().createOrderResponseLiveData.observe(
             viewLifecycleOwner
         ) {
             when (it) {
@@ -305,7 +293,7 @@ class CartFragment : Fragment() {
 
                     /* clear selected payment method and selected address from shared preferences after online order success*/
 
-                    if(cartViewModel.selectedPaymentModeLiveData.value=="COD")
+                    if(getCartViewModel().selectedPaymentModeLiveData.value=="COD")
                     {
                         TrollaPreferencesManager.setString(
                             "",
@@ -329,7 +317,7 @@ class CartFragment : Fragment() {
                     (activity as DashboardActivity).addOrReplaceFragment(
                         OrderConfirmedFragment.newInstance(
                             it?.data?.data?.order?._id ?: "",
-                            cartViewModel.selectedPaymentModeLiveData.value
+                            getCartViewModel().selectedPaymentModeLiveData.value
                         ),
                         true
                     )
@@ -344,13 +332,13 @@ class CartFragment : Fragment() {
             }
         }
 
-        cartViewModel.getCartDetails()
+        getCartViewModel().getCartDetails()
 
         /*get selected payment method from shared preferences */
         if (!TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD)
                 .isNullOrEmpty()
         ) {
-            cartViewModel.selectedPaymentModeLiveData.value =
+            getCartViewModel().selectedPaymentModeLiveData.value =
                 TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD)
             setSelectedPaymentMethod()
         }
@@ -359,7 +347,7 @@ class CartFragment : Fragment() {
         if (!TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID)
                 .isNullOrEmpty()
         ) {
-            cartViewModel.selectedAddressIdLiveData.value =
+            getCartViewModel().selectedAddressIdLiveData.value =
                 TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID)
 
             binding.rlSelectedDeliveryAddress.show()
@@ -373,7 +361,7 @@ class CartFragment : Fragment() {
         }
 
         binding.rlCashonDelivery.setOnClickListener {
-            cartViewModel.selectedPaymentModeLiveData.value = "COD"
+            getCartViewModel().selectedPaymentModeLiveData.value = "COD"
             setSelectedPaymentMethod()
             TrollaPreferencesManager.setString(
                 "COD",
@@ -381,7 +369,7 @@ class CartFragment : Fragment() {
             )
         }
         binding.rlPayOnline.setOnClickListener {
-            cartViewModel.selectedPaymentModeLiveData.value = "prepaid"
+            getCartViewModel().selectedPaymentModeLiveData.value = "prepaid"
             setSelectedPaymentMethod()
             TrollaPreferencesManager.setString(
                 "prepaid",
@@ -399,16 +387,16 @@ class CartFragment : Fragment() {
             (activity as DashboardActivity).addOrReplaceFragment(addressListFragment, true)
         }
 
-        cartViewModel.progressStatus.observe(viewLifecycleOwner) {
+        getCartViewModel().progressStatus.observe(viewLifecycleOwner) {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
-        cartViewModel.selectedAddressIdLiveData.observe(viewLifecycleOwner)
+        getCartViewModel().selectedAddressIdLiveData.observe(viewLifecycleOwner)
         {
             checkIfCartValid()
         }
 
-        cartViewModel.selectedPaymentModeLiveData.observe(viewLifecycleOwner)
+        getCartViewModel().selectedPaymentModeLiveData.observe(viewLifecycleOwner)
         {
             checkIfCartValid()
         }
@@ -421,12 +409,12 @@ class CartFragment : Fragment() {
     }
 
     fun setSelectedPaymentMethod() {
-        if (cartViewModel.selectedPaymentModeLiveData.value == "COD") {
+        if (getCartViewModel().selectedPaymentModeLiveData.value == "COD") {
             binding.imgCOD.setImageResource(R.drawable.ic_cod)
             binding.imgOnline.setImageResource(R.drawable.ic_payonline_inactive)
             binding.imgCODSelected.setImageResource(R.drawable.ic_selected)
             binding.imgOnlineSelected.setImageResource(R.drawable.ic_unselected)
-        } else if (cartViewModel.selectedPaymentModeLiveData.value == "prepaid") {
+        } else if (getCartViewModel().selectedPaymentModeLiveData.value == "prepaid") {
             binding.imgCOD.setImageResource(R.drawable.ic_cod_inactive)
             binding.imgOnline.setImageResource(R.drawable.ic_payonline)
             binding.imgCODSelected.setImageResource(R.drawable.ic_unselected)
@@ -509,11 +497,11 @@ class CartFragment : Fragment() {
         binding.cardViewCartPayment.setVisibilityOnBoolean(cart.products.size == 0, false)
         binding.txtCartEmpty.setVisibilityOnBoolean(cart.products.size == 0, true)
         binding.rlSelectedDeliveryAddress.setVisibilityOnBoolean(
-            cartViewModel.selectedAddressIdLiveData.value == "",
+            getCartViewModel().selectedAddressIdLiveData.value == "",
             false
         )
         binding.llAddressNotAdded.setVisibilityOnBoolean(
-            cartViewModel.selectedAddressIdLiveData.value == "",
+            getCartViewModel().selectedAddressIdLiveData.value == "",
             true
         )
 
@@ -555,16 +543,10 @@ class CartFragment : Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun doThis(address: RefreshCartEvent) {
-        cartViewModel.getCartDetails()
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(address: AddressSelectedEvent) {
 
-        cartViewModel.selectedAddressIdLiveData.value = address.modelAddress._id
+        getCartViewModel().selectedAddressIdLiveData.value = address.modelAddress._id
         TrollaPreferencesManager.setString(
             address.modelAddress._id,
             TrollaPreferencesManager.PM_CART_SELECTED_ADDRESS_ID
@@ -596,9 +578,9 @@ class CartFragment : Fragment() {
 
     fun checkIfCartValid() {
 
-        if (cartViewModel.selectedPaymentModeLiveData.value == "" || cartViewModel.selectedAddressIdLiveData.value == "") {
-            cartViewModel.isCartValid.value = false
-        } else cartViewModel.isCartValid.value =
+        if (getCartViewModel().selectedPaymentModeLiveData.value == "" || getCartViewModel().selectedAddressIdLiveData.value == "") {
+            getCartViewModel().isCartValid.value = false
+        } else getCartViewModel().isCartValid.value =
             !(cartItemsListWithRx.size != 0 && uploadedPrescriptionsList.size == 0)
     }
 
@@ -609,7 +591,12 @@ class CartFragment : Fragment() {
             newarray.add(uploadedPrescriptionsList[i].url)
         }
         newarray.add(prescriptionUploadedEvent.prescription_url)
-        cartViewModel.addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
+        getCartViewModel().addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+
     }
 
 }

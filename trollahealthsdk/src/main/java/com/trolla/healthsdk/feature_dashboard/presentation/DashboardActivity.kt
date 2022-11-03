@@ -15,7 +15,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.amazonaws.logging.Log
 import com.github.drjacky.imagepicker.constant.ImageProvider
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
@@ -27,10 +26,12 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailFragment
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
+import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
 import com.trolla.healthsdk.utils.*
@@ -43,7 +44,7 @@ import com.vansuita.pickimage.listeners.IPickResult
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.json.JSONObject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.android.ext.android.inject
 import org.koin.core.context.stopKoin
 import org.koin.java.KoinJavaComponent
 import java.io.File
@@ -60,7 +61,7 @@ class DashboardActivity : AppCompatActivity(),
 
     var init = false
     var cartItemsIdsArray = ArrayList<String>()
-    val cartViewModel: CartViewModel by viewModel()
+    val cartViewModel: CartViewModel by inject()
     val addressListViewModel: AddressListViewModel by KoinJavaComponent.inject(AddressListViewModel::class.java)
     var userDefaultAddress = ""
     var userDefaultPincode = ""
@@ -90,9 +91,7 @@ class DashboardActivity : AppCompatActivity(),
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
                     EventBus.getDefault()
                         .post(
-                            UpdateCartCountInBottomNavigationEvent(
-                                response?.data?.data?.cart?.products?.size ?: 0
-                            )
+                            AddToCartSuccessEvent()
                         )
                 }
 
@@ -125,8 +124,7 @@ class DashboardActivity : AppCompatActivity(),
                     }
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
-                    EventBus.getDefault()
-                        .post(UpdateCartCountInBottomNavigationEvent(products?.size ?: 0))
+                    EventBus.getDefault().post(CartDetailsRefreshedEvent())
 
                 }
 
@@ -516,4 +514,12 @@ class DashboardActivity : AppCompatActivity(),
         super.onBackPressed()
         showHideProgressBar(false)
     }
+
+    fun refreshCart() {
+        cartViewModel.getCartDetails()
+    }
+}
+
+fun Fragment.getCartViewModel(): CartViewModel {
+    return (activity as DashboardActivity)?.cartViewModel
 }

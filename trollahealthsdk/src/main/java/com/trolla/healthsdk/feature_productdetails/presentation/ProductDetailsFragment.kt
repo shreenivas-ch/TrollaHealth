@@ -15,19 +15,17 @@ import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
-import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
+import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.utils.*
 import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductDetailsFragment : Fragment() {
@@ -35,8 +33,6 @@ class ProductDetailsFragment : Fragment() {
     val productDetailsViewModel: ProductDetailsViewModel by inject(
         ProductDetailsViewModel::class.java
     )
-
-    val cartViewModel: CartViewModel by sharedViewModel()
 
     val title by lazy {
         arguments?.let {
@@ -193,7 +189,7 @@ class ProductDetailsFragment : Fragment() {
                         processVariants(variants)
                     }
 
-                    cartViewModel.getCartDetails()
+                    getCartViewModel().getCartDetails()
                 }
 
                 is Resource.Error -> {
@@ -212,7 +208,7 @@ class ProductDetailsFragment : Fragment() {
 
         productDetailsViewModel.getProductDetails(productid)
 
-        cartViewModel.cartDetailsResponseLiveData.observe(
+        getCartViewModel().cartDetailsResponseLiveData.observe(
             viewLifecycleOwner
         ) {
 
@@ -235,7 +231,7 @@ class ProductDetailsFragment : Fragment() {
             }
         }
 
-        cartViewModel.addToCartResponseLiveData.observe(
+        getCartViewModel().addToCartResponseLiveData.observe(
             viewLifecycleOwner
         ) {
 
@@ -261,7 +257,7 @@ class ProductDetailsFragment : Fragment() {
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
-            cartViewModel.addToCart(productid.toInt(), newQuantity, from = "product details")
+            getCartViewModel().addToCart(productid.toInt(), newQuantity, from = "product details")
         }
 
         activity?.hidekeyboard(binding.root)
@@ -303,7 +299,6 @@ class ProductDetailsFragment : Fragment() {
                 binding.txtOutOfStock.hide()
                 binding.txtAddToCart.show()
                 binding.txtGotoCart.hide()
-
             }
 
         } else {
@@ -595,8 +590,13 @@ class ProductDetailsFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
-        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        updateCartCount(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
     }
 
     fun updateCartCount(count: Int) {

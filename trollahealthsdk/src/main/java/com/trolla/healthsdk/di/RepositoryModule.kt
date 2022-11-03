@@ -49,6 +49,7 @@ import com.trolla.healthsdk.feature_search.presentation.SearchViewModel
 import com.trolla.healthsdk.ui_utils.WebviewViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import org.koin.dsl.single
 
 val repositoryModule = module {
     single { RetrofitFactory.makeRetrofitService() }
@@ -61,7 +62,7 @@ val repositoryModule = module {
     /*Verify OTP*/
     single { VerifyOTPOnEmailUsecase(get()) }
     single { VerifyOTPOnMobileUsecase(get()) }
-    factory { LoginOTPVerificationViewModel(get(),get()) }
+    factory { LoginOTPVerificationViewModel(get(), get()) }
     factory { MobileOTPVerificationViewModel(get()) }
 
     /*Profile*/
@@ -80,7 +81,7 @@ val repositoryModule = module {
     single { CreateOrderUsecase(get()) }
     single { UpdatePaymentUsecase(get()) }
     single { GetTransactionIDUsecase(get()) }
-    viewModel {
+    single {
         CartViewModel(get(), get(), get(), get())
     }
 

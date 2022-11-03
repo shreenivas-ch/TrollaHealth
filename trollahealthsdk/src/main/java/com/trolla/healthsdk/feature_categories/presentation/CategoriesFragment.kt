@@ -10,9 +10,11 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentCategoriesBinding
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
@@ -104,6 +106,8 @@ class CategoriesFragment : Fragment() {
             updateCartCount(it?.data?.data?.cart?.products?.size?:0)
         }
 
+        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+
         return binding.root
     }
 
@@ -118,8 +122,13 @@ class CategoriesFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
-        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        updateCartCount(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
     }
 
     fun updateCartCount(count: Int) {

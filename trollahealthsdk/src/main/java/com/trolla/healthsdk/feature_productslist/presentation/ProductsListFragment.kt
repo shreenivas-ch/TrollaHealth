@@ -11,11 +11,12 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
-import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
 import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.feature_search.presentation.SearchFragment
@@ -24,8 +25,6 @@ import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
@@ -54,8 +53,6 @@ class ProductsListFragment() : Fragment() {
     var limit = TrollaConstants.PAGINATION_DEFAULT_LIMIT
 
     val productsListViewModel: ProductsListViewModel by inject(ProductsListViewModel::class.java)
-
-    val cartViewModel: CartViewModel by sharedViewModel()
 
     var productsList = ArrayList<DashboardProduct>()
     lateinit var genericAdapter: GenericAdapter<DashboardProduct>
@@ -126,7 +123,7 @@ class ProductsListFragment() : Fragment() {
 
             override fun onAddToCartClick(view: View, position: Int) {
 
-                cartViewModel.addToCart(
+                getCartViewModel().addToCart(
                     productsList[position]?.product_id!!,
                     1, from = "product list"
                 )
@@ -189,13 +186,13 @@ class ProductsListFragment() : Fragment() {
             }
         }
 
-        cartViewModel.addToCartResponseLiveData.observe(requireActivity()) {
+        getCartViewModel().addToCartResponseLiveData.observe(requireActivity()) {
 
             LogUtil.printObject("----->product list fragment: addToCartResponseLiveData")
 
             when (it) {
                 is Resource.Success -> {
-                    val response = cartViewModel.addToCartResponseLiveData.value
+                    val response = getCartViewModel().addToCartResponseLiveData.value
                     cartItemsIdsArray.clear()
                     for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
@@ -216,13 +213,13 @@ class ProductsListFragment() : Fragment() {
             }
         }
 
-        cartViewModel.cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
+        getCartViewModel().cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
 
             LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
 
             when (it) {
                 is Resource.Success -> {
-                    val response = cartViewModel.cartDetailsResponseLiveData.value
+                    val response = getCartViewModel().cartDetailsResponseLiveData.value
                     cartItemsIdsArray.clear()
                     for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
                         cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
@@ -270,13 +267,17 @@ class ProductsListFragment() : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(refreshProductListEvent: RefreshProductListEvent) {
         LogUtil.printObject("----->product list fragment: refreshProductListEvent")
-        cartViewModel.getCartDetails()
+        getCartViewModel().getCartDetails()
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
-        updateCartCount(updateCartCountInBottomNavigationEvent.count)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        updateCartCount(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
     }
 
     fun updateCartCount(count: Int) {

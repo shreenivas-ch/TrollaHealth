@@ -8,18 +8,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentOrderConfirmedBinding
-import com.trolla.healthsdk.feature_cart.data.models.RefreshCartEvent
 import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.presentation.OrderDetailsViewModel
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
-import com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationFragment
-import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.utils.*
-import kotlinx.android.synthetic.main.fragment_order_confirmed.*
 import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent
 
@@ -97,7 +92,7 @@ class OrderConfirmedFragment : Fragment() {
         }
 
         EventBus.getDefault().post(RefreshDashboardEvent())
-        EventBus.getDefault().post(RefreshCartEvent())
+        (activity as DashboardActivity).refreshCart()
 
         if (paymentMode == "prepaid") {
             binding.txtGotoHomePage.hide()

@@ -10,12 +10,12 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.badge.BadgeDrawable
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
-import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
 import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
-import com.trolla.healthsdk.feature_dashboard.data.UpdateCartCountInBottomNavigationEvent
 import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.hide
@@ -135,8 +135,13 @@ class HomeFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun updateCartCountInBottomNavigation(updateCartCountInBottomNavigationEvent: UpdateCartCountInBottomNavigationEvent) {
-        addBadge(updateCartCountInBottomNavigationEvent.count)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        addBadge(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        addBadge(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
     }
 
     private fun setCurrentFragment(fragment: Fragment) {
