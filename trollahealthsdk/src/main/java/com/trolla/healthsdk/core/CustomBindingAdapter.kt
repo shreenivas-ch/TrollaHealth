@@ -18,6 +18,7 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardPr
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
 import com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage
 import com.trolla.healthsdk.utils.*
+import java.text.DecimalFormat
 
 
 class CustomBindingAdapter {
@@ -307,12 +308,20 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("setMrp")
+        @BindingAdapter("setMrp", "cartQty", requireAll = false)
         @JvmStatic
-        fun setMrp(textView: TextView, product: DashboardProduct) {
+        fun setMrp(textView: TextView, product: DashboardProduct, cartQty: Int) {
+
+            val df = DecimalFormat("0.00")
+            var price = product.mrp.toDouble()
+
+            if (textView.tag == "cart") {
+                price *= cartQty
+            }
+
             textView.text = String.format(
                 textView.context.getString(R.string.amount_string),
-                product.mrp
+                df.format(price)
             )
 
             if (product.rx_type.lowercase() == "rx") {
@@ -332,20 +341,26 @@ class CustomBindingAdapter {
             }
         }
 
-        @BindingAdapter("setSellingPrice")
+        @BindingAdapter("setSellingPrice", "cartQty", requireAll = false)
         @JvmStatic
-        fun setSellingPrice(textView: TextView, product: DashboardProduct) {
-            if (product.rx_type.lowercase() == "rx") {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    product.rx_offer_mrp.toString()
-                )
-            } else {
-                textView.text = String.format(
-                    textView.context.getString(R.string.amount_string),
-                    product.sale_price
-                )
+        fun setSellingPrice(textView: TextView, product: DashboardProduct, cartQty: Int) {
+
+            val df = DecimalFormat("0.00")
+            var price =
+                if (product.rx_type.lowercase() == "rx") {
+                    product.rx_offer_mrp.toDouble()
+                } else {
+                    product.sale_price.toDouble()
+                }
+
+            if (textView.tag == "cart") {
+                price *= cartQty
             }
+
+            textView.text = String.format(
+                textView.context.getString(R.string.amount_string),
+                df.format(price)
+            )
         }
 
         @BindingAdapter("setProductSecondLine")

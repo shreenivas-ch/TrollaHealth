@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.github.jrvansuita:PickImage:+'
 
     /*freshchat*/
-    implementation 'com.github.freshworks:freshchat-android:5.2.0'
+    implementation 'com.github.freshworks:freshchat-android:5.3.1'
 
     /*lottie*/
     implementation 'com.airbnb.android:lottie:5.2.0'

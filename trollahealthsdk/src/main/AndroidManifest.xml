@@ -41,7 +41,7 @@
 
         <provider
             android:name="com.vansuita.pickimage.provider.PickImageFileProvider"
-            android:authorities="${applicationId}.com.vansuita.pickimage.provider"
+            android:authorities="${applicationId}.com.vansuita.pickimage.provider,${applicationId}.com.trolla.healthsdk.provider"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
@@ -49,7 +49,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/picker_provider_paths" />
         </provider>
-
 
     </application>
 

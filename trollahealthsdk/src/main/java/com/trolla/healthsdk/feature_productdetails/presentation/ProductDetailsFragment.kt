@@ -301,8 +301,8 @@ class ProductDetailsFragment : Fragment() {
                 binding.txtOutOfStock.show()
             } else {
                 binding.txtOutOfStock.hide()
-                binding.txtAddToCart.hide()
-                binding.txtGotoCart.show()
+                binding.txtAddToCart.show()
+                binding.txtGotoCart.hide()
 
             }
 
