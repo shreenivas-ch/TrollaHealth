@@ -39,6 +39,9 @@ class CartViewModel(
     val cartDetailsResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<GetCartDetailsResponse>>>()
 
+    val cartCountLiveData =
+        MutableLiveData<Int>()
+
     val createOrderResponseLiveData =
         MutableLiveData<Resource<BaseApiResponse<CreateOrderResponse>>>()
 

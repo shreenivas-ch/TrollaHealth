@@ -12,6 +12,7 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.HomeFragmentBinding
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
@@ -78,7 +79,7 @@ class HomeFragment : Fragment() {
 
         setCurrentFragment(DashboardFragment())
 
-        (activity as DashboardActivity).cartViewModel.cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?.let {
+        (activity as DashboardActivity).cartViewModel.cartCountLiveData.value?.let {
             addBadge(it)
         }
 
@@ -111,7 +112,8 @@ class HomeFragment : Fragment() {
         } else {
             binding.llLocationAndLogoHeader.show()
             binding.txtAddress.text =
-                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)?.replaceFirstChar(Char::titlecase) + ", " + TrollaPreferencesManager.getString(
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
+                    ?.replaceFirstChar(Char::titlecase) + ", " + TrollaPreferencesManager.getString(
                     TrollaPreferencesManager.PM_DEFAULT_PINCODE
                 )
                     .toString()
@@ -136,12 +138,17 @@ class HomeFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
-        addBadge(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
-        addBadge(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartCountChangeEvent: CartCountChangeEvent) {
+        addBadge(getCartViewModel().cartCountLiveData.value ?: 0)
     }
 
     private fun setCurrentFragment(fragment: Fragment) {

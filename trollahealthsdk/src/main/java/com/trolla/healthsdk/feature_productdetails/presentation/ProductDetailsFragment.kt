@@ -16,6 +16,7 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
@@ -27,6 +28,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
+import java.text.DecimalFormat
 
 class ProductDetailsFragment : Fragment() {
 
@@ -135,20 +137,27 @@ class ProductDetailsFragment : Fragment() {
                     var dashboardProduct = response?.data?.data?.detail!!
                     binding.txtTitle.text = dashboardProduct.title
                     binding.txtManufacturer.text = dashboardProduct.manufacturer_name
+
+                    val df = DecimalFormat("0.00")
+
                     binding.txtPrice.text =
-                        String.format(getString(R.string.amount_string), dashboardProduct.mrp)
+                        String.format(
+                            getString(R.string.amount_string),
+                            df.format(dashboardProduct.mrp)
+                        )
+
                     binding.txtPrice.paintFlags =
                         binding.txtPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
 
                     if (dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "") {
                         binding.txtDiscountedPrice.text = String.format(
                             getString(R.string.amount_string),
-                            dashboardProduct.sale_price
+                            df.format(dashboardProduct.sale_price)
                         )
                     } else {
                         binding.txtDiscountedPrice.text = String.format(
                             getString(R.string.amount_string),
-                            dashboardProduct.rx_offer_mrp
+                            df.format(dashboardProduct.rx_offer_mrp)
                         )
                     }
 
@@ -207,53 +216,6 @@ class ProductDetailsFragment : Fragment() {
         }
 
         productDetailsViewModel.getProductDetails(productid)
-
-        getCartViewModel().cartDetailsResponseLiveData.observe(
-            viewLifecycleOwner
-        ) {
-
-            LogUtil.printObject("----->product details fragment: cartDetailsResponseLiveData")
-
-            when (it) {
-                is Resource.Success -> {
-
-                    processCartData(it?.data?.data?.cart?.products ?: arrayListOf())
-
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-
-                }
-            }
-        }
-
-        getCartViewModel().addToCartResponseLiveData.observe(
-            viewLifecycleOwner
-        ) {
-
-            LogUtil.printObject("----->product details fragment: addToCartResponseLiveData")
-
-            when (it) {
-                is Resource.Success -> {
-
-                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
-                        it*/
-                    processCartData(it?.data?.data?.cart?.products ?: arrayListOf())
-
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1
@@ -591,12 +553,17 @@ class ProductDetailsFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
-        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+        processCartData(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products ?: arrayListOf())
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
-        updateCartCount(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+        processCartData(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products ?: arrayListOf())
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartCountChangeEvent: CartCountChangeEvent) {
+        updateCartCount(getCartViewModel().cartCountLiveData.value ?: 0)
     }
 
     fun updateCartCount(count: Int) {

@@ -15,9 +15,9 @@ import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
-import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
@@ -196,7 +196,12 @@ class CartFragment : Fragment() {
                     }
                 }
 
-                getCartViewModel().addToCart(0, 0, TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION, newarray)
+                getCartViewModel().addToCart(
+                    0,
+                    0,
+                    TrollaConstants.ADDTOCART_TYPE_PRESCRIPTION,
+                    newarray
+                )
             }
 
         })
@@ -204,85 +209,6 @@ class CartFragment : Fragment() {
         binding.cartList.adapter = cartAdapterWithoutRx
         binding.cartListWithRequiredPrescription.adapter = cartAdapterWithRx
         binding.rvUploadedPrescriptions.adapter = cartUploadedPrescriptionsAdapter
-
-        getCartViewModel().addToCartResponseLiveData.observe(
-            viewLifecycleOwner
-        ) {
-            LogUtil.printObject("----->cart fragment: addToCartResponseLiveData")
-            when (it) {
-                is Resource.Success -> {
-
-                    it?.data?.data?.cart?.let { cart ->
-                        processCartData(cart)
-                    }
-
-                    //getCartViewModel().getCartDetails()
-                    /*getCartViewModel().addToCartResponseLiveData.value =
-                        it*/
-
-                    // if (it.data?.message?.lowercase() == "prescriptions added") {
-                    (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
-                    checkIfCartValid()
-                    //
-                    // //}
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
-
-        getCartViewModel().cartDetailsResponseLiveData.observe(
-            viewLifecycleOwner
-        ) {
-            LogUtil.printObject("----->cart fragment: cartDetailsResponseLiveData")
-            when (it) {
-                is Resource.Success -> {
-
-                    it?.data?.data?.cart?.let { cart ->
-                        processCartData(cart)
-                    }
-
-                    it?.data?.data?.payment_options?.let { paymentOptions ->
-                        var isCODAvailable = false
-                        var codAvailableTitle = "Cash On Delivery"
-                        var isOnlineAvailable = false
-                        var onlineAvailableTitle = "Online Payment"
-                        for (i in paymentOptions.indices) {
-                            if (paymentOptions[i].payment_mode == "COD") {
-                                if (!isCODAvailable) {
-                                    isCODAvailable = true
-                                    codAvailableTitle = "Cash On Delivery"//paymentOptions[i].name
-                                }
-                            } else if (paymentOptions[i].payment_mode == "prepaid") {
-                                if (!isOnlineAvailable) {
-                                    isOnlineAvailable = true
-                                    onlineAvailableTitle = "Online Payment" //paymentOptions[i].name
-                                }
-                            }
-                        }
-
-                        binding.rlCashonDelivery.setVisibilityOnBoolean(isCODAvailable, true)
-                        binding.rlPayOnline.setVisibilityOnBoolean(isOnlineAvailable, true)
-                        binding.txtCODTitle.text = codAvailableTitle
-                        binding.txtOnline.text = onlineAvailableTitle
-                    }
-
-                    EventBus.getDefault().post(RefreshLocalCartDataEvent())
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
 
         getCartViewModel().createOrderResponseLiveData.observe(
             viewLifecycleOwner
@@ -293,8 +219,7 @@ class CartFragment : Fragment() {
 
                     /* clear selected payment method and selected address from shared preferences after online order success*/
 
-                    if(getCartViewModel().selectedPaymentModeLiveData.value=="COD")
-                    {
+                    if (getCartViewModel().selectedPaymentModeLiveData.value == "COD") {
                         TrollaPreferencesManager.setString(
                             "",
                             TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD
@@ -596,6 +521,45 @@ class CartFragment : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.let { cart ->
+            processCartData(cart)
+        }
+        getCartViewModel().cartDetailsResponseLiveData.value?.let {
+            it?.data?.data?.payment_options?.let { paymentOptions ->
+                var isCODAvailable = false
+                var codAvailableTitle = "Cash On Delivery"
+                var isOnlineAvailable = false
+                var onlineAvailableTitle = "Online Payment"
+                for (i in paymentOptions.indices) {
+                    if (paymentOptions[i].payment_mode == "COD") {
+                        if (!isCODAvailable) {
+                            isCODAvailable = true
+                            codAvailableTitle = "Cash On Delivery"//paymentOptions[i].name
+                        }
+                    } else if (paymentOptions[i].payment_mode == "prepaid") {
+                        if (!isOnlineAvailable) {
+                            isOnlineAvailable = true
+                            onlineAvailableTitle = "Online Payment" //paymentOptions[i].name
+                        }
+                    }
+                }
+
+                binding.rlCashonDelivery.setVisibilityOnBoolean(isCODAvailable, true)
+                binding.rlPayOnline.setVisibilityOnBoolean(isOnlineAvailable, true)
+                binding.txtCODTitle.text = codAvailableTitle
+                binding.txtOnline.text = onlineAvailableTitle
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.let { cart ->
+            processCartData(cart)
+        }
+
+        (activity as DashboardActivity).showPrescriptionUploadedSuccessDialogue()
+        checkIfCartValid()
 
     }
 

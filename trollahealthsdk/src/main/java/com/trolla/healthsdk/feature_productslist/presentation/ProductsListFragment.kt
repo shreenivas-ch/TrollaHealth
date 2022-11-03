@@ -12,6 +12,7 @@ import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
 import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
@@ -28,8 +29,6 @@ import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductsListFragment() : Fragment() {
-
-    var cartItemsIdsArray = ArrayList<String>()
 
     val title by lazy {
         arguments?.let {
@@ -162,7 +161,7 @@ class ProductsListFragment() : Fragment() {
                     productsList.addAll(productsListViewModel.productsListResponseLiveData.value?.data?.data?.list!!)
 
                     for (i in productsList?.indices) {
-                        if (cartItemsIdsArray.contains(productsList?.get(i)?.product_id.toString())) {
+                        if ((activity as DashboardActivity).cartItemsIdsArray.contains(productsList?.get(i)?.product_id.toString())) {
                             productsList?.get(i)?.cartQty = 1
                         } else {
                             productsList?.get(i)?.cartQty = 0
@@ -186,69 +185,11 @@ class ProductsListFragment() : Fragment() {
             }
         }
 
-        getCartViewModel().addToCartResponseLiveData.observe(requireActivity()) {
-
-            LogUtil.printObject("----->product list fragment: addToCartResponseLiveData")
-
-            when (it) {
-                is Resource.Success -> {
-                    val response = getCartViewModel().addToCartResponseLiveData.value
-                    cartItemsIdsArray.clear()
-                    for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
-                        cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
-                    }
-
-                    //refreshProductsList()
-                    getProductsList()
-                    /*(activity as DashboardActivity).cartViewModel.addToCartResponseLiveData.value =
-                        it*/
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
-
-        getCartViewModel().cartDetailsResponseLiveData.observe(viewLifecycleOwner) {
-
-            LogUtil.printObject("----->product list fragment: cartDetailsResponseLiveData")
-
-            when (it) {
-                is Resource.Success -> {
-                    val response = getCartViewModel().cartDetailsResponseLiveData.value
-                    cartItemsIdsArray.clear()
-                    for (i in response?.data?.data?.cart?.products?.indices ?: arrayListOf()) {
-                        cartItemsIdsArray.add(response?.data?.data?.cart?.products?.get(i)?.product?.product_id.toString())
-                    }
-
-                    LogUtil.printObject(cartItemsIdsArray)
-
-                    getProductsList()
-
-                    updateCartCount(response?.data?.data?.cart?.products?.size ?: 0)
-
-                }
-
-                is Resource.Error -> {
-                    TrollaHealthUtility.showAlertDialogue(
-                        requireContext(),
-                        it.uiText?.asString(requireContext())
-                    )
-                }
-            }
-        }
-
         productsListViewModel.progressStatus.observe(viewLifecycleOwner)
         {
             (activity as DashboardActivity).showHideProgressBar(it)
             isLoading = it
         }
-
-        // cartViewModel.getCartDetails()
 
         return binding.root
 
@@ -272,12 +213,21 @@ class ProductsListFragment() : Fragment() {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
-        updateCartCount(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+        getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products?.let {
+            getProductsList()
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
-        updateCartCount(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.size?:0)
+        getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products?.let {
+            getProductsList()
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartCountChangeEvent: CartCountChangeEvent) {
+        updateCartCount(getCartViewModel().cartCountLiveData.value ?: 0)
     }
 
     fun updateCartCount(count: Int) {
@@ -287,19 +237,6 @@ class ProductsListFragment() : Fragment() {
             productsListViewModel.headerCartIcon.value = 1
             productsListViewModel.headerCartCount.value = count
         }
-    }
-
-    private fun refreshProductsList() {
-        for (i in productsList.indices) {
-            if (cartItemsIdsArray.contains(productsList[i].product_id.toString())) {
-                productsList[i].cartQty == 1
-            } else {
-                productsList[i].cartQty == 0
-            }
-        }
-
-        //genericAdapter.addItems(productsList)
-        genericAdapter.notifyDataSetChanged()
     }
 
     fun getProductsList() {

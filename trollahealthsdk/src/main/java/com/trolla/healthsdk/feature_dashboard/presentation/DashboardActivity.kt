@@ -93,6 +93,9 @@ class DashboardActivity : AppCompatActivity(),
                         .post(
                             AddToCartSuccessEvent()
                         )
+
+                    cartViewModel.cartCountLiveData.value =
+                        response?.data?.data?.cart?.products?.size ?: 0
                 }
 
                 is Resource.Error -> {
@@ -125,6 +128,9 @@ class DashboardActivity : AppCompatActivity(),
 
                     EventBus.getDefault().post(RefreshLocalCartDataEvent())
                     EventBus.getDefault().post(CartDetailsRefreshedEvent())
+
+                    cartViewModel.cartCountLiveData.value =
+                        it?.data?.data?.cart?.products?.size ?: 0
 
                 }
 
