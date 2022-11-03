@@ -2,6 +2,8 @@ package com.trolla.healthsdk.feature_cart.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -257,7 +259,7 @@ class CartFragment : Fragment() {
             }
         }
 
-        getCartViewModel().getCartDetails()
+        Handler(Looper.getMainLooper()).postDelayed({ getCartViewModel().getCartDetails() }, 200)
 
         /*get selected payment method from shared preferences */
         if (!TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_CART_SELECTED_PAYMENT_METHOD)

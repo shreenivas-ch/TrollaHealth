@@ -1,6 +1,8 @@
 package com.trolla.healthsdk.feature_productslist.presentation
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -161,7 +163,12 @@ class ProductsListFragment() : Fragment() {
                     productsList.addAll(productsListViewModel.productsListResponseLiveData.value?.data?.data?.list!!)
 
                     for (i in productsList?.indices) {
-                        if ((activity as DashboardActivity).cartItemsIdsArray.contains(productsList?.get(i)?.product_id.toString())) {
+                        if ((activity as DashboardActivity).cartItemsIdsArray.contains(
+                                productsList?.get(
+                                    i
+                                )?.product_id.toString()
+                            )
+                        ) {
                             productsList?.get(i)?.cartQty = 1
                         } else {
                             productsList?.get(i)?.cartQty = 0
@@ -196,7 +203,7 @@ class ProductsListFragment() : Fragment() {
             (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
         }
 
-        getCartViewModel().getCartDetails()
+        Handler(Looper.getMainLooper()).postDelayed({ getCartViewModel().getCartDetails() }, 200)
 
         return binding.root
 

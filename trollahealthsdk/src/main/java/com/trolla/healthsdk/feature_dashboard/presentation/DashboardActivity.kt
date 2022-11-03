@@ -240,6 +240,11 @@ class DashboardActivity : AppCompatActivity(),
             }
         }
 
+        cartViewModel.progressStatus.observe(this)
+        {
+            showHideProgressBar(it)
+        }
+
         if (action == DASHBOARD_ACTION_LOGIN) {
             addOrReplaceFragment(LoginEmailFragment())
         } else {
@@ -297,7 +302,7 @@ class DashboardActivity : AppCompatActivity(),
     }
 
     fun showHideProgressBar(isShow: Boolean = false) {
-        findViewById<ProgressBar>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
+        findViewById<View>(R.id.progressBar).setVisibilityOnBoolean(isShow, true)
     }
 
     fun startRazorPay(amount: String, transaction_id: String, rarorpay_orderid: String?) {

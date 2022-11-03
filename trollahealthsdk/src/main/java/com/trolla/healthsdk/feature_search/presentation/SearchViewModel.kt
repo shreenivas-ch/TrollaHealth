@@ -64,20 +64,30 @@ class SearchViewModel(private val searchUsecase: SearchUsecase) :
     fun addSearchToLocalSearchHistory(dashboardProduct: ModelSearchHistory) {
         viewModelScope.launch {
             var arr = localSearchHistoryLiveData.value ?: arrayListOf()
-            arr.add(dashboardProduct)
 
-            var jsonArr = JSONArray()
+            var searchStringCount = 0
             for (i in arr) {
-                var jsonObj = JSONObject()
-                jsonObj.put("id", i.id)
-                jsonObj.put("title", i.title)
-                jsonArr.put(jsonObj)
+                if (i.id == dashboardProduct.id) {
+                    searchStringCount += 1
+                }
             }
 
-            TrollaPreferencesManager.setString(
-                jsonArr.toString(),
-                TrollaPreferencesManager.PM_LOCAL_SEARCH_HISTORY
-            )
+            if (searchStringCount == 0) {
+                arr.add(dashboardProduct)
+
+                var jsonArr = JSONArray()
+                for (i in arr) {
+                    var jsonObj = JSONObject()
+                    jsonObj.put("id", i.id)
+                    jsonObj.put("title", i.title)
+                    jsonArr.put(jsonObj)
+                }
+
+                TrollaPreferencesManager.setString(
+                    jsonArr.toString(),
+                    TrollaPreferencesManager.PM_LOCAL_SEARCH_HISTORY
+                )
+            }
         }
     }
 }

@@ -2,6 +2,8 @@ package com.trolla.healthsdk.feature_address.presentation
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -188,7 +190,7 @@ class AddressListFragment : Fragment() {
 
         binding.addressList.adapter = genericAdapter
 
-        addressListViewModel.getAddressList()
+        Handler(Looper.getMainLooper()).postDelayed({ addressListViewModel.getAddressList() }, 200)
 
         return binding.root
     }

@@ -3,6 +3,8 @@ package com.trolla.healthsdk.feature_orders.presentation
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -302,7 +304,8 @@ class OrdersDetailsFragment : Fragment() {
             }
         }
 
-        orderDetailsViewModel.getOrderDetails(orderid!!, wf_order_id ?: "")
+        Handler(Looper.getMainLooper()).postDelayed({ orderDetailsViewModel.getOrderDetails(orderid!!, wf_order_id ?: "") }, 200)
+
         orderDetailsViewModel.getProfile()
 
         binding.txtChatWithUs.setOnClickListener {

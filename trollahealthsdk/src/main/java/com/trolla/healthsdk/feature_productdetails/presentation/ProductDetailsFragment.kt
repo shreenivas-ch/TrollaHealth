@@ -2,6 +2,8 @@ package com.trolla.healthsdk.feature_productdetails.presentation
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -215,7 +217,8 @@ class ProductDetailsFragment : Fragment() {
             (activity as DashboardActivity).showHideProgressBar(it)
         }
 
-        productDetailsViewModel.getProductDetails(productid)
+        Handler(Looper.getMainLooper()).postDelayed({ productDetailsViewModel.getProductDetails(productid) }, 200)
+
 
         binding.txtAddToCart.setOnClickListener {
             var newQuantity = 1

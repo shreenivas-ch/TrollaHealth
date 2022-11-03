@@ -2,6 +2,8 @@ package com.trolla.healthsdk.feature_orders.presentation
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -146,6 +148,7 @@ class OrdersListFragment : Fragment() {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun doThis(eventRefreshOrders: EventRefreshOrders) {
         LogUtil.printObject("-----> eventRefreshOrders event called")
-        orderListViewModel.getOrdersList()
+        Handler(Looper.getMainLooper()).postDelayed({ orderListViewModel.getOrdersList() }, 200)
+
     }
 }
