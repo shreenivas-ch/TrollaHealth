@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
         } else {
             binding.llLocationAndLogoHeader.show()
             binding.txtAddress.text =
-                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_ADDRESS)?.trim()
                     ?.replaceFirstChar(Char::titlecase) + ", " + TrollaPreferencesManager.getString(
                     TrollaPreferencesManager.PM_DEFAULT_PINCODE
                 )

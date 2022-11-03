@@ -8,12 +8,12 @@
             type="com.trolla.healthsdk.feature_orders.data.ModelOrderProductImage" />
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:cardCornerRadius="7dp"
         android:layout_marginEnd="@dimen/margin8dp"
-        app:cardCornerRadius="@dimen/margin8dp"
-        app:cardUseCompatPadding="true">
+        app:cardElevation="0dp">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imvBanner"
@@ -26,5 +26,5 @@
             app:loadImage="@{item.img_url}"
             app:riv_corner_radius="@dimen/margin8dp" />
 
-    </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

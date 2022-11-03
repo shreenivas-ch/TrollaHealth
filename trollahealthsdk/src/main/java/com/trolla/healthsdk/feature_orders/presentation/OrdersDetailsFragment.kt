@@ -177,6 +177,9 @@ class OrdersDetailsFragment : Fragment() {
             when (it) {
                 is Resource.Success -> {
 
+                    binding.llMainView.show()
+                    binding.orderActions.show()
+
                     handleButtonsVisibility(it)
 
                     amount = it.data?.data?.order?.order_value?.payable!!
@@ -239,8 +242,15 @@ class OrdersDetailsFragment : Fragment() {
 
                     if (order.order_value.totalDiscount.toDouble() > 0) {
                         binding.rlDiscount.show()
+                        binding.txtSavings.show()
+
+                        binding.txtSavings.text = "You saved " + getString(
+                            R.string.amount_string,
+                            order.order_value.totalDiscount
+                        ) + " on this order"
                     } else {
                         binding.rlDiscount.hide()
+                        binding.txtSavings.hide()
                     }
 
                     if (it.data.data.order.transactions != null && it.data.data.order.transactions.size > 0) {
@@ -279,6 +289,10 @@ class OrdersDetailsFragment : Fragment() {
 
         binding.txtDownloadInvoice.setOnClickListener {
             downloadInvoice(invoiceUrl)
+        }
+
+        binding.txtChatSupport.setOnClickListener {
+            initiateChatSupport()
         }
 
         orderDetailsViewModel.getTransactionIDLiveData.observe(viewLifecycleOwner)

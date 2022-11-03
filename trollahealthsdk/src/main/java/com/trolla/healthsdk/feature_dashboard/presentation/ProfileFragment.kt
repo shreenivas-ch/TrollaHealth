@@ -127,28 +127,4 @@ class ProfileFragment : Fragment() {
 
         return binding.root
     }
-
-    private fun initiateChatSupport() {
-        val freshchatConfig = FreshchatConfig(
-            "2013a117-4341-45f5-b68c-7b8948eb40d9",
-            "b4af71ce-0fa1-4154-8d40-d76fc49909de"
-        )
-        freshchatConfig.domain = "msdk.in.freshchat.com"
-        Freshchat.getInstance(activity?.applicationContext!!).init(freshchatConfig)
-
-        val freshchatUser =
-            Freshchat.getInstance(activity?.applicationContext!!).user
-        freshchatUser.firstName = profileViewModel.profileNameLiveData?.value ?: "Guest"
-        freshchatUser.email = profileViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
-        if (!profileViewModel.profileMobileLiveData?.value.isNullOrEmpty()) {
-            freshchatUser.setPhone(
-                "+91",
-                profileViewModel.profileMobileLiveData?.value
-            )
-        }
-
-        Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
-
-        Freshchat.showConversations(activity?.applicationContext!!)
-    }
 }
