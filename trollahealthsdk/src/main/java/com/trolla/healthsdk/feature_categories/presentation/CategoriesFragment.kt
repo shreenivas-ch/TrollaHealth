@@ -1,18 +1,16 @@
 package com.trolla.healthsdk.feature_categories.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentCategoriesBinding
-import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
-import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity

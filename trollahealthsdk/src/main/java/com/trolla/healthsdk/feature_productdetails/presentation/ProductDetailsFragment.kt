@@ -4,11 +4,11 @@ import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
@@ -25,7 +25,6 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
 import com.trolla.healthsdk.utils.*
-import kotlinx.android.synthetic.main.product_details_fragment.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

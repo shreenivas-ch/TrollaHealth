@@ -10,8 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.freshchat.consumer.sdk.Freshchat
-import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.CustomBindingAdapter
 import com.trolla.healthsdk.core.GenericAdapter
@@ -21,6 +19,7 @@ import com.trolla.healthsdk.databinding.FragmentOrdersDetailsBinding
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.presentation.CartFragment
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.initiateChatSupport
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.feature_productdetails.presentation.FullscreenImageViewerActivity
@@ -264,10 +263,6 @@ class OrdersDetailsFragment : Fragment() {
                     binding.txtSelectedAddress.text =
                         order.address.address + " " + order.address.landmark + " " + order.address.city + " " + order.address.state + "\n" + order.address.pincode
 
-                    if (!it?.data?.data?.order?.tracking_url.isNullOrEmpty()) {
-                        trackingUrl = it?.data?.data?.order?.tracking_url
-                    }
-
                 }
 
                 is Resource.Error -> {
@@ -322,7 +317,7 @@ class OrdersDetailsFragment : Fragment() {
 
         orderDetailsViewModel.getProfile()
 
-        binding.txtChatWithUs.setOnClickListener {
+        binding.txtChatSupport.setOnClickListener {
             initiateChatSupport()
         }
 
@@ -352,32 +347,8 @@ class OrdersDetailsFragment : Fragment() {
         startActivity(urlIntent)
     }
 
-    private fun initiateChatSupport() {
-        val freshchatConfig = FreshchatConfig(
-            "2013a117-4341-45f5-b68c-7b8948eb40d9",
-            "b4af71ce-0fa1-4154-8d40-d76fc49909de"
-        )
-        freshchatConfig.domain = "msdk.in.freshchat.com"
-        Freshchat.getInstance(activity?.applicationContext!!).init(freshchatConfig)
-
-        val freshchatUser =
-            Freshchat.getInstance(activity?.applicationContext!!).user
-        freshchatUser.firstName = orderDetailsViewModel.profileNameLiveData?.value ?: "Guest"
-        freshchatUser.email = orderDetailsViewModel.profileEmailLiveData?.value ?: "guest@guest.com"
-        if (!orderDetailsViewModel.profileMobileLiveData.value.isNullOrEmpty()) {
-            freshchatUser.setPhone(
-                "+91",
-                orderDetailsViewModel.profileMobileLiveData?.value ?: "9000000001"
-            )
-        }
-
-        Freshchat.getInstance(activity?.applicationContext!!).user = freshchatUser
-
-        Freshchat.showConversations(activity?.applicationContext!!)
-    }
-
     private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
-        var orderStatus = response.data?.data?.order?.status?.lowercase()
+        var orderStatus =response.data?.data?.order?.status?.lowercase()
         trackingUrl = response.data?.data?.order?.tracking_url ?: ""
         invoiceUrl = response.data?.data?.order?.invoice_url ?: ""
         var eta = response.data?.data?.order?.eta ?: ""

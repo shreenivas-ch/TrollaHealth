@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.freshchat.consumer.sdk.Freshchat
-import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentProfileBinding
 import com.trolla.healthsdk.feature_address.presentation.AddressListFragment

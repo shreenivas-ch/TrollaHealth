@@ -6,9 +6,10 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.data.remote.ApiService
-import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
-import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
-import com.trolla.healthsdk.feature_orders.data.*
+import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
+import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
+import com.trolla.healthsdk.feature_orders.data.OrdersRepository
+import com.trolla.healthsdk.feature_orders.data.RepeatOrderRequest
 
 class OrdersRepositoryImpl(private val apiService: ApiService) : OrdersRepository {
 

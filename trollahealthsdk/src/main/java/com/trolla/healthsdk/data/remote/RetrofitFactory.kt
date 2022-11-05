@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.data.remote
 
 import com.google.gson.Gson
+import com.trolla.healthsdk.BuildConfig
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -9,7 +10,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.URLDecoder
 import java.util.concurrent.TimeUnit
-import com.trolla.healthsdk.BuildConfig
 
 object RetrofitFactory {
 

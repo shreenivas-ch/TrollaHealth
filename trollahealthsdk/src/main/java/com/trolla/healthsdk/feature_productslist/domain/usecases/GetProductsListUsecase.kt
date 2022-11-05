@@ -2,8 +2,6 @@ package com.trolla.healthsdk.feature_productslist.domain.usecases
 
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_dashboard.data.DashboardRepository
 import com.trolla.healthsdk.feature_productslist.data.ProductsListRepository
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
 

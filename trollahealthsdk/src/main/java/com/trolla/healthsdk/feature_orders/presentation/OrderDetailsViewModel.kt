@@ -9,11 +9,9 @@ import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDRequest
 import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDResponse
 import com.trolla.healthsdk.feature_cart.domain.usecases.GetTransactionIDUsecase
-import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
 import com.trolla.healthsdk.feature_orders.domain.usecases.CancelOrderUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrderDetailsUsecase
-import com.trolla.healthsdk.feature_orders.domain.usecases.GetOrdersListUsecase
 import com.trolla.healthsdk.feature_orders.domain.usecases.RepeatOrderUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.utils.TrollaPreferencesManager

@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Base64
 import android.util.TypedValue
-import java.lang.Exception
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.text.SimpleDateFormat

@@ -3,11 +3,11 @@ package com.trolla.healthsdk.feature_productslist.presentation
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
@@ -24,7 +24,10 @@ import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFr
 import com.trolla.healthsdk.feature_productslist.data.RefreshProductListEvent
 import com.trolla.healthsdk.feature_search.presentation.SearchFragment
 import com.trolla.healthsdk.ui_utils.PaginationScrollListener
-import com.trolla.healthsdk.utils.*
+import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaConstants
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

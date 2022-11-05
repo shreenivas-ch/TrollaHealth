@@ -8,7 +8,6 @@ import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
-import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator

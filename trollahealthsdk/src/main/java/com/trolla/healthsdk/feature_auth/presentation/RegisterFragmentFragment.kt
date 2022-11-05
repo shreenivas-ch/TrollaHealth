@@ -1,13 +1,12 @@
 package com.trolla.healthsdk.feature_auth.presentation
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.RegisterFragmentBinding

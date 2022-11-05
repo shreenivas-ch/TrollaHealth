@@ -1,14 +1,13 @@
 package com.trolla.healthsdk.feature_address.presentation
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource

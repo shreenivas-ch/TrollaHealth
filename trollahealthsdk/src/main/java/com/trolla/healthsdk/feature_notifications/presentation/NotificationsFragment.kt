@@ -1,17 +1,13 @@
 package com.trolla.healthsdk.feature_notifications.presentation
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.NotificationsFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class NotificationsFragment : Fragment() {

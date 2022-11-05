@@ -3,7 +3,8 @@ package com.trolla.healthsdk.core
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.*
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.APIDefinition
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.HomePagePositionsListItem.BannerData
 import com.trolla.healthsdk.feature_dashboard.presentation.dashboard_childlayouts.*
 
 object ComponentGenerator {

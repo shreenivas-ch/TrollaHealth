@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.FragmentSettingsBinding
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class SettingsFragment : Fragment() {

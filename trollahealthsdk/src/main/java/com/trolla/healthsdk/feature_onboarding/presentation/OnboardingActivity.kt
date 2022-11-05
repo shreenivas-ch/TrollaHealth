@@ -1,9 +1,9 @@
 package com.trolla.healthsdk.feature_onboarding.presentation
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.viewpager.widget.ViewPager
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator

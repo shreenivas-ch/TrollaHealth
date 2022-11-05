@@ -1,11 +1,11 @@
 package com.trolla.healthsdk.feature_auth.domain
 
 import com.trolla.healthsdk.core.APIErrorHandler
-import com.trolla.healthsdk.feature_auth.data.AuthRepository
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.data.remote.ApiService
+import com.trolla.healthsdk.feature_auth.data.AuthRepository
 import com.trolla.healthsdk.feature_auth.data.models.*
 
 class AuthRepositoryImpl(private val apiService: ApiService) : AuthRepository {

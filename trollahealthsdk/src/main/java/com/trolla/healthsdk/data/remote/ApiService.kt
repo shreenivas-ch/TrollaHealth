@@ -8,10 +8,10 @@ import com.trolla.healthsdk.feature_auth.data.models.*
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.*
+import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.feature_orders.data.GetOrdersListResponse
 import com.trolla.healthsdk.feature_orders.data.OrderDetailsResponse
-import com.trolla.healthsdk.feature_categories.data.CategoriesResponse
 import com.trolla.healthsdk.feature_orders.data.RepeatOrderRequest
 import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
 import com.trolla.healthsdk.feature_productslist.data.ProductsListResponse
@@ -38,7 +38,7 @@ interface ApiService {
     suspend fun getProfile(): Response<BaseApiResponse<UpdateProfileResponse>>
 
     @GET("/")
-    suspend fun getDashboard(
+    suspend fun getDashboard(@Query("pincode") pincode: String
     ): Response<BaseApiResponse<DashboardResponse>>
 
     @GET("/categories")

@@ -1,7 +1,7 @@
 package com.trolla.healthsdk.feature_productdetails.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.bumptech.glide.Glide
 import com.github.chrisbanes.photoview.PhotoView

@@ -5,8 +5,6 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.remote.ApiService
 import com.trolla.healthsdk.feature_address.data.*
-import com.trolla.healthsdk.feature_productdetails.data.GetProductDetailsResponse
-import com.trolla.healthsdk.feature_productdetails.data.ProductDetailsRepository
 
 class AddressRepositoryImpl(private val apiService: ApiService) : AddressRepository {
 

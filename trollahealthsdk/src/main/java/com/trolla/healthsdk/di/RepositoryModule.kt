@@ -1,6 +1,5 @@
 package com.trolla.healthsdk.di
 
-import com.trolla.healthsdk.feature_auth.domain.provideAuthRepository
 import com.trolla.healthsdk.data.remote.RetrofitFactory
 import com.trolla.healthsdk.feature_address.domain.provideAddressRepository
 import com.trolla.healthsdk.feature_address.domain.usecases.AddAddressUsecase
@@ -9,10 +8,11 @@ import com.trolla.healthsdk.feature_address.domain.usecases.GetAddressListUsecas
 import com.trolla.healthsdk.feature_address.domain.usecases.UpdateAddressUsecase
 import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
+import com.trolla.healthsdk.feature_auth.domain.provideAuthRepository
 import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
-import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
+import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginOTPVerificationViewModel
 import com.trolla.healthsdk.feature_auth.presentation.MobileOTPVerificationViewModel
@@ -47,9 +47,7 @@ import com.trolla.healthsdk.feature_search.domain.provideSearchRepository
 import com.trolla.healthsdk.feature_search.domain.usecases.SearchUsecase
 import com.trolla.healthsdk.feature_search.presentation.SearchViewModel
 import com.trolla.healthsdk.ui_utils.WebviewViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.koin.dsl.single
 
 val repositoryModule = module {
     single { RetrofitFactory.makeRetrofitService() }

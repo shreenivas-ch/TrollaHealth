@@ -1,7 +1,6 @@
 package com.trolla.healthsdk.feature_dashboard.data
 
 import com.trolla.healthsdk.core.ListItemViewModel
-import java.lang.ref.SoftReference
 
 data class DashboardResponse(
     val homePagePositionsList: ArrayList<HomePagePositionsListItem>,

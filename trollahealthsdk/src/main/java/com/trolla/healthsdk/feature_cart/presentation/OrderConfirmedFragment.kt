@@ -14,7 +14,9 @@ import com.trolla.healthsdk.feature_dashboard.data.RefreshDashboardEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.presentation.OrderDetailsViewModel
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
-import com.trolla.healthsdk.utils.*
+import com.trolla.healthsdk.utils.TrollaHealthUtility
+import com.trolla.healthsdk.utils.asString
+import com.trolla.healthsdk.utils.hide
 import org.greenrobot.eventbus.EventBus
 import org.koin.java.KoinJavaComponent
 

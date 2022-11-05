@@ -4,14 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
-import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
 
 class BannersAdapter(
     val mContext: Context,

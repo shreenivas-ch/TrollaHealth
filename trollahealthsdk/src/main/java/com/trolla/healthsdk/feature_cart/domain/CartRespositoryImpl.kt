@@ -11,7 +11,6 @@ import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
-import retrofit2.Response
 
 class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {

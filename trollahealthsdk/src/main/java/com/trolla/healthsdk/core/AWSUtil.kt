@@ -1,16 +1,15 @@
 package com.trolla.healthsdk.core
 
 import android.content.Context
-import com.trolla.healthsdk.utils.LogUtil.printObject
-import com.trolla.healthsdk.utils.TrollaHealthUtility.showAlertDialogue
-import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.auth.CognitoCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.*
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.model.CannedAccessControlList
 import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.trolla.healthsdk.utils.LogUtil.printObject
+import com.trolla.healthsdk.utils.TrollaHealthUtility.showAlertDialogue
 import java.io.File
-import java.lang.Exception
 import java.util.*
 
 object AWSUtil {

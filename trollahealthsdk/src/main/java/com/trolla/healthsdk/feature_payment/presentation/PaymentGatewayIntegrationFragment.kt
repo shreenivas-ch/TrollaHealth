@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.razorpay.Checkout
-import com.razorpay.PaymentResultListener
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.databinding.PaymentGatewayIntegrationFragmentBinding
-import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.utils.TrollaConstants.RAZORPAY_KEYID_TEST
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
-import com.trolla.healthsdk.utils.asString
 import org.json.JSONObject
 import org.koin.java.KoinJavaComponent.inject
 

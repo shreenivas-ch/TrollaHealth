@@ -2,7 +2,6 @@ package com.trolla.healthsdk.feature_search.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.feature_search.data.ModelSearchHistory

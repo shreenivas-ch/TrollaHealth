@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +32,6 @@ import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
 import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
 import com.trolla.healthsdk.feature_cart.data.models.PrescriptionUploadedEvent
 import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
-import com.trolla.healthsdk.feature_categories.presentation.CategoriesFragment
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
@@ -552,6 +550,9 @@ class DashboardActivity : AppCompatActivity(),
             "b4af71ce-0fa1-4154-8d40-d76fc49909de"
         )
         freshchatConfig.domain = "msdk.in.freshchat.com"
+        freshchatConfig.isCameraCaptureEnabled=false
+        freshchatConfig.isGallerySelectionEnabled=true
+        freshchatConfig.isFileSelectionEnabled=false
         Freshchat.getInstance(applicationContext!!).init(freshchatConfig)
 
         val freshchatUser =

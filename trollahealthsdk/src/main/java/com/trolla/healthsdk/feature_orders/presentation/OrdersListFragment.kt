@@ -9,28 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.freshchat.consumer.sdk.Freshchat
-import com.freshchat.consumer.sdk.FreshchatConfig
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.CartFragmentBinding
 import com.trolla.healthsdk.databinding.FragmentOrdersListBinding
-import com.trolla.healthsdk.feature_address.data.AddressSelectedEvent
-import com.trolla.healthsdk.feature_address.data.ModelAddress
-import com.trolla.healthsdk.feature_address.presentation.AddressListFragment
-import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
-import com.trolla.healthsdk.feature_dashboard.data.LoadAddressOnDashboardHeaderEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.data.ModelOrder
-import com.trolla.healthsdk.feature_prescriptionupload.data.ModelPrescription
 import com.trolla.healthsdk.ui_utils.WebviewActivity
 import com.trolla.healthsdk.utils.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class OrdersListFragment : Fragment() {

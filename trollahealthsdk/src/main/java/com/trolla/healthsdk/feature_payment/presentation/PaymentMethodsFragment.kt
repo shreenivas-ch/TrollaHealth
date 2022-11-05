@@ -1,18 +1,13 @@
 package com.trolla.healthsdk.feature_payment.presentation
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.FragmentPaymentMethodsBinding
-import com.trolla.healthsdk.databinding.PaymentGatewayIntegrationFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.inject
 
 class PaymentMethodsFragment : Fragment() {

@@ -2,14 +2,12 @@ package com.trolla.healthsdk.feature_cart.presentation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.JsonObject
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
 import com.trolla.healthsdk.feature_cart.data.models.CreateOrderResponse
-import com.trolla.healthsdk.feature_cart.data.models.GetTransactionIDRequest
 import com.trolla.healthsdk.feature_cart.data.models.OrderRequestModel
 import com.trolla.healthsdk.feature_cart.data.models.PaymentUpdateRequest
 import com.trolla.healthsdk.feature_cart.domain.usecases.AddToCartUsercase
