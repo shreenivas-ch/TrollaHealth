@@ -313,7 +313,12 @@ class OrdersDetailsFragment : Fragment() {
             }
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({ orderDetailsViewModel.getOrderDetails(orderid!!, wf_order_id ?: "") }, 200)
+        Handler(Looper.getMainLooper()).postDelayed({
+            orderDetailsViewModel.getOrderDetails(
+                orderid!!,
+                wf_order_id ?: ""
+            )
+        }, 200)
 
         orderDetailsViewModel.getProfile()
 
@@ -348,7 +353,7 @@ class OrdersDetailsFragment : Fragment() {
     }
 
     private fun handleButtonsVisibility(response: Resource.Success<BaseApiResponse<OrderDetailsResponse>>) {
-        var orderStatus =response.data?.data?.order?.status?.lowercase()
+        var orderStatus = response.data?.data?.order?.status?.lowercase()
         trackingUrl = response.data?.data?.order?.tracking_url ?: ""
         invoiceUrl = response.data?.data?.order?.invoice_url ?: ""
         var eta = response.data?.data?.order?.eta ?: ""
@@ -363,7 +368,8 @@ class OrdersDetailsFragment : Fragment() {
         } else {
             var transactionStatus = ""
             if (response.data?.data?.order?.transactions != null && response.data?.data?.order?.transactions?.size > 0) {
-                transactionStatus = response.data?.data?.order?.transactions!![0].status.lowercase()
+                transactionStatus =
+                    response.data?.data?.order?.transactions!![response.data?.data?.order?.transactions?.size - 1].status.lowercase()
             }
 
             if (transactionStatus.contains(TrollaConstants.ORDERSTATUS_PENDING) || transactionStatus.contains(
