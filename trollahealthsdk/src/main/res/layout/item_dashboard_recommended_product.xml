@@ -94,6 +94,7 @@
                     tools:text="₹292.00" />
 
                 <TextView
+                    android:foreground="?attr/selectableItemBackground"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -111,6 +112,7 @@
                     app:setAddToCartVisibility="@{item}" />
 
                 <TextView
+                    android:foreground="?attr/selectableItemBackground"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

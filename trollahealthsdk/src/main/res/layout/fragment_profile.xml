@@ -40,6 +40,7 @@
                     app:cardCornerRadius="@dimen/margin16dp">
 
                     <RelativeLayout
+                        android:foreground="?attr/selectableItemBackground"
                         android:id="@+id/rlEditProfile"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -125,6 +126,7 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
+                            android:foreground="?attr/selectableItemBackground"
                             android:id="@+id/rlMyOrders"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -166,6 +168,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:foreground="?attr/selectableItemBackground"
                             android:id="@+id/rlAddressBook"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -226,6 +229,7 @@
                         android:orientation="vertical">
 
                         <RelativeLayout
+                            android:foreground="?attr/selectableItemBackground"
                             android:id="@+id/rlPrivacyPolicy"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -267,6 +271,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:foreground="?attr/selectableItemBackground"
                             android:id="@+id/rlTerms"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -308,6 +313,7 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:foreground="?attr/selectableItemBackground"
                             android:id="@+id/rlRefundPolicy"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -363,6 +369,7 @@
                     app:cardElevation="0dp">
 
                     <RelativeLayout
+                        android:foreground="?attr/selectableItemBackground"
                         android:id="@+id/rlChatSupport"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -412,6 +419,7 @@
                     app:cardElevation="0dp">
 
                     <RelativeLayout
+                        android:foreground="?attr/selectableItemBackground"
                         android:id="@+id/rlLogout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">

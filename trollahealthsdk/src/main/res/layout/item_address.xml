@@ -71,6 +71,7 @@
                 android:visibility="@{item.isSelect? View.GONE: View.VISIBLE}">
 
                 <TextView
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{(v)-> item.onListItemViewClickListener.onEditAddressClick(v,item.adapterPosition)}"
                     android:id="@+id/txtEditAddress"
                     style="@style/trolla_fontMedium"
@@ -83,6 +84,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:foreground="?attr/selectableItemBackground"
                     android:onClick="@{(v)-> item.onListItemViewClickListener.onDeleteAddressClick(v,item.adapterPosition)}"
                     android:id="@+id/txtDeleteAddress"
                     style="@style/trolla_fontMedium"

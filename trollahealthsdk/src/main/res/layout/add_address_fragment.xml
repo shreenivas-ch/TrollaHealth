@@ -334,6 +334,7 @@
             tools:visibility="visible">
 
             <com.google.android.material.button.MaterialButton
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/btnUpdateProfile"
                 style="@style/trolla_fontSemibold"
                 android:layout_width="match_parent"

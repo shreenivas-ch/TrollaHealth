@@ -65,6 +65,7 @@
                         tools:text="Dark Chocolate and" />
 
                     <androidx.appcompat.widget.AppCompatImageView
+                        android:foreground="?attr/selectableItemBackground"
                         android:id="@+id/imgDelete"
                         android:layout_width="@dimen/_23sdp"
                         android:layout_height="@dimen/_23sdp"
@@ -146,6 +147,7 @@
                         app:setCartAddMinusViewVisibilityInCart="@{item.product}">
 
                         <TextView
+                            android:foreground="?attr/selectableItemBackground"
                             style="@style/trolla_fontMedium"
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
@@ -169,6 +171,7 @@
                             tools:text="1" />
 
                         <TextView
+                            android:foreground="?attr/selectableItemBackground"
                             style="@style/trolla_fontMedium"
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"

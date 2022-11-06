@@ -46,6 +46,7 @@
             tools:visibility="visible">
 
             <LinearLayout
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/llAddNewAddress"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin48dp"

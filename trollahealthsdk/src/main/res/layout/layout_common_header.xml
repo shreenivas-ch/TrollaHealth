@@ -70,6 +70,7 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:paddingStart="@dimen/_7sdp"
             android:layout_marginEnd="@dimen/_8sdp"

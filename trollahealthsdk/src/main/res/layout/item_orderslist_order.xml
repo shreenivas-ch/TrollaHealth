@@ -125,6 +125,7 @@
                     tools:text="5th May 2022, 05 : 35 : 00 PM" />
 
                 <TextView
+                    android:foreground="?attr/selectableItemBackground"
                     android:id="@+id/txtTrackOrder"
                     style="@style/trolla_fontMedium"
                     app:setTrackOrderVisibility="@{item}"

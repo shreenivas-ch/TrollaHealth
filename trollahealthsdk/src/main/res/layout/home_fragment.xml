@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:id="@+id/llLocationAndLogoHeader"
             android:layout_width="match_parent"

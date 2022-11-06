@@ -196,6 +196,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:background="?attr/selectableItemBackground"
                         android:id="@+id/txtTrackOrder"
                         style="@style/trolla_fontMedium"
                         android:layout_width="wrap_content"
@@ -206,7 +207,7 @@
                         android:layout_marginStart="@dimen/margin16dp"
                         android:layout_marginTop="@dimen/margin7dp"
                         android:layout_marginEnd="@dimen/margin16dp"
-                        android:background="@drawable/bg_primarybutton"
+                        android:foreground="@drawable/bg_primarybutton"
                         android:gravity="center"
                         android:paddingStart="@dimen/_12sdp"
                         android:paddingTop="@dimen/_7sdp"
@@ -445,6 +446,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/txtPay"
+                android:foreground="?attr/selectableItemBackground"
                 style="@style/trolla_fontSemibold"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin48dp"
@@ -463,6 +465,7 @@
                 tools:visibility="visible" />
 
             <TextView
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/txtRepeatOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -482,6 +485,7 @@
                 tools:visibility="visible" />
 
             <TextView
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/txtCancelOrder"
                 style="@style/trolla_fontMedium"
                 android:layout_width="match_parent"
@@ -501,6 +505,7 @@
                 tools:visibility="visible" />
 
             <LinearLayout
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/txtDownloadInvoice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -534,13 +539,16 @@
             </LinearLayout>
 
             <TextView
+                android:foreground="?attr/selectableItemBackground"
                 android:id="@+id/txtChatSupport"
                 style="@style/trolla_fontMedium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:paddingTop="@dimen/_15sdp"
+                android:paddingBottom="@dimen/_12sdp"
+                android:paddingStart="@dimen/_15sdp"
+                android:paddingEnd="@dimen/_15sdp"
                 android:layout_toRightOf="@+id/imgChatSupport"
                 android:text="Chat With Us"
                 android:textColor="@color/textColor1"
