@@ -1,12 +1,11 @@
 package com.trolla.healthsdk.ui_utils
 
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.webkit.WebResourceRequest
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import androidx.appcompat.app.AppCompatActivity
 import com.trolla.healthsdk.databinding.ActivityWebviewBinding
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.setVisibilityOnBoolean
 import org.koin.java.KoinJavaComponent
 
@@ -71,21 +70,35 @@ class WebviewActivity : AppCompatActivity() {
 
     private inner class MyBrowser : WebViewClient() {
 
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            webviewViewModel.progressStatus.value=true
+        }
+
         override fun shouldOverrideUrlLoading(
             view: WebView?,
-            request: WebResourceRequest?
+            redirect:String?
         ): Boolean {
-            url?.let {
-                view?.loadUrl(it)
+            redirect?.let {
+                view?.loadUrl(redirect)
             }
-            return false
+            return true
 
         }
 
 
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
+            webviewViewModel.progressStatus.value=false
+        }
 
+        override fun onReceivedError(
+            view: WebView?,
+            request: WebResourceRequest?,
+            error: WebResourceError?
+        ) {
+            super.onReceivedError(view, request, error)
+            LogUtil.printObject("----->"+error.toString())
         }
     }
 }
