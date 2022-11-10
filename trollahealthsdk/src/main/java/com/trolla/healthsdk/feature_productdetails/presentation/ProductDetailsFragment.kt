@@ -385,7 +385,6 @@ class ProductDetailsFragment : Fragment() {
         str_ingredients = ""
         str_side_effects = ""
 
-
         product_brief = dashboardProduct.product_brief
         description = dashboardProduct.description
         short_description = dashboardProduct.short_description
@@ -536,6 +535,15 @@ class ProductDetailsFragment : Fragment() {
             }
 
         })
+
+        if(binding.tabLayout.tabCount==0)
+        {
+            binding.llTabs.hide()
+        }
+        else
+        {
+            binding.llTabs.show()
+        }
     }
 
     fun setDescriptionText(str: String, isFirstTime: Boolean = false) {

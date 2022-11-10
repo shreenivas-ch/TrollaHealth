@@ -12,6 +12,8 @@ import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class SearchViewModel(private val searchUsecase: SearchUsecase) :
@@ -53,6 +55,8 @@ class SearchViewModel(private val searchUsecase: SearchUsecase) :
                         )
                     )
                 }
+
+                arr.reverse()
 
                 localSearchHistoryLiveData.value = arr
             }

@@ -24,9 +24,9 @@
         <include
             android:id="@+id/commonHeader"
             layout="@layout/layout_common_header"
-            app:cartVisibility="@{viewModel.headerCartIcon}"
-            app:cartCount="@{viewModel.headerCartCount}"
             app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:cartCount="@{viewModel.headerCartCount}"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
             app:title="@{viewModel.headerTitle}" />
 
         <ScrollView
@@ -85,9 +85,9 @@
                         android:id="@+id/defaultImage"
                         android:layout_width="145dp"
                         android:layout_height="145dp"
+                        android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/margin16dp"
                         android:layout_marginBottom="@dimen/margin16dp"
-                        android:layout_centerHorizontal="true"
                         android:padding="@dimen/_5sdp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/ic_default_productimage" />
@@ -159,7 +159,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <View
                         android:layout_width="match_parent"
@@ -193,7 +194,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <View
                         android:layout_width="match_parent"
@@ -220,50 +222,57 @@
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:listitem="@layout/item_product_size"></androidx.recyclerview.widget.RecyclerView>
 
-
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin8dp"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    android:layout_marginBottom="@dimen/margin16dp"
-                    android:background="@color/bgColor4" />
-
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
-                    style="@style/trolla_fontMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    app:tabGravity="start"
-                    app:tabIndicatorColor="@color/primary_color"
-                    app:tabMode="scrollable"
-                    app:tabSelectedTextColor="@color/textColor1"
-                    app:tabTextAppearance="@style/tabLayoutTextStyle"
-                    app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#F0F0F0" />
-
                 <LinearLayout
+                    android:id="@+id/llTabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin16dp"
-                    android:layout_marginBottom="@dimen/margin16dp">
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtProductDescription"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
                         style="@style/trolla_fontMedium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin16dp"
-                        android:layout_marginEnd="@dimen/margin16dp"
-                        android:textColor="@color/textColor2"
-                        tools:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
+                        android:background="@color/white"
+                        app:tabGravity="start"
+                        app:tabIndicatorColor="@color/primary_color"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/textColor1"
+                        app:tabTextAppearance="@style/tabLayoutTextStyle"
+                        app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#F0F0F0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp">
+
+                        <TextView
+                            android:id="@+id/txtProductDescription"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:textColor="@color/textColor2"
+                            tools:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
                     \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -377,9 +386,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
                         android:background="@drawable/ic_horizontal_offerbanner"
                         android:gravity="center"
-                        android:layout_marginBottom="@dimen/_5sdp"
                         android:minWidth="@dimen/_15sdp"
                         android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
                         android:paddingTop="@dimen/_5sdp"
@@ -427,11 +436,11 @@
 
                 <TextView
                     android:id="@+id/txtOutOfStock"
-                    android:layout_marginTop="@dimen/_7sdp"
                     style="@style/trolla_fontMedium"
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="@dimen/margin48dp"
                     android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_7sdp"
                     android:background="@drawable/bg_rounded_textcolor1"
                     android:gravity="center"
                     android:maxLines="1"
@@ -441,8 +450,7 @@
                     android:paddingBottom="@dimen/_7sdp"
                     android:text="Out Of Stock"
                     android:textColor="@color/textColor1"
-                    android:visibility="gone"
-                     />
+                    android:visibility="gone" />
 
 
                 <TextView
