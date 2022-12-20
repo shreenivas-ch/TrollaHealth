@@ -26,15 +26,6 @@
             android:tint="@color/primary_color"
             app:srcCompat="@drawable/ic_back" />
 
-        <TextView
-            android:id="@+id/imgSkip"
-            style="@style/trolla_fontMedium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/skip" />
-
     </RelativeLayout>
 
     <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
@@ -96,7 +87,8 @@
             android:layout_centerVertical="true"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/margin7dp"
-            android:gravity="center"
+            android:gravity="center|top"
+            android:minLines="2"
             android:paddingStart="@dimen/margin7dp"
             android:paddingEnd="@dimen/margin7dp"
             android:text="@string/medicines_at_your_doorstep" />

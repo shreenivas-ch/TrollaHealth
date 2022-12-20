@@ -2,11 +2,9 @@ package com.trolla.healthsdk.feature_auth.presentation
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
-import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_auth.domain.usecases.UpdateProfileUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
@@ -14,12 +12,70 @@ import com.trolla.healthsdk.ui_utils.LiveDataValidator
 import com.trolla.healthsdk.ui_utils.LiveDataValidatorResolver
 import com.trolla.healthsdk.utils.DateCalculator
 import com.trolla.healthsdk.utils.LogUtil
+import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import kotlinx.coroutines.launch
-import org.koin.core.component.getScopeId
 import java.text.SimpleDateFormat
 import java.util.*
 
 class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) : BaseViewModel() {
+
+    val profileNameLiveData = MutableLiveData<String>()
+    val profileEmailLiveData = MutableLiveData<String>()
+    val profileMobileLiveData = MutableLiveData<String>()
+    val profileIdLiveData = MutableLiveData<String>()
+    val profileGenderLiveData = MutableLiveData<String>()
+    val profileDOBLiveData = MutableLiveData<Date>()
+
+    fun getProfile() {
+        viewModelScope.launch {
+            profileNameLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_NAME)
+            profileEmailLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_EMAIL)
+            profileMobileLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MOBILE)
+            profileIdLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_ID)
+            profileGenderLiveData.value =
+                TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_GENDER)
+
+            var day = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_DAY)
+            var month = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_MONTH)
+            var year = TrollaPreferencesManager.getString(TrollaPreferencesManager.PROFILE_YEAR)
+            if (day.isNullOrEmpty() || month.isNullOrEmpty() || year.isNullOrEmpty()) {
+
+            } else {
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.YEAR, year.toInt())
+                cal.set(Calendar.MONTH, month.toInt() + 1)
+                cal.set(Calendar.DAY_OF_MONTH, day.toInt())
+
+                profileDOBLiveData.value = cal.time
+
+                var d = day.toString()
+                if (d.length == 1) {
+                    d = "0$d"
+                }
+
+                var m = month.toString()
+                if (m.length == 1) {
+                    m = "0$m"
+                }
+
+                if (d != dobDateLiveData.value) {
+                    dobDateLiveData.value = d
+                }
+
+                if (m != dobMonthLiveData.value) {
+                    dobMonthLiveData.value = m
+                }
+
+                if (year.toString() != dobYearLiveData.value) {
+                    dobYearLiveData.value = year.toString()
+                }
+            }
+        }
+    }
 
     val updateProfileResponse = MutableLiveData<Resource<BaseApiResponse<UpdateProfileResponse>>>()
 
@@ -27,7 +83,7 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
     var genderFemaleConstant = "female"
     val firstNameLiveData = MutableLiveData<String>()
     val firstnameValidator = LiveDataValidator(firstNameLiveData).apply {
-        addRule("First name is required") { it.isNullOrBlank() }
+        addRule("First Name is required") { it.isNullOrBlank() }
     }
 
     val lastnameLiveData = MutableLiveData<String>()
@@ -111,7 +167,7 @@ class RegisterViewModel(private val updateProfileUsecase: UpdateProfileUsecase) 
         progressStatus.value = true
         viewModelScope.launch {
             updateProfileResponse.value = updateProfileUsecase(
-                firstNameLiveData.value + " " + lastnameLiveData.value,
+                firstNameLiveData.value?.trim() + " " + lastnameLiveData.value?.trim(),
                 mobileNumberLiveData.value.toString(), genderLiveData.value.toString(),
                 dobDateLiveData.value.toString(),
                 dobMonthLiveData.value.toString(),

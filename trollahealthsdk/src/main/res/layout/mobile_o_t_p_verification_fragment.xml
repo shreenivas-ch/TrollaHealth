@@ -201,6 +201,7 @@
                     tools:text="0:59 left" />
 
                 <TextView
+                    android:id="@+id/txtDidNotReceiveOTP"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

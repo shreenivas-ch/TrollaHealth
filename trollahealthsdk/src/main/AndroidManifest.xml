@@ -1,26 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.trolla.healthsdk">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera"/>
 
     <application
-        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EcommerceAggregatorHealthCare">
+        android:theme="@style/Theme.EcommerceAggregatorHealthCare"
+        android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui_utils.WebviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".feature_productdetails.presentation.FullscreenImageViewerActivity"
+            android:exported="false" />
+        <activity
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:name=".feature_dashboard.presentation.DashboardActivity"
             android:exported="false" />
         <activity
             android:name=".feature_onboarding.presentation.OnboardingActivity"
             android:exported="false" />
-        <activity
-            android:name=".feature_auth.presentation.AuthenticationActivity"
-            android:exported="false" />
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_live_5q6YIIlWdSQGkZ" />
+
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+
+        <provider
+            android:name="com.vansuita.pickimage.provider.PickImageFileProvider"
+            android:authorities="${applicationId}.com.vansuita.pickimage.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/picker_provider_paths" />
+        </provider>
+
     </application>
 
 </manifest>

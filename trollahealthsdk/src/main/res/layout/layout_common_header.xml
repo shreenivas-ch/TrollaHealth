@@ -5,43 +5,112 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="linevisibility"
+            type="Integer" />
+
+        <variable
+            name="backButtonVisibility"
+            type="Integer" />
+
+        <variable
+            name="cartVisibility"
+            type="Integer" />
+
+        <variable
+            name="cartCount"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/_8sdp"
-        android:paddingTop="@dimen/_12sdp"
-        android:paddingRight="@dimen/_8sdp"
-        android:paddingBottom="@dimen/_10sdp">
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/white">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imgBack"
-            android:layout_width="@dimen/margin24dp"
-            android:layout_height="@dimen/margin24dp"
-            android:padding="3dp"
-            android:tint="@color/primary_color"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
-
-        <TextView
-            tools:text="@string/app_name"
-            android:id="@+id/txtTitle"
-            style="@style/trolla_fontSemibold"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_7sdp"
-            android:text="@{title}"
-            android:textColor="@color/textColor1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgBack"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgBack"
+                android:layout_width="@dimen/margin24dp"
+                android:layout_height="@dimen/margin24dp"
+                android:padding="3dp"
+                android:tint="@color/primary_color"
+                android:visibility="@{backButtonVisibility==1?View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:text="@{title}"
+                android:textColor="@color/textColor1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imgBack"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/app_name" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="@dimen/_7sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:id="@+id/rlCart"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="@{cartVisibility==1?View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/_20sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_9sdp"
+                app:srcCompat="@drawable/ic_cart_active" />
+
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/bg_circular_badge"
+                android:gravity="center"
+                android:text="@{cartCount.toString()}"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                tools:text="25" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bgColor4"
+            android:visibility="@{linevisibility==1?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_orders.data.ModelOrder" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}">
+
+        <RelativeLayout
+            android:id="@+id/rlMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin16dp">
+
+            <TextView
+                android:id="@+id/txtOrderId"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColor1"
+                app:setOrderPlaceDateAndOrderId="@{item}"
+                tools:text="Order 45678910 (3 items)" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgPaymentMode"
+                android:layout_width="@dimen/margin16dp"
+                android:layout_height="@dimen/margin16dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/margin8dp"
+                android:layout_toLeftOf="@+id/txtOrderAmount"
+                app:setOrderPaymentModeIcon="@{item.transactions.get(0).mode}" />
+
+            <TextView
+                android:id="@+id/txtOrderAmount"
+                style="@style/trolla_fontSemibold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="@{@string/amount(item.order_value.payable)}"
+                android:textColor="@color/textColor1"
+                tools:text="₹137.225" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvUploadedPrescriptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtOrderId"
+                android:layout_marginTop="@dimen/margin16dp"
+                android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:setOrderListProductImages="@{item.products}"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_order_productimage" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_alignTop="@+id/rvUploadedPrescriptions"
+                android:layout_alignBottom="@+id/rvUploadedPrescriptions"
+                android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rvUploadedPrescriptions"
+                android:layout_marginTop="@dimen/_7sdp">
+
+                <LinearLayout
+                    android:id="@+id/llOrderStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imgOrderStatus"
+                        android:layout_width="@dimen/margin16dp"
+                        android:layout_height="@dimen/margin16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin8dp"
+                        app:setOrderStatusIcon="@{item.status}" />
+
+                    <TextView
+                        android:id="@+id/txtOrderStatus"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin8dp"
+                        android:textColor="@color/textColor1"
+                        android:textSize="12sp"
+                        app:capitaliseString="@{item.status}"
+                        tools:text="In-Process" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtOrderDateTime"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llOrderStatus"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_toLeftOf="@+id/txtTrackOrder"
+                    android:textColor="@color/textColor1"
+                    android:textSize="12sp"
+                    app:orderDate="@{item.eta}"
+                    app:orderStatus="@{item.status}"
+                    tools:text="5th May 2022, 05 : 35 : 00 PM" />
+
+                <TextView
+                    android:foreground="?attr/selectableItemBackground"
+                    android:id="@+id/txtTrackOrder"
+                    style="@style/trolla_fontMedium"
+                    app:setTrackOrderVisibility="@{item}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:background="@drawable/bg_rounded_primarybutton"
+                    android:gravity="center"
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.onTrackOrderClick(v,item.adapterPosition)}"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="@string/track_order"
+                    android:textColor="@color/primary_color"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin8dp"
+            android:layout_below="@+id/rlMain"
+            android:background="@color/bgColor4" />
+
+    </RelativeLayout>
+</layout>

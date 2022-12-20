@@ -6,9 +6,9 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.animation.Interpolator;
+
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

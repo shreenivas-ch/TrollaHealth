@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin16dp"
+    android:background="@drawable/bg_corners_white_fill">
+
+    <TextView
+        android:layout_marginTop="@dimen/margin16dp"
+        android:id="@+id/txtTitle"
+        style="@style/trolla_fontSemibold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/textColor1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Prescription Uploaded Successfully" />
+
+    <TextView
+        android:layout_marginBottom="@dimen/margin16dp"
+        android:id="@+id/txtSubtitle"
+        style="@style/trolla_fontMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin32dp"
+        android:gravity="center"
+        android:textColor="@color/textColor2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtTitle"
+        tools:text="Your prescription needes to be validated to process your order successfully" />
+
+    <LinearLayout
+        android:id="@+id/llOptions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin32dp"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSubtitle">
+
+        <TextView
+            android:id="@+id/txtViewTerms"
+            style="@style/trolla_fontSemibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin16dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rounded_primarybutton"
+            android:gravity="center"
+            android:padding="@dimen/margin16dp"
+            android:text="View T&amp;C"
+            android:textColor="@color/primary_color"/>
+
+        <TextView
+            android:id="@+id/txtOKButton"
+            style="@style/trolla_fontSemibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_primarybutton"
+            android:gravity="center"
+            android:padding="@dimen/margin16dp"
+            android:text="Done"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

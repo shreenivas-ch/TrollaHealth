@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.makeramen.roundedimageview.RoundedImageView
@@ -13,7 +12,9 @@ import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 class BannersAdapter(
     val mContext: Context,
-    val bannerArray: ArrayList<DashboardResponse.HomePagePositionsListItem.BannerData>
+    val bannerArray: ArrayList<DashboardResponse.HomePagePositionsListItem.BannerData>,
+    val apiDefinition: DashboardResponse.HomePagePositionsListItem.APIDefinition?,
+    val bannerClickedListner: OnBannerClickedListner
 ) : PagerAdapter() {
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean {
@@ -30,6 +31,10 @@ class BannersAdapter(
             Glide.with(it).load(bannerArray?.get(position).banner_url).into(imageBanner)
         }
 
+        imageBanner.setOnClickListener {
+            bannerClickedListner.onBannerClicked(position)
+        }
+
         collection.addView(layout)
         return layout
     }
@@ -39,4 +44,8 @@ class BannersAdapter(
     }
 
     override fun getCount(): Int = bannerArray?.size
+
+    interface OnBannerClickedListner {
+        fun onBannerClicked(position: Int)
+    }
 }

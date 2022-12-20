@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.trolla.healthsdk.feature_categories.presentation.CategoriesViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
+            app:cartCount="@{viewModel.headerCartCount}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productsList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin8dp"
+            android:layout_marginEnd="@dimen/margin8dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
+            app:spanCount="2"
+            tools:itemCount="10"
+            tools:listitem="@layout/item_category" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

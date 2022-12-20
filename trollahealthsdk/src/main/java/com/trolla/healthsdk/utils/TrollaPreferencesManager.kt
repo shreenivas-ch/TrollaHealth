@@ -3,55 +3,56 @@ package com.trolla.healthsdk.utils
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.GsonBuilder
+
 
 object TrollaPreferencesManager {
 
     const val ACCESS_TOKEN = "access_token"
-    const val USER_DATA = "userdata"
     const val IS_PROFILE_COMPLETE = "is_profile_complete"
+    const val PROFILE_ID = "profile_id"
+    const val PROFILE_NAME = "profile_name"
+    const val PROFILE_EMAIL = "profile_email"
+    const val PROFILE_DAY = "profile_day"
+    const val PROFILE_MONTH = "profile_month"
+    const val PROFILE_YEAR = "profile_year"
+    const val PROFILE_GENDER = "profile_gender"
+    const val PROFILE_MOBILE = "profile_mobile"
+    const val PM_DEFAULT_PINCODE = "default_pincode"
+    const val PM_DEFAULT_ADDRESS = "default_address"
+    const val PM_LOCAL_SEARCH_HISTORY = "local_search_history"
+    const val PM_CART_SELECTED_PAYMENT_METHOD = "cart_selected_payment_method"
 
-    //Shared Preference field used to save and retrieve JSON string
+    const val PM_CART_SELECTED_ADDRESS_ID = "cart_selected_address_id"
+    const val PM_CART_SELECTED_ADDRESS_TITLE = "cart_selected_address_title"
+    const val PM_CART_SELECTED_ADDRESS_ADDRESS = "cart_selected_address_address"
+
     lateinit var preferences: SharedPreferences
 
-    //Name of Shared Preference file
     private const val PREFERENCES_FILE_NAME = "TrollaSharedPreferences"
 
-    /**
-     * Call this first before retrieving or saving object.
-     *
-     * @param application Instance of application class
-     */
     fun with(application: Application) {
         preferences = application.getSharedPreferences(
             PREFERENCES_FILE_NAME, Context.MODE_PRIVATE
         )
     }
 
-    /**
-     * Saves object into the Preferences.
-     *
-     * @param `object` Object of model class (of type [T]) to save
-     * @param key Key with which Shared preferences to
-     **/
-    fun <T> put(`object`: T, key: String) {
-        //Convert object to JSON String.
-        val jsonString = GsonBuilder().create().toJson(`object`)
-        //Save that String in SharedPreferences
-        preferences.edit().putString(key, jsonString).apply()
+    fun clearPreferences() {
+        preferences.edit().clear().commit()
     }
 
-    /**
-     * Used to retrieve object from the Preferences.
-     *
-     * @param key Shared Preference key with which object was saved.
-     **/
-    inline fun <reified T> get(key: String): T? {
-        //We read JSON String which was saved.
-        val value = preferences.getString(key, null)
-        //JSON String was found which means object can be read.
-        //We convert this JSON String to model object. Parameter "c" (of
-        //type Class < T >" is used to cast.
-        return GsonBuilder().create().fromJson(value, T::class.java)
+    fun setString(value: String?, key: String) {
+        preferences.edit().putString(key, value).apply()
+    }
+
+    fun getString(key: String): String? {
+        return preferences.getString(key, null)
+    }
+
+    fun setBoolean(value: Boolean, key: String) {
+        preferences.edit().putBoolean(key, value).apply()
+    }
+
+    fun getBoolean(key: String): Boolean? {
+        return preferences.getBoolean(key, false)
     }
 }

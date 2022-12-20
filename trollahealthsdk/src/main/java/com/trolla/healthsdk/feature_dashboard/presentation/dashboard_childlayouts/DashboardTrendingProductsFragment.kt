@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.GenericAdapter
 import com.trolla.healthsdk.databinding.FragmentDashboardTrendingBinding
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct
+import com.trolla.healthsdk.feature_dashboard.data.GoToProductDetailsEvent
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
 import com.trolla.healthsdk.feature_productslist.presentation.ProductsListFragment
+import com.trolla.healthsdk.utils.hide
+import org.greenrobot.eventbus.EventBus
 
 class DashboardTrendingProductsFragment : Fragment() {
     lateinit var binding: FragmentDashboardTrendingBinding
@@ -33,25 +35,33 @@ class DashboardTrendingProductsFragment : Fragment() {
         )
 
         val genericAdapter = GenericAdapter<DashboardProduct>(
-            R.layout.item_dashboard_trending_product
+            R.layout.item_dashboard_trending_product, bannersList
         )
 
         genericAdapter.setOnListItemViewClickListener(object :
             GenericAdapter.OnListItemViewClickListener {
             override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context, "Clicked at row $position", Toast.LENGTH_LONG).show()
+                EventBus.getDefault().post(
+                    GoToProductDetailsEvent(
+                        bannersList[position].product_id,
+                        bannersList[position].title
+                    )
+                )
             }
 
         })
         binding.rvTrendingProducts.adapter = genericAdapter
-        genericAdapter.addItems(bannersList)
+        //genericAdapter.addItems(bannersList)
+        genericAdapter.notifyDataSetChanged()
 
         binding.txtTrendingShowAll.setOnClickListener {
             var productsFragment = ProductsListFragment.newInstance(
-                getString(R.string.trending_products), ""
+                getString(R.string.trending_products), "", ""
             )
             (activity as DashboardActivity).addOrReplaceFragment(productsFragment, true)
         }
+
+        binding.txtTrendingShowAll.hide()
 
         return binding.root
     }

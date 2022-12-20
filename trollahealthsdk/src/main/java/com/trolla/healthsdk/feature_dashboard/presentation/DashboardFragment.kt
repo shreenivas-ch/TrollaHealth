@@ -10,10 +10,18 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.ComponentGenerator
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.FragmentDashboardBinding
-import com.trolla.healthsdk.feature_dashboard.data.DashboardComponentModel
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
+import com.trolla.healthsdk.feature_dashboard.data.*
+import com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsFragment
+import com.trolla.healthsdk.feature_search.presentation.SearchFragment
+import com.trolla.healthsdk.utils.LogUtil
 import com.trolla.healthsdk.utils.TrollaHealthUtility
 import com.trolla.healthsdk.utils.asString
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
+
 
 class DashboardFragment : Fragment() {
     lateinit var binding: FragmentDashboardBinding
@@ -34,12 +42,16 @@ class DashboardFragment : Fragment() {
         )
 
         binding.lifecycleOwner = this
-
         dashboardViewModel.getDashboard()
+        dashboardViewModel.getProfile()
 
         binding.dashboardSwifeRefresh.setOnRefreshListener {
             binding.dashboardSwifeRefresh.isRefreshing = false
             dashboardViewModel.getDashboard()
+        }
+
+        binding.llSearch.setOnClickListener {
+            (activity as DashboardActivity).addOrReplaceFragment(SearchFragment.newInstance(), true)
         }
 
         dashboardViewModel.progressStatus.observe(viewLifecycleOwner)
@@ -61,7 +73,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_BANNER,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
@@ -76,7 +88,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_CATEGORIES,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
@@ -92,7 +104,7 @@ class DashboardFragment : Fragment() {
                             val dashboardComponentModel =
                                 DashboardComponentModel(
                                     ComponentGenerator.TYPE_DASHBOARD_FEATURED_BRANDS,
-                                    homepageitem.banner_data
+                                    homepageitem.banner_data, homepageitem.apiDefinition
                                 )
                             val fragment =
                                 ComponentGenerator.getComponentObject(dashboardComponentModel)
@@ -164,5 +176,47 @@ class DashboardFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartActionEvent: AddToCartActionEvent) {
+        LogUtil.printObject("-----> DashboardFragment: AddToCartActionEvent")
+        (activity as DashboardActivity).cartViewModel.addToCart(
+            addToCartActionEvent.product_id,
+            addToCartActionEvent.qty, from = "dashboard"
+        )
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(refreshDashboardEvent: RefreshDashboardEvent) {
+        dashboardViewModel.getDashboard()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(goToCartEvent: GoToCartEvent) {
+
+        var cartFragment = CartFragment.newInstance()
+
+        (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(goToProductDetailsEvent: GoToProductDetailsEvent) {
+        var productDetailsFragment = ProductDetailsFragment.newInstance(
+            goToProductDetailsEvent.product_id,
+            goToProductDetailsEvent.product_name ?: ""
+        )
+
+        (activity as DashboardActivity).addOrReplaceFragment(productDetailsFragment, true)
     }
 }

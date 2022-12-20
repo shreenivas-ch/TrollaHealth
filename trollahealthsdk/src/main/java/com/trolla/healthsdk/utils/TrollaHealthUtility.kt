@@ -10,6 +10,8 @@ import android.util.Base64
 import android.util.TypedValue
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.text.SimpleDateFormat
+import java.util.*
 
 object TrollaHealthUtility {
 
@@ -57,5 +59,38 @@ object TrollaHealthUtility {
             TypedValue.COMPLEX_UNIT_DIP, sizeInDp, context.resources
                 .displayMetrics
         ).toInt()
+    }
+
+    fun getDate(addedOn: String?): String? {
+
+        var modifiedDate = addedOn
+        try {
+            val format = SimpleDateFormat(TrollaConstants.DATE_FORMAT_3, Locale.getDefault())
+            val newFormat = SimpleDateFormat(TrollaConstants.DATE_FORMAT_2, Locale.getDefault())
+            format.timeZone = TimeZone.getTimeZone("UTC")
+            newFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = format.parse(addedOn)
+            modifiedDate =
+                newFormat.format(date)
+        } catch (ex: Exception) {
+            LogUtil.printObject(ex.toString())
+        }
+        return modifiedDate
+    }
+
+    fun convertOrderDate(addedOn: String?): String? {
+
+        var modifiedDate = addedOn
+        try {
+            val format = SimpleDateFormat(TrollaConstants.DATE_FORMAT_1, Locale.getDefault())
+            val newFormat = SimpleDateFormat(TrollaConstants.DATE_FORMAT_4, Locale.getDefault())
+            format.timeZone = TimeZone.getTimeZone("UTC")
+            newFormat.timeZone = TimeZone.getTimeZone("UTC")
+            val date = format.parse(addedOn)
+            modifiedDate = newFormat.format(date)
+        } catch (ex: Exception) {
+            LogUtil.printObject(ex.toString())
+        }
+        return modifiedDate
     }
 }

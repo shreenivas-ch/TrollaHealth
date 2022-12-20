@@ -2,13 +2,12 @@ package com.trolla.healthsdk.feature_productslist.data
 
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
-import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 
 interface ProductsListRepository {
     suspend fun getProductsList(
         page: String,
         limit: String,
-        category: String,
-        type: String
+        filterValue: String,
+        filterBy: String
     ): Resource<BaseApiResponse<ProductsListResponse>>
 }

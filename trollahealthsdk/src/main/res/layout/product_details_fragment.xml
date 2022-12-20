@@ -8,150 +8,473 @@
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_productdetails.presentation.ProductDetailsViewModel" />
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_dashboard.data.DashboardResponse.DashboardProduct" />
+
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
 
-        <LinearLayout
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:cartCount="@{viewModel.headerCartCount}"
+            app:cartVisibility="@{viewModel.headerCartIcon}"
+            app:title="@{viewModel.headerTitle}" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/commonHeader"
-                layout="@layout/layout_common_header"
-                app:title="@{viewModel.headerTitle}" />
+            android:layout_above="@+id/cardCartActions"
+            android:layout_below="@+id/commonHeader"
+            android:background="@color/white">
 
             <LinearLayout
-                android:id="@+id/llProductImages"
+                android:id="@+id/llProductDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin16dp"
+                android:visibility="gone"
+                tools:visibility="visible">
 
-                <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
-                    android:id="@+id/productsViewPager"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="145dp"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/llProductImages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.trolla.healthsdk.ui_utils.AutoScrollViewPager
+                            android:id="@+id/productsViewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="145dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp" />
+
+                        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                            android:id="@+id/bannerDotsIndicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:visibility="visible"
+                            app:dotsColor="@color/primary_color"
+                            app:dotsCornerRadius="5dp"
+                            app:dotsSize="5dp"
+                            app:dotsSpacing="5dp"
+                            app:dotsStrokeColor="@color/purple1"
+                            app:dotsStrokeWidth="2dp"
+                            app:dotsWidthFactor="4.5"
+                            app:progressMode="true"
+                            app:selectedDotColor="@color/primary_color" />
+
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/defaultImage"
+                        android:layout_width="145dp"
+                        android:layout_height="145dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:padding="@dimen/_5sdp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/ic_default_productimage" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
                     android:layout_marginTop="@dimen/margin16dp"
-                    android:layout_marginBottom="@dimen/margin16dp" />
-
-                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                    android:id="@+id/bannerDotsIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="visible"
-                    app:dotsColor="@color/primary_color"
-                    app:dotsCornerRadius="5dp"
-                    app:dotsSize="5dp"
-                    app:dotsSpacing="5dp"
-                    app:dotsStrokeColor="@color/purple1"
-                    app:dotsStrokeWidth="2dp"
-                    app:dotsWidthFactor="4.5"
-                    app:progressMode="true"
-                    app:selectedDotColor="@color/primary_color" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin8dp"
-                android:layout_marginTop="@dimen/margin16dp"
-                android:layout_marginBottom="@dimen/margin16dp"
-                android:background="@color/bgColor4" />
-
-            <TextView
-                style="@style/trolla_fontSemibold"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginEnd="@dimen/margin16dp"
-                android:textColor="@color/textColor1"
-                tools:text="Good Day Cashew Cookies Good Day Cashew Cookies" />
-
-            <TextView
-                style="@style/trolla_fontMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginTop="@dimen/margin8dp"
-                android:layout_marginEnd="@dimen/margin16dp"
-                android:textColor="@color/textColor4"
-                android:textSize="10sp"
-                tools:text="Novus Life Sciences Pvt Ltd" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin16dp"
-                android:layout_marginTop="@dimen/margin8dp"
-                android:background="@drawable/bg_primarybutton"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/margin8dp"
-                android:paddingTop="@dimen/margin4dp"
-                android:paddingEnd="@dimen/margin8dp"
-                android:paddingBottom="@dimen/margin4dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:layout_width="8dp"
-                    android:layout_height="10dp"
-                    android:layout_marginEnd="@dimen/margin8dp"
-                    app:srcCompat="@drawable/ic_prescription" />
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
 
                 <TextView
+                    android:id="@+id/txtTitle"
                     style="@style/trolla_fontSemibold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prescription Required"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin8dp"
-                android:layout_marginTop="@dimen/margin16dp"
-                android:layout_marginBottom="@dimen/margin16dp"
-                android:background="@color/bgColor4" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                style="@style/trolla_fontMedium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:tabGravity="start"
-                app:tabIndicatorColor="@color/primary_color"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/textColor1"
-                app:tabTextAppearance="@style/tabLayoutTextStyle"
-                app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin16dp">
-
-                <TextView
-                    style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:layout_marginEnd="@dimen/margin16dp"
-                    android:textColor="@color/textColor2"
-                    android:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
+                    android:text="@{item.title}"
+                    android:textColor="@color/textColor1"
+                    tools:text="Product names" />
+
+                <TextView
+                    android:id="@+id/txtManufacturer"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:textColor="@color/textColor4"
+                    android:textSize="10sp"
+                    tools:text="Novus Life Sciences Pvt Ltd" />
+
+                <LinearLayout
+                    android:id="@+id/viewRx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin8dp"
+                    android:background="@drawable/bg_primarybutton"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin8dp"
+                    android:paddingTop="@dimen/margin4dp"
+                    android:paddingEnd="@dimen/margin8dp"
+                    android:paddingBottom="@dimen/margin4dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="8dp"
+                        android:layout_height="10dp"
+                        android:layout_marginEnd="@dimen/margin8dp"
+                        app:srcCompat="@drawable/ic_prescription" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prescription Required"
+                        android:textColor="@color/white"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSizes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="Sizes"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvSizes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_product_size"></androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOtherOptions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="Other options"
+                        android:textColor="@color/textColor1" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvOtherOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_product_size"></androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        app:tabGravity="start"
+                        app:tabIndicatorColor="@color/primary_color"
+                        app:tabMode="scrollable"
+                        app:tabSelectedTextColor="@color/textColor1"
+                        app:tabTextAppearance="@style/tabLayoutTextStyle"
+                        app:tabTextColor="@color/textColor4"></com.google.android.material.tabs.TabLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#F0F0F0" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:layout_marginBottom="@dimen/margin16dp">
+
+                        <TextView
+                            android:id="@+id/txtProductDescription"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:textColor="@color/textColor2"
+                            tools:text="HealthKart Omega-3 Capsule contains Omega 3 fatty acids including EPA and DHA as active ingredients. It also contains Gelatin (animal origin), Glycerin, Soya oil, Sorbitol, Hydrogenated Vegetable Oil, Soya Lecithin, Beeswax, preservatives, and BHA as active ingredients. The omega-3 is important throughout life.
                     \n\nExpiry : 6 months from manufacturing\nCountry of Origin : Sri Lanka 🇱🇰" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llExpiry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:text="Expiry:"
+                        android:textColor="@color/textColor3" />
+
+                    <TextView
+                        android:id="@+id/txtExpiryDate"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text=""
+                        android:textColor="@color/textColor2" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCountryOfOrigin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:text="@string/country_of_origin"
+                        android:textColor="@color/textColor3" />
+
+                    <TextView
+                        android:id="@+id/txtCountryOfOrigin"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text=""
+                        android:textColor="@color/textColor2" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <TextView
+                    android:id="@+id/txtFaqLabel"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:text="FAQ"
+                    android:textColor="@color/textColor1" />
+
+                <TextView
+                    android:id="@+id/txtFaq"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:text="FAQ"
+                    android:textColor="@color/textColor1" />
+
 
             </LinearLayout>
 
-        </LinearLayout>
+        </ScrollView>
 
-    </ScrollView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardCartActions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            app:cardElevation="20dp"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtOfferText"
+                        style="@style/trolla_fontBold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:background="@drawable/ic_horizontal_offerbanner"
+                        android:gravity="center"
+                        android:minWidth="@dimen/_15sdp"
+                        android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:textColor="@color/textColor1"
+                        android:textSize="10sp"
+                        tools:text="20% OFF" />
+
+                    <TextView
+                        android:id="@+id/txtPrice"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/textColor5"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txtDiscountedPrice"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/textColor1"
+                        android:textSize="20sp"
+                        tools:text="₹89999" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtAddToCart"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/bg_primarybutton"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="@string/add_to_cart"
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtOutOfStock"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/bg_rounded_textcolor1"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_7sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="Out Of Stock"
+                    android:textColor="@color/textColor1"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:id="@+id/txtGotoCart"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/bg_rounded_primarybutton"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="@string/go_to_cart"
+                    android:textColor="@color/primary_color"
+                    android:visibility="gone"
+                    tools:visibility="gone" />
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
 
 </layout>

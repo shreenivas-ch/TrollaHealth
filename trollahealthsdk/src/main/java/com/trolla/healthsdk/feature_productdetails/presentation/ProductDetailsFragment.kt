@@ -1,37 +1,83 @@
 package com.trolla.healthsdk.feature_productdetails.presentation
 
-import androidx.lifecycle.ViewModelProvider
+import android.graphics.Paint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.trolla.healthsdk.R
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
+import com.trolla.healthsdk.core.CustomBindingAdapter
+import com.trolla.healthsdk.core.GenericAdapter
+import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.databinding.ProductDetailsFragmentBinding
-import com.trolla.healthsdk.databinding.ProductsListFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
-import org.koin.java.KoinJavaComponent
+import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
+import com.trolla.healthsdk.feature_cart.data.models.AddToCartSuccessEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartCountChangeEvent
+import com.trolla.healthsdk.feature_cart.data.models.CartDetailsRefreshedEvent
+import com.trolla.healthsdk.feature_cart.presentation.CartFragment
+import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
+import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
+import com.trolla.healthsdk.feature_dashboard.presentation.getCartViewModel
+import com.trolla.healthsdk.utils.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.java.KoinJavaComponent.inject
+import java.text.DecimalFormat
 
 class ProductDetailsFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ProductDetailsFragment()
-    }
 
     val productDetailsViewModel: ProductDetailsViewModel by inject(
         ProductDetailsViewModel::class.java
     )
+
+    val title by lazy {
+        arguments?.let {
+            it.getString("title")
+        }
+    }
+
+    val extrasProductId by lazy {
+        arguments?.let {
+            it.getInt("id")
+        }
+    }
+
+    var productid = ""
+
+    lateinit var binding: ProductDetailsFragmentBinding
+
+    var cartQuantity = 0
+
+    var sizesList = ArrayList<DashboardResponse.ProductVariantValues>()
+    lateinit var sizesAdapter: GenericAdapter<DashboardResponse.ProductVariantValues>
+
+    var otherOptionsList = ArrayList<DashboardResponse.ProductVariantValues>()
+    lateinit var otherOptionsAdapter: GenericAdapter<DashboardResponse.ProductVariantValues>
+
+    companion object {
+        fun newInstance(id: Int, title: String): ProductDetailsFragment {
+            val bundle = Bundle()
+            bundle.putString("title", title)
+            bundle.putInt("id", id)
+            var productsListFragment = ProductDetailsFragment()
+            productsListFragment.arguments = bundle
+            return productsListFragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        var binding = DataBindingUtil.inflate<ProductDetailsFragmentBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.product_details_fragment,
             container,
@@ -41,30 +87,441 @@ class ProductDetailsFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = productDetailsViewModel
 
-        binding.tabLayout.addTab(
-            binding.tabLayout.newTab().setText(getString(R.string.product_description))
+        productDetailsViewModel.headerBackButton.value = 1
+        productDetailsViewModel.headerTitle.value = ""
+
+        productid = extrasProductId.toString()
+
+        binding.commonHeader.imgBack.setOnClickListener {
+            parentFragmentManager?.popBackStack()
+        }
+
+        sizesAdapter = GenericAdapter(
+            R.layout.item_product_size, sizesList
         )
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Uses)))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText(getString(R.string.Benefits)))
-        binding.tabLayout.addTab(
-            binding.tabLayout.newTab().setText(getString(R.string.storage_conditions))
+
+        otherOptionsAdapter = GenericAdapter(
+            R.layout.item_product_size, otherOptionsList
         )
+
+        binding.rvSizes.adapter = sizesAdapter
+        binding.rvOtherOptions.adapter = otherOptionsAdapter
+
+        sizesAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+                if (sizesList[position].product_id.toString() != productid) {
+                    productid = sizesList[position].product_id.toString()
+                    productDetailsViewModel.getProductDetails(productid)
+                }
+            }
+        })
+
+        otherOptionsAdapter.setOnListItemViewClickListener(object :
+            GenericAdapter.OnListItemViewClickListener {
+            override fun onClick(view: View, position: Int) {
+                productid = otherOptionsList[position].product_id.toString()
+                productDetailsViewModel.getProductDetails(productid)
+            }
+        })
+
+        productDetailsViewModel.getProductDetailsResponseLiveData.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    val response = productDetailsViewModel.getProductDetailsResponseLiveData.value
+                    productDetailsViewModel.dashboardProduct.value = response?.data?.data?.detail!!
+
+                    binding.llProductDetails.show()
+                    binding.cardCartActions.show()
+
+                    var dashboardProduct = response?.data?.data?.detail!!
+                    binding.txtTitle.text = dashboardProduct.title
+                    binding.txtManufacturer.text = dashboardProduct.manufacturer_name
+
+                    val df = DecimalFormat("0.00")
+
+                    binding.txtPrice.text =
+                        String.format(
+                            getString(R.string.amount_string),
+                            df.format(dashboardProduct.mrp.toDouble())
+                        )
+
+                    binding.txtPrice.paintFlags =
+                        binding.txtPrice.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
+                    if (dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "") {
+                        binding.txtDiscountedPrice.text = String.format(
+                            getString(R.string.amount_string),
+                            df.format(dashboardProduct.sale_price.toDouble())
+                        )
+                    } else {
+                        binding.txtDiscountedPrice.text = String.format(
+                            getString(R.string.amount_string),
+                            df.format(dashboardProduct.rx_offer_mrp.toDouble())
+                        )
+                    }
+
+                    if (binding.txtPrice.text == binding.txtDiscountedPrice.text) {
+                        binding.txtPrice.hide()
+                    } else {
+                        binding.txtPrice.show()
+                    }
+
+                    CustomBindingAdapter.setOfferText(binding.txtOfferText, dashboardProduct)
+
+                    if (dashboardProduct.expiry_date.isNullOrEmpty() || dashboardProduct.expiry_date == "null") {
+                        binding.llExpiry.hide()
+                    } else {
+                        binding.txtExpiryDate.text = dashboardProduct.expiry_date
+                    }
+
+                    if (dashboardProduct.country_origin.isNullOrEmpty() || dashboardProduct.country_origin == "null") {
+                        binding.llCountryOfOrigin.hide()
+                    } else {
+                        binding.txtCountryOfOrigin.text = dashboardProduct.country_origin
+                    }
+
+                    if (dashboardProduct.controlled_faqs.isNullOrEmpty()) {
+                        binding.txtFaq.hide()
+                        binding.txtFaqLabel.hide()
+                    } else {
+                        binding.txtFaq.text = dashboardProduct.controlled_faqs
+                    }
+
+                    binding.viewRx.setVisibilityOnBoolean(
+                        dashboardProduct.rx_type == "NON-RX" || dashboardProduct.rx_type == "",
+                        false
+                    )
+                    manageProductImages(dashboardProduct.product_img)
+                    createTabs(dashboardProduct)
+                    it?.data?.data?.variants?.let { variants ->
+                        processVariants(variants)
+                    }
+
+                    getCartViewModel().getCartDetails()
+                }
+
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
+        productDetailsViewModel.progressStatus.observe(viewLifecycleOwner)
+        {
+            (activity as DashboardActivity).showHideProgressBar(it)
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({ productDetailsViewModel.getProductDetails(productid) }, 200)
+
+
+        binding.txtAddToCart.setOnClickListener {
+            var newQuantity = 1
+            getCartViewModel().addToCart(productid.toInt(), newQuantity, from = "product details")
+        }
+
+        activity?.hidekeyboard(binding.root)
+
+        binding.txtGotoCart.setOnClickListener {
+            var cartFragment = CartFragment.newInstance()
+            (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+        }
+
+        binding.commonHeader.rlCart.setOnClickListener {
+            var cartFragment = CartFragment.newInstance()
+            (activity as DashboardActivity).addOrReplaceFragment(cartFragment, true)
+        }
+
+        return binding.root
+    }
+
+    private fun processCartData(products: java.util.ArrayList<GetCartDetailsResponse.CartProduct>) {
+        cartQuantity = 0
+
+        var isProductedAddedToCart = false
+        for (i in products.indices) {
+            if (!isProductedAddedToCart) {
+                if (products[i].product.product_id.toString() == productid) {
+                    isProductedAddedToCart = true
+                    cartQuantity = products[i].qty
+                }
+            }
+        }
+
+        if (!isProductedAddedToCart) {
+
+            var outOfStock =
+                productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.out_of_stock
+                    ?: 0
+            var isPerishable =
+                productDetailsViewModel.getProductDetailsResponseLiveData.value?.data?.data?.detail?.is_perishable
+                    ?: 0
+            if (outOfStock == TrollaConstants.OUT_OF_STOCK || isPerishable == TrollaConstants.IS_PERISHABLE) {
+                binding.txtAddToCart.hide()
+                binding.txtGotoCart.hide()
+                binding.txtOutOfStock.show()
+            } else {
+                binding.txtOutOfStock.hide()
+                binding.txtAddToCart.show()
+                binding.txtGotoCart.hide()
+            }
+
+        } else {
+            binding.txtAddToCart.hide()
+            binding.txtOutOfStock.hide()
+            binding.txtGotoCart.show()
+        }
+    }
+
+    private fun processVariants(variants: ArrayList<DashboardResponse.ProductVariant>) {
+        sizesList.clear()
+        otherOptionsList.clear()
+
+        for (i in variants.indices) {
+            if (variants[i].variant_name.lowercase() == "sizes") {
+                for (j in variants[i].values.indices) {
+                    //if (variants[i].values[j].product_id.toString() != productid) {
+                    var tmpVariant = variants[i].values[j]
+                    tmpVariant.currentProducId = productid
+                    sizesList.add(tmpVariant)
+                    //}
+                }
+            } else {
+                for (j in variants[i].values.indices) {
+                    //if (variants[i].values[j].product_id.toString() != productid) {
+                    var tmpVariant = variants[i].values[j]
+                    tmpVariant.currentProducId = productid
+                    otherOptionsList.add(tmpVariant)
+                    //}
+                }
+            }
+        }
+
+        var sortedSize = sizesList.sortedWith(compareBy {
+            it.sale_price
+        })
+
+        sizesList.clear()
+        sizesList.addAll(sortedSize)
+
+        sizesAdapter.notifyDataSetChanged()
+        otherOptionsAdapter.notifyDataSetChanged()
+
+        if (sizesList.size > 1) {
+            binding.llSizes.show()
+        } else {
+            binding.llSizes.hide()
+        }
+
+        /* Not showing other options in v1 */
+        if (otherOptionsList.size == 0) {
+            binding.llOtherOptions.hide()
+        } else {
+            binding.llOtherOptions.hide()
+        }
+    }
+
+    private fun manageProductImages(productImages: ArrayList<String>) {
+        val sliderAdapter = ProductImagesAdapter(
+            requireActivity(),
+            productImages
+        )
+
+        var pager = binding.productsViewPager?.apply {
+            adapter = sliderAdapter
+            startAutoScroll()
+            interval = 10000
+            isCycle = true
+            clipToPadding = false
+        }
+
+        binding.bannerDotsIndicator?.setViewPager(pager as ViewPager)
+
+        if (productImages.size == 0) {
+            binding.llProductImages.hide()
+            binding.defaultImage.show()
+        } else {
+            binding.llProductImages.show()
+            binding.defaultImage.hide()
+        }
+
+    }
+
+    var product_brief = ""
+    var description = ""
+    var short_description = ""
+    var long_description = ""
+
+    var strDescription = ""
+    var strContraindications = ""
+    var strSafetyAdvice = ""
+    var str_how_drug_works = ""
+    var str_missed_dose = ""
+    var str_quick_tips = ""
+    var str_drug_interactions = ""
+    var str_benefits = ""
+    var str_storage_conditions = ""
+    var str_uses = ""
+    var str_ingredients = ""
+    var str_side_effects = ""
+
+    private fun createTabs(dashboardProduct: DashboardResponse.DashboardProduct) {
+
+        binding.tabLayout.removeAllTabs()
+        strDescription = ""
+        strContraindications = ""
+        strSafetyAdvice = ""
+        str_how_drug_works = ""
+        str_missed_dose = ""
+        str_quick_tips = ""
+        str_drug_interactions = ""
+        str_benefits = ""
+        str_storage_conditions = ""
+        str_uses = ""
+        str_ingredients = ""
+        str_side_effects = ""
+
+        product_brief = dashboardProduct.product_brief
+        description = dashboardProduct.description
+        short_description = dashboardProduct.short_description
+        long_description = dashboardProduct.long_description
+
+        strDescription += if (product_brief.isNullOrEmpty() || product_brief == "null") "" else product_brief
+        strDescription += if (description.isNullOrEmpty() || description == "null") "" else description
+        strDescription += if (short_description.isNullOrEmpty() || short_description == "null") "" else short_description
+        strDescription += if (long_description.isNullOrEmpty() || long_description == "null") "" else long_description
+
+        if (!strDescription.isNullOrEmpty()) {
+            binding.tabLayout.addTab(
+                binding.tabLayout.newTab().setText("Product Description")
+            )
+            setDescriptionText(strDescription, true)
+
+        }
+
+        if (!dashboardProduct.contraindications.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Contraindications"))
+            strContraindications = dashboardProduct.contraindications
+            if (binding.txtProductDescription.text.isNullOrEmpty()) {
+                binding.txtProductDescription.text = strContraindications
+            }
+
+            setDescriptionText(strContraindications, true)
+        }
+
+        if (!dashboardProduct.safety_advice.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Safety Advice"))
+            strSafetyAdvice = dashboardProduct.safety_advice
+
+            setDescriptionText(strSafetyAdvice, true)
+        }
+
+        if (!dashboardProduct.how_drug_works.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("How Drug Works"))
+            str_how_drug_works = dashboardProduct.how_drug_works
+
+            setDescriptionText(str_how_drug_works, true)
+        }
+
+        if (!dashboardProduct.missed_dose.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Missed Dose"))
+            str_missed_dose = dashboardProduct.missed_dose
+
+            setDescriptionText(str_missed_dose, true)
+        }
+
+        if (!dashboardProduct.quick_tips.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Quick Tips"))
+            str_quick_tips = dashboardProduct.quick_tips
+
+            setDescriptionText(str_quick_tips, true)
+        }
+
+        if (!dashboardProduct.drug_interactions.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Drug Interactions"))
+            str_drug_interactions = dashboardProduct.drug_interactions
+
+            setDescriptionText(str_drug_interactions, true)
+        }
+
+        if (!dashboardProduct.benefits.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Benefits"))
+            str_benefits = dashboardProduct.benefits
+
+            setDescriptionText(str_benefits, true)
+        }
+
+        if (!dashboardProduct.storage_conditions.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Storage Conditions"))
+            str_storage_conditions = dashboardProduct.storage_conditions
+
+            setDescriptionText(str_storage_conditions, true)
+        }
+
+        if (!dashboardProduct.uses.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Uses"))
+            str_uses = dashboardProduct.uses
+
+            setDescriptionText(str_uses, true)
+        }
+
+        if (!dashboardProduct.ingredients.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Ingredients"))
+            str_ingredients = dashboardProduct.ingredients
+
+            setDescriptionText(str_ingredients, true)
+        }
+
+        if (!dashboardProduct.side_effects.isNullOrEmpty()) {
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Side Effects"))
+            str_side_effects = dashboardProduct.side_effects
+
+            setDescriptionText(str_side_effects, true)
+        }
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
-                when (tab?.position) {
-                    0 -> {
-
+                when (tab?.text) {
+                    "Product Description" -> {
+                        setDescriptionText(strDescription)
                     }
-                    1 -> {
-
+                    "Contraindications" -> {
+                        setDescriptionText(strContraindications)
                     }
-                    2 -> {
-
+                    "Safety Advice" -> {
+                        setDescriptionText(strSafetyAdvice)
                     }
-                    3 -> {
-
+                    "How Drug Works" -> {
+                        setDescriptionText(str_how_drug_works)
+                    }
+                    "Missed Dose" -> {
+                        setDescriptionText(str_missed_dose)
+                    }
+                    "Quick Tips" -> {
+                        setDescriptionText(str_quick_tips)
+                    }
+                    "Drug Interactions" -> {
+                        setDescriptionText(str_drug_interactions)
+                    }
+                    "Benefits" -> {
+                        setDescriptionText(str_benefits)
+                    }
+                    "Storage Conditions" -> {
+                        setDescriptionText(str_storage_conditions)
+                    }
+                    "Uses" -> {
+                        setDescriptionText(str_uses)
+                    }
+                    "Ingredients" -> {
+                        setDescriptionText(str_ingredients)
+                    }
+                    "Side Effects" -> {
+                        setDescriptionText(str_side_effects)
                     }
                 }
 
@@ -79,7 +536,58 @@ class ProductDetailsFragment : Fragment() {
 
         })
 
-        return binding.root
+        if(binding.tabLayout.tabCount==0)
+        {
+            binding.llTabs.hide()
+        }
+        else
+        {
+            binding.llTabs.show()
+        }
+    }
+
+    fun setDescriptionText(str: String, isFirstTime: Boolean = false) {
+        if (isFirstTime) {
+            if (binding.txtProductDescription.text.toString().trim().isNullOrEmpty()) {
+                binding.txtProductDescription.text = str
+            }
+        } else {
+            binding.txtProductDescription.text = str
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartDetailsRefreshedEvent: CartDetailsRefreshedEvent) {
+        processCartData(getCartViewModel().cartDetailsResponseLiveData.value?.data?.data?.cart?.products ?: arrayListOf())
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(addToCartSuccessEvent: AddToCartSuccessEvent) {
+        processCartData(getCartViewModel().addToCartResponseLiveData.value?.data?.data?.cart?.products ?: arrayListOf())
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(cartCountChangeEvent: CartCountChangeEvent) {
+        updateCartCount(getCartViewModel().cartCountLiveData.value ?: 0)
+    }
+
+    fun updateCartCount(count: Int) {
+        if (count == 0) {
+            productDetailsViewModel.headerCartIcon.value = 0
+        } else {
+            productDetailsViewModel.headerCartIcon.value = 1
+            productDetailsViewModel.headerCartCount.value = count
+        }
     }
 
 }

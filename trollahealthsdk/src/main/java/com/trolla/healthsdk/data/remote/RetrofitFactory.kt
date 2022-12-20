@@ -1,6 +1,7 @@
 package com.trolla.healthsdk.data.remote
 
 import com.google.gson.Gson
+import com.trolla.healthsdk.BuildConfig
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -12,7 +13,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitFactory {
 
-    const val BASE_URL: String = "http://43.204.113.59/api/"
+    const val BASE_URL: String = BuildConfig.BASE_URL
 
     fun makeRetrofitService(): ApiService {
         return Retrofit.Builder()
@@ -36,7 +37,7 @@ object RetrofitFactory {
                     requestBuilder.header("Accept", "application/json")
                     requestBuilder.header(
                         "Authorization",
-                        "Bearer " + TrollaPreferencesManager.get<String>(
+                        "Bearer " + TrollaPreferencesManager.getString(
                             TrollaPreferencesManager.ACCESS_TOKEN
                         )
                     )

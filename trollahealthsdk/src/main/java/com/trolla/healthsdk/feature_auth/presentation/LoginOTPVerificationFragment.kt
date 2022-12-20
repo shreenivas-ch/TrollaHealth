@@ -1,24 +1,17 @@
 package com.trolla.healthsdk.feature_auth.presentation
 
-import android.content.Intent
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.data.Resource
-import com.trolla.healthsdk.databinding.AddAddressFragmentBinding
 import com.trolla.healthsdk.databinding.LoginOTPVerificationFragmentBinding
-import com.trolla.healthsdk.feature_address.presentation.AddAddressViewModel
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
-import com.trolla.healthsdk.utils.TrollaHealthUtility
-import com.trolla.healthsdk.utils.TrollaPreferencesManager
-import com.trolla.healthsdk.utils.asString
-import org.koin.java.KoinJavaComponent
+import com.trolla.healthsdk.utils.*
 import org.koin.java.KoinJavaComponent.inject
 
 class LoginOTPVerificationFragment : Fragment() {
@@ -64,6 +57,25 @@ class LoginOTPVerificationFragment : Fragment() {
             }
         }
 
+        binding.txtDidNotReceiveOTP.setOnClickListener {
+            loginOTPVerificationViewModel.getOTPOnEmail()
+        }
+
+        loginOTPVerificationViewModel.getOTPResponse.observe(viewLifecycleOwner)
+        {
+            when (it) {
+                is Resource.Success -> {
+                    activity?.showLongToast("OTP sent to your email " + email.toString())
+                }
+                is Resource.Error -> {
+                    TrollaHealthUtility.showAlertDialogue(
+                        requireContext(),
+                        it.uiText?.asString(requireContext())
+                    )
+                }
+            }
+        }
+
         binding.edt1.requestFocus()
 
         binding.edt1.addTextChangedListener {
@@ -99,7 +111,7 @@ class LoginOTPVerificationFragment : Fragment() {
         }
 
         loginOTPVerificationViewModel.progressStatus.observe(viewLifecycleOwner) {
-            (activity as AuthenticationActivity).showHideProgressBar(it)
+            (activity as DashboardActivity).showHideProgressBar(it)
         }
 
         loginOTPVerificationViewModel.verifyOTPResponse.observe(viewLifecycleOwner) {
@@ -107,24 +119,31 @@ class LoginOTPVerificationFragment : Fragment() {
                 is Resource.Success -> {
 
                     var accessToken = it?.data?.data?.access_token
-                    var isProfileComplete = it?.data?.data?.is_profile_complete ?: false
+                    var isProfileComplete = it?.data?.data?.is_profile_complete
 
-                    TrollaPreferencesManager.put(
+                    var local_isProfileComplete = if (isProfileComplete.isNullOrEmpty()) {
+                        false
+                    } else isProfileComplete != "false"
+
+                    TrollaPreferencesManager.setString(
                         accessToken,
                         TrollaPreferencesManager.ACCESS_TOKEN
                     )
 
-                    TrollaPreferencesManager.put(
-                        isProfileComplete,
+                    TrollaPreferencesManager.setBoolean(
+                        local_isProfileComplete,
                         TrollaPreferencesManager.IS_PROFILE_COMPLETE
                     )
 
-                    if (isProfileComplete) {
-                        startActivity(Intent(activity, DashboardActivity::class.java))
-                        (activity as AuthenticationActivity).finish()
+                    activity?.hidekeyboard(binding.edt1)
+
+                    if (local_isProfileComplete) {
+                        (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
+                        ((activity as DashboardActivity)).init = false
+                        (activity as DashboardActivity).getAddressListOnDashboard()
                     } else {
-                        (activity as AuthenticationActivity).addOrReplaceFragment(
-                            RegisterFragmentFragment.getInstance(email!!),
+                        (activity as DashboardActivity).addOrReplaceFragment(
+                            RegisterFragmentFragment.getInstance("auth"),
                             true
                         )
                     }

@@ -1,16 +1,690 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_cart.presentation.CartViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
+
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/cartNesterScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/margin16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/cardViewCartPayment"
+            app:layout_constraintTop_toBottomOf="@+id/commonHeader"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin16dp">
+
+                <TextView
+                    android:id="@+id/txtSavings"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorOrderDelivered"
+                    android:gravity="center"
+                    android:padding="@dimen/_5sdp"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    tools:text="You are saving ₹899 on this order"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/txtLabelPrescriptionNotRequired"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:text="@string/prescription_not_required"
+                    android:textColor="@color/textColor1"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_cart_product"
+                    tools:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtLabelPrescriptionRequired"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:text="@string/prescription_required"
+                    android:textColor="@color/textColor1"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/cartListWithRequiredPrescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin8dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLabelPrescriptionNotRequired"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_cart_product"
+                    tools:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/llPrescriptionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin8dp"
+                        android:layout_marginBottom="@dimen/margin16dp"
+                        android:background="@color/bgColor4" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            style="@style/trolla_fontSemibold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:text="@string/upload_prescription"
+                            android:textColor="@color/textColor1" />
+
+                        <TextView
+                            android:id="@+id/txtAddNewPrescription"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="@dimen/margin16dp"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:text="@string/upload_new_prescription"
+                            android:textColor="@color/textColor3" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llUploadOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/margin16dp"
+                        android:paddingEnd="@dimen/margin16dp">
+
+                        <LinearLayout
+                            android:id="@+id/llUploadUsingCamera"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_camera" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/camera" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llUploadingUsingGallery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_gallery" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/gallery" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/margin16dp"
+                            android:orientation="horizontal"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/margin16dp"
+                                android:layout_height="@dimen/margin16dp"
+                                app:srcCompat="@drawable/ic_myprescriptions" />
+
+                            <TextView
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin8dp"
+                                android:text="@string/my_prescriptions" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUploadedPrescriptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        android:nestedScrollingEnabled="false"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_uploaded_prescription" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4"
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/margin16dp"
+                    android:paddingTop="@dimen/margin16dp"
+                    android:paddingEnd="@dimen/margin16dp"
+                    android:paddingBottom="@dimen/margin16dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="@dimen/margin8dp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rlCashonDelivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/margin16dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgCOD"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                app:srcCompat="@drawable/ic_cod" />
+
+                            <TextView
+                                android:id="@+id/txtCODTitle"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_marginTop="@dimen/margin8dp"
+                                android:layout_toRightOf="@+id/imgCOD"
+                                android:text="@string/cash_on_delivery"
+                                android:textColor="@color/textColor1" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgCODSelected"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentRight="true"
+                                app:srcCompat="@drawable/ic_unselected" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        app:cardCornerRadius="@dimen/margin8dp"
+                        app:cardElevation="0dp">
+
+                        <RelativeLayout
+                            android:id="@+id/rlPayOnline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/margin16dp">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgOnline"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                app:srcCompat="@drawable/ic_payonline" />
+
+                            <TextView
+                                android:id="@+id/txtOnline"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/margin16dp"
+                                android:layout_marginTop="@dimen/margin8dp"
+                                android:layout_toRightOf="@+id/imgOnline"
+                                android:text="@string/online_payment"
+                                android:textColor="@color/textColor1" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/imgOnlineSelected"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentRight="true"
+                                app:srcCompat="@drawable/ic_unselected" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlSelectedDeliveryAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp">
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delivery Address"
+                        android:textColor="@color/textColor1" />
+
+                    <TextView
+                        android:foreground="?attr/selectableItemBackground"
+                        android:id="@+id/txtChangeAddress"
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="@dimen/margin16dp"
+                        android:layout_marginEnd="@dimen/margin16dp"
+                        android:text="@string/add_new"
+                        android:textColor="@color/textColor3" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txtChangeAddress"
+                        android:layout_marginTop="@dimen/margin16dp"
+                        app:elevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/txtAddressType"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Home"
+                                android:textColor="@color/textColor1" />
+
+                            <TextView
+                                android:id="@+id/txtSelectedAddress"
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin8dp"
+                                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore"
+                                android:textColor="@color/textColor2" />
+
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/llAddressNotAdded"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin48dp"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:background="@drawable/bg_rounded_primarybutton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/margin16dp"
+                        android:layout_height="@dimen/margin16dp"
+                        app:srcCompat="@drawable/ic_location" />
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin8dp"
+                        android:text="@string/add_delivery_address" />
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin8dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginBottom="@dimen/margin16dp"
+                    android:background="@color/bgColor4" />
+
+                <TextView
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    android:text="@string/payment_details"
+                    android:textColor="@color/textColor1" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin16dp"
+                    android:layout_marginTop="@dimen/margin16dp"
+                    android:layout_marginEnd="@dimen/margin16dp"
+                    app:cardCornerRadius="@dimen/margin8dp"
+                    app:cardElevation="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/margin8dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/cart_total"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtCartTotal"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlGST"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gst"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtCartGST"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/delivery"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtDeliveryFee"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlDiscount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/discount"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtDiscount"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/colorOrderDelivered"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="5dp"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:background="@drawable/dottedline" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin16dp"
+                            android:layout_marginBottom="@dimen/margin16dp">
+
+                            <TextView
+                                style="@style/trolla_fontMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/to_be_paid"
+                                android:textColor="@color/textColor1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/txtTobePaid"
+                                style="@style/trolla_fontSemibold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:text="₹1250"
+                                android:textColor="@color/textColor3"
+                                android:textSize="12sp"
+                                tools:text="₹1250" />
+
+                        </RelativeLayout>
+
+                        <TextView
+                            style="@style/trolla_fontSemibold"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginBottom="@dimen/margin16dp"
+                            android:text="@string/price_may_vary_depending_on_the_product_batch"
+                            android:textColor="@color/textColor3"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewCartPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin16dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textColor="@color/textColor2"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/txtFinalPayable"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="₹89999"
+                        android:textColor="@color/textColor1"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/txtProceed"
+                    style="@style/trolla_fontSemibold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin48dp"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/bg_inactivebutton"
+                    android:enabled="@{viewModel.isCartValid}"
+                    android:gravity="center"
+                    android:onClick="@{(v)-> viewModel.placeOrder()}"
+                    android:text="PLACE ORDER"
+                    android:textColor="@{viewModel.isCartValid ? @color/white : @color/inactiveTextColor}" />
+
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/txtCartEmpty"
+            style="@style/trolla_fontBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Cart Is Empty"
+            android:textSize="18sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

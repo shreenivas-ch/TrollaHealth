@@ -1,37 +1,66 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 android {
     compileSdk 31
 
-    defaultConfig {
-        applicationId "com.trolla.health"
-        minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    signingConfigs {
+        config {
+            keyAlias 'coshop'
+            keyPassword 'coshop'
+            storeFile file('D:\\SupportFiles\\TrollaHealth\\keystore\\coshop.jks')
+            storePassword 'coshop'
+        }
     }
 
-    buildFeatures{
+    defaultConfig {
+        applicationId "io.instastack.coshop"
+        minSdk 21
+        targetSdk 31
+        versionCode 13
+        versionName "1.0.8"
+    }
+
+    buildFeatures {
         dataBinding true
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    flavorDimensions "default"
+    productFlavors {
+        live {
+            resValue "string", "app_name", "Co.Shop"
+            applicationId "io.instastack.coshop"
+        }
+        staging {
+            resValue "string", "app_name", "Co.Shop Staging"
+            applicationId "io.instastack.coshop.staging"
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "Coshop-${variant.versionName}.apk"
+        }
     }
 }
 
@@ -42,7 +71,13 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation project(path: ':trollahealthsdk')
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    /*firebase*/
+    implementation platform('com.google.firebase:firebase-bom:30.3.1')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.0.6'
+
+    /*crashlytics*/
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
 }

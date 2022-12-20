@@ -1,8 +1,10 @@
 package com.trolla.health
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
+import com.trolla.health.AppConstants.COSHOP_APPID
 import com.trolla.healthsdk.TrollaHealthManager
 
 class MainActivity : AppCompatActivity() {
@@ -10,12 +12,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        TrollaHealthManager.Builder().appid("adfad").context(this).application(application).build()
+        TrollaHealthManager.Builder().appid(COSHOP_APPID).context(this).application(application)
+            .build()
             .launch()
 
-        findViewById<TextView>(R.id.txtLaunch).setOnClickListener {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                return@OnCompleteListener
+            }
+
+            val token = task.result
+
+            TrollaHealthManager.Builder().appid(COSHOP_APPID).context(this).application(application)
+                .build().updateFCMToken(token)
+        })
+
+
+        finish()
+
+        /*findViewById<TextView>(R.id.txtLaunch).setOnClickListener {
             TrollaHealthManager.Builder().appid("adfad").context(this).application(application).build()
                 .launch()
-        }
+        }*/
     }
 }

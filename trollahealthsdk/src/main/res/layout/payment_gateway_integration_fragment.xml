@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.trolla.healthsdk.feature_payment.presentation.PaymentGatewayIntegrationViewModel" />
@@ -10,7 +11,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/pageBackgroundColor"
+        android:clickable="true">
+
+        <include
+            android:id="@+id/commonHeader"
+            layout="@layout/layout_common_header"
+            app:backButtonVisibility="@{viewModel.headerBackButton}"
+            app:linevisibility="@{viewModel.headerBottomLine}"
+            app:title="@{viewModel.headerTitle}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_search.data.ModelSearchHistory" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/llMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/trolla_fontSemibold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
+            android:padding="@dimen/_12sdp"
+            android:text="@{item.title}"
+            android:textColor="@color/textColor2"
+            tools:text="Mother Care" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/bgColor4" />
+
+    </LinearLayout>
+</layout>

@@ -4,7 +4,9 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
+        <import type="com.trolla.healthsdk.utils.TrollaConstants" />
 
         <variable
             name="item"
@@ -17,10 +19,7 @@
         android:layout_marginStart="@dimen/margin4dp"
         android:layout_marginEnd="@dimen/margin4dp"
         android:layout_marginBottom="@dimen/margin16dp"
-        app:cardCornerRadius="@dimen/margin8dp"
-        app:cardElevation="2dp"
-        app:cardPreventCornerOverlap="false"
-        app:cardUseCompatPadding="true">
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -65,8 +64,8 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{item.brand_name+`|`+item.pack_size}"
                     android:textColor="@color/textColor4"
+                    app:setProductSecondLine="@{item}"
                     tools:text="Yoga Bar | 400 g" />
 
                 <TextView
@@ -77,8 +76,8 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{String.format(@string/amount_string, item.mrp)}"
-                    android:textColor="@color/secondary_color"
+                    android:textColor="@color/textColor5"
+                    app:setMrp="@{item}"
                     tools:text="₹325.00" />
 
                 <TextView
@@ -89,13 +88,13 @@
                     android:maxLines="1"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingEnd="@dimen/_2sdp"
-                    android:text="@{String.format(@string/amount_string, item.sale_price)}"
                     android:textColor="@color/textColor1"
                     android:textSize="20sp"
+                    app:setSellingPrice="@{item}"
                     tools:text="₹292.00" />
 
                 <TextView
-                    android:visibility="@{item.cartQty == 0 ? View.VISIBLE: View.GONE}"
+                    android:foreground="?attr/selectableItemBackground"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -109,10 +108,11 @@
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_7sdp"
                     android:text="@string/add_to_cart"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    app:setAddToCartVisibility="@{item}" />
 
                 <TextView
-                    android:visibility="@{item.cartQty == 1 ? View.VISIBLE: View.GONE}"
+                    android:foreground="?attr/selectableItemBackground"
                     style="@style/trolla_fontMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -120,13 +120,30 @@
                     android:background="@drawable/bg_rounded_primarybutton"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:onClick="@{(v)-> item.onListItemViewClickListener.onAddToCartClick(v,item.adapterPosition)}"
+                    android:onClick="@{(v)-> item.onListItemViewClickListener.goToCart()}"
                     android:paddingStart="@dimen/_2sdp"
                     android:paddingTop="@dimen/_7sdp"
                     android:paddingEnd="@dimen/_2sdp"
                     android:paddingBottom="@dimen/_7sdp"
                     android:text="@string/go_to_cart"
-                    android:textColor="@color/primary_color" />
+                    android:textColor="@color/primary_color"
+                    app:setGoToCartVisibility="@{item}" />
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:background="@drawable/bg_rounded_textcolor1"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_7sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_7sdp"
+                    android:text="@string/out_of_stock"
+                    android:textColor="@color/textColor1"
+                    app:setOutOfStockVisibility="@{item}" />
 
             </LinearLayout>
 

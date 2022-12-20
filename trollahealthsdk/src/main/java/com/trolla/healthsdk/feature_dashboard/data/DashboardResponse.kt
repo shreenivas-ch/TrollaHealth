@@ -1,7 +1,6 @@
 package com.trolla.healthsdk.feature_dashboard.data
 
 import com.trolla.healthsdk.core.ListItemViewModel
-import java.lang.ref.SoftReference
 
 data class DashboardResponse(
     val homePagePositionsList: ArrayList<HomePagePositionsListItem>,
@@ -14,7 +13,8 @@ data class DashboardResponse(
         val id: Int,
         val name: String,
         val img_url: String,
-        val banner_data: ArrayList<BannerData>
+        val banner_data: ArrayList<BannerData>,
+        val apiDefinition: APIDefinition
     ) {
         data class BannerData(
             val id: Int,
@@ -39,7 +39,14 @@ data class DashboardResponse(
             val brand_url: String,
 
             ) : ListItemViewModel()
+
+        data class APIDefinition(
+            val api: String,
+            val filterBy: String,
+            val valueOf: String
+        )
     }
+
 
     data class PopularProductsListItem(
         val total_records: Int,
@@ -53,8 +60,12 @@ data class DashboardResponse(
         val product_name: String,
         val hsn_code: String,
         val product_qty: String,
+
         val short_description: String,
         val long_description: String,
+        val description: String,
+        val product_brief: String,
+
         val packing_form: String,
         val num_of_imgs: String,
         val price_to_retailer: String,
@@ -113,20 +124,48 @@ data class DashboardResponse(
         val rating: String,
         val is_favourite: String,
         val is_otc: String,
-        val out_of_stock: String,
+        val out_of_stock: String?,
+        val is_perishable: String?,
         val eta: String,
         val stock_status: String,
         val is_set: String,
         val prescription_class: String,
         val discount_class: String,
         val optional_class: String,
-        val is_perishable: String,
         val only_at_store: String,
         val product_img: ArrayList<String>,
         val product_video: ArrayList<String>,
         val offer_name: String,
+        val manufacturer_name: String,
+        val expiry_date: String,
+        val controlled_faqs: String,
+        val contraindications: String,
+        val safety_advice: String,
+        val how_drug_works: String,
+        val missed_dose: String,
+        val quick_tips: String,
+        val drug_interactions: String,
+        val benefits: String,
+        val storage_conditions: String,
+        val uses: String,
+        val ingredients: String,
+        val side_effects: String,
 
         /*local params*/
         var cartQty: Int = 0
+    ) : ListItemViewModel()
+
+    data class ProductVariant(
+        val variant_name: String,
+        val values: ArrayList<ProductVariantValues>
+    )
+
+    data class ProductVariantValues(
+        val product_id: Int,
+        val value_name: String,
+        val sale_price: Float,
+
+        /*order details screen product id*/
+        var currentProducId: String
     ) : ListItemViewModel()
 }

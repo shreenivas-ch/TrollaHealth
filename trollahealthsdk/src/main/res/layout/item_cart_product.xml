@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.trolla.healthsdk.utils.TrollaConstants" />
+
+        <variable
+            name="item"
+            type="com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse.CartProduct" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin4dp"
+        android:layout_marginEnd="@dimen/margin4dp"
+        android:layout_marginBottom="@dimen/margin8dp"
+        app:cardCornerRadius="@dimen/margin8dp"
+        app:cardElevation="0dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{(v)-> item.onListItemViewClickListener.onClick(v,item.adapterPosition)}"
+            android:padding="@dimen/_7sdp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imgProductImage"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                app:isShowPlaceHolder="@{true}"
+                app:loadImage="@{item.product.product_img[0]}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin8dp"
+                android:layout_toRightOf="@+id/imgProductImage"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_toLeftOf="@+id/imgDelete"
+                        android:maxLines="2"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:text="@{item.product.title}"
+                        android:textColor="@color/textColor1"
+                        tools:text="Dark Chocolate and" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:foreground="?attr/selectableItemBackground"
+                        android:id="@+id/imgDelete"
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_alignParentRight="true"
+                        android:onClick="@{(v)-> item.onListItemViewClickListener.cartDeleteClick(v,item.adapterPosition)}"
+                        android:padding="@dimen/_3sdp"
+                        app:srcCompat="@drawable/ic_delete" />
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:textColor="@color/textColor4"
+                    app:setProductSecondLine="@{item.product}"
+                    tools:text="Yoga Bar | 400 g" />
+
+                <TextView
+                    android:tag="cart"
+                    style="@style/trolla_fontMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:textColor="@color/textColor5"
+                    app:setMrp="@{item.product}"
+                    app:cartQty="@{item.qty}"
+                    tools:text="₹325.00" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp">
+
+                    <TextView
+                        android:tag="cart"
+                        style="@style/trolla_fontSemibold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:textColor="@color/textColor1"
+                        android:textSize="20sp"
+                        app:setSellingPrice="@{item.product}"
+                        app:cartQty="@{item.qty}"
+                        tools:text="₹292.00" />
+
+                    <TextView
+                        style="@style/trolla_fontMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/bg_rounded_textcolor1"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:paddingEnd="@dimen/_7sdp"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:text="Out Of Stock"
+                        android:textColor="@color/textColor1"
+                        app:setOutOfStockVisibilityInCart="@{item.product}" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:setCartAddMinusViewVisibilityInCart="@{item.product}">
+
+                        <TextView
+                            android:foreground="?attr/selectableItemBackground"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:background="@drawable/bg_rounded_primarybutton"
+                            android:gravity="center"
+                            android:onClick="@{(v)-> item.onListItemViewClickListener.cartMinusClick(v,item.adapterPosition)}"
+                            android:text="-"
+                            android:textColor="@color/primary_color"
+                            android:textSize="@dimen/_15sdp" />
+
+                        <TextView
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginEnd="@dimen/_3sdp"
+                            android:gravity="center"
+                            android:text="@{Integer.toString(item.qty)}"
+                            android:textColor="@color/textColor1"
+                            android:textSize="@dimen/_10sdp"
+                            tools:text="1" />
+
+                        <TextView
+                            android:foreground="?attr/selectableItemBackground"
+                            style="@style/trolla_fontMedium"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:background="@drawable/bg_primarybutton"
+                            android:gravity="center"
+                            android:onClick="@{(v)-> item.onListItemViewClickListener.cartPlusClick(v,item.adapterPosition)}"
+                            android:text="+"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_15sdp" />
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            style="@style/trolla_fontBold"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin4dp"
+            android:background="@drawable/ic_offer_tag"
+            android:gravity="center"
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_15sdp"
+            android:textColor="@color/textColor1"
+            android:textSize="10sp"
+            app:setOfferText="@{item.product}"
+            tools:text="20% OFF" />
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
+import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.feature_auth.data.models.VerifyOTPResponse
-import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnMobileUsecase
+import com.trolla.healthsdk.feature_auth.domain.usecases.GetOTPOnEmailUsecase
 import com.trolla.healthsdk.feature_auth.domain.usecases.VerifyOTPOnEmailUsecase
 import com.trolla.healthsdk.ui_utils.BaseViewModel
 import com.trolla.healthsdk.ui_utils.LiveDataValidator
@@ -15,7 +16,8 @@ import com.trolla.healthsdk.utils.LogUtil
 import kotlinx.coroutines.launch
 
 class LoginOTPVerificationViewModel(
-    private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase
+    private val otpVerifyOTPOnEmailUsecase: VerifyOTPOnEmailUsecase,
+    private val loginUseCase: GetOTPOnEmailUsecase
 ) :
     BaseViewModel() {
 
@@ -28,6 +30,7 @@ class LoginOTPVerificationViewModel(
     var email = MutableLiveData("")
 
     val verifyOTPResponse = MutableLiveData<Resource<BaseApiResponse<VerifyOTPResponse>>>()
+    val getOTPResponse = MutableLiveData<Resource<BaseApiResponse<CommonAPIResponse>>>()
 
     val otpValidator = LiveDataValidator(otpLiveData).apply {
         addRule("Length should be 4 digits") { it.toString().length < 4 }
@@ -79,6 +82,16 @@ class LoginOTPVerificationViewModel(
             )!!
             progressStatus.value = false
             LogUtil.printObject(verifyOTPResponse.value.toString())
+        }
+    }
+
+
+    fun getOTPOnEmail() {
+        progressStatus.value = true
+        viewModelScope.launch {
+            getOTPResponse.value = loginUseCase(email.value.toString(), "")!!
+            progressStatus.value = false
+            LogUtil.printObject(getOTPResponse.value.toString())
         }
     }
 
