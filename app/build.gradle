@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     //implementation project(path: ':trollahealthsdk')
-    implementation 'com.github.shreenivas-ch:TrollaHealth:Tag'
+    implementation 'com.github.shreenivas-ch:TrollaHealth:1.0.1'
 
     /*firebase*/
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
