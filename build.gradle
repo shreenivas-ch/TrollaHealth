@@ -27,7 +27,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.github.shreenivas-ch'
             artifactId = 'TrollaHealth'
-            version = "1.0.2"
+            version = "1.0.4"
 
             pom {
                 description = 'Aggregated library'
