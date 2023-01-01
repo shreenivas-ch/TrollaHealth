@@ -103,12 +103,7 @@ class ProfileFragment : Fragment() {
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to logout ?")
                 .setPositiveButton("Yes") { dialog, which ->
-
-                    TrollaPreferencesManager.clearPreferences()
-                    (activity as DashboardActivity).removeAllFragmentFromDashboardBackstack()
-                    ((activity as DashboardActivity)).init = false
-                    (activity as DashboardActivity).addOrReplaceFragment(LoginEmailFragment())
-
+                    (activity as DashboardActivity).logOut()
                 }
                 .setNegativeButton("No", null)
                 .show()

@@ -2,8 +2,8 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'org.jetbrains.kotlin.android.extensions'
     id 'maven-publish'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -14,10 +14,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0.5"
-    }
-
-    androidExtensions {
-        experimental = true
     }
 
     buildTypes {

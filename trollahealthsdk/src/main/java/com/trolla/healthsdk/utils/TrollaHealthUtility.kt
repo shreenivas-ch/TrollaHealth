@@ -25,6 +25,21 @@ object TrollaHealthUtility {
         alertDialogBuilder.setCancelable(false)
         alertDialogBuilder.setPositiveButton(android.R.string.ok, dialogInterface)
         var alert = alertDialogBuilder.create()
+        if (message != "auth_failed") {
+            alert.show()
+        }
+    }
+
+    fun showAlertDialogueForAuthFail(
+        context: Context,
+        message: String?,
+        dialogInterface: DialogInterface.OnClickListener? = null
+    ) {
+        var alertDialogBuilder = AlertDialog.Builder(context)
+        alertDialogBuilder.setMessage(message ?: "Message")
+        alertDialogBuilder.setCancelable(false)
+        alertDialogBuilder.setPositiveButton(android.R.string.ok, dialogInterface)
+        var alert = alertDialogBuilder.create()
         alert.show()
     }
 

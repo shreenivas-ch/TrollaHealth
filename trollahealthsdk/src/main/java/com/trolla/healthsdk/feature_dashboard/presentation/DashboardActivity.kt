@@ -2,6 +2,7 @@ package com.trolla.healthsdk.feature_dashboard.presentation
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -24,6 +25,8 @@ import com.trolla.healthsdk.R
 import com.trolla.healthsdk.core.AWSUtil
 import com.trolla.healthsdk.core.InterfaceAWS
 import com.trolla.healthsdk.data.Resource
+import com.trolla.healthsdk.data.models.TrollaLogoutEvent
+import com.trolla.healthsdk.feature_address.data.AddressListRefreshEvent
 import com.trolla.healthsdk.feature_address.data.ModelAddress
 import com.trolla.healthsdk.feature_address.presentation.AddressListViewModel
 import com.trolla.healthsdk.feature_auth.presentation.LoginEmailFragment
@@ -35,6 +38,7 @@ import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
+import com.trolla.healthsdk.generated.callback.OnClickListener
 import com.trolla.healthsdk.utils.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_ADDRESS
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
@@ -44,6 +48,8 @@ import com.vansuita.pickimage.dialog.PickImageDialog
 import com.vansuita.pickimage.listeners.IPickResult
 import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import org.koin.core.context.stopKoin
@@ -379,7 +385,6 @@ class DashboardActivity : AppCompatActivity(),
             .show(this)
     }
 
-
     override fun onPickResult(r: PickResult?) {
         r?.let {
             uploadImageToS3Bucket(it.uri)
@@ -550,9 +555,9 @@ class DashboardActivity : AppCompatActivity(),
             "b4af71ce-0fa1-4154-8d40-d76fc49909de"
         )
         freshchatConfig.domain = "msdk.in.freshchat.com"
-        freshchatConfig.isCameraCaptureEnabled=false
-        freshchatConfig.isGallerySelectionEnabled=true
-        freshchatConfig.isFileSelectionEnabled=false
+        freshchatConfig.isCameraCaptureEnabled = false
+        freshchatConfig.isGallerySelectionEnabled = true
+        freshchatConfig.isFileSelectionEnabled = false
         Freshchat.getInstance(applicationContext!!).init(freshchatConfig)
 
         val freshchatUser =
@@ -569,6 +574,31 @@ class DashboardActivity : AppCompatActivity(),
         Freshchat.getInstance(applicationContext!!).user = freshchatUser
 
         Freshchat.showConversations(applicationContext!!)
+    }
+
+    fun logOut() {
+        TrollaPreferencesManager.clearPreferences()
+        removeAllFragmentFromDashboardBackstack()
+        init = false
+        addOrReplaceFragment(LoginEmailFragment())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun doThis(logoutEvent: TrollaLogoutEvent) {
+        TrollaHealthUtility.showAlertDialogueForAuthFail(
+            this@DashboardActivity,
+            logoutEvent.message
+        ) { p0, p1 -> logOut() }
     }
 }
 
