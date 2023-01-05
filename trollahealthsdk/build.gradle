@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.library'
+    id 'maven-publish'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id 'maven-publish'
     id 'kotlin-parcelize'
 }
 
@@ -20,10 +20,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
+            buildConfigField 'String', 'APIS', '"Live"'
         }
     }
 
-    flavorDimensions "default"
+   /* flavorDimensions "default"
     productFlavors {
         live {
             buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
@@ -33,7 +35,7 @@ android {
             buildConfigField 'String', 'BASE_URL', '"https://staging-api.coshop.app/"'
             buildConfigField 'String', 'APIS', '"Staging"'
         }
-    }
+    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -106,12 +108,15 @@ dependencies {
     implementation 'com.airbnb.android:lottie:5.2.0'
 }
 
-publishing {
-    publications {
-        release(MavenPublication) {
-            groupId = 'com.github.shreenivas-ch'
-            artifactId = 'TrollaHealth'
-            version = "1.0.5"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.shreenivas-ch'
+                artifactId = 'TrollaHealth'
+                version = "1.0.5"
+            }
         }
     }
 }

@@ -21,17 +21,3 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.github.shreenivas-ch'
-            artifactId = 'TrollaHealth'
-            version = "1.0.4"
-
-            pom {
-                description = 'Aggregated library'
-            }
-        }
-    }
-}
