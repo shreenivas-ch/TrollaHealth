@@ -121,7 +121,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.trolla'
                 artifactId = 'healthsdk'
-                version = "1.0.10"
+                version = "1.0.11"
             }
         }
     }
