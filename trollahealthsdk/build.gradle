@@ -113,9 +113,9 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'com.github.shreenivas-ch'
-                artifactId = 'TrollaHealth'
-                version = "1.0.5"
+                groupId = 'com.trolla'
+                artifactId = 'healthsdk'
+                version = "1.0.8"
             }
         }
     }
