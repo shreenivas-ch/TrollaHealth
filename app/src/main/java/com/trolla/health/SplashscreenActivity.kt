@@ -21,7 +21,7 @@ class SplashscreenActivity : AppCompatActivity() {
     }
 
     fun getVersion() {
-        var flavourDetails = if (BuildConfig.FLAVOR == "live") {
+        /*var flavourDetails = if (BuildConfig.FLAVOR == "live") {
             if (BuildConfig.DEBUG) {
                 " Live"
             } else {
@@ -29,9 +29,9 @@ class SplashscreenActivity : AppCompatActivity() {
             }
         } else {
             " (Staging)"
-        }
+        }*/
 
         findViewById<TextView>(R.id.txtVersionDetails).text =
-            "Version " + BuildConfig.VERSION_NAME + flavourDetails
+            "Version " + BuildConfig.VERSION_NAME //+ flavourDetails
     }
 }

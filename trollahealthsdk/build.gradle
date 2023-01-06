@@ -17,6 +17,12 @@ android {
     }
 
     buildTypes {
+
+        debug {
+            buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
+            buildConfigField 'String', 'APIS', '"Live"'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -25,17 +31,17 @@ android {
         }
     }
 
-   /* flavorDimensions "default"
-    productFlavors {
-        live {
-            buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
-            buildConfigField 'String', 'APIS', '"Live"'
-        }
-        staging {
-            buildConfigField 'String', 'BASE_URL', '"https://staging-api.coshop.app/"'
-            buildConfigField 'String', 'APIS', '"Staging"'
-        }
-    }*/
+    /* flavorDimensions "default"
+     productFlavors {
+         live {
+             buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
+             buildConfigField 'String', 'APIS', '"Live"'
+         }
+         staging {
+             buildConfigField 'String', 'BASE_URL', '"https://staging-api.coshop.app/"'
+             buildConfigField 'String', 'APIS', '"Staging"'
+         }
+     }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

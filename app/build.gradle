@@ -35,7 +35,7 @@ android {
         jvmTarget = '1.8'
     }
 
-    flavorDimensions "default"
+    /*flavorDimensions "default"
     productFlavors {
         live {
             resValue "string", "app_name", "Co.Shop"
@@ -45,7 +45,7 @@ android {
             resValue "string", "app_name", "Co.Shop Staging"
             applicationId "io.instastack.coshop.staging"
         }
-    }
+    }*/
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
