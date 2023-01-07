@@ -7,7 +7,7 @@
 InstaStack SDK - Integrate our sdk and earn commissions on orders placed through your application
 
 <p align="center">
-<img src="https://github.com/shreenivas-ch/TrollaHealth/blob/7ff040dcb21b995dff778edf306fc46588b9e273/screenshot1.png" alt="alt text" width="200" hspace="40"><img src="https://github.com/shreenivas-ch/TrollaHealth/blob/7ff040dcb21b995dff778edf306fc46588b9e273/screenshot2.png" alt="alt text" width="200" hspace="40">
+<img src="https://github.com/shreenivas-ch/TrollaHealth/blob/7ff040dcb21b995dff778edf306fc46588b9e273/Screenshot_home.png" alt="alt text" width="200" hspace="40"><img src="https://github.com/shreenivas-ch/TrollaHealth/blob/7ff040dcb21b995dff778edf306fc46588b9e273/screenshot2.png" alt="alt text" width="200" hspace="40">
 
 </p>
 
