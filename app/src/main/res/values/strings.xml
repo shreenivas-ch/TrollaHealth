@@ -1,3 +1,4 @@
 <resources>
+    <string name="app_name">Co.Shop</string>
     <string name="freshchat_file_provider_authority">io.instastack.coshop</string>
 </resources>
