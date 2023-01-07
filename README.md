@@ -28,6 +28,13 @@ dependencies {
 }
 ```
 
+Make sure you have enabled dataBinding. add below code in you app level gradle file
+```gradle
+buildFeatures {
+        dataBinding = true
+}
+```
+
 ## How to initiate SDK
 ```kotlin
 findViewById<TextView>(R.id.yourButton).setOnClickListener {
