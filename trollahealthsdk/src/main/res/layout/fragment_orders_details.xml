@@ -444,7 +444,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible">
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/txtPay"
                 android:foreground="?attr/selectableItemBackground"
                 style="@style/trolla_fontSemibold"
@@ -453,7 +453,7 @@
                 android:layout_marginStart="@dimen/margin16dp"
                 android:layout_marginTop="@dimen/margin16dp"
                 android:layout_marginEnd="@dimen/margin16dp"
-                android:background="@drawable/bg_inactivebutton"
+                android:background="@drawable/bg_primarybutton"
                 android:enabled="true"
                 android:gravity="center"
                 android:text="Pay Now"

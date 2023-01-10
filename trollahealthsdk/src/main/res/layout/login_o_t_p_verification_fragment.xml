@@ -177,13 +177,13 @@
                     tools:text="@string/wrong_otp_entered"
                     tools:visibility="visible" />
 
-                <com.google.android.material.button.MaterialButton
+                <TextView
                     android:id="@+id/btnVerifyOTP"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin48dp"
                     android:layout_marginTop="@dimen/margin32dp"
-                    android:background="@drawable/bg_inactivebutton"
+                    android:background="@{loginOTPVerificationViewModel.formValidMediator?@drawable/bg_primarybutton:@drawable/bg_inactivebutton}"
                     android:enabled="@{loginOTPVerificationViewModel.formValidMediator}"
                     android:gravity="center"
                     android:text="@string/proceed"

@@ -653,7 +653,7 @@
 
                 </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
+                <TextView
                     android:id="@+id/txtProceed"
                     style="@style/trolla_fontSemibold"
                     android:layout_width="wrap_content"
@@ -661,7 +661,7 @@
                     android:foreground="?attr/selectableItemBackground"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/bg_inactivebutton"
+                    android:background="@{viewModel.isCartValid?@drawable/bg_primarybutton:@drawable/bg_inactivebutton}"
                     android:enabled="@{viewModel.isCartValid}"
                     android:gravity="center"
                     android:onClick="@{(v)-> viewModel.placeOrder()}"
