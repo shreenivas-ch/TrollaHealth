@@ -30,7 +30,7 @@
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dotsColor="@color/primary_color"
+            app:dotsColor="@color/TrollaSdkPrimaryColor"
             app:dotsCornerRadius="5dp"
             app:dotsSize="5dp"
             app:dotsSpacing="5dp"
@@ -38,7 +38,7 @@
             app:dotsStrokeWidth="2dp"
             app:dotsWidthFactor="4.5"
             app:progressMode="true"
-            app:selectedDotColor="@color/primary_color" />
+            app:selectedDotColor="@color/TrollaSdkPrimaryColor" />
 
 
 

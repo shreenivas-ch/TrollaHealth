@@ -2,16 +2,20 @@
     <!-- Base application theme. -->
     <style name="Theme.HealthSDKTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/primary_color</item>
+        <item name="colorPrimary">@color/TrollaSdkPrimaryColor</item>
+        <item name="colorPrimaryVariant">@color/TrollaSdkPrimaryColor</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/primary_color</item>
-        <item name="colorSecondaryVariant">@color/primary_color</item>
+        <item name="colorSecondary">@color/TrollaSdkPrimaryColor</item>
+        <item name="colorSecondaryVariant">@color/TrollaSdkPrimaryColor</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorOnPrimary</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="TrollaBottomNavigation">
+        <item name="itemIconTint">@color/TrollaSdkPrimaryColor</item>
     </style>
 
     <style name="trolla_fontH1">
@@ -41,13 +45,13 @@
     <style name="trolla_fontSemibold">
         <item name="android:fontFamily">@font/font_semibold</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textColor">@color/TrollaSdkPrimaryColor</item>
     </style>
 
     <style name="trolla_fontMedium">
         <item name="android:fontFamily">@font/font_medium</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/primary_color</item>
+        <item name="android:textColor">@color/TrollaSdkPrimaryColor</item>
     </style>
 
     <style name="trolla_fontBold">

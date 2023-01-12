@@ -189,7 +189,7 @@ class CustomBindingAdapter {
             if (productVariantValues.product_id.toString() == productVariantValues.currentProducId) {
                 view.setTextColor(ContextCompat.getColor(view.context, R.color.white))
             } else {
-                view.setTextColor(ContextCompat.getColor(view.context, R.color.primary_color))
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.TrollaSdkPrimaryColor))
             }
         }
 

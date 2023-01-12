@@ -20,7 +20,7 @@
         android:layout_marginRight="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_10sdp"
         android:padding="3dp"
-        android:tint="@color/primary_color"
+        android:tint="@color/TrollaSdkPrimaryColor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back" />

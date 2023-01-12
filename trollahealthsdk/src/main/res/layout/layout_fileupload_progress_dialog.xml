@@ -56,7 +56,7 @@
             android:gravity="center"
             android:padding="@dimen/margin16dp"
             android:text="View T&amp;C"
-            android:textColor="@color/primary_color"/>
+            android:textColor="@color/TrollaSdkPrimaryColor"/>
 
         <TextView
             android:id="@+id/txtOKButton"

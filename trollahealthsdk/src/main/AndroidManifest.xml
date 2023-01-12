@@ -27,6 +27,7 @@
             android:windowSoftInputMode="stateAlwaysHidden"
             android:name=".feature_dashboard.presentation.DashboardActivity"
             android:exported="false" />
+
         <activity
             android:name=".feature_onboarding.presentation.OnboardingActivity"
             android:exported="false" />

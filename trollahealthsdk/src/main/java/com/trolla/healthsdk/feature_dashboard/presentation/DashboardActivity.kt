@@ -38,7 +38,6 @@ import com.trolla.healthsdk.feature_cart.presentation.CartViewModel
 import com.trolla.healthsdk.feature_dashboard.RefreshLocalCartDataEvent
 import com.trolla.healthsdk.feature_orders.data.EventRefreshOrders
 import com.trolla.healthsdk.feature_orders.presentation.OrdersListFragment
-import com.trolla.healthsdk.generated.callback.OnClickListener
 import com.trolla.healthsdk.utils.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_ADDRESS
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE

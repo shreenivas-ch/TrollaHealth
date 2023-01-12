@@ -155,7 +155,7 @@
                             android:gravity="center"
                             android:onClick="@{(v)-> item.onListItemViewClickListener.cartMinusClick(v,item.adapterPosition)}"
                             android:text="-"
-                            android:textColor="@color/primary_color"
+                            android:textColor="@color/TrollaSdkPrimaryColor"
                             android:textSize="@dimen/_15sdp" />
 
                         <TextView

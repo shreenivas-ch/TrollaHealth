@@ -79,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:text="@string/edit"
-                    android:textColor="@color/primary_color"
+                    android:textColor="@color/TrollaSdkPrimaryColor"
                     app:layout_constraintStart_toStartOf="@+id/imgAddressType"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin16dp"
                     android:text="@string/delete"
-                    android:textColor="@color/primary_color"
+                    android:textColor="@color/TrollaSdkPrimaryColor"
                     app:layout_constraintStart_toStartOf="@+id/imgAddressType"
                     app:layout_constraintTop_toTopOf="parent" />
 

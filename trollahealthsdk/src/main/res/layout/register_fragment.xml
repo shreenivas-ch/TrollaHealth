@@ -205,7 +205,7 @@
                 style="@style/trolla_fontSemibold"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin48dp"
-                android:background="@{viewModel.isCartValid()?@drawable/bg_primarybutton:@drawable/bg_inactivebutton}"
+                android:background="@{registerViewModel.registerFormValidMediator?@drawable/bg_primarybutton:@drawable/bg_inactivebutton}"
                 android:enabled="@{registerViewModel.registerFormValidMediator}"
                 android:gravity="center"
                 android:text="@string/proceed"

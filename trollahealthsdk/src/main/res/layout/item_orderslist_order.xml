@@ -143,7 +143,7 @@
                     android:paddingRight="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_7sdp"
                     android:text="@string/track_order"
-                    android:textColor="@color/primary_color"
+                    android:textColor="@color/TrollaSdkPrimaryColor"
                     android:textSize="12sp" />
             </RelativeLayout>
 

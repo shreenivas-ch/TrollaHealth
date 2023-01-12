@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_color">#6757d7</color>
+    <color name="TrollaSdkPrimaryColor">#6757d7</color>
     <color name="secondary_color">#6757d7</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -23,5 +23,5 @@
     <color name="colorOrderDelivered">#47AD4D</color>
     <color name="colorOrderCancelled">#D75783</color>
     <color name="badgeColor">#D75783</color>
-    <color name="freshchat_notification_accent_color">@color/primary_color</color>
+    <color name="freshchat_notification_accent_color">@color/TrollaSdkPrimaryColor</color>
 </resources>

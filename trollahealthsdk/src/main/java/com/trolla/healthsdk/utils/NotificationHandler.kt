@@ -53,7 +53,7 @@ class NotificationHandler {
             .setWhen(System.currentTimeMillis())
             .setContentTitle(if (pushnotificationDataModel.title.isNotEmpty()) pushnotificationDataModel.title else "${pushnotificationDataModel.type.capitalize()}")
             .setTicker(pushnotificationDataModel.title)
-            .setColor(ContextCompat.getColor(ctx, R.color.primary_color))
+            .setColor(ContextCompat.getColor(ctx, R.color.TrollaSdkPrimaryColor))
             .setContentText(pushnotificationDataModel.body)
             .setContentIntent(notifyPendingIntent)
 
@@ -137,7 +137,7 @@ class NotificationHandler {
         val channelOne = NotificationChannel(channelIdOne, nameOne, importanceOne)
         channelOne.description = descriptionOne
         channelOne.enableLights(true)
-        channelOne.lightColor = ContextCompat.getColor(context, R.color.primary_color)
+        channelOne.lightColor = ContextCompat.getColor(context, R.color.TrollaSdkPrimaryColor)
         channelOne.enableVibration(false)
         mNotificationManager!!.createNotificationChannel(channelOne)
     }

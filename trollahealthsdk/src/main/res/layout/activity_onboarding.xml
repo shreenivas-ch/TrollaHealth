@@ -23,7 +23,7 @@
             android:paddingTop="@dimen/_7sdp"
             android:paddingEnd="@dimen/_7sdp"
             android:paddingBottom="@dimen/_7sdp"
-            android:tint="@color/primary_color"
+            android:tint="@color/TrollaSdkPrimaryColor"
             app:srcCompat="@drawable/ic_back" />
 
     </RelativeLayout>
@@ -41,7 +41,7 @@
         android:id="@+id/dots_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:dotsColor="@color/primary_color"
+        app:dotsColor="@color/TrollaSdkPrimaryColor"
         app:dotsCornerRadius="5dp"
         app:dotsSize="8dp"
         app:dotsSpacing="4dp"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:progressMode="true"
-        app:selectedDotColor="@color/primary_color" />
+        app:selectedDotColor="@color/TrollaSdkPrimaryColor" />
 
     <LinearLayout
         android:id="@+id/llBottom"

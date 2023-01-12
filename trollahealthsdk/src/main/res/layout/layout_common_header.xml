@@ -48,7 +48,7 @@
                 android:layout_width="@dimen/margin24dp"
                 android:layout_height="@dimen/margin24dp"
                 android:padding="3dp"
-                android:tint="@color/primary_color"
+                android:tint="@color/TrollaSdkPrimaryColor"
                 android:visibility="@{backButtonVisibility==1?View.VISIBLE:View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
