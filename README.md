@@ -24,7 +24,7 @@ allprojects {
 
 ```gradle
 dependencies {
-	implementation 'com.github.shreenivas-ch:TrollaHealth:1.1.0'
+	implementation 'com.github.shreenivas-ch:TrollaHealth:latestversion'
 }
 ```
 
