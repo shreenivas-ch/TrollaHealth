@@ -5,6 +5,7 @@ import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.models.CommonAPIResponse
 import com.trolla.healthsdk.data.remote.ApiService
+import com.trolla.healthsdk.data.remote.ApiService2
 import com.trolla.healthsdk.feature_cart.data.AddToCartResponse
 import com.trolla.healthsdk.feature_cart.data.CartRepository
 import com.trolla.healthsdk.feature_cart.data.GetCartDetailsResponse
@@ -12,7 +13,10 @@ import com.trolla.healthsdk.feature_cart.data.models.*
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 import com.trolla.healthsdk.utils.TrollaPreferencesManager.PM_DEFAULT_PINCODE
 
-class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
+class CartRespositoryImpl(
+    private val apiService: ApiService,
+    private val apiService2: ApiService2
+) : CartRepository {
     override suspend fun getCartDetails(): Resource<BaseApiResponse<GetCartDetailsResponse>> {
         val response = apiService.getCartDetails(
             TrollaPreferencesManager.getString(PM_DEFAULT_PINCODE) ?: ""
@@ -34,7 +38,7 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
             prescriptions
         )
 
-        val response = apiService.addToCart(cartRequest)
+        val response = apiService2.addToCart(cartRequest)
         return APIErrorHandler<AddToCartResponse>().process(response)
     }
 
@@ -59,6 +63,6 @@ class CartRespositoryImpl(private val apiService: ApiService) : CartRepository {
     }
 }
 
-fun provideCartRepository(apiService: ApiService): CartRepository {
-    return CartRespositoryImpl(apiService)
+fun provideCartRepository(apiService: ApiService, apiService2: ApiService2): CartRepository {
+    return CartRespositoryImpl(apiService, apiService2)
 }

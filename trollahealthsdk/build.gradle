@@ -31,10 +31,12 @@ android {
     productFlavors {
         live {
             buildConfigField 'String', 'BASE_URL', '"https://api.coshop.app/"'
+            buildConfigField 'String', 'BASE_URL2', '"https://ondc.instastack.io/"'
             buildConfigField 'String', 'APIS', '"Live"'
         }
         staging {
             buildConfigField 'String', 'BASE_URL', '"https://staging-api.coshop.app/"'
+            buildConfigField 'String', 'BASE_URL2', '"https://ondc.instastack.io/"'
             buildConfigField 'String', 'APIS', '"Staging"'
         }
     }

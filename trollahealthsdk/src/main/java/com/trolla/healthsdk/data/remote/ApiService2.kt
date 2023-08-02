@@ -19,7 +19,7 @@ import com.trolla.healthsdk.feature_search.data.SearchResponse
 import retrofit2.Response
 import retrofit2.http.*
 
-interface ApiService {
+interface ApiService2 {
 
     @POST("/auth/get-otp")
     suspend fun authGetOTP(
@@ -45,7 +45,7 @@ interface ApiService {
     suspend fun getCategories(
     ): Response<BaseApiResponse<CategoriesResponse>>
 
-    @GET("/products")
+    @GET("api/products")
     suspend fun getProductsList(
         @Query("page") page: String,
         @Query("limit") limit: String,
@@ -71,7 +71,7 @@ interface ApiService {
         @Query("pincode") pincode: String,
     ): Response<BaseApiResponse<GetCartDetailsResponse>>
 
-    @POST("/cart/add")
+    @POST("api/cart/add")
     suspend fun addToCart(
         @Body request: AddToCartRequest
     ): Response<BaseApiResponse<AddToCartResponse>>
@@ -96,7 +96,7 @@ interface ApiService {
         @Path("id") id: String
     ): Response<BaseApiResponse<DeleteAddressResponse>>
 
-    @GET("/orders")
+    @GET("api/orders")
     suspend fun getOrders(
     ): Response<BaseApiResponse<GetOrdersListResponse>>
 

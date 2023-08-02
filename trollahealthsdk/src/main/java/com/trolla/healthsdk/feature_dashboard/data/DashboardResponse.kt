@@ -33,7 +33,7 @@ data class DashboardResponse(
             val image_url: String,
             val category_url: String,
 
-            val brand_id: Int,
+            val brand_id: String,
             val name: String,
             val img_url: String,
             val brand_url: String,

@@ -4,12 +4,13 @@ import com.trolla.healthsdk.core.APIErrorHandler
 import com.trolla.healthsdk.data.Resource
 import com.trolla.healthsdk.data.models.BaseApiResponse
 import com.trolla.healthsdk.data.remote.ApiService
+import com.trolla.healthsdk.data.remote.ApiService2
 import com.trolla.healthsdk.feature_auth.data.models.UpdateProfileResponse
 import com.trolla.healthsdk.feature_dashboard.data.DashboardRepository
 import com.trolla.healthsdk.feature_dashboard.data.DashboardResponse
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
 
-class DashboardRepositoryImpl(private val apiService: ApiService) : DashboardRepository {
+class DashboardRepositoryImpl(private val apiService: ApiService2) : DashboardRepository {
     override suspend fun getDashboard(): Resource<BaseApiResponse<DashboardResponse>> {
         var pincode =
             TrollaPreferencesManager.getString(TrollaPreferencesManager.PM_DEFAULT_PINCODE) ?: ""
@@ -25,6 +26,6 @@ class DashboardRepositoryImpl(private val apiService: ApiService) : DashboardRep
     }
 }
 
-fun provideDashboardRepository(apiService: ApiService): DashboardRepository {
+fun provideDashboardRepository(apiService: ApiService2): DashboardRepository {
     return DashboardRepositoryImpl(apiService)
 }

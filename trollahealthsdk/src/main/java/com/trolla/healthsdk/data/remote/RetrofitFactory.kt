@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitFactory {
 
     const val BASE_URL: String = BuildConfig.BASE_URL
+    const val BASE_URL2: String = BuildConfig.BASE_URL2
 
     fun makeRetrofitService(): ApiService {
         return Retrofit.Builder()
@@ -21,6 +22,13 @@ object RetrofitFactory {
             .client(makeOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(Gson()))
             .build().create(ApiService::class.java)
+    }
+    fun makeRetrofitService2(): ApiService2 {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL2)
+            .client(makeOkHttpClient())
+            .addConverterFactory(GsonConverterFactory.create(Gson()))
+            .build().create(ApiService2::class.java)
     }
 
     private fun makeOkHttpClient(

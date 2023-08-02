@@ -51,6 +51,7 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     single { RetrofitFactory.makeRetrofitService() }
+    single { RetrofitFactory.makeRetrofitService2() }
     single { provideAuthRepository(get()) }
 
     /*getOTP*/
@@ -73,7 +74,7 @@ val repositoryModule = module {
     factory { DashboardViewModel(get(), get()) }
 
     /*Cart*/
-    single { provideCartRepository(get()) }
+    single { provideCartRepository(get(), get()) }
     single { GetCartDetailsUsecase(get()) }
     single { AddToCartUsercase(get()) }
     single { CreateOrderUsecase(get()) }
@@ -113,7 +114,7 @@ val repositoryModule = module {
     factory { AddAddressViewModel(get(), get()) }
 
     /*orders*/
-    single { provideOrderRepository(get()) }
+    single { provideOrderRepository(get(), get()) }
     single { GetOrdersListUsecase(get()) }
     single { GetOrderDetailsUsecase(get()) }
     factory { OrderListViewModel(get()) }
