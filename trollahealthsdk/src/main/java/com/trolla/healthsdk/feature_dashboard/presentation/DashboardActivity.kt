@@ -1,22 +1,28 @@
 package com.trolla.healthsdk.feature_dashboard.presentation
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.freshchat.consumer.sdk.Freshchat
 import com.freshchat.consumer.sdk.FreshchatConfig
 import com.github.drjacky.imagepicker.constant.ImageProvider
+import com.google.android.material.snackbar.Snackbar
 import com.razorpay.Checkout
 import com.razorpay.PaymentData
 import com.razorpay.PaymentResultWithDataListener
@@ -261,6 +267,30 @@ class DashboardActivity : AppCompatActivity(),
                         EventBus.getDefault().post(EventRefreshOrders())
                     }
                 }
+            }
+        }
+
+        var requestPermissionLauncher: ActivityResultLauncher<String> =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+
+                } else {
+                    Snackbar.make(
+                        findViewById<View>(android.R.id.content).rootView,
+                        "Please grant Notification permission from App Settings",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }

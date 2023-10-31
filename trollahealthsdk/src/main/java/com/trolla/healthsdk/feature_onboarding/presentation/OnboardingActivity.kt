@@ -1,11 +1,19 @@
 package com.trolla.healthsdk.feature_onboarding.presentation
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.snackbar.Snackbar
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 import com.trolla.healthsdk.R
 import com.trolla.healthsdk.feature_dashboard.presentation.DashboardActivity
@@ -67,18 +75,42 @@ class OnboardingActivity : AppCompatActivity() {
         }
 
         findViewById<TextView>(R.id.txtLogin)?.setOnClickListener {
-            var loginIntent=Intent(this, DashboardActivity::class.java)
-            loginIntent.putExtra("action",DashboardActivity.DASHBOARD_ACTION_LOGIN)
+            var loginIntent = Intent(this, DashboardActivity::class.java)
+            loginIntent.putExtra("action", DashboardActivity.DASHBOARD_ACTION_LOGIN)
             startActivity(loginIntent)
             finish()
             finish()
         }
 
         findViewById<TextView>(R.id.txtSignup)?.setOnClickListener {
-            var loginIntent=Intent(this, DashboardActivity::class.java)
-            loginIntent.putExtra("action",DashboardActivity.DASHBOARD_ACTION_LOGIN)
+            var loginIntent = Intent(this, DashboardActivity::class.java)
+            loginIntent.putExtra("action", DashboardActivity.DASHBOARD_ACTION_LOGIN)
             startActivity(loginIntent)
             finish()
+        }
+
+        var requestPermissionLauncher: ActivityResultLauncher<String> =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+
+                } else {
+                    Snackbar.make(
+                        findViewById<View>(android.R.id.content).rootView,
+                        "Please grant Notification permission from App Settings",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
         }
     }
 

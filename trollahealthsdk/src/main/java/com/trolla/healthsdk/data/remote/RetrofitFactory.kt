@@ -3,6 +3,7 @@ package com.trolla.healthsdk.data.remote
 import com.google.gson.Gson
 import com.trolla.healthsdk.BuildConfig
 import com.trolla.healthsdk.utils.TrollaPreferencesManager
+import `in`.co.localnetworklogs.LocalNetworkLogsManager
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
@@ -56,11 +57,15 @@ object RetrofitFactory {
                 .writeTimeout(90, TimeUnit.SECONDS)
 
         if (log) {
-            clientBuilder.addNetworkInterceptor(
+            /*clientBuilder.addNetworkInterceptor(
                 HttpLoggingInterceptor().setLevel(
                     HttpLoggingInterceptor.Level.BODY
                 )
-            )
+            )*/
+            var httpLoggingInterceptor = LocalNetworkLogsManager.getInstance().getHttpLoggingInterceptor(true)
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            clientBuilder.addNetworkInterceptor(httpLoggingInterceptor)
         }
         return clientBuilder.build()
     }

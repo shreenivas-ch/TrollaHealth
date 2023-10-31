@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
                 .build().updateFCMToken(token)
         })
 
-
         finish()
 
         /*findViewById<TextView>(R.id.txtLaunch).setOnClickListener {

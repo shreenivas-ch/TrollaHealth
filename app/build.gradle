@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "io.instastack.coshop"
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         versionCode 13
         versionName "1.0.8"
     }
@@ -71,4 +71,7 @@ dependencies {
     /*crashlytics*/
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
+
+    implementation 'com.github.shreenivas-ch:LocalNetworkLogsLibrary:1.0.1'
+
 }
